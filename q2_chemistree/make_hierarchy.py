@@ -26,14 +26,14 @@ def make_hierarchy(tablefp, threshold):
     from skbio.tree import TreeNode
 
     table = tablefp.to_dataframe()
-
+    if table.shape == (0,0):
+        raise ValueError("Cannot have empty fingerprint table")
+    if not 0<=threshold<=1:
+        raise ValueError("Probability threshold is not in [0,1]")
     for col in table:
         table[col] = [1 if val > threshold else 0 for val in table[col]]
-
     distmat = pairwise_distances(X=table, Y=None, metric='jaccard')
     distsq = squareform(distmat)
     linkage_matrix = linkage(distsq, method='average')
-
     tree = TreeNode.from_linkage_matrix(linkage_matrix, list(table.index))
-
     return tree

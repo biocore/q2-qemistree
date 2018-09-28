@@ -13,7 +13,7 @@ def run_command(cmd, output_fp, sirpath, verbose=True):
     with open(output_fp, 'w') as output_f:
         subprocess.run(cmd, stdout=output_f, check=True)
 
-  def collatefp(csiout):
+def collatefp(csiout):
     '''
     This function collates chemical fingerprints for mass-spec
     features in an experiment.
@@ -47,17 +47,17 @@ def run_command(cmd, output_fp, sirpath, verbose=True):
                 molfp[fid] = fp
 
     fingerids = pd.DataFrame.from_dict(molfp, orient='index')
+    if fingerids.shape == (0,0):
+        raise RuntimeError('Fingerprint file is empty!')
     fingerids.index.name = '#featureID'
-
     npfid = np.asarray(fingerids)
     fptable = biom.table.Table(data = npfid, observation_ids=fingerids.index,
     sample_ids=fingerids.columns)
-
     return fptable
 
-    def fingerprint(sirpath, ionsfp, ppmlim, instrument, nproc, nft=75,
-                    ftsec=1600, dbsirius='all', dbcsi='bio', mzlim=200,
-                    zodthresh=0.8, minconloc=15):
+def fingerprint(sirpath, ionsfp, ppmlim, instrument, nproc, nft=75,
+                ftsec=1600, dbsirius='all', dbcsi='bio', mzlim=200,
+                zodthresh=0.8, minconloc=15):
     '''
     This function generates and collates chemical fingerprints for mass-spec
     features in an experiment.
@@ -90,14 +90,13 @@ def run_command(cmd, output_fp, sirpath, verbose=True):
     import sys
     import os
 
-    # run sirius shell commands
-#     sys.path.append(sirpath) #append path to sirius binaries
-
-    #OR PATH=$PATH:/Users/priya/Desktop/sirius-osx64-4.0/bin/
-    sirius = os.path.join(sirpath, 'sirius')
-
-    # temporary directory for sirius
     tmpdir = tempfile.mkdtemp()
+
+    if not os.path.exists(sirpath):
+        raise OSError("SIRIUS could not be located")
+    sirius = os.path.join(sirpath, 'sirius')
+    if not os.path.exists(ionsfp):
+        raise OSError("MGF file could not be located")
 
     tmpsir = os.path.join(tmpdir, 'tmpsir')
     cmdsir = [str(sirius), '--quiet', '--initial-compound-buffer', str(1),
