@@ -1,0 +1,21 @@
+strict digraph {
+	node [shape=rect,style=rounded];
+	labelloc="t";
+	label="Compound Score: 51.8417";
+	C4H9N2O [ fillcolor="#40e0d0" style=filled label=<C<SUB>4</SUB>H<SUB>8</SUB>N<SUB>2</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />101.0711 Da, 3.45 %<BR />7.9010</FONT>>];
+	C4H6NO [label=<C<SUB>4</SUB>H<SUB>5</SUB>NO<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />84.0444 Da, 0.21 %<BR />5.6024</FONT>>];
+	C3H8NO [label=<C<SUB>3</SUB>H<SUB>7</SUB>NO<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />74.0604 Da, 0.76 %<BR />5.6733</FONT>>];
+	C2H6NO [label=<C<SUB>2</SUB>H<SUB>5</SUB>NO<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />60.0449 Da, 29.18 %<BR />4.6571</FONT>>];
+	C2H7N2 [label=<C<SUB>2</SUB>H<SUB>6</SUB>N<SUB>2</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />59.0606 Da, 100.00 %<BR />14.8062</FONT>>];
+	C3H8N [label=<C<SUB>3</SUB>H<SUB>7</SUB>N<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />58.0655 Da, 9.29 %<BR />4.0238</FONT>>];
+	C4H9 [label=<C<SUB>4</SUB>H<SUB>8</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />57.0704 Da, 9.44 %<BR />3.9566</FONT>>];
+	C3H6N [label=<C<SUB>3</SUB>H<SUB>5</SUB>N<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />56.0500 Da, 0.28 %<BR />5.2213</FONT>>];
+
+	C4H9N2O -> C4H6NO [label=<H<SUB>3</SUB>N>];
+	C4H9N2O -> C3H8NO [label=<CHN>];
+	C4H9N2O -> C2H6NO [label=<C<SUB>2</SUB>H<SUB>3</SUB>N>];
+	C4H9N2O -> C2H7N2 [label=<C<SUB>2</SUB>H<SUB>2</SUB>O>];
+	C4H9N2O -> C3H8N [label=<CHNO>];
+	C4H9N2O -> C4H9 [label=<N<SUB>2</SUB>O>];
+	C3H8NO -> C3H6N [label=<H<SUB>2</SUB>O>];
+}

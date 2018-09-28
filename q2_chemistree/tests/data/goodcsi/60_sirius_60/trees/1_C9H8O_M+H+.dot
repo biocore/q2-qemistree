@@ -1,0 +1,29 @@
+strict digraph {
+	node [shape=rect,style=rounded];
+	labelloc="t";
+	label="Compound Score: 58.1707";
+	C9H9O [ fillcolor="#40e0d0" style=filled label=<C<SUB>9</SUB>H<SUB>8</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />133.0642 Da, 100.00 %<BR />5.5311</FONT>>];
+	C9H8O [label=<C<SUB>9</SUB>H<SUB>7</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />132.0575 Da, 1.36 %<BR />1.5559</FONT>>];
+	C9H7O [label=<C<SUB>9</SUB>H<SUB>6</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />131.0491 Da, 0.72 %<BR />3.0904</FONT>>];
+	C9H7 [label=<C<SUB>9</SUB>H<SUB>6</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />115.0546 Da, 1.02 %<BR />5.3928</FONT>>];
+	C7H7O [label=<C<SUB>7</SUB>H<SUB>6</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />107.0487 Da, 3.13 %<BR />6.3271</FONT>>];
+	C8H9 [label=<C<SUB>8</SUB>H<SUB>8</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />105.0700 Da, 35.56 %<BR />8.5428</FONT>>];
+	C8H7 [label=<C<SUB>8</SUB>H<SUB>6</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />103.0542 Da, 1.39 %<BR />5.6186</FONT>>];
+	C6H7O [label=<C<SUB>6</SUB>H<SUB>6</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />95.0487 Da, 0.29 %<BR />0.5180</FONT>>];
+	C7H7 [label=<C<SUB>7</SUB>H<SUB>6</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />91.0543 Da, 0.75 %<BR />3.7181</FONT>>];
+	C6H7 [label=<C<SUB>6</SUB>H<SUB>6</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />79.0539 Da, 2.28 %<BR />8.1089</FONT>>];
+	C6H5 [label=<C<SUB>6</SUB>H<SUB>4</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />77.0384 Da, 0.08 %<BR />5.1699</FONT>>];
+	C3H3O [label=<C<SUB>3</SUB>H<SUB>2</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />55.0179 Da, 1.03 %<BR />4.5971</FONT>>];
+
+	C9H9O -> C9H8O [label=<H>];
+	C9H9O -> C9H7O [label=<H<SUB>2</SUB>>];
+	C9H9O -> C9H7 [label=<H<SUB>2</SUB>O>];
+	C9H9O -> C7H7O [label=<C<SUB>2</SUB>H<SUB>2</SUB>>];
+	C9H9O -> C8H9 [label=<CO>];
+	C9H7O -> C8H7 [label=<CO>];
+	C9H8O -> C6H7O [label=<C<SUB>3</SUB>H>];
+	C9H9O -> C7H7 [label=<C<SUB>2</SUB>H<SUB>2</SUB>O>];
+	C7H7O -> C6H7 [label=<CO>];
+	C6H7O -> C6H5 [label=<H<SUB>2</SUB>O>];
+	C7H7O -> C3H3O [label=<C<SUB>4</SUB>H<SUB>4</SUB>>];
+}

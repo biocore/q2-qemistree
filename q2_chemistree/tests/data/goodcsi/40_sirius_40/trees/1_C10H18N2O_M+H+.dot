@@ -1,0 +1,15 @@
+strict digraph {
+	node [shape=rect,style=rounded];
+	labelloc="t";
+	label="Compound Score: 30.7562";
+	C10H19N2O [ fillcolor="#40e0d0" style=filled label=<C<SUB>10</SUB>H<SUB>18</SUB>N<SUB>2</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />183.1489 Da, 0.00 %<BR />7.3156</FONT>>];
+	C9H18NO [label=<C<SUB>9</SUB>H<SUB>17</SUB>NO<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />156.1387 Da, 6.52 %<BR />4.5643</FONT>>];
+	C4H10N [label=<C<SUB>4</SUB>H<SUB>9</SUB>N<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />72.0811 Da, 100.00 %<BR />15.1445</FONT>>];
+	C2H3N2O [label=<C<SUB>2</SUB>H<SUB>2</SUB>N<SUB>2</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />71.0248 Da, 1.51 %<BR />1.0427</FONT>>];
+	C4H9 [label=<C<SUB>4</SUB>H<SUB>8</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />57.0703 Da, 9.00 %<BR />2.6892</FONT>>];
+
+	C10H19N2O -> C9H18NO [label=<CHN>];
+	C9H18NO -> C4H10N [label=<C<SUB>5</SUB>H<SUB>8</SUB>O>];
+	C10H19N2O -> C2H3N2O [label=<C<SUB>8</SUB>H<SUB>16</SUB>>];
+	C9H18NO -> C4H9 [label=<C<SUB>5</SUB>H<SUB>9</SUB>NO>];
+}

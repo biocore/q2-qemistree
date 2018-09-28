@@ -1,0 +1,72 @@
+{
+  "molecularFormula": "CH6O4P2",
+  "root": "CH6O4P2",
+  "annotations": {
+    "recalibration": "1.0x",
+    "score": {
+      "total": 3.7916601207644076,
+      "recalibrationBonus": 0.0,
+      "recalibrationPenalty": 0.0,
+      "beautificationPenalty": 0.0,
+      "root": -2.0576418901005553,
+      "tree": 3.7916601207644076,
+      "isotope": 5.849302010864963
+    },
+    "ratioOfExplainedPeaks": 0.09090909090909091,
+    "explainedIntensity": 0.0,
+    "explainedIntensityOfExplainablePeaks": 0.0,
+    "treeType": "neutralized",
+    "numberOfUnconsideredCandidates": 0,
+    "lowestConsideredCandidateScore": 3.7916601207644076,
+    "precursorIonType": "[M + H]+",
+    "ion": "[M + H]+"
+  },
+  "fragments": [
+    {
+      "id": 0,
+      "molecularFormula": "CH6O4P2",
+      "mz": 144.98226928710938,
+      "relativeIntensity": 0.0709116350314249,
+      "recalibratedMass": 144.98226928710938,
+      "massDeviation": "5.937988300873048 ppm (8.609030188608813E-4 m/z)",
+      "recalibratedMassDeviation": "5.937988300873048 ppm (8.609030188608813E-4 m/z)",
+      "ion": "[M + H]+",
+      "peaks": [
+        {
+          "mz": 144.98226928710938,
+          "intensity": 2.315354876953125E7
+        },
+        {
+          "mz": 144.9822998046875,
+          "intensity": 9107509.03515625
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none"
+      ],
+      "isotopes": {
+        "score": 5.849302010864963,
+        "mz": [
+          144.98208618164062,
+          145.98643493652344
+        ],
+        "relInt": [
+          1.0,
+          0.03977059418001856
+        ]
+      },
+      "score": 3.7916601207644076,
+      "scores": {
+        "Mass Deviation": -1.448203977666455,
+        "AdductTypeScorer": 0.0,
+        "IntrinsicallyChargedScorer": 0.0,
+        "PhosphorScorer": 0.0,
+        "StrangeElementRootScorer": -1.6094379124341003,
+        "Chemical Prior": 1.0,
+        "IsotopeMs1Scorer": 5.849302010864963
+      }
+    }
+  ],
+  "losses": []
+}

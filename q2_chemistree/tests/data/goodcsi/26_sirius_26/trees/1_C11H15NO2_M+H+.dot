@@ -1,0 +1,15 @@
+strict digraph {
+	node [shape=rect,style=rounded];
+	labelloc="t";
+	label="Compound Score: 17.4634";
+	C11H16NO2 [label=<C<SUB>11</SUB>H<SUB>15</SUB>NO<SUB>2</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />194.1179 Da, 100.00 %<BR />0.6367</FONT>>];
+	C9H13O [label=<C<SUB>9</SUB>H<SUB>12</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />137.0963 Da, 0.70 %<BR />3.0687</FONT>>];
+	C8H7O2 [label=<C<SUB>8</SUB>H<SUB>6</SUB>O<SUB>2</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />135.0441 Da, 57.97 %<BR />5.2381</FONT>>];
+	C7H7O [label=<C<SUB>7</SUB>H<SUB>6</SUB>O<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />107.0487 Da, 2.79 %<BR />6.5173</FONT>>];
+	C3H8N [label=<C<SUB>3</SUB>H<SUB>7</SUB>N<SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />58.0657 Da, 17.41 %<BR />2.0026</FONT>>];
+
+	C11H16NO2 -> C9H13O [label=<C<SUB>2</SUB>H<SUB>3</SUB>NO>];
+	C11H16NO2 -> C8H7O2 [label=<C<SUB>3</SUB>H<SUB>9</SUB>N>];
+	C8H7O2 -> C7H7O [label=<CO>];
+	C11H16NO2 -> C3H8N [label=<C<SUB>8</SUB>H<SUB>8</SUB>O<SUB>2</SUB>>];
+}
