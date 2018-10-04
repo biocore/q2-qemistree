@@ -9,7 +9,7 @@ from ._fingerprint import fingerprint
 from ._hierarchy import make_hierarchy
 from ._semantics import MassSpectrometryFeatures, MGFDirFmt
 
-from qiime2.plugin import Plugin, Str, Range, Choices, Float
+from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
 
@@ -28,6 +28,34 @@ plugin.register_semantic_types(MassSpectrometryFeatures)
 plugin.register_semantic_type_to_format(MassSpectrometryFeatures,
                                         artifact_format=MGFDirFmt)
 
+PARAMS = {
+    'database': Str % Choices(['all', 'PubChem', 'bio']),
+    'sirpath': Str,
+    'ppmlim': Int,
+    'instrument': Str,
+    'nproc': Int,
+    'nft': Int,
+    'ftsec': Int,
+    'dbcsi': Str,
+    'mzlim': Int,
+    'zodthresh': Float,
+    'minconloc': Int,
+}
+
+PARAMS_DESC = {
+    'database': 'Database for Sirius',
+    'sirpath': 'Path to the Sirius executable',
+    'ppmlim': 'Parts per million tolerance for ions',
+    'instrument': 'Mass-spec platform used',
+    'nproc': 'Number of processors used by Sirius',
+    'nft': 'Number of fragmentation trees to compute per feature',
+    'ftsec': 'Time for computation per fragmentation tree in seconds',
+    'dbcsi': 'Database for CSIFingerID',
+    'mzlim': 'Maximum precursor to search',
+    'zodthresh': 'Threshold filter for zodiac',
+    'minconloc': 'Minimum local connections for zodiac',
+}
+
 # method registration
 plugin.methods.register_function(
     function=fingerprint,
@@ -35,11 +63,10 @@ plugin.methods.register_function(
     description='Create a contingency table of molecular substructures for a '
                 'set of mass spectrometry features',
     inputs={'features': MassSpectrometryFeatures},
-    parameters={'database': Str % Choices(['all', 'PubChem', 'bio'])},
+    parameters=PARAMS,
     input_descriptions={'features': 'List of MS1 ions and corresponding '
                                     'MS2 ions for each MS1.'},
-    parameter_descriptions={'database': 'Database to look for molecular '
-                                        'structures'},
+    parameter_descriptions=PARAMS_DESC,
     outputs=[('collated_fingerprints', FeatureTable[Frequency])],
     output_descriptions={'collated_fingerprints': 'Contingency table of the '
                                                   'probabilities of '

@@ -7,16 +7,12 @@
 # ----------------------------------------------------------------------------
 from ._version import get_versions
 
-from ._fingerprint import fingerprint
+from ._fingerprint import fingerprint, collatefp
 from ._hierarchy import make_hierarchy
 from ._semantics import MassSpectrometryFeatures
 
-__all__ = ['fingerprint', 'make_hierarchy', 'MassSpectrometryFeatures']
+__all__ = ['fingerprint', 'make_hierarchy', 'MassSpectrometryFeatures',
+           'collatefp']
 
 __version__ = get_versions()['version']
 del get_versions
-
-from .make_hierarchy import make_hierarchy
-from .fingerprint import fingerprint, collatefp, run_command
-
-__all__ = ['make_hierarchy', 'fingerprint', 'collatefp', 'run_command']
