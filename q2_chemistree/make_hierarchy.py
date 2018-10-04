@@ -1,3 +1,11 @@
+import biom
+from scipy.cluster import hierarchy
+from sklearn.metrics import pairwise_distances
+from scipy.spatial.distance import squareform
+from scipy.cluster.hierarchy import linkage
+from skbio.tree import TreeNode
+
+
 def make_hierarchy(tablefp, threshold):
     '''
     This function makes a tree of relatedness between mass-spectrometry features
@@ -17,13 +25,6 @@ def make_hierarchy(tablefp, threshold):
     tree : scikit-bio TreeNode object
         a tree of relatedness of molecules
     '''
-
-    import biom
-    from scipy.cluster import hierarchy
-    from sklearn.metrics import pairwise_distances
-    from scipy.spatial.distance import squareform
-    from scipy.cluster.hierarchy import linkage
-    from skbio.tree import TreeNode
 
     table = tablefp.to_dataframe()
     if table.shape == (0,0):

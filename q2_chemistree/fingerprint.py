@@ -1,6 +1,15 @@
-def run_command(cmd, output_fp, sirpath, verbose=True):
-    import subprocess
+import subprocess
+import os
+import biom
+import pandas as pd
+import numpy as np
+import shutil
+import tempfile
+import sys
+import os
 
+
+def run_command(cmd, output_fp, sirpath, verbose=True):
     if verbose:
         print("Running external command line application. This may print "
               "messages to stdout and/or stderr.")
@@ -29,10 +38,6 @@ def collatefp(csiout):
         substructure IDs (in columns). Values are presence (1) or absence (0)
         of a particular substructure.
     '''
-    import os
-    import biom
-    import pandas as pd
-    import numpy as np
 
     fpfoldrs = os.listdir(csiout)
     molfp = dict()
@@ -84,11 +89,6 @@ def fingerprint(sirpath, ionsfp, ppmlim, instrument, nproc, nft=75,
         substructure IDs (in columns). Values are presence (1) or absence (0)
         of a particular substructure.
     '''
-
-    import shutil
-    import tempfile
-    import sys
-    import os
 
     tmpdir = tempfile.mkdtemp()
 
