@@ -1,12 +1,21 @@
+# ----------------------------------------------------------------------------
+# Copyright (c) 2016-2018, QIIME 2 development team.
+#
+# Distributed under the terms of the Modified BSD License.
+#
+# The full license is in the file LICENSE, distributed with this software.
+# ----------------------------------------------------------------------------
+
 import biom
 from scipy.cluster import hierarchy
 from sklearn.metrics import pairwise_distances
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import linkage
-from skbio.tree import TreeNode
+from skbio import TreeNode
 
 
-def make_hierarchy(tablefp, threshold):
+def make_hierarchy(collated_fingerprints: biom.Table,
+                   threshold: float=0.5) -> TreeNode:
     '''
     This function makes a tree of relatedness between mass-spectrometry features
     using molecular substructure information.
@@ -25,8 +34,7 @@ def make_hierarchy(tablefp, threshold):
     tree : scikit-bio TreeNode object
         a tree of relatedness of molecules
     '''
-
-    table = tablefp.to_dataframe()
+    table = collated_fingerprints.to_dataframe()
     if table.shape == (0, 0):
         raise ValueError("Cannot have empty fingerprint table")
     if not 0 <= threshold <= 1:

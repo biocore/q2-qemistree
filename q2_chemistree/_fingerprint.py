@@ -1,3 +1,11 @@
+# ----------------------------------------------------------------------------
+# Copyright (c) 2016-2018, QIIME 2 development team.
+#
+# Distributed under the terms of the Modified BSD License.
+#
+# The full license is in the file LICENSE, distributed with this software.
+# ----------------------------------------------------------------------------
+
 import subprocess
 import os
 import biom
@@ -5,8 +13,6 @@ import pandas as pd
 import numpy as np
 import shutil
 import tempfile
-import sys
-import os
 
 
 def run_command(cmd, output_fp, sirpath, verbose=True):
@@ -62,9 +68,10 @@ def collatefp(csiout):
     return fptable
 
 
-def fingerprint(sirpath, ionsfp, ppmlim, instrument, nproc, nft=75,
-                ftsec=1600, dbsirius='all', dbcsi='bio', mzlim=200,
-                zodthresh=0.8, minconloc=15):
+def fingerprint(sirpath: str, features: str, ppmlim: int, instrument: str,
+                nproc: int=1, nft: int=75, ftsec: int=1600,
+                database: str='all', dbcsi: str='bio', mzlim: int=800,
+                zodthresh: float=0.8, minconloc: int=15) -> biom.Table:
     '''
     This function generates and collates chemical fingerprints for mass-spec
     features in an experiment.
@@ -72,11 +79,11 @@ def fingerprint(sirpath, ionsfp, ppmlim, instrument, nproc, nft=75,
     Parameters
     ----------
     sirpath : path to SIRIUS binaries on user's computer
-    ionsfp : path to MGF file for SIRIUS (str)
+    features : path to MGF file for SIRIUS (str)
     ppmlim : parts per million tolerance (int)
     nft : number of fragmentation trees to compute per feature (int)
     ftsec : time for computation per fragmentation tree in seconds (int)
-    dbsirius : database for SIRIUS (str)
+    database : database for SIRIUS (str)
     dbcsi : database for CSIFingerID (str)
     instrument : mass-spec platform used (str)
     mzlim : Maximum precursor to search (int)
@@ -97,21 +104,28 @@ def fingerprint(sirpath, ionsfp, ppmlim, instrument, nproc, nft=75,
     if not os.path.exists(sirpath):
         raise OSError("SIRIUS could not be located")
     sirius = os.path.join(sirpath, 'sirius')
-    if not os.path.exists(ionsfp):
+    if not os.path.exists(features):
         raise OSError("MGF file could not be located")
 
     tmpsir = os.path.join(tmpdir, 'tmpsir')
-    cmdsir = [str(sirius), '--quiet', '--initial-compound-buffer', str(1),
+    cmdsir = [str(sirius), '--quiet',
+              '--initial-compound-buffer', str(1),
               '--max-compound-buffer', str(32), '--profile', str(instrument),
-              '--database', str(dbsirius), '--candidates',  str(nft), '--processors',
-              str(nproc), '--auto-charge', '--trust-ion-prediction', '--maxmz',
-              str(mzlim), '--tree-timeout', str(ftsec), '--ppm-max', str(ppmlim),
-              '-o', str(tmpsir), str(ionsfp)]
+              '--database', str(database), '--candidates',  str(nft),
+              '--processors', str(nproc),
+              '--auto-charge', '--trust-ion-prediction',
+              '--maxmz', str(mzlim),
+              '--tree-timeout', str(ftsec),
+              '--ppm-max', str(ppmlim),
+              '-o', str(tmpsir), str(features)]
 
     tmpzod = os.path.join(tmpdir, 'tmpzod')
-    cmdzod = [str(sirius), '--zodiac', '--sirius', str(tmpsir), '-o',
-              str(tmpzod), '--thresholdfilter', str(zodthresh), '--processors', str(nproc),
-              '--minLocalConnections', str(minconloc), '--spectra', str(ionsfp)]
+    cmdzod = [str(sirius), '--zodiac', '--sirius', str(tmpsir),
+              '-o', str(tmpzod),
+              '--thresholdfilter', str(zodthresh),
+              '--processors', str(nproc),
+              '--minLocalConnections', str(minconloc),
+              '--spectra', str(features)]
 
     tmpcsi = os.path.join(tmpdir, 'tmpcsi')
     cmdfid = [str(sirius), '--fingerid', '--fingerid-db', str(dbcsi),

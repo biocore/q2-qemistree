@@ -5,14 +5,16 @@
 #
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
-from ._version import get_versions
 
-from ._fingerprint import fingerprint, collatefp
-from ._hierarchy import make_hierarchy
-from ._semantics import MassSpectrometryFeatures
+import qiime2.plugin.model as model
+from qiime2.plugin import SemanticType
 
-__all__ = ['fingerprint', 'make_hierarchy', 'MassSpectrometryFeatures',
-           'collatefp']
 
-__version__ = get_versions()['version']
-del get_versions
+class MGFFile(model.TextFileFormat):
+    def sniff(self):
+        # we don't really parse this file
+        return True
+
+
+MGFDirFmt = model.SingleFileDirectoryFormat('MGFFile', 'features.mgf', MGFFile)
+MassSpectrometryFeatures = SemanticType('MassSpectrometryFeatures')
