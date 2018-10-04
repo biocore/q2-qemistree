@@ -31,15 +31,15 @@ plugin.register_semantic_type_to_format(MassSpectrometryFeatures,
 PARAMS = {
     'database': Str % Choices(['all', 'PubChem', 'bio']),
     'sirpath': Str,
-    'ppmlim': Int,
     'instrument': Str,
+    'dbcsi': Str,
+    'ppmlim': Int,
     'nproc': Int,
     'nft': Int,
     'ftsec': Int,
-    'dbcsi': Str,
     'mzlim': Int,
-    'zodthresh': Float,
     'minconloc': Int,
+    'zodthresh': Float,
 }
 
 PARAMS_DESC = {
