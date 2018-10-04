@@ -1,3 +1,11 @@
+# ----------------------------------------------------------------------------
+# Copyright (c) 2016-2018, QIIME 2 development team.
+#
+# Distributed under the terms of the Modified BSD License.
+#
+# The full license is in the file LICENSE, distributed with this software.
+# ----------------------------------------------------------------------------
+
 import biom
 from scipy.cluster import hierarchy
 from sklearn.metrics import pairwise_distances
@@ -5,9 +13,6 @@ from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import linkage
 from skbio import TreeNode
 
-
-# something like this
-# str(representative_sequences.file.view(DNAFASTAFormat)
 
 def make_hierarchy(collated_fingerprints: biom.Table,
                    threshold: float=0.5) -> TreeNode:
