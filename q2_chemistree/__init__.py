@@ -9,3 +9,8 @@ from ._version import get_versions
 
 __version__ = get_versions()['version']
 del get_versions
+
+from .make_hierarchy import make_hierarchy
+from .fingerprint import fingerprint, collatefp, run_command
+
+__all__ = ['make_hierarchy', 'fingerprint', 'collatefp', 'run_command']

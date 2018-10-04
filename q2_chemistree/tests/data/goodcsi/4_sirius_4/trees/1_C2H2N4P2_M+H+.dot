@@ -1,0 +1,7 @@
+strict digraph {
+	node [shape=rect,style=rounded];
+	labelloc="t";
+	label="Compound Score: -4.0977";
+	C2H3N4P2 [label=<C<SUB>2</SUB>H<SUB>2</SUB>N<SUB>4</SUB>P<SUB>2</SUB><SUP>+</SUP><FONT POINT-SIZE="8"><BR /> <BR />144.9825 Da, 100.00 %<BR />-4.0977</FONT>>];
+
+}
