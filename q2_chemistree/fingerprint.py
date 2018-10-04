@@ -22,6 +22,7 @@ def run_command(cmd, output_fp, sirpath, verbose=True):
     with open(output_fp, 'w') as output_f:
         subprocess.run(cmd, stdout=output_f, check=True)
 
+
 def collatefp(csiout):
     '''
     This function collates chemical fingerprints for mass-spec
@@ -43,7 +44,7 @@ def collatefp(csiout):
     molfp = dict()
     for foldr in fpfoldrs:
         if os.path.isdir(os.path.join(csiout, foldr)):
-            fidpath = os.path.join(csiout,foldr)
+            fidpath = os.path.join(csiout, foldr)
             fid = foldr.split('_')[-1]
             if 'fingerprints' in os.listdir(fidpath):
                 fname = os.listdir(os.path.join(fidpath, 'fingerprints'))[0]
@@ -52,13 +53,14 @@ def collatefp(csiout):
                 molfp[fid] = fp
 
     fingerids = pd.DataFrame.from_dict(molfp, orient='index')
-    if fingerids.shape == (0,0):
+    if fingerids.shape == (0, 0):
         raise RuntimeError('Fingerprint file is empty!')
     fingerids.index.name = '#featureID'
     npfid = np.asarray(fingerids)
-    fptable = biom.table.Table(data = npfid, observation_ids=fingerids.index,
-    sample_ids=fingerids.columns)
+    fptable = biom.table.Table(data=npfid, observation_ids=fingerids.index,
+                               sample_ids=fingerids.columns)
     return fptable
+
 
 def fingerprint(sirpath, ionsfp, ppmlim, instrument, nproc, nft=75,
                 ftsec=1600, dbsirius='all', dbcsi='bio', mzlim=200,
@@ -100,20 +102,20 @@ def fingerprint(sirpath, ionsfp, ppmlim, instrument, nproc, nft=75,
 
     tmpsir = os.path.join(tmpdir, 'tmpsir')
     cmdsir = [str(sirius), '--quiet', '--initial-compound-buffer', str(1),
-    '--max-compound-buffer', str(32),'--profile', str(instrument),
-    '--database', str(dbsirius), '--candidates',  str(nft), '--processors',
-    str(nproc), '--auto-charge', '--trust-ion-prediction', '--maxmz',
-    str(mzlim), '--tree-timeout', str(ftsec), '--ppm-max', str(ppmlim),
-    '-o', str(tmpsir), str(ionsfp)]
+              '--max-compound-buffer', str(32), '--profile', str(instrument),
+              '--database', str(dbsirius), '--candidates',  str(nft), '--processors',
+              str(nproc), '--auto-charge', '--trust-ion-prediction', '--maxmz',
+              str(mzlim), '--tree-timeout', str(ftsec), '--ppm-max', str(ppmlim),
+              '-o', str(tmpsir), str(ionsfp)]
 
     tmpzod = os.path.join(tmpdir, 'tmpzod')
     cmdzod = [str(sirius), '--zodiac', '--sirius', str(tmpsir), '-o',
-    str(tmpzod),'--thresholdfilter', str(zodthresh), '--processors', str(nproc),
-    '--minLocalConnections', str(minconloc), '--spectra', str(ionsfp)]
+              str(tmpzod), '--thresholdfilter', str(zodthresh), '--processors', str(nproc),
+              '--minLocalConnections', str(minconloc), '--spectra', str(ionsfp)]
 
     tmpcsi = os.path.join(tmpdir, 'tmpcsi')
     cmdfid = [str(sirius), '--fingerid', '--fingerid-db', str(dbcsi),
-    '--ppm-max', str(ppmlim), '-o', str(tmpcsi), str(tmpzod)]
+              '--ppm-max', str(ppmlim), '-o', str(tmpcsi), str(tmpzod)]
 
     run_command(cmdsir, os.path.join(tmpdir, 'sirout'), sirpath)
     run_command(cmdzod, os.path.join(tmpdir, 'zodout'), sirpath)

@@ -27,9 +27,9 @@ def make_hierarchy(tablefp, threshold):
     '''
 
     table = tablefp.to_dataframe()
-    if table.shape == (0,0):
+    if table.shape == (0, 0):
         raise ValueError("Cannot have empty fingerprint table")
-    if not 0<=threshold<=1:
+    if not 0 <= threshold <= 1:
         raise ValueError("Probability threshold is not in [0,1]")
     for col in table:
         table[col] = [1 if val > threshold else 0 for val in table[col]]
