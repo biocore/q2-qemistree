@@ -29,17 +29,16 @@ plugin.register_semantic_type_to_format(MassSpectrometryFeatures,
                                         artifact_format=MGFDirFmt)
 
 PARAMS = {
-    'database': Str % Choices(['all', 'PubChem', 'bio']),
+    'database': Str % Choices(['all', 'pubchem']),
     'sirpath': Str,
     'instrument': Str % Choices(['qtof', 'orbitrap', 'fticr']),
-    'dbcsi': Str % Choices(['PubChem', 'bio']),
-    'ppmlim': Int,
+    'dbcsi': Str % Choices(['all', 'pubchem', 'bio', 'kegg', 'hmdb']),
+    'ppmlim': Int % Range(0, 30, inclusive_end=True),
     'nproc': Int,
-    'nft': Int,
-    'ftsec': Int,
-    'mzlim': Int,
-    'minconloc': Int,
-    'zodthresh': Float,
+    'nft': Int % Range(5, 100, inclusive_end=True),
+    'ftsec': Int % Range(600, 3000, inclusive_end=True), 
+    'mzlim': Int % Range(100, 850, inclusive_end=True),
+    'zodthresh': Float % Range(0, 1, inclusive_end=True),
 }
 
 PARAMS_DESC = {
@@ -53,7 +52,6 @@ PARAMS_DESC = {
     'dbcsi': 'Database for CSIFingerID',
     'mzlim': 'Maximum precursor to search',
     'zodthresh': 'Threshold filter for zodiac',
-    'minconloc': 'Minimum local connections for zodiac',
 }
 
 # method registration
