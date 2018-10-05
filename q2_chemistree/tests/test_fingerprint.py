@@ -18,13 +18,13 @@ class fingerprintTests(TestCase):
 
     def test_siriusBinaryPath(self):
         with self.assertRaises(OSError):
-            fingerprint(self.badsirpath, self.goodionsfp, ppmlim=15,
-                        instrument='orbitrap', nproc=16)
+            fingerprint(self.badsirpath, self.goodionsfp, ppm_max=15,
+                        profile='orbitrap', processors=16)
 
     def test_mgfPath(self):
         with self.assertRaises(OSError):
-            fingerprint(self.goodsirpath, self.badionsfp, ppmlim=15,
-                        instrument='orbitrap', nproc=16)
+            fingerprint(self.goodsirpath, self.badionsfp, ppm_max=15,
+                        profile='orbitrap', processors=16)
 
     def test_fingerprintOut(self):
         with self.assertRaises(RuntimeError):
@@ -38,8 +38,8 @@ class fingerprintTests(TestCase):
         self.assertEqual(fpfeatrs <= allfeatrs, True)
 
     def test_pipeline(self):
-        tablefp = fingerprint(self.goodsirpath, self.goodionsfp, ppmlim=15,
-                              instrument='orbitrap', nproc=16)
+        tablefp = fingerprint(self.goodsirpath, self.goodionsfp, ppm_max=15,
+                              profile='orbitrap', processors=16)
         features = pd.read_table(self.featureTable, sep=',', dtype=str)
         allfeatrs = set(features['row ID'])
         fpfeatrs = set(tablefp.to_dataframe().index)
