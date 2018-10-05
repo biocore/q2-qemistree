@@ -70,8 +70,8 @@ def collatefp(csiout):
 
 def fingerprint(sirpath: str, features: str, ppmlim: int, instrument: str,
                 nproc: int=1, nft: int=75, ftsec: int=1600,
-                database: str='all', dbcsi: str='bio', mzlim: int=800,
-                zodthresh: float=0.8, minconloc: int=15) -> biom.Table:
+                database: str='all', dbcsi: str='bio', mzlim: int=600,
+                zodthresh: float=0.95) -> biom.Table:
     '''
     This function generates and collates chemical fingerprints for mass-spec
     features in an experiment.
@@ -89,7 +89,6 @@ def fingerprint(sirpath: str, features: str, ppmlim: int, instrument: str,
     mzlim : Maximum precursor to search (int)
     nproc : Number of processors used for computation (int)
     zodthresh : threshold filter for zodiac (float)
-    minconloc : minimum local connections for zodiac (int)
 
     Returns:
     ----------
@@ -124,7 +123,6 @@ def fingerprint(sirpath: str, features: str, ppmlim: int, instrument: str,
               '-o', str(tmpzod),
               '--thresholdfilter', str(zodthresh),
               '--processors', str(nproc),
-              '--minLocalConnections', str(minconloc),
               '--spectra', str(features)]
 
     tmpcsi = os.path.join(tmpdir, 'tmpcsi')
