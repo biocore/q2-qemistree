@@ -15,7 +15,7 @@ import shutil
 import tempfile
 
 
-def run_command(cmd, output_fp, sirius_path, verbose=True):
+def run_command(cmd, output_fp, verbose=True):
     if verbose:
         print("Running external command line application. This may print "
               "messages to stdout and/or stderr.")
@@ -69,7 +69,7 @@ def collatefp(csiout):
 
 
 def fingerprint(sirius_path: str, features: str, ppm_max: int, profile: str,
-                processors: int=1, num_candidates: int=75,
+                n_jobs: int=1, num_candidates: int=75,
                 tree_timeout: int=1600, database: str='all',
                 fingerid_db: str='pubchem', maxmz: int=600,
                 zodiac_threshold: float=0.95) -> biom.Table:
@@ -83,7 +83,7 @@ def fingerprint(sirius_path: str, features: str, ppm_max: int, profile: str,
     features : path to MGF file for SIRIUS (str)
     ppm_max : allowed parts per million tolerance for decomposing masses (int)
     profile : configuration profile for mass-spec platform used (str)
-    processors : Number of cpu cores to use. If not specified Sirius uses
+    n_jobs : Number of cpu cores to use. If not specified Sirius uses
                  all available cores (int)
     num_candidates : number of fragmentation trees to compute per feature (int)
     tree_timeout : time for computation per fragmentation tree in seconds.
@@ -116,7 +116,7 @@ def fingerprint(sirius_path: str, features: str, ppm_max: int, profile: str,
               '--initial-compound-buffer', str(1),
               '--max-compound-buffer', str(32), '--profile', str(profile),
               '--database', str(database), '--candidates',  str(num_candidates),
-              '--processors', str(processors),
+              '--processors', str(n_jobs),
               '--auto-charge', '--trust-ion-prediction',
               '--maxmz', str(maxmz),
               '--tree-timeout', str(tree_timeout),
@@ -127,16 +127,16 @@ def fingerprint(sirius_path: str, features: str, ppm_max: int, profile: str,
     cmdzod = [str(sirius), '--zodiac', '--sirius', str(tmpsir),
               '-o', str(tmpzod),
               '--thresholdfilter', str(zodiac_threshold),
-              '--processors', str(processors),
+              '--processors', str(n_jobs),
               '--spectra', str(features)]
 
     tmpcsi = os.path.join(tmpdir, 'tmpcsi')
     cmdfid = [str(sirius), '--fingerid', '--fingerid-db', str(fingerid_db),
               '--ppm-max', str(ppm_max), '-o', str(tmpcsi), str(tmpzod)]
 
-    run_command(cmdsir, os.path.join(tmpdir, 'sirout'), sirius_path)
-    run_command(cmdzod, os.path.join(tmpdir, 'zodout'), sirius_path)
-    run_command(cmdfid, os.path.join(tmpdir, 'csiout'), sirius_path)
+    run_command(cmdsir, os.path.join(tmpdir, 'sirout'))
+    run_command(cmdzod, os.path.join(tmpdir, 'zodout'))
+    run_command(cmdfid, os.path.join(tmpdir, 'csiout'))
 
     fptable = collatefp(tmpcsi)
     shutil.rmtree(tmpdir)
