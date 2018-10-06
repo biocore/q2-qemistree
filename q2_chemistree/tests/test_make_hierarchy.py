@@ -28,16 +28,16 @@ class test_hierarchy(TestCase):
 
     def test_emptyFingerprint(self):
         with self.assertRaises(ValueError):
-            make_hierarchy(self.emptyin, threshold=self.goodthresh)
+            make_hierarchy(self.emptyin, prob_threshold=self.goodthresh)
 
     def test_thresholdError(self):
         with self.assertRaises(ValueError):
-            make_hierarchy(self.goodin, threshold=self.bigthresh)
+            make_hierarchy(self.goodin, prob_threshold=self.bigthresh)
         with self.assertRaises(ValueError):
-            make_hierarchy(self.goodin, threshold=self.smallthresh)
+            make_hierarchy(self.goodin, prob_threshold=self.smallthresh)
 
     def test_tipMatch(self):
-        treeout = make_hierarchy(self.goodin, threshold=self.goodthresh)
+        treeout = make_hierarchy(self.goodin, prob_threshold=self.goodthresh)
         tip_names = {node.name for node in treeout.tips()}
         self.assertEqual(tip_names, set(self.goodin._observation_ids))
 
