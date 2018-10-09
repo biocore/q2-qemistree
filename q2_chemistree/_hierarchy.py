@@ -45,4 +45,4 @@ def make_hierarchy(collated_fingerprints: biom.Table,
     distsq = squareform(distmat)
     linkage_matrix = linkage(distsq, method='average')
     tree = TreeNode.from_linkage_matrix(linkage_matrix, list(table.index))
-    return tree
+    return tree.root_at_midpoint()
