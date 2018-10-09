@@ -14,6 +14,8 @@ import numpy as np
 import shutil
 import tempfile
 
+from ._semantics import MGFDirFmt
+
 
 def run_command(cmd, output_fp, verbose=True):
     if verbose:
@@ -63,12 +65,15 @@ def collatefp(csiout):
         raise RuntimeError('Fingerprint file is empty!')
     fingerids.index.name = '#featureID'
     npfid = np.asarray(fingerids)
-    fptable = biom.table.Table(data=npfid, observation_ids=fingerids.index,
-                               sample_ids=fingerids.columns)
+
+    # biom requires that ids be strings
+    fptable = biom.table.Table(data=npfid,
+                               observation_ids=fingerids.index.astype(str),
+                               sample_ids=fingerids.columns.astype(str))
     return fptable
 
 
-def fingerprint(sirius_path: str, features: str, ppm_max: int, profile: str,
+def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: str,
                 n_jobs: int=1, num_candidates: int=75,
                 tree_timeout: int=1600, database: str='all',
                 fingerid_db: str='pubchem', maxmz: int=600,
@@ -102,6 +107,8 @@ def fingerprint(sirius_path: str, features: str, ppm_max: int, profile: str,
         substructure IDs (in columns). Values are presence (1) or absence (0)
         of a particular substructure.
     '''
+    if isinstance(features, MGFDirFmt):
+        features = str(features.path) + '/features.mgf'
 
     tmpdir = tempfile.mkdtemp()
 
