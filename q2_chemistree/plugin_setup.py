@@ -77,13 +77,14 @@ plugin.methods.register_function(
     name='Create a molecular tree',
     description='Build a phylogeny based on molecular substructures',
     inputs={'collated_fingerprints': FeatureTable[Frequency]},
-    parameters={'threshold': Float % Range(0, 1, inclusive_end=True)},
+    parameters={'prob_threshold': Float % Range(0, 1, inclusive_end=True)},
     input_descriptions={'collated_fingerprints': 'Contingency table of the '
                                                  'probabilities of '
                                                  'molecular substructures '
                                                  'within each feature'},
-    parameter_descriptions={'threshold': 'Probability threshold below which a'
-                                         ' substructure is considered absent'},
+    parameter_descriptions={'prob_threshold': 'Probability threshold below '
+                                              'which a substructure is '
+                                              'considered absent.'},
     outputs=[('tree', Phylogeny[Rooted])],
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
