@@ -30,6 +30,15 @@ def match_table(tree: TreeNode,
     filtered_feature_table : pandas dataframe
         filtered MS1 feature table that contains only the features present in
         the tree
+        Raises
+    ------
+    Raises
+    ------
+    ValueError
+        If ``feature_table`` has no features
+        If ``feature_table`` does not have a column named '#row ID'
+        If ``tree`` tips are not a subset of feature names in ``feature_table``
+
     '''
     if feature_table.empty:
         raise ValueError("Cannot have empty feature table")
