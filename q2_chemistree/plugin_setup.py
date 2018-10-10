@@ -83,7 +83,7 @@ plugin.methods.register_function(
                                                  'probabilities of '
                                                  'molecular substructures '
                                                  'within each feature'},
-    parameter_descriptions={'prob_threshold': 'Probability threshold below'
+    parameter_descriptions={'prob_threshold': 'Probability threshold below '
                                               'which a substructure is '
                                               'considered absent.'},
     outputs=[('tree', Phylogeny[Rooted])],
