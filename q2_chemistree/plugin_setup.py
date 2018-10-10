@@ -85,7 +85,7 @@ plugin.methods.register_function(
                                                  'within each feature'},
     parameter_descriptions={'prob_threshold': 'Probability threshold below'
                                               'which a substructure is '
-                                              'considered absent'},
+                                              'considered absent.'},
     outputs=[('tree', Phylogeny[Rooted])],
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
