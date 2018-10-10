@@ -28,11 +28,11 @@ class test_match(TestCase):
 
     def test_rowID(self):
         features = pd.read_table(self.wrongformat, sep=',', dtype=str)
-        with self.assertRaises(RuntimeError):
+        with self.assertRaises(ValueError):
             match_table(self.goodtree, features)
 
     def test_tipMismatch(self):
-        with self.assertRaises(RuntimeError):
+        with self.assertRaises(ValueError):
             match_table(self.goodtree, self.wrongtips)
 
     def test_matchPipeline(self):
