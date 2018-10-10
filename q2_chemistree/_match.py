@@ -31,7 +31,7 @@ def match_table(tree: TreeNode,
         filtered MS1 feature table that contains only the features present in
         the tree
     '''
-    if feature_table.shape == (0, 0):
+    if feature_table.empty:
         raise ValueError("Cannot have empty feature table")
     if '#row ID' not in feature_table.columns:
         raise ValueError('Feature table needs to be formatted correctly')
