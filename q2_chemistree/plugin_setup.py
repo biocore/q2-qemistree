@@ -7,6 +7,7 @@
 # ----------------------------------------------------------------------------
 from ._fingerprint import fingerprint
 from ._hierarchy import make_hierarchy
+from ._match import match_table
 from ._semantics import MassSpectrometryFeatures, MGFDirFmt
 
 from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int
@@ -77,15 +78,35 @@ plugin.methods.register_function(
     name='Create a molecular tree',
     description='Build a phylogeny based on molecular substructures',
     inputs={'collated_fingerprints': FeatureTable[Frequency]},
-    parameters={'threshold': Float % Range(0, 1, inclusive_end=True)},
+    parameters={'prob_threshold': Float % Range(0, 1, inclusive_end=True)},
     input_descriptions={'collated_fingerprints': 'Contingency table of the '
                                                  'probabilities of '
                                                  'molecular substructures '
                                                  'within each feature'},
-    parameter_descriptions={'threshold': 'Probability threshold below which a'
-                                         ' substructure is considered absent'},
+    parameter_descriptions={'prob_threshold': 'Probability threshold below'
+                                              'which a substructure is '
+                                              'considered absent'},
     outputs=[('tree', Phylogeny[Rooted])],
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
                                  'substructures within those features'}
+)
+
+plugin.methods.register_function(
+    function=match_table,
+    name='Match MS1 feature table to tree tips',
+    description='filters MS1 feature table to to match tree tips',
+    inputs={'tree': Phylogeny[Rooted],
+            'feature_table': FeatureTable[Frequency]},
+    input_descriptions={'tree': 'skbio TreeNode object representing tree of '
+                                'relatedness between molecules',
+                        'feature_table': 'MS1 feature table from MZmine2 with '
+                                         'features in rows and samples '
+                                         'in columns.'},
+    parameters={},
+    outputs=[('filtered_feature_table', FeatureTable[Frequency])],
+    output_descriptions={'filtered_feature_table': 'filtered MS1 feature table '
+                                                   'that contains only the '
+                                                   'features present in '
+                                                   'the tree'}
 )
