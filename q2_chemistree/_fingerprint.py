@@ -40,8 +40,8 @@ def collatefp(csiout):
     ----------
     sirout : path to Sirius output folder
 
-    Returns:
-    ----------
+    Returns
+    -------
     table : biom object
         biom table containing mass-spec feature IDs (in rows) and molecular
         substructure IDs (in columns). Values are presence (1) or absence (0)
@@ -100,9 +100,9 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
     zodiac_threshold : threshold filter for molecular formula re-ranking.
                        Higher value recommended for less false positives (float)
 
-    Returns:
-    ----------
-    table : biom object
+    Returns
+    -------
+    table : biom table
         biom table containing mass-spec feature IDs (in rows) and molecular
         substructure IDs (in columns). Values are presence (1) or absence (0)
         of a particular substructure.

@@ -22,16 +22,16 @@ def make_hierarchy(collated_fingerprints: biom.Table,
 
     Parameters
     ----------
-    collated_fingerprints : biom object
+    collated_fingerprints : biom table
         biom object containing mass-spec feature IDs (in rows) and molecular
         substructure IDs (in columns). Values are probabilities that a feature
         contains a particular substructure.
     prob_threshold : float
             probability value below which a molecular substructure is considered
             absent from a feature
-    Returns:
-    ----------
-    tree : scikit-bio TreeNode object
+    Returns
+    -------
+    tree : TreeNode
         a tree of relatedness of molecules
     '''
     table = collated_fingerprints.to_dataframe()
