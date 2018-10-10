@@ -25,19 +25,20 @@ def match_table(tree: TreeNode,
     feature_table : pandas dataframe
             MS1 feature table from MZmine2 with features in rows and
             samples in columns
-    Returns
-    -------
-    filtered_feature_table : pandas dataframe
-        filtered MS1 feature table that contains only the features present in
-        the tree
-        Raises
-    ------
+
     Raises
     ------
     ValueError
         If ``feature_table`` has no features
         If ``feature_table`` does not have a column named '#row ID'
         If ``tree`` tips are not a subset of feature names in ``feature_table``
+
+    Returns
+    -------
+    filtered_feature_table : pandas dataframe
+        filtered MS1 feature table that contains only the features present in
+        the tree
+        Raises
 
     '''
     if feature_table.empty:
