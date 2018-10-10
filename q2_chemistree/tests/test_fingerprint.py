@@ -12,7 +12,7 @@ class fingerprintTests(TestCase):
         self.goodsirpath = os.path.join(THIS_DIR, 'data/sirius-osx64-4.0.1/bin')
         self.badionsfp = os.path.join(THIS_DIR, 'data/foo.mgf')
         self.goodionsfp = os.path.join(THIS_DIR, 'data/sirius.mgf')
-        self.featureTable = os.path.join(THIS_DIR, 'data/features.csv')
+        self.featureTable = os.path.join(THIS_DIR, 'data/features_formated.csv')
         self.emptycsi = os.path.join(THIS_DIR, 'data/emptycsi')
         self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
 
@@ -33,7 +33,7 @@ class fingerprintTests(TestCase):
     def test_featureMatch(self):
         tablefp = collatefp(self.goodcsi)
         features = pd.read_table(self.featureTable, sep=',', dtype=str)
-        allfeatrs = set(features['row ID'])
+        allfeatrs = set(features['#row ID'])
         fpfeatrs = set(tablefp.to_dataframe().index)
         self.assertEqual(fpfeatrs <= allfeatrs, True)
 
@@ -41,7 +41,7 @@ class fingerprintTests(TestCase):
         tablefp = fingerprint(self.goodsirpath, self.goodionsfp, ppm_max=15,
                               profile='orbitrap', n_jobs=1)
         features = pd.read_table(self.featureTable, sep=',', dtype=str)
-        allfeatrs = set(features['row ID'])
+        allfeatrs = set(features['#row ID'])
         fpfeatrs = set(tablefp.to_dataframe().index)
         self.assertEqual(fpfeatrs <= allfeatrs, True)
 
