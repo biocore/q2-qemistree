@@ -30,6 +30,7 @@ def match_table(tree: TreeNode,
     ValueError
         If ``feature_table`` has no features
         If ``tree`` tips are not a subset of feature names in ``feature_table``
+        If ``filtered_feature_table`` is empty
 
     Returns
     -------
@@ -43,8 +44,8 @@ def match_table(tree: TreeNode,
     tip_names = {node.name for node in tree.tips()}
     if not tip_names.issubset(allfeatrs):
         extra_tips = tip_names-tip_names.intersection(allfeatrs)
-        raise ValueError('Some tips were not in the feature table:\n')
-        print(extra_tips)
+        raise ValueError('Following tips were not in the feature table:\n' +
+                         ', '.join([str(i) for i in extra_tips]))
     common_features = list(allfeatrs.intersection(tip_names))
     filtered_feature_table = feature_table.filter(common_features,
                                                   axis='observation',
