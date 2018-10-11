@@ -40,9 +40,14 @@ def collatefp(csiout):
     ----------
     sirout : path to Sirius output folder
 
+    Raises
+    ------
+    ValueError
+        If ``fptable`` (collated fingerprint table) is empty
+
     Returns
     -------
-    table : biom object
+    biom.Table
         biom table containing mass-spec feature IDs (in rows) and molecular
         substructure IDs (in columns). Values are presence (1) or absence (0)
         of a particular substructure.
@@ -62,7 +67,7 @@ def collatefp(csiout):
 
     fingerids = pd.DataFrame.from_dict(molfp, orient='index')
     if fingerids.shape == (0, 0):
-        raise RuntimeError('Fingerprint file is empty!')
+        raise ValueError('Fingerprint file is empty!')
     fingerids.index.name = '#featureID'
     npfid = np.asarray(fingerids)
 
@@ -85,7 +90,7 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
     Parameters
     ----------
     sirius_path : path to Sirius executable (str)
-    features : path to MGF file for SIRIUS (str)
+    features : MGF file for SIRIUS (str)
     ppm_max : allowed parts per million tolerance for decomposing masses (int)
     profile : configuration profile for mass-spec platform used (str)
     n_jobs : Number of cpu cores to use. If not specified Sirius uses
@@ -100,9 +105,14 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
     zodiac_threshold : threshold filter for molecular formula re-ranking.
                        Higher value recommended for less false positives (float)
 
+    Raises
+    ------
+    OSError:
+        If ``sirius_path`` not found
+
     Returns
     -------
-    table : biom table
+    biom.Table
         biom table containing mass-spec feature IDs (in rows) and molecular
         substructure IDs (in columns). Values are presence (1) or absence (0)
         of a particular substructure.
@@ -115,8 +125,6 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
     if not os.path.exists(sirius_path):
         raise OSError("SIRIUS could not be located")
     sirius = os.path.join(sirius_path, 'sirius')
-    if not os.path.exists(features):
-        raise OSError("MGF file could not be located")
 
     tmpsir = os.path.join(tmpdir, 'tmpsir')
     cmdsir = [str(sirius), '--quiet',
@@ -147,5 +155,4 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
 
     fptable = collatefp(tmpcsi)
     shutil.rmtree(tmpdir)
-
     return fptable
