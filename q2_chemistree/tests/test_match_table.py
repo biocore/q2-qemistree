@@ -1,20 +1,28 @@
+# ----------------------------------------------------------------------------
+# Copyright (c) 2016-2018, QIIME 2 development team.
+#
+# Distributed under the terms of the Modified BSD License.
+#
+# The full license is in the file LICENSE, distributed with this software.
+# ----------------------------------------------------------------------------
+
 import functools
 from unittest import TestCase, main
 import pandas as pd
 import os
+from biom import load_table
+from biom.table import Table
 from q2_chemistree import match_table, collatefp, make_hierarchy
 
 
 class test_match(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-        table = pd.DataFrame({'#row ID' : [], 'Sample1' :[], 'Sample2' :[]})
+        table = Table({}, [], [])
         self.emptyfeatures = table
-        table = pd.DataFrame({'#row ID': ['X', 'Y', 'Z'], 'A': [0, 1, 1],
-                             'B': [0, 0, 1], 'C': [0, 0, 0]})
+        table = Table({}, ['a', 'b', 'c'], [])
         self.wrongtips = table
-        self.wrongformat = os.path.join(THIS_DIR, 'data/features.csv')
-        self.goodtable = os.path.join(THIS_DIR, 'data/features_formated.csv')
+        self.goodtable = os.path.join(THIS_DIR, 'data/features_formated.biom')
         self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
         self.goodthresh = 0.5
         tablefp = collatefp(self.goodcsi)
@@ -25,20 +33,15 @@ class test_match(TestCase):
         with self.assertRaises(ValueError):
             match_table(self.goodtree, self.emptyfeatures)
 
-    def test_rowID(self):
-        features = pd.read_table(self.wrongformat, sep=',', dtype=str)
-        with self.assertRaises(ValueError):
-            match_table(self.goodtree, features)
-
     def test_tipMismatch(self):
         with self.assertRaises(ValueError):
             match_table(self.goodtree, self.wrongtips)
 
     def test_matchPipeline(self):
         tips = {node.name for node in self.goodtree.tips()}
-        features = pd.read_table(self.goodtable, sep=',', dtype=str)
+        features = load_table(self.goodtable)
         tableout = match_table(self.goodtree, features)
-        tableids =  set(tableout.index)
+        tableids =  set(tableout.ids(axis='observation'))
         self.assertEqual(tips, tableids)
 
 
