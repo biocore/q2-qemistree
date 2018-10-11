@@ -15,8 +15,7 @@ from biom.table import Table
 def match_table(tree: TreeNode,
                 feature_table: biom.Table) -> biom.Table:
     '''
-    This function filters the feature table to retain the features present in
-        the tree
+    Filters the feature table to retain the features present in the tree.
 
     Parameters
     ----------
