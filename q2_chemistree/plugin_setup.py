@@ -94,18 +94,16 @@ plugin.methods.register_function(
 
 plugin.methods.register_function(
     function=match_table,
-    name='Match MS1 feature table to tree tips',
-    description='filters MS1 feature table to to match tree tips',
+    name='Match feature table to tree tips',
+    description='filters feature table to to match tree tips',
     inputs={'tree': Phylogeny[Rooted],
             'feature_table': FeatureTable[Frequency]},
     input_descriptions={'tree': 'skbio TreeNode object representing tree of '
                                 'relatedness between molecules',
-                        'feature_table': 'MS1 feature table from MZmine2 with '
-                                         'features in rows and samples '
-                                         'in columns.'},
+                        'feature_table': 'biom.Table feature table'},
     parameters={},
     outputs=[('filtered_feature_table', FeatureTable[Frequency])],
-    output_descriptions={'filtered_feature_table': 'filtered MS1 feature table '
+    output_descriptions={'filtered_feature_table': 'filtered feature table '
                                                    'that contains only the '
                                                    'features present in '
                                                    'the tree'}
