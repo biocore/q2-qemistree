@@ -19,7 +19,7 @@ class fingerprintTests(TestCase):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         self.badsirpath = os.path.join(THIS_DIR, 'data/foo/bin')
         self.goodsirpath = os.path.join(THIS_DIR,
-                                       'data/sirius-4.0.1-linux64-headless/bin')
+                                       'data/sirius-linux64-headless-4.0.1/bin')
         self.badionsfp = os.path.join(THIS_DIR, 'data/foo.mgf')
         self.goodionsfp = os.path.join(THIS_DIR, 'data/sirius.mgf')
         self.featureTable = os.path.join(THIS_DIR,'data/features_formated.biom')
