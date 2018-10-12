@@ -1,0 +1,27 @@
+dist: trusty
+sudo: false
+language: python
+before_install:
+  - export MPLBACKEND='Agg'
+  - wget -q https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+  - export MINICONDA_PREFIX="$HOME/miniconda"
+  - bash miniconda.sh -b -p $MINICONDA_PREFIX
+  - export PATH="$MINICONDA_PREFIX/bin:$PATH"
+  - conda config --set always_yes yes
+  - conda update -q conda
+  - conda info -a
+install:
+  - wget -q https://raw.githubusercontent.com/qiime2/environment-files/master/latest/staging/qiime2-latest-py35-linux-conda.yml
+  - wget -q https://bio.informatik.uni-jena.de/repository/dist-release-local/de/unijena/bioinf/ms/sirius/4.0.1/sirius-4.0.1-linux64-headless.zip
+  - unzip sirius-4.0.1-linux64-headless.zip
+  - mv sirius-4.0.1-linux64-headless q2_chemistree/tests/data/
+  - conda env create -q -n test-env --file qiime2-latest-py35-linux-conda.yml
+  - source activate test-env
+  - conda install -q pytest-cov
+  - pip install -q flake8 coveralls
+  - make install
+script:
+  - make lint
+  - make test-cov
+after_success:
+  - coveralls
