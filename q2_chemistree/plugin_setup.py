@@ -48,8 +48,8 @@ PARAMS_DESC = {
     'ppm_max': 'allowed parts per million tolerance for decomposing masses',
     'profile': 'configuration profile for mass-spec platform used',
     'n_jobs': 'Number of cpu cores to use',
-    'num_candidates' : 'number of fragmentation trees to compute per feature',
-    'tree_timeout' : 'time for computation per fragmentation tree in seconds',
+    'num_candidates': 'number of fragmentation trees to compute per feature',
+    'tree_timeout': 'time for computation per fragmentation tree in seconds',
     'fingerid_db': 'search structure in given database',
     'maxmz': 'consider compounds with a precursor mz lower or equal to this',
     'zodiac_threshold': 'threshold filter for molecular formula re-ranking',
@@ -98,8 +98,8 @@ plugin.methods.register_function(
     description='Filters feature table to to match tree tips',
     inputs={'tree': Phylogeny[Rooted],
             'feature_table': FeatureTable[Frequency]},
-    input_descriptions={'tree': 'Phylogenetic tree with the features that will '
-                                'be retained on the feature table',
+    input_descriptions={'tree': 'Phylogenetic tree with the features that will'
+                                ' be retained on the feature table',
                         'feature_table': 'Feature table that will be filtered '
                                          'based on the features of the '
                                          'phylogenetic tree'},
