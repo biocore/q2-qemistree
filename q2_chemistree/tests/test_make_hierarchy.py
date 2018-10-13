@@ -6,15 +6,10 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import functools
 from unittest import TestCase, main
 from biom.table import Table
 import pandas as pd
 import numpy as np
-from sklearn.metrics import pairwise_distances
-from scipy.spatial.distance import squareform
-from scipy.cluster.hierarchy import linkage
-from skbio.tree import TreeNode
 from q2_chemistree import make_hierarchy
 
 
