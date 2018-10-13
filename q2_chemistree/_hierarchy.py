@@ -7,7 +7,6 @@
 # ----------------------------------------------------------------------------
 
 import biom
-from scipy.cluster import hierarchy
 from sklearn.metrics import pairwise_distances
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import linkage

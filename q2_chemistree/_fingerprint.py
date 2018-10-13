@@ -80,7 +80,7 @@ def collatefp(csiout):
 
 def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
                 profile: str, n_jobs: int=1,
-                num_candidates: int=75,tree_timeout: int=1600,
+                num_candidates: int=75, tree_timeout: int=1600,
                 database: str='all', fingerid_db: str='pubchem',
                 maxmz: int=600, zodiac_threshold: float=0.95) -> biom.Table:
     '''
