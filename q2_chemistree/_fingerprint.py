@@ -78,11 +78,11 @@ def collatefp(csiout):
     return fptable
 
 
-def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: str,
-                n_jobs: int=1, num_candidates: int=75,
-                tree_timeout: int=1600, database: str='all',
-                fingerid_db: str='pubchem', maxmz: int=600,
-                zodiac_threshold: float=0.95) -> biom.Table:
+def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
+                profile: str, n_jobs: int=1,
+                num_candidates: int=75,tree_timeout: int=1600,
+                database: str='all', fingerid_db: str='pubchem',
+                maxmz: int=600, zodiac_threshold: float=0.95) -> biom.Table:
     '''
     This function generates and collates chemical fingerprints for mass-spec
     features in an experiment.
@@ -103,7 +103,8 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
     maxmz : considers compounds with a precursor mz lower or equal to
             this value (int)
     zodiac_threshold : threshold filter for molecular formula re-ranking.
-                       Higher value recommended for less false positives (float)
+                       Higher value recommended for
+                       less false positives (float)
 
     Raises
     ------
@@ -130,7 +131,8 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
     cmdsir = [str(sirius), '--quiet',
               '--initial-compound-buffer', str(1),
               '--max-compound-buffer', str(32), '--profile', str(profile),
-              '--database', str(database), '--candidates',  str(num_candidates),
+              '--database', str(database),
+              '--candidates',  str(num_candidates),
               '--processors', str(n_jobs),
               '--auto-charge', '--trust-ion-prediction',
               '--maxmz', str(maxmz),

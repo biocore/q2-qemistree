@@ -7,9 +7,7 @@
 # ----------------------------------------------------------------------------
 
 import biom
-import pandas as pd
 from skbio import TreeNode
-from biom.table import Table
 
 
 def match_table(tree: TreeNode,
