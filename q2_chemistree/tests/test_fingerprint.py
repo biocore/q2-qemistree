@@ -6,10 +6,8 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import functools
 from unittest import TestCase, main
 from biom import load_table
-import pandas as pd
 import os
 from q2_chemistree import fingerprint, collatefp
 
@@ -18,10 +16,12 @@ class fingerprintTests(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         self.badsirpath = os.path.join(THIS_DIR, 'data/foo/bin')
-        self.goodsirpath = os.path.join(THIS_DIR, 'data/sirius-osx64-4.0.1/bin')
+        self.goodsirpath = os.path.join(THIS_DIR, 'data/'
+                                        'sirius-linux64-headless-4.0.1/bin')
         self.badionsfp = os.path.join(THIS_DIR, 'data/foo.mgf')
         self.goodionsfp = os.path.join(THIS_DIR, 'data/sirius.mgf')
-        self.featureTable = os.path.join(THIS_DIR,'data/features_formated.biom')
+        self.featureTable = os.path.join(THIS_DIR,
+                                         'data/features_formated.biom')
         self.emptycsi = os.path.join(THIS_DIR, 'data/emptycsi')
         self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
 

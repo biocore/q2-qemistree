@@ -6,9 +6,7 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
-import functools
 from unittest import TestCase, main
-import pandas as pd
 import os
 from biom import load_table
 from biom.table import Table
@@ -41,7 +39,7 @@ class test_match(TestCase):
         tips = {node.name for node in self.goodtree.tips()}
         features = load_table(self.goodtable)
         tableout = match_table(self.goodtree, features)
-        tableids =  set(tableout.ids(axis='observation'))
+        tableids = set(tableout.ids(axis='observation'))
         self.assertEqual(tips, tableids)
 
 
