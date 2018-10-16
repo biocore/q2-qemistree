@@ -148,8 +148,9 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
               '--spectra', str(features)]
 
     tmpcsi = os.path.join(tmpdir, 'tmpcsi')
-    cmdfid = [str(sirius), '--fingerid', '--fingerid-db', str(fingerid_db),
-              '--ppm-max', str(ppm_max), '-o', str(tmpcsi), str(tmpzod)]
+    cmdfid = [str(sirius), '--processors', str(n_jobs), '--fingerid',
+              '--fingerid-db', str(fingerid_db), '--ppm-max', str(ppm_max),
+              '-o', str(tmpcsi), str(tmpzod)]
 
     run_command(cmdsir, os.path.join(tmpdir, 'sirout'))
     run_command(cmdzod, os.path.join(tmpdir, 'zodout'))
