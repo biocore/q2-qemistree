@@ -1,5 +1,6 @@
 [run]
 branch = True
+source = q2_chemistree/
 omit =
     */tests*
     */__init__.py
