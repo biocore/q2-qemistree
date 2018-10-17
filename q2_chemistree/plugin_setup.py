@@ -7,6 +7,7 @@
 # ----------------------------------------------------------------------------
 from ._fingerprint import fingerprint
 from ._hierarchy import make_hierarchy
+from ._match import match_table
 from ._semantics import MassSpectrometryFeatures, MGFDirFmt
 
 from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int
@@ -47,8 +48,8 @@ PARAMS_DESC = {
     'ppm_max': 'allowed parts per million tolerance for decomposing masses',
     'profile': 'configuration profile for mass-spec platform used',
     'n_jobs': 'Number of cpu cores to use',
-    'num_candidates' : 'number of fragmentation trees to compute per feature',
-    'tree_timeout' : 'time for computation per fragmentation tree in seconds',
+    'num_candidates': 'number of fragmentation trees to compute per feature',
+    'tree_timeout': 'time for computation per fragmentation tree in seconds',
     'fingerid_db': 'search structure in given database',
     'maxmz': 'consider compounds with a precursor mz lower or equal to this',
     'zodiac_threshold': 'threshold filter for molecular formula re-ranking',
@@ -89,4 +90,23 @@ plugin.methods.register_function(
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
                                  'substructures within those features'}
+)
+
+plugin.methods.register_function(
+    function=match_table,
+    name='Match feature table to tree tips',
+    description='Filters feature table to to match tree tips',
+    inputs={'tree': Phylogeny[Rooted],
+            'feature_table': FeatureTable[Frequency]},
+    input_descriptions={'tree': 'Phylogenetic tree with the features that will'
+                                ' be retained on the feature table',
+                        'feature_table': 'Feature table that will be filtered '
+                                         'based on the features of the '
+                                         'phylogenetic tree'},
+    parameters={},
+    outputs=[('filtered_feature_table', FeatureTable[Frequency])],
+    output_descriptions={'filtered_feature_table': 'filtered feature table '
+                                                   'that contains only the '
+                                                   'features present in '
+                                                   'the tree'}
 )

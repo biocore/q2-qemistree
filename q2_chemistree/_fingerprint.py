@@ -40,9 +40,14 @@ def collatefp(csiout):
     ----------
     sirout : path to Sirius output folder
 
-    Returns:
-    ----------
-    table : biom object
+    Raises
+    ------
+    ValueError
+        If ``fptable`` (collated fingerprint table) is empty
+
+    Returns
+    -------
+    biom.Table
         biom table containing mass-spec feature IDs (in rows) and molecular
         substructure IDs (in columns). Values are presence (1) or absence (0)
         of a particular substructure.
@@ -62,7 +67,7 @@ def collatefp(csiout):
 
     fingerids = pd.DataFrame.from_dict(molfp, orient='index')
     if fingerids.shape == (0, 0):
-        raise RuntimeError('Fingerprint file is empty!')
+        raise ValueError('Fingerprint file is empty!')
     fingerids.index.name = '#featureID'
     npfid = np.asarray(fingerids)
 
@@ -73,11 +78,11 @@ def collatefp(csiout):
     return fptable
 
 
-def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: str,
-                n_jobs: int=1, num_candidates: int=75,
-                tree_timeout: int=1600, database: str='all',
-                fingerid_db: str='pubchem', maxmz: int=600,
-                zodiac_threshold: float=0.95) -> biom.Table:
+def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
+                profile: str, n_jobs: int=1,
+                num_candidates: int=75, tree_timeout: int=1600,
+                database: str='all', fingerid_db: str='pubchem',
+                maxmz: int=600, zodiac_threshold: float=0.95) -> biom.Table:
     '''
     This function generates and collates chemical fingerprints for mass-spec
     features in an experiment.
@@ -85,7 +90,7 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
     Parameters
     ----------
     sirius_path : path to Sirius executable (str)
-    features : path to MGF file for SIRIUS (str)
+    features : MGF file for SIRIUS (str)
     ppm_max : allowed parts per million tolerance for decomposing masses (int)
     profile : configuration profile for mass-spec platform used (str)
     n_jobs : Number of cpu cores to use. If not specified Sirius uses
@@ -98,11 +103,17 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
     maxmz : considers compounds with a precursor mz lower or equal to
             this value (int)
     zodiac_threshold : threshold filter for molecular formula re-ranking.
-                       Higher value recommended for less false positives (float)
+                       Higher value recommended for
+                       less false positives (float)
 
-    Returns:
-    ----------
-    table : biom object
+    Raises
+    ------
+    OSError:
+        If ``sirius_path`` not found
+
+    Returns
+    -------
+    biom.Table
         biom table containing mass-spec feature IDs (in rows) and molecular
         substructure IDs (in columns). Values are presence (1) or absence (0)
         of a particular substructure.
@@ -115,14 +126,13 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
     if not os.path.exists(sirius_path):
         raise OSError("SIRIUS could not be located")
     sirius = os.path.join(sirius_path, 'sirius')
-    if not os.path.exists(features):
-        raise OSError("MGF file could not be located")
 
     tmpsir = os.path.join(tmpdir, 'tmpsir')
     cmdsir = [str(sirius), '--quiet',
               '--initial-compound-buffer', str(1),
               '--max-compound-buffer', str(32), '--profile', str(profile),
-              '--database', str(database), '--candidates',  str(num_candidates),
+              '--database', str(database),
+              '--candidates', str(num_candidates),
               '--processors', str(n_jobs),
               '--auto-charge', '--trust-ion-prediction',
               '--maxmz', str(maxmz),
@@ -138,8 +148,9 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
               '--spectra', str(features)]
 
     tmpcsi = os.path.join(tmpdir, 'tmpcsi')
-    cmdfid = [str(sirius), '--fingerid', '--fingerid-db', str(fingerid_db),
-              '--ppm-max', str(ppm_max), '-o', str(tmpcsi), str(tmpzod)]
+    cmdfid = [str(sirius), '--processors', str(n_jobs), '--fingerid',
+              '--fingerid-db', str(fingerid_db), '--ppm-max', str(ppm_max),
+              '-o', str(tmpcsi), str(tmpzod)]
 
     run_command(cmdsir, os.path.join(tmpdir, 'sirout'))
     run_command(cmdzod, os.path.join(tmpdir, 'zodout'))
@@ -147,5 +158,4 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int, profile: st
 
     fptable = collatefp(tmpcsi)
     shutil.rmtree(tmpdir)
-
     return fptable

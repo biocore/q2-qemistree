@@ -1,6 +1,13 @@
-import functools
+# ----------------------------------------------------------------------------
+# Copyright (c) 2016-2018, QIIME 2 development team.
+#
+# Distributed under the terms of the Modified BSD License.
+#
+# The full license is in the file LICENSE, distributed with this software.
+# ----------------------------------------------------------------------------
+
 from unittest import TestCase, main
-import pandas as pd
+from biom import load_table
 import os
 from q2_chemistree import fingerprint, collatefp
 
@@ -9,10 +16,12 @@ class fingerprintTests(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         self.badsirpath = os.path.join(THIS_DIR, 'data/foo/bin')
-        self.goodsirpath = os.path.join(THIS_DIR, 'data/sirius-osx64-4.0.1/bin')
+        self.goodsirpath = os.path.join(THIS_DIR, 'data/'
+                                        'sirius-linux64-headless-4.0.1/bin')
         self.badionsfp = os.path.join(THIS_DIR, 'data/foo.mgf')
         self.goodionsfp = os.path.join(THIS_DIR, 'data/sirius.mgf')
-        self.featureTable = os.path.join(THIS_DIR, 'data/features.csv')
+        self.featureTable = os.path.join(THIS_DIR,
+                                         'data/features_formated.biom')
         self.emptycsi = os.path.join(THIS_DIR, 'data/emptycsi')
         self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
 
@@ -21,28 +30,23 @@ class fingerprintTests(TestCase):
             fingerprint(self.badsirpath, self.goodionsfp, ppm_max=15,
                         profile='orbitrap', n_jobs=1)
 
-    def test_mgfPath(self):
-        with self.assertRaises(OSError):
-            fingerprint(self.goodsirpath, self.badionsfp, ppm_max=15,
-                        profile='orbitrap', n_jobs=1)
-
     def test_fingerprintOut(self):
-        with self.assertRaises(RuntimeError):
+        with self.assertRaises(ValueError):
             collatefp(self.emptycsi)
 
     def test_featureMatch(self):
         tablefp = collatefp(self.goodcsi)
-        features = pd.read_table(self.featureTable, sep=',', dtype=str)
-        allfeatrs = set(features['row ID'])
-        fpfeatrs = set(tablefp.to_dataframe().index)
+        features = load_table(self.featureTable)
+        allfeatrs = set(features.ids(axis='observation'))
+        fpfeatrs = set(tablefp.ids(axis='observation'))
         self.assertEqual(fpfeatrs <= allfeatrs, True)
 
     def test_pipeline(self):
         tablefp = fingerprint(self.goodsirpath, self.goodionsfp, ppm_max=15,
                               profile='orbitrap', n_jobs=1)
-        features = pd.read_table(self.featureTable, sep=',', dtype=str)
-        allfeatrs = set(features['row ID'])
-        fpfeatrs = set(tablefp.to_dataframe().index)
+        features = load_table(self.featureTable)
+        allfeatrs = set(features.ids(axis='observation'))
+        fpfeatrs = set(tablefp.ids(axis='observation'))
         self.assertEqual(fpfeatrs <= allfeatrs, True)
 
 

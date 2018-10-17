@@ -1,12 +1,15 @@
-import functools
+# ----------------------------------------------------------------------------
+# Copyright (c) 2016-2018, QIIME 2 development team.
+#
+# Distributed under the terms of the Modified BSD License.
+#
+# The full license is in the file LICENSE, distributed with this software.
+# ----------------------------------------------------------------------------
+
 from unittest import TestCase, main
 from biom.table import Table
 import pandas as pd
 import numpy as np
-from sklearn.metrics import pairwise_distances
-from scipy.spatial.distance import squareform
-from scipy.cluster.hierarchy import linkage
-from skbio.tree import TreeNode
 from q2_chemistree import make_hierarchy
 
 

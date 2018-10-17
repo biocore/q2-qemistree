@@ -1,0 +1,15 @@
+[run]
+branch = True
+source = q2_chemistree/
+omit =
+    */tests*
+    */__init__.py
+    q2_chemistree/_version.py
+    versioneer.py
+
+[report]
+omit =
+    */tests*
+    */__init__.py
+    q2_chemistree/_version.py
+    versioneer.py
