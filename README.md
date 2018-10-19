@@ -13,7 +13,7 @@ pip install .
 qiime dev refresh-cache
 ```
 
-We also need to download SIRIUS, a software-framework for de-novo identification of metabolites. q2-chemistree uses molecular substrucures predicted by this framework to build a hierarchy of the MS1 features in a dataset. SIRIUS is freely available [here](https://bio.informatik.uni-jena.de/software/sirius/).
+We also need to download [SIRIUS](https://github.com/boecker-lab/sirius), a software-framework for de-novo identification of metabolites. q2-chemistree uses molecular substrucures predicted by this framework to build a hierarchy of the MS1 features in a dataset. SIRIUS is freely available [here](https://bio.informatik.uni-jena.de/software/sirius/).
 
 ## Demonstration
 
@@ -44,15 +44,15 @@ cd demo-chemistree
 Download a small feature table and MGF file using:
 
 ```bash
-wget https://github.com/biocore/q2-chemistree/demo/feature-table.biom
-wget https://github.com/biocore/q2-chemistree/demo/sirius.mgf
+wget https://raw.githubusercontent.com/biocore/q2-chemistree/master/q2_chemistree/demo/feature-table.biom
+wget https://raw.githubusercontent.com/biocore/q2-chemistree/master/q2_chemistree/demo/sirius.mgf
 ```
 
-Once you [import](https://docs.qiime2.org/2018.8/tutorials/importing/) these files into the appropriate QIIME2 artifact format, you can follow these steps to generate your tree. Alternatively, you can proceed by directly downloading the corresponding artifact files as follows:
+Once you [import](https://docs.qiime2.org/2018.8/tutorials/importing/) these files into the appropriate QIIME2 artifact format, you can follow these steps to generate your tree. You can import these files as follows:
 
 ```bash
-wget https://github.com/biocore/q2-chemistree/demo/feature-table.qza
-wget https://github.com/biocore/q2-chemistree/demo/sirius.mgf.qza
+qiime tools import --input-path feature-table.biom --output-path feature-table.qza --type FeatureTable[Frequency]
+qiime tools import --input-path sirius.mgf --output-path sirius.mgf.qza --type MassSpectrometryFeatures
 ```
 
 Additionally, for this demo, we download SIRIUS for macOS as follows (for linux the only thing that changes is the URL from which the binary is downloaded):
@@ -96,4 +96,4 @@ qiime chemistree match-table --i-tree demo-chemisTree.qza \
 
 This filters the MS1 table to include only the MS1 features with molecular fingerprints. The resulting table is also of type `FeatureTable[Frequency]`.
 
-Thus, using these steps, we can generate a tree relating MS1 features in mass-spectrometry dataset along with a matched feature table. These can be used as inputs to perform [UniFrac-based](10.1038/ismej.2010.133) [alpha-diversity](https://docs.qiime2.org/2018.8/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2018.8/plugins/available/diversity/beta-phylogenetic/) analyses.
+Thus, using these steps, we can generate a tree relating MS1 features in mass-spectrometry dataset along with a matched feature table. These can be used as inputs to perform [UniFrac](https://aem.asm.org/content/71/12/8228)-based [alpha-diversity](https://docs.qiime2.org/2018.8/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2018.8/plugins/available/diversity/beta-phylogenetic/) analyses.
