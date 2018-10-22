@@ -1,5 +1,7 @@
 # q2-chemistree
 
+[![Build Status](https://travis-ci.org/biocore/q2-chemistree.svg?branch=master)](https://travis-ci.org/biocore/q2-chemistree) [![Coverage Status](https://coveralls.io/repos/github/biocore/q2-chemistree/badge.svg?branch=master)](https://coveralls.io/github/biocore/q2-chemistree?branch=master)
+
 A tool to build a tree of MS1 features for use with phylogenetic methods in metabolomics datasets.
 
 ## Installation
@@ -32,7 +34,7 @@ Inputs:
 1. An MGF file with both MS1 and MS2 information. This file will be imported into QIIME2 as a `MassSpectrometryFeatures` type.
 2. A feature table with peak areas of MS1 ions per sample. This table will need to be imported from a CSV file into the [BIOM](http://biom-format.org/documentation/biom_conversion.html) format, and then into QIIME as a `FeatureTable[Frequency]` artifact.
 
-These input files can be obtained following peak detection in MZmine2. [Here](https://github.com/anupriyatripathi/q2-chemistree/demo/batchQE-MZmine-2.33.xml) is an example MZmine2 batch file used to generate these.
+These input files can be obtained following peak detection in MZmine2. [Here](https://raw.githubusercontent.com/biocore/q2-chemistree/master/q2_chemistree/demo/batchQE-MZmine-2.33.xml) is an example MZmine2 batch file used to generate these.
 
 You can create a separate folder to store files for this demonstration with:
 
