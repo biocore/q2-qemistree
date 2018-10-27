@@ -8,6 +8,7 @@
 from ._fingerprint import fingerprint
 from ._hierarchy import make_hierarchy
 from ._match import match_table
+from ._collate_fingerprint import collate_fingerprint
 from ._semantics import MassSpectrometryFeatures, MGFDirFmt
 
 from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int
@@ -109,4 +110,19 @@ plugin.methods.register_function(
                                                    'that contains only the '
                                                    'features present in '
                                                    'the tree'}
+)
+
+plugin.methods.register_function(
+    function=collate_fingerprint,
+    name='Collate fingerprints into a table',
+    description='Collate fingerprints predicted by CSI:FingerID',
+    inputs={},
+    input_descriptions={},
+    parameters={'csi_result': Str},
+    parameter_descriptions={'csi_result': 'path to CSI:FingerID output folder'},
+    outputs=[('collated_fingerprints', FeatureTable[Frequency])],
+    output_descriptions={'collated_fingerprints': 'Contingency table of the '
+                                                  'probabilities of '
+                                                  'molecular substructures '
+                                                  'within each feature'}
 )
