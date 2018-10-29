@@ -119,7 +119,8 @@ plugin.methods.register_function(
     inputs={},
     input_descriptions={},
     parameters={'csi_result': Str},
-    parameter_descriptions={'csi_result': 'path to CSI:FingerID output folder'},
+    parameter_descriptions={'csi_result': 'path to CSI:FingerID'
+                                          ' output folder'},
     outputs=[('collated_fingerprints', FeatureTable[Frequency])],
     output_descriptions={'collated_fingerprints': 'Contingency table of the '
                                                   'probabilities of '
