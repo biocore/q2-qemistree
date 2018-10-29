@@ -20,7 +20,6 @@ class fingerprintTests(TestCase):
         self.emptycsi = os.path.join(THIS_DIR, 'data/emptycsi')
         self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
 
-
     def test_fingerprintOut(self):
         with self.assertRaises(ValueError):
             collate_fingerprint(self.emptycsi)
