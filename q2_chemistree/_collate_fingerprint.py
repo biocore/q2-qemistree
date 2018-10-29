@@ -12,7 +12,7 @@ import pandas as pd
 import numpy as np
 
 
-def collate_fingerprint(csi_result : str) -> biom.Table:
+def collate_fingerprint(csi_result: str) -> biom.Table:
     '''
     This function collates chemical fingerprints for mass-spec
     features in an experiment.
