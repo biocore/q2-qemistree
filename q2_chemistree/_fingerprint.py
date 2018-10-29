@@ -38,7 +38,7 @@ def collatefp(csiout):
 
     Parameters
     ----------
-    sirout : path to Sirius output folder
+    csiout : path to CSI:FingerID output folder
 
     Raises
     ------
