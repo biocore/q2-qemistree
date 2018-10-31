@@ -7,14 +7,16 @@
 # ----------------------------------------------------------------------------
 from ._version import get_versions
 
-from ._fingerprint import fingerprint, collatefp
+from ._fingerprint import fingerprint
 from ._hierarchy import make_hierarchy
 from ._match import match_table
-from ._semantics import MassSpectrometryFeatures
+from ._semantics import (MassSpectrometryFeatures, CSIFingerprintFolder,
+                         CSIDirFmt, MGFDirFmt)
 from ._collate_fingerprint import collate_fingerprint
 
 __all__ = ['fingerprint', 'make_hierarchy', 'MassSpectrometryFeatures',
-           'collatefp', 'match_table', 'collate_fingerprint']
+           'match_table', 'collate_fingerprint', 'CSIFingerprintFolder',
+           'CSIDirFmt', 'MGFDirFmt']
 
 __version__ = get_versions()['version']
 del get_versions
