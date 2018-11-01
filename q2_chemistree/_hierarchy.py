@@ -22,7 +22,7 @@ def make_hierarchy(collated_fingerprints: biom.Table,
     Parameters
     ----------
     collated_fingerprints : biom.Table
-        biom table containing mass-spec feature IDs (as observations) 
+        biom table containing mass-spec feature IDs (as observations)
         and molecular substructure IDs (as samples).
     prob_threshold : float
             probability value below which a molecular substructure is
