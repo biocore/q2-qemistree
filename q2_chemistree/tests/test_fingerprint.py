@@ -30,17 +30,6 @@ class fingerprintTests(TestCase):
             fingerprint(self.badsirpath, self.goodionsfp, ppm_max=15,
                         profile='orbitrap', n_jobs=1)
 
-    def test_fingerprintOut(self):
-        with self.assertRaises(ValueError):
-            collate_fingerprint(self.emptycsi)
-
-    def test_featureMatch(self):
-        tablefp = collate_fingerprint(self.goodcsi)
-        features = load_table(self.featureTable)
-        allfeatrs = set(features.ids(axis='observation'))
-        fpfeatrs = set(tablefp.ids(axis='observation'))
-        self.assertEqual(fpfeatrs <= allfeatrs, True)
-
     def test_pipeline(self):
         tablefp = fingerprint(self.goodsirpath, self.goodionsfp, ppm_max=15,
                               profile='orbitrap', n_jobs=1)
