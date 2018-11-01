@@ -19,8 +19,10 @@ class MGFFile(model.TextFileFormat):
 MGFDirFmt = model.SingleFileDirectoryFormat('MGFFile', 'features.mgf', MGFFile)
 MassSpectrometryFeatures = SemanticType('MassSpectrometryFeatures')
 
+
 class CSIDirFmt(model.DirectoryFormat):
     def validate(self, level=None):
-        return True # :D
+        return True  # :D
+
 
 CSIFingerprintFolder = SemanticType('CSIFingerprintFolder')
