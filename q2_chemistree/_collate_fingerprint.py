@@ -31,9 +31,8 @@ def collate_fingerprint(csi_result: CSIDirFmt) -> biom.Table:
     Returns
     -------
     biom.Table
-        biom table containing mass-spec feature IDs (in rows) and molecular
-        substructure IDs (in columns). Values are presence (1) or absence (0)
-        of a particular substructure.
+        biom table containing mass-spec feature IDs (as observations)
+        and molecular substructure IDs (as samples).
     '''
     if isinstance(csi_result, CSIDirFmt):
         csi_result = str(csi_result.path)
