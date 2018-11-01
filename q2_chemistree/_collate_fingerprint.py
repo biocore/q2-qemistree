@@ -13,6 +13,7 @@ import numpy as np
 
 from ._semantics import CSIDirFmt
 
+
 def collate_fingerprint(csi_result: CSIDirFmt) -> biom.Table:
     '''
     This function collates chemical fingerprints for mass-spec
