@@ -9,7 +9,7 @@
 from unittest import TestCase, main
 from biom import load_table
 import os
-from q2_chemistree import fingerprint, collate_fingerprint
+from q2_chemistree import fingerprint
 
 
 class fingerprintTests(TestCase):
