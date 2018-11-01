@@ -11,15 +11,16 @@ import biom
 import pandas as pd
 import numpy as np
 
+from ._semantics import CSIDirFmt
 
-def collate_fingerprint(csi_result: str) -> biom.Table:
+def collate_fingerprint(csi_result: CSIDirFmt) -> biom.Table:
     '''
     This function collates chemical fingerprints for mass-spec
     features in an experiment.
 
     Parameters
     ----------
-    csi_result : path to CSI:FingerID output folder
+    csi_result : CSI:FingerID output folder
 
     Raises
     ------
@@ -33,6 +34,8 @@ def collate_fingerprint(csi_result: str) -> biom.Table:
         substructure IDs (in columns). Values are presence (1) or absence (0)
         of a particular substructure.
     '''
+    if isinstance(csi_result, CSIDirFmt):
+        csi_result = str(csi_result.path)
 
     fpfoldrs = os.listdir(csi_result)
     molfp = dict()
