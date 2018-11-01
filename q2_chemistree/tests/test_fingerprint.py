@@ -9,7 +9,7 @@
 from unittest import TestCase, main
 from biom import load_table
 import os
-from q2_chemistree import fingerprint, collatefp
+from q2_chemistree import fingerprint, collate_fingerprint
 
 
 class fingerprintTests(TestCase):
@@ -32,10 +32,10 @@ class fingerprintTests(TestCase):
 
     def test_fingerprintOut(self):
         with self.assertRaises(ValueError):
-            collatefp(self.emptycsi)
+            collate_fingerprint(self.emptycsi)
 
     def test_featureMatch(self):
-        tablefp = collatefp(self.goodcsi)
+        tablefp = collate_fingerprint(self.goodcsi)
         features = load_table(self.featureTable)
         allfeatrs = set(features.ids(axis='observation'))
         fpfeatrs = set(tablefp.ids(axis='observation'))
