@@ -122,7 +122,7 @@ plugin.methods.register_function(
     function=collate_fingerprint,
     name='Collate fingerprints into a table',
     description='Collate fingerprints predicted by CSI:FingerID',
-    inputs={'csi_result' : CSIFingerprintFolder},
+    inputs={'csi_result': CSIFingerprintFolder},
     input_descriptions={'csi_result': 'CSI:FingerID output folder'},
     parameters={},
     parameter_descriptions={},
