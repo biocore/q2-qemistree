@@ -8,7 +8,9 @@
 from ._fingerprint import fingerprint
 from ._hierarchy import make_hierarchy
 from ._match import match_table
-from ._semantics import MassSpectrometryFeatures, MGFDirFmt
+from ._collate_fingerprint import collate_fingerprint
+from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
+                         CSIFingerprintFolder, CSIDirFmt)
 
 from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int
 from q2_types.feature_table import FeatureTable, Frequency
@@ -28,6 +30,11 @@ plugin.register_views(MGFDirFmt)
 plugin.register_semantic_types(MassSpectrometryFeatures)
 plugin.register_semantic_type_to_format(MassSpectrometryFeatures,
                                         artifact_format=MGFDirFmt)
+
+plugin.register_views(CSIDirFmt)
+plugin.register_semantic_types(CSIFingerprintFolder)
+plugin.register_semantic_type_to_format(CSIFingerprintFolder,
+                                        artifact_format=CSIDirFmt)
 
 PARAMS = {
     'database': Str % Choices(['all', 'pubchem']),
@@ -109,4 +116,19 @@ plugin.methods.register_function(
                                                    'that contains only the '
                                                    'features present in '
                                                    'the tree'}
+)
+
+plugin.methods.register_function(
+    function=collate_fingerprint,
+    name='Collate fingerprints into a table',
+    description='Collate fingerprints predicted by CSI:FingerID',
+    inputs={'csi_result': CSIFingerprintFolder},
+    input_descriptions={'csi_result': 'CSI:FingerID output folder'},
+    parameters={},
+    parameter_descriptions={},
+    outputs=[('collated_fingerprints', FeatureTable[Frequency])],
+    output_descriptions={'collated_fingerprints': 'Contingency table of the '
+                                                  'probabilities of '
+                                                  'molecular substructures '
+                                                  'within each feature'}
 )

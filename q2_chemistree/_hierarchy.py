@@ -14,7 +14,7 @@ from skbio import TreeNode
 
 
 def make_hierarchy(collated_fingerprints: biom.Table,
-                   prob_threshold: float=0.5) -> TreeNode:
+                   prob_threshold: float = 0.5) -> TreeNode:
     '''
     This function makes a tree of relatedness between mass-spectrometry
     features using molecular substructure information.
@@ -22,9 +22,8 @@ def make_hierarchy(collated_fingerprints: biom.Table,
     Parameters
     ----------
     collated_fingerprints : biom.Table
-        biom object containing mass-spec feature IDs (in rows) and molecular
-        substructure IDs (in columns). Values are probabilities that a feature
-        contains a particular substructure.
+        biom table containing mass-spec feature IDs (as observations)
+        and molecular substructure IDs (as samples).
     prob_threshold : float
             probability value below which a molecular substructure is
             considered absent from a feature

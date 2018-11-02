@@ -9,11 +9,10 @@
 import subprocess
 import os
 import biom
-import pandas as pd
-import numpy as np
 import shutil
 import tempfile
 
+from ._collate_fingerprint import collate_fingerprint
 from ._semantics import MGFDirFmt
 
 
@@ -31,58 +30,12 @@ def run_command(cmd, output_fp, verbose=True):
         subprocess.run(cmd, stdout=output_f, check=True)
 
 
-def collatefp(csiout):
-    '''
-    This function collates chemical fingerprints for mass-spec
-    features in an experiment.
-
-    Parameters
-    ----------
-    sirout : path to Sirius output folder
-
-    Raises
-    ------
-    ValueError
-        If ``fptable`` (collated fingerprint table) is empty
-
-    Returns
-    -------
-    biom.Table
-        biom table containing mass-spec feature IDs (in rows) and molecular
-        substructure IDs (in columns). Values are presence (1) or absence (0)
-        of a particular substructure.
-    '''
-
-    fpfoldrs = os.listdir(csiout)
-    molfp = dict()
-    for foldr in fpfoldrs:
-        if os.path.isdir(os.path.join(csiout, foldr)):
-            fidpath = os.path.join(csiout, foldr)
-            fid = foldr.split('_')[-1]
-            if 'fingerprints' in os.listdir(fidpath):
-                fname = os.listdir(os.path.join(fidpath, 'fingerprints'))[0]
-                with open(os.path.join(fidpath, 'fingerprints', fname)) as f:
-                    fp = f.read().strip().split('\n')
-                molfp[fid] = fp
-
-    fingerids = pd.DataFrame.from_dict(molfp, orient='index')
-    if fingerids.shape == (0, 0):
-        raise ValueError('Fingerprint file is empty!')
-    fingerids.index.name = '#featureID'
-    npfid = np.asarray(fingerids)
-
-    # biom requires that ids be strings
-    fptable = biom.table.Table(data=npfid,
-                               observation_ids=fingerids.index.astype(str),
-                               sample_ids=fingerids.columns.astype(str))
-    return fptable
-
-
 def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
-                profile: str, n_jobs: int=1,
-                num_candidates: int=75, tree_timeout: int=1600,
-                database: str='all', fingerid_db: str='pubchem',
-                maxmz: int=600, zodiac_threshold: float=0.95) -> biom.Table:
+                profile: str, n_jobs: int = 1,
+                num_candidates: int = 75, tree_timeout: int = 1600,
+                database: str = 'all', fingerid_db: str = 'pubchem',
+                maxmz: int = 600,
+                zodiac_threshold: float = 0.95) -> biom.Table:
     '''
     This function generates and collates chemical fingerprints for mass-spec
     features in an experiment.
@@ -156,6 +109,6 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
     run_command(cmdzod, os.path.join(tmpdir, 'zodout'))
     run_command(cmdfid, os.path.join(tmpdir, 'csiout'))
 
-    fptable = collatefp(tmpcsi)
+    fptable = collate_fingerprint(tmpcsi)
     shutil.rmtree(tmpdir)
     return fptable

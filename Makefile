@@ -3,7 +3,7 @@
 all: ;
 
 lint:
-	flake8
+	flake8 --exclude ./versioneer.py
 
 test: all
 	py.test

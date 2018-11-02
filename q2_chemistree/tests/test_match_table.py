@@ -10,7 +10,7 @@ from unittest import TestCase, main
 import os
 from biom import load_table
 from biom.table import Table
-from q2_chemistree import match_table, collatefp, make_hierarchy
+from q2_chemistree import match_table, collate_fingerprint, make_hierarchy
 
 
 class test_match(TestCase):
@@ -23,7 +23,7 @@ class test_match(TestCase):
         self.goodtable = os.path.join(THIS_DIR, 'data/features_formated.biom')
         self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
         self.goodthresh = 0.5
-        tablefp = collatefp(self.goodcsi)
+        tablefp = collate_fingerprint(self.goodcsi)
         treeout = make_hierarchy(tablefp, prob_threshold=self.goodthresh)
         self.goodtree = treeout
 
