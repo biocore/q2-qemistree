@@ -7,6 +7,7 @@
 # ----------------------------------------------------------------------------
 
 import biom
+import warnings
 from skbio import TreeNode
 
 
@@ -42,8 +43,9 @@ def match_table(tree: TreeNode,
     tip_names = {node.name for node in tree.tips()}
     if not tip_names.issubset(allfeatrs):
         extra_tips = tip_names-tip_names.intersection(allfeatrs)
-        raise ValueError('Following tips were not in the feature table:\n' +
-                         ', '.join([str(i) for i in extra_tips]))
+        warnings.warn(UserWarning('Following tips were not in the '
+                                  'feature table:\n' +
+                                  ', '.join([str(i) for i in extra_tips])))
     common_features = list(allfeatrs.intersection(tip_names))
     filtered_feature_table = feature_table.filter(common_features,
                                                   axis='observation',
