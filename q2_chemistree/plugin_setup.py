@@ -47,6 +47,7 @@ PARAMS = {
     'tree_timeout': Int % Range(600, 3000, inclusive_end=True),
     'maxmz': Int % Range(100, 850, inclusive_end=True),
     'zodiac_threshold': Float % Range(0, 1, inclusive_end=True),
+    'java_flags': Str
 }
 
 PARAMS_DESC = {
@@ -60,6 +61,11 @@ PARAMS_DESC = {
     'fingerid_db': 'search structure in given database',
     'maxmz': 'consider compounds with a precursor mz lower or equal to this',
     'zodiac_threshold': 'threshold filter for molecular formula re-ranking',
+    'java_flags': 'Setup additional flags for the Java virtual machine. '
+                  'For Sirius it is recommended that you modify the initial '
+                  'and maximum heap size. For example to set an initial and '
+                  'maximum heap size of 16GB and 64GB (respectively) specify '
+                  '"-Xms16G -Xmx64G". Note that the quotes are important.'
 }
 
 # method registration

@@ -35,7 +35,8 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
                 num_candidates: int = 75, tree_timeout: int = 1600,
                 database: str = 'all', fingerid_db: str = 'pubchem',
                 maxmz: int = 600,
-                zodiac_threshold: float = 0.95) -> biom.Table:
+                zodiac_threshold: float = 0.95,
+                java_flags: str = None) -> biom.Table:
     '''
     This function generates and collates chemical fingerprints for mass-spec
     features in an experiment.
@@ -58,6 +59,8 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
     zodiac_threshold : threshold filter for molecular formula re-ranking.
                        Higher value recommended for
                        less false positives (float)
+    java_flags : str
+        Setup additional flags for the Java virtual machine.
 
     Raises
     ------
@@ -79,6 +82,9 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
     if not os.path.exists(sirius_path):
         raise OSError("SIRIUS could not be located")
     sirius = os.path.join(sirius_path, 'sirius')
+
+    if java_flags is not None:
+        os.environ['_JAVA_OPTIONS'] = java_flags
 
     tmpsir = os.path.join(tmpdir, 'tmpsir')
     cmdsir = [str(sirius), '--quiet',
@@ -109,6 +115,6 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
     run_command(cmdzod, os.path.join(tmpdir, 'zodout'))
     run_command(cmdfid, os.path.join(tmpdir, 'csiout'))
 
-    fptable = collate_fingerprint(tmpcsi)
+    table = collate_fingerprint(tmpcsi)
     shutil.rmtree(tmpdir)
-    return fptable
+    return table
