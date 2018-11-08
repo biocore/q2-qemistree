@@ -84,7 +84,9 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
     sirius = os.path.join(sirius_path, 'sirius')
 
     if java_flags is not None:
-        os.environ['_JAVA_OPTIONS'] = java_flags
+        # append the flags to any existing options
+        os.environ['_JAVA_OPTIONS'] = (os.environ.get('_JAVA_OPTIONS', '') +
+                                       ' ' + java_flags)
 
     tmpsir = os.path.join(tmpdir, 'tmpsir')
     cmdsir = [str(sirius), '--quiet',
@@ -117,4 +119,9 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
 
     table = collate_fingerprint(tmpcsi)
     shutil.rmtree(tmpdir)
+
+    if java_flags is not None:
+        os.environ['_JAVA_OPTIONS'] =\
+                os.environ['_JAVA_OPTIONS'].replace(java_flags, '')
+
     return table
