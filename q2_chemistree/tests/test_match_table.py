@@ -8,6 +8,7 @@
 
 from unittest import TestCase, main
 import os
+import warnings
 from biom import load_table
 from biom.table import Table
 from q2_chemistree import match_table, collate_fingerprint, make_hierarchy
@@ -32,8 +33,11 @@ class test_match(TestCase):
             match_table(self.goodtree, self.emptyfeatures)
 
     def test_tipMismatch(self):
-        with self.assertRaises(ValueError):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
             match_table(self.goodtree, self.wrongtips)
+            assert len(w) == 1
+            assert issubclass(w[-1].category, UserWarning)
 
     def test_matchPipeline(self):
         tips = {node.name for node in self.goodtree.tips()}
