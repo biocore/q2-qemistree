@@ -43,7 +43,7 @@ def match_table(tree: TreeNode,
     tip_names = {node.name for node in tree.tips()}
     if not tip_names.issubset(allfeatrs):
         extra_tips = tip_names-tip_names.intersection(allfeatrs)
-        warnings.warn(UserWarning('The following tips were not in the '
+        warnings.warn(UserWarning('The following tips were not '
                                   'found in the feature table:\n' +
                                   ', '.join([str(i) for i in extra_tips])))
     common_features = list(allfeatrs.intersection(tip_names))
