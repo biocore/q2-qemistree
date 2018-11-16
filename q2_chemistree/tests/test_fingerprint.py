@@ -44,7 +44,7 @@ class fingerprintTests(TestCase):
         obs = os.environ['_JAVA_OPTIONS']
         table = fingerprint(self.goodsirpath, self.goodionsfp, ppm_max=15,
                             profile='orbitrap', n_jobs=1,
-                            java_flags='-Xms16G')
+                            java_flags='-Xms2G')
 
         features = load_table(self.featureTable)
         allfeatrs = set(features.ids(axis='observation'))
