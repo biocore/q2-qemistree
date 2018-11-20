@@ -31,25 +31,26 @@ class fingerprintTests(TestCase):
                         profile='orbitrap', n_jobs=1)
 
     def test_pipeline(self):
+        obs = os.environ['_JAVA_OPTIONS']
         table = fingerprint(self.goodsirpath, self.goodionsfp, ppm_max=15,
                             profile='orbitrap', n_jobs=1)
         features = load_table(self.featureTable)
         allfeatrs = set(features.ids(axis='observation'))
         fpfeatrs = set(table.ids(axis='observation'))
         self.assertEqual(fpfeatrs <= allfeatrs, True)
-
-        self.assertEqual(os.environ['_JAVA_OPTIONS'], '')
+        self.assertEqual(obs, os.environ['_JAVA_OPTIONS'])
 
     def test_java_flags(self):
+        obs = os.environ['_JAVA_OPTIONS']
         table = fingerprint(self.goodsirpath, self.goodionsfp, ppm_max=15,
                             profile='orbitrap', n_jobs=1,
-                            java_flags='-Xms16G')
+                            java_flags='-Xms2G')
 
         features = load_table(self.featureTable)
         allfeatrs = set(features.ids(axis='observation'))
         fpfeatrs = set(table.ids(axis='observation'))
         self.assertEqual(fpfeatrs <= allfeatrs, True)
-        self.assertEqual(os.environ['_JAVA_OPTIONS'], '-Xms16G')
+        self.assertEqual(obs, os.environ['_JAVA_OPTIONS'])
 
 
 if __name__ == '__main__':

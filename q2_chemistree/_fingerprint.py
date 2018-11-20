@@ -83,10 +83,10 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
         raise OSError("SIRIUS could not be located")
     sirius = os.path.join(sirius_path, 'sirius')
 
+    initial_flags = os.environ.get('_JAVA_OPTIONS', '')
     if java_flags is not None:
         # append the flags to any existing options
-        os.environ['_JAVA_OPTIONS'] = (os.environ.get('_JAVA_OPTIONS', '') +
-                                       ' ' + java_flags)
+        os.environ['_JAVA_OPTIONS'] = initial_flags + ' ' + java_flags
 
     tmpsir = os.path.join(tmpdir, 'tmpsir')
     cmdsir = [str(sirius), '--quiet',
@@ -121,7 +121,6 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
     shutil.rmtree(tmpdir)
 
     if java_flags is not None:
-        os.environ['_JAVA_OPTIONS'] =\
-                os.environ['_JAVA_OPTIONS'].replace(java_flags, '')
+        os.environ['_JAVA_OPTIONS'] = initial_flags
 
     return table
