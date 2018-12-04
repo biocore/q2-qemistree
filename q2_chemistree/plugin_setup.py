@@ -37,6 +37,7 @@ plugin.register_semantic_type_to_format(CSIFingerprintFolder,
                                         artifact_format=CSIDirFmt)
 
 PARAMS = {
+    'ionization_mode': Str % Choices(['positive', 'negative', 'auto']),
     'database': Str % Choices(['all', 'pubchem']),
     'sirius_path': Str,
     'profile': Str % Choices(['qtof', 'orbitrap', 'fticr']),
@@ -51,6 +52,7 @@ PARAMS = {
 }
 
 PARAMS_DESC = {
+    'ionization_mode': 'Ionization mode for mass spectrometry',
     'database': 'search formulas in given database',
     'sirius_path': 'path to Sirius executable',
     'ppm_max': 'allowed parts per million tolerance for decomposing masses',

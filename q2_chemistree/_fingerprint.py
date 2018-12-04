@@ -34,7 +34,7 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
                 profile: str, n_jobs: int = 1,
                 num_candidates: int = 75, tree_timeout: int = 1600,
                 database: str = 'all', fingerid_db: str = 'pubchem',
-                maxmz: int = 600,
+                maxmz: int = 600, ionization_mode: str = 'auto',
                 zodiac_threshold: float = 0.95,
                 java_flags: str = None) -> biom.Table:
     '''
@@ -56,6 +56,7 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
     fingerid_db : search structure in given database (str)
     maxmz : considers compounds with a precursor mz lower or equal to
             this value (int)
+    ionization_mode : Ionization mode for mass spectrometry.
     zodiac_threshold : threshold filter for molecular formula re-ranking.
                        Higher value recommended for
                        less false positives (float)
@@ -88,8 +89,16 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
         os.environ['_JAVA_OPTIONS'] = (os.environ.get('_JAVA_OPTIONS', '') +
                                        ' ' + java_flags)
 
+    # qiime2 will check that the only possible modes are positive, negative or
+    # auto
+    if ionization_mode in {'auto', 'positive'}:
+        ionization_flags = '--auto-charge'
+    else:
+        ionization_flags = '--ion=[M-H]-'
+
     tmpsir = os.path.join(tmpdir, 'tmpsir')
     cmdsir = [str(sirius), '--quiet',
+              ionization_flags,
               '--initial-compound-buffer', str(1),
               '--max-compound-buffer', str(32), '--profile', str(profile),
               '--database', str(database),
