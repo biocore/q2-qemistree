@@ -39,9 +39,7 @@ def artifactory(sirius_path: str, parameters: list, java_flags: str = None,
     if java_flags is not None:
         # append the flags to any existing options
         os.environ['_JAVA_OPTIONS'] = initial_flags + ' ' + java_flags
-    print('XXXXXXXXXXXXXXXXXXXXXXXX')
     print(os.listdir(os.path.dirname(artifact.get_path())))
-    print('XXXXXXXXXXXXXXXXXXXXXXXX')
     cmdsir = ([sirius, '-o', artifact.get_path()] + parameters)
     run_command(cmdsir, os.path.join(str(artifact.path), 'stdout.txt'))
 
