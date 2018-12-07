@@ -25,31 +25,22 @@ class FingerprintTests(TestCase):
         self.badsirpath = os.path.join(THIS_DIR, 'data/foo/bin')
         self.goodsirpath = os.path.join(THIS_DIR, 'data/'
                                         'sirius-osx64-4.0.1/bin')
-        #MassSpectrometryFeatures
-        ions = qiime2.Artifact.load(os.path.join(THIS_DIR,
+        # MassSpectrometryFeatures
+        self.ions = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                             'data/sirius.mgf.qza'))
-        self.ions = ions.view(MGFDirFmt)
-        #SiriusFolder
-        sirout = qiime2.Artifact.load(os.path.join(THIS_DIR,
+        # self.ions = ions.view(MGFDirFmt)
+        # SiriusFolder
+        self.sirout = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                             'data/SiriusFolder.qza'))
-        self.sirout = sirout.view(SiriusDirFmt)
-        print('wwwwwwwwwwwwwwwwww')
-        print(os.listdir(self.sirout.get_path()))
-        print('wwwwwwwwwwwwwwwwww')
+        # self.sirout = sirout.view(SiriusDirFmt)
         #ZodiacFolder
-        zodout = qiime2.Artifact.load(os.path.join(THIS_DIR,
+        self.zodout = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                             'data/zodiacFolder.qza'))
-        self.zodout = zodout.view(ZodiacDirFmt)
-        print('wwwwwwwwwwwwwwwwww')
-        print(os.listdir(self.zodout.get_path()))
-        print('wwwwwwwwwwwwwwwwww')
+        # self.zodout = zodout.view(ZodiacDirFmt)
         #CSIFolder
         csiout = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                             'data/csiFolder.qza'))
-        self.csiout = csiout.view(CSIDirFmt)
-        print('wwwwwwwwwwwwwwwwww')
-        print(os.listdir(self.csiout.get_path()))
-        print('wwwwwwwwwwwwwwwwww')
+        # self.csiout = csiout.view(CSIDirFmt)
 
     def test_artifactory(self):
         # everything is working fine
@@ -64,34 +55,30 @@ class FingerprintTests(TestCase):
                               constructor=OutputDirs)
 
     def test_fragmentation_trees(self):
+        ions = self.ions.view(MGFDirFmt)
         result = compute_fragmentation_trees(sirius_path=self.goodsirpath,
-                                             features=self.ions,
+                                             features=ions,
                                              ppm_max=15, profile='orbitrap')
         contents = os.listdir(result.get_path())
         self.assertTrue(('version.txt' in contents))
 
     def test_reranking(self):
-        # self.assertTrue(True)
-        # result = rerank_molecular_formulas(sirius_path=self.goodsirpath,
-        #                                   fragmentation_trees=self.sirout,
-        #                                   features=self.ions)
-        # contents = os.listdir(result.get_path())
-        print('XXXXXXXXXXXXXXXXXXXXXXXX')
-        print(os.listdir(self.sirout.get_path()))
-        print('XXXXXXXXXXXXXXXXXXXXXXXX')
-        # self.assertTrue(('zodiac_summary.csv' in contents))
+        ions = self.ions.view(MGFDirFmt)
+        sirout = self.sirout.view(SiriusDirFmt)
+        result = rerank_molecular_formulas(sirius_path=self.goodsirpath,
+                                          fragmentation_trees=sirout,
+                                          features=ions)
+        contents = os.listdir(result.get_path())
+        self.assertTrue(('zodiac_summary.csv' in contents))
 
 
-    # def test_fingerid(self):
-    #     print('YYYYYYYYYYYYYYYYYYYYYYYY')
-    #     print(self.zodout)
-    #     print('YYYYYYYYYYYYYYYYYYYYYYYY')
-    #     self.assertTrue(True)
-        #result = predict_fingerprints(sirius_path=self.goodsirpath,
-        #                              molecular_formulas=self.zodout,
-        #                              ppm_max=15)
-        #contents = os.listdir(result.get_path())
-        #self.assertTrue(('summary_csi_fingerid.csv' in contents))
+    def test_fingerid(self):
+        zodout = self.zodout.view(ZodiacDirFmt)
+        result = predict_fingerprints(sirius_path=self.goodsirpath,
+                                     molecular_formulas=zodout,
+                                     ppm_max=15)
+        contents = os.listdir(result.get_path())
+        self.assertTrue(('summary_csi_fingerid.csv' in contents))
 
 
 if __name__ == '__main__':
