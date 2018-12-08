@@ -14,7 +14,7 @@ from ._hierarchy import make_hierarchy
 from ._match import match_table
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          CSIFolder, CSIDirFmt, ZodiacFolder, ZodiacDirFmt,
-                         SiriusFolder, SiriusDirFmt)
+                         SiriusFolder, SiriusDirFmt, OutputDirs)
 from ._collate_fingerprint import collate_fingerprint
 
 __all__ = ['compute_fragmentation_trees', 'rerank_molecular_formulas',
