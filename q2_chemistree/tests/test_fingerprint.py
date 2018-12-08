@@ -7,16 +7,13 @@
 # ----------------------------------------------------------------------------
 
 from unittest import TestCase, main
-from biom import load_table
 import qiime2
 import os
-from q2_chemistree import (MGFDirFmt, SiriusDirFmt, ZodiacDirFmt,
-                           CSIDirFmt, OutputDirs)
+from q2_chemistree import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, OutputDirs
 from q2_chemistree import (compute_fragmentation_trees,
-                          rerank_molecular_formulas,
-                          predict_fingerprints)
+                           rerank_molecular_formulas,
+                           predict_fingerprints)
 from q2_chemistree._fingerprint import artifactory
-from qiime2.plugin.model import DirectoryFormat
 
 
 class FingerprintTests(TestCase):
@@ -27,20 +24,13 @@ class FingerprintTests(TestCase):
                                         'sirius-osx64-4.0.1/bin')
         # MassSpectrometryFeatures
         self.ions = qiime2.Artifact.load(os.path.join(THIS_DIR,
-                                            'data/sirius.mgf.qza'))
-        # self.ions = ions.view(MGFDirFmt)
+                                                      'data/sirius.mgf.qza'))
         # SiriusFolder
         self.sirout = qiime2.Artifact.load(os.path.join(THIS_DIR,
-                                            'data/SiriusFolder.qza'))
-        # self.sirout = sirout.view(SiriusDirFmt)
-        #ZodiacFolder
+                                                        'data/siriusFolder.qza'))
+        # ZodiacFolder
         self.zodout = qiime2.Artifact.load(os.path.join(THIS_DIR,
-                                            'data/zodiacFolder.qza'))
-        # self.zodout = zodout.view(ZodiacDirFmt)
-        #CSIFolder
-        csiout = qiime2.Artifact.load(os.path.join(THIS_DIR,
-                                            'data/csiFolder.qza'))
-        # self.csiout = csiout.view(CSIDirFmt)
+                                                        'data/zodiacFolder.qza'))
 
     def test_artifactory(self):
         # everything is working fine
@@ -66,17 +56,16 @@ class FingerprintTests(TestCase):
         ions = self.ions.view(MGFDirFmt)
         sirout = self.sirout.view(SiriusDirFmt)
         result = rerank_molecular_formulas(sirius_path=self.goodsirpath,
-                                          fragmentation_trees=sirout,
-                                          features=ions)
+                                           fragmentation_trees=sirout,
+                                           features=ions)
         contents = os.listdir(result.get_path())
         self.assertTrue(('zodiac_summary.csv' in contents))
-
 
     def test_fingerid(self):
         zodout = self.zodout.view(ZodiacDirFmt)
         result = predict_fingerprints(sirius_path=self.goodsirpath,
-                                     molecular_formulas=zodout,
-                                     ppm_max=15)
+                                      molecular_formulas=zodout,
+                                      ppm_max=15)
         contents = os.listdir(result.get_path())
         self.assertTrue(('summary_csi_fingerid.csv' in contents))
 
