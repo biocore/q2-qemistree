@@ -28,6 +28,7 @@ def run_command(cmd, output_fp, verbose=True):
     with open(output_fp, 'w') as output_f:
         subprocess.run(cmd, stdout=output_f, check=True)
 
+
 def artifactory(sirius_path: str, parameters: list, java_flags: str = None,
                 constructor=None):
     artifact = constructor()
@@ -47,6 +48,7 @@ def artifactory(sirius_path: str, parameters: list, java_flags: str = None,
         os.environ['_JAVA_OPTIONS'] = initial_flags
 
     return artifact
+
 
 def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
                                 ppm_max: int, profile: str,
@@ -103,6 +105,7 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
 
     return artifactory(sirius_path, params, java_flags, SiriusDirFmt)
 
+
 def rerank_molecular_formulas(sirius_path: str,
                               fragmentation_trees: SiriusDirFmt,
                               features: MGFDirFmt,
@@ -141,6 +144,7 @@ def rerank_molecular_formulas(sirius_path: str,
               '--spectra', os.path.join(str(features.path), 'features.mgf')]
 
     return artifactory(sirius_path, params, java_flags, ZodiacDirFmt)
+
 
 def predict_fingerprints(sirius_path: str, molecular_formulas: ZodiacDirFmt,
                          ppm_max: int, n_jobs: int = 1,
