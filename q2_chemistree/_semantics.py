@@ -20,6 +20,7 @@ class MGFFile(model.TextFileFormat):
 MGFDirFmt = model.SingleFileDirectoryFormat('MGFFile', 'features.mgf', MGFFile)
 MassSpectrometryFeatures = SemanticType('MassSpectrometryFeatures')
 
+
 class OutputDirs(model.DirectoryFormat):
 
     def get_folder_name(self):
@@ -30,6 +31,7 @@ class OutputDirs(model.DirectoryFormat):
 
     def validate(self, level=None):
         return True  # :D
+
 
 class CSIDirFmt(OutputDirs):
     def get_folder_name(self):
