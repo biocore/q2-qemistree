@@ -8,10 +8,7 @@
 
 import subprocess
 import os
-import biom
-import tempfile
 
-from ._collate_fingerprint import collate_fingerprint
 from ._semantics import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, CSIDirFmt
 
 
