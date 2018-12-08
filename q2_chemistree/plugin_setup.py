@@ -90,10 +90,10 @@ plugin.methods.register_function(
     name='Compute fragmentation trees for candidate molecular formulas',
     description='Use Sirius to compute fragmentation trees',
     inputs={'features': MassSpectrometryFeatures},
-    parameters={k : v for k, v in PARAMS.items() if k in keys},
+    parameters={k: v for k, v in PARAMS.items() if k in keys},
     input_descriptions={'features': 'List of MS1 ions and corresponding '
                                     'MS2 ions for each MS1.'},
-    parameter_descriptions={k : v
+    parameter_descriptions={k: v
                             for k, v in PARAMS_DESC.items() if k in keys},
     outputs=[('fragmentation_trees', SiriusFolder)],
     output_descriptions={'fragmentation_trees': 'fragmentation trees '
@@ -108,10 +108,10 @@ plugin.methods.register_function(
     description='Use Zodiac to rerank candidate molecular formulas',
     inputs={'features': MassSpectrometryFeatures,
             'fragmentation_trees': SiriusFolder},
-    parameters={k : v for k, v in PARAMS.items() if k in keys},
+    parameters={k: v for k, v in PARAMS.items() if k in keys},
     input_descriptions={'features': 'List of MS1 ions and corresponding '
                                     'MS2 ions for each MS1.'},
-    parameter_descriptions={k : v
+    parameter_descriptions={k: v
                             for k, v in PARAMS_DESC.items() if k in keys},
     outputs=[('molecular_formulas', ZodiacFolder)],
     output_descriptions={'molecular_formulas': 'Top scored molecular formula '
@@ -125,9 +125,10 @@ plugin.methods.register_function(
     name='Predict fingerprints for molecular formulas',
     description='Use CSI:FingerID to predict molecular formulas',
     inputs={'molecular_formulas': ZodiacFolder},
-    parameters={k : v for k, v in PARAMS.items() if k in keys},
-    input_descriptions={'molecular_formulas': 'The output from running Zodiac'},
-    parameter_descriptions={k : v
+    parameters={k: v for k, v in PARAMS.items() if k in keys},
+    input_descriptions={
+        'molecular_formulas': 'The output from running Zodiac'},
+    parameter_descriptions={k: v
                             for k, v in PARAMS_DESC.items() if k in keys},
     outputs=[('predicted_fingerprints', CSIFolder)],
     output_descriptions={'predicted_fingerprints': 'Predicted substructures '
