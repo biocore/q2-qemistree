@@ -27,10 +27,10 @@ class FingerprintTests(TestCase):
                                                       'data/sirius.mgf.qza'))
         # SiriusFolder
         self.sirout = qiime2.Artifact.load(os.path.join(THIS_DIR,
-                                                        'data/siriusFolder.qza'))
+                                                        'data/sirFolder.qza'))
         # ZodiacFolder
         self.zodout = qiime2.Artifact.load(os.path.join(THIS_DIR,
-                                                        'data/zodiacFolder.qza'))
+                                                        'data/zodFolder.qza'))
 
     def test_artifactory(self):
         # everything is working fine
