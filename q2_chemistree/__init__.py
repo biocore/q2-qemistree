@@ -21,6 +21,6 @@ __all__ = ['compute_fragmentation_trees', 'rerank_molecular_formulas',
            'predict_fingerprints', 'collate_fingerprint', 'make_hierarchy',
            'match_table', 'MassSpectrometryFeatures', 'MGFDirFmt',
            'CSIFolder', 'CSIDirFmt', 'ZodiacFolder', 'ZodiacDirFmt',
-           'SiriusFolder', 'SiriusDirFmt']
+           'SiriusFolder', 'SiriusDirFmt', 'OutputDirs']
 
 __version__ = get_versions()['version']
