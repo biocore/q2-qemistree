@@ -21,7 +21,7 @@ class FingerprintTests(TestCase):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         self.badsirpath = os.path.join(THIS_DIR, 'data/foo/bin')
         self.goodsirpath = os.path.join(THIS_DIR, 'data/'
-                                        'sirius-osx64-4.0.1/bin')
+                                        'sirius-linux64-headless-4.0.1/bin')
         # MassSpectrometryFeatures
         self.ions = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                                       'data/sirius.mgf.qza'))
