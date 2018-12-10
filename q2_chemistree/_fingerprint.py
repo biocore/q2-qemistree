@@ -37,7 +37,6 @@ def artifactory(sirius_path: str, parameters: list, java_flags: str = None,
     if java_flags is not None:
         # append the flags to any existing options
         os.environ['_JAVA_OPTIONS'] = initial_flags + ' ' + java_flags
-    print(os.listdir(os.path.dirname(artifact.get_path())))
     cmdsir = ([sirius, '-o', artifact.get_path()] + parameters)
     run_command(cmdsir, os.path.join(str(artifact.path), 'stdout.txt'))
 
@@ -64,6 +63,8 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
         MGF file for Sirius
     ppm_max : int
         allowed parts per million tolerance for decomposing masses
+    profile: str
+        configuration profile for mass-spec platform used
     tree_timeout : int
         time for computation per fragmentation tree in seconds. 0 for an
         infinite amount of time
@@ -77,8 +78,6 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
         number of fragmentation trees to compute per feature
     database: str
         search formulas in given database
-    profile: str
-        configuration profile for mass-spec platform used
     java_flags : str, optional
         Setup additional flags for the Java virtual machine.
 
