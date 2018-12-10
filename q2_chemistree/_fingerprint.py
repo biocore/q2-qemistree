@@ -80,7 +80,8 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
     database: str, optional
         search formulas in given database
     ionization_mode : str, optional
-        Ionization mode for mass spectrometry.
+        Ionization mode for mass spectrometry. One of `auto`, `positive` or
+        `negative`.
     java_flags : str, optional
         Setup additional flags for the Java virtual machine.
 
@@ -93,13 +94,13 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
     # qiime2 will check that the only possible modes are positive, negative or
     # auto
     if ionization_mode in {'auto', 'positive'}:
-        ionization_flags = '--auto-charge'
-    else:
-        ionization_flags = '--ion=[M-H]-'
+        ionization_flag = '--auto-charge'
+    elif ionization_mode == 'negative'
+        ionization_flag = '--ion=[M-H]-'
 
     params = ['--quiet',
               '--initial-compound-buffer', str(1),
-              ionization_flags,
+              ionization_flag,
               '--max-compound-buffer', str(32), '--profile', str(profile),
               '--database', str(database),
               '--candidates', str(num_candidates),
