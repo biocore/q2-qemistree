@@ -97,6 +97,8 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
         ionization_flag = '--auto-charge'
     elif ionization_mode == 'negative':
         ionization_flag = '--ion=[M-H]-'
+    else:
+        raise ValueError('The ionization_type "%s" is invalid')
 
     params = ['--quiet',
               '--initial-compound-buffer', str(1),
@@ -104,7 +106,7 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
               '--database', str(database),
               '--candidates', str(num_candidates),
               '--processors', str(n_jobs),
-              '--trust-ion-prediction',
+              '--trust-ion-prediction', ionization_flag,
               '--maxmz', str(maxmz),
               '--tree-timeout', str(tree_timeout),
               '--ppm-max', str(ppm_max),
