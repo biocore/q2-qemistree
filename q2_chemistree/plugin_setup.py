@@ -86,7 +86,8 @@ PARAMS_DESC = {
 
 # method registration
 keys = ['sirius_path', 'features', 'ppm_max', 'tree_timeout', 'maxmz',
-        'n_jobs', 'num_candidates', 'database', 'profile', 'java_flags']
+        'n_jobs', 'num_candidates', 'database', 'profile', 'java_flags',
+        'ionization_mode']
 plugin.methods.register_function(
     function=compute_fragmentation_trees,
     name='Compute fragmentation trees for candidate molecular formulas',

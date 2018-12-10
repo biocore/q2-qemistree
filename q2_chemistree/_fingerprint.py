@@ -95,7 +95,7 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
     # auto
     if ionization_mode in {'auto', 'positive'}:
         ionization_flag = '--auto-charge'
-    elif ionization_mode == 'negative'
+    elif ionization_mode == 'negative':
         ionization_flag = '--ion=[M-H]-'
 
     params = ['--quiet',
