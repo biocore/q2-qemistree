@@ -63,7 +63,7 @@ class FingerprintTests(TestCase):
 
     def test_fragmentation_trees_exception(self):
         ions = self.ions.view(MGFDirFmt)
-        with self.assertRaise(ValueError):
+        with self.assertRaises(ValueError):
             compute_fragmentation_trees(sirius_path=self.goodsirpath,
                                         features=ions,
                                         ppm_max=15,
