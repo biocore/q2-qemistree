@@ -27,7 +27,7 @@ class OutputDirs(model.DirectoryFormat):
         return 'base-output'
 
     def get_path(self):
-        #Get the path to the directory where the outputs are saved
+        """Get the path to the directory where the outputs are saved"""
         return os.path.join(str(self.path), self.get_folder_name())
 
     def validate(self, level=None):
