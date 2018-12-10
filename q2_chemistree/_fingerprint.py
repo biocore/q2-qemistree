@@ -8,12 +8,8 @@
 
 import subprocess
 import os
-import biom
-import shutil
-import tempfile
 
-from ._collate_fingerprint import collate_fingerprint
-from ._semantics import MGFDirFmt
+from ._semantics import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, CSIDirFmt
 
 
 def run_command(cmd, output_fp, verbose=True):
@@ -30,55 +26,9 @@ def run_command(cmd, output_fp, verbose=True):
         subprocess.run(cmd, stdout=output_f, check=True)
 
 
-def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
-                profile: str, n_jobs: int = 1,
-                num_candidates: int = 75, tree_timeout: int = 1600,
-                database: str = 'all', fingerid_db: str = 'pubchem',
-                maxmz: int = 600,
-                zodiac_threshold: float = 0.95,
-                java_flags: str = None) -> biom.Table:
-    '''
-    This function generates and collates chemical fingerprints for mass-spec
-    features in an experiment.
-
-    Parameters
-    ----------
-    sirius_path : path to Sirius executable (str)
-    features : MGF file for SIRIUS (str)
-    ppm_max : allowed parts per million tolerance for decomposing masses (int)
-    profile : configuration profile for mass-spec platform used (str)
-    n_jobs : Number of cpu cores to use. If not specified Sirius uses
-                 all available cores (int)
-    num_candidates : number of fragmentation trees to compute per feature (int)
-    tree_timeout : time for computation per fragmentation tree in seconds.
-                   0 for an infinite amount of time (int)
-    database : search formulas in given database (str)
-    fingerid_db : search structure in given database (str)
-    maxmz : considers compounds with a precursor mz lower or equal to
-            this value (int)
-    zodiac_threshold : threshold filter for molecular formula re-ranking.
-                       Higher value recommended for
-                       less false positives (float)
-    java_flags : str
-        Setup additional flags for the Java virtual machine.
-
-    Raises
-    ------
-    OSError:
-        If ``sirius_path`` not found
-
-    Returns
-    -------
-    biom.Table
-        biom table containing mass-spec feature IDs (in rows) and molecular
-        substructure IDs (in columns). Values are presence (1) or absence (0)
-        of a particular substructure.
-    '''
-    if isinstance(features, MGFDirFmt):
-        features = str(features.path) + '/features.mgf'
-
-    tmpdir = tempfile.mkdtemp()
-
+def artifactory(sirius_path: str, parameters: list, java_flags: str = None,
+                constructor=None):
+    artifact = constructor()
     if not os.path.exists(sirius_path):
         raise OSError("SIRIUS could not be located")
     sirius = os.path.join(sirius_path, 'sirius')
@@ -87,9 +37,57 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
     if java_flags is not None:
         # append the flags to any existing options
         os.environ['_JAVA_OPTIONS'] = initial_flags + ' ' + java_flags
+    cmdsir = ([sirius, '-o', artifact.get_path()] + parameters)
+    run_command(cmdsir, os.path.join(str(artifact.path), 'stdout.txt'))
 
-    tmpsir = os.path.join(tmpdir, 'tmpsir')
-    cmdsir = [str(sirius), '--quiet',
+    if java_flags is not None:
+        os.environ['_JAVA_OPTIONS'] = initial_flags
+
+    return artifact
+
+
+def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
+                                ppm_max: int, profile: str,
+                                tree_timeout: int = 1600,
+                                maxmz: int = 600, n_jobs: int = 1,
+                                num_candidates: int = 75,
+                                database: str = 'all',
+                                java_flags: str = None) -> SiriusDirFmt:
+    '''Compute fragmentation trees for candidate molecular formulas.
+
+    Parameters
+    ----------
+    sirius_path : str
+        Path to Sirius executable (without including the word sirius).
+    features : MGFDirFmt
+        MGF file for Sirius
+    ppm_max : int
+        allowed parts per million tolerance for decomposing masses
+    profile: str
+        configuration profile for mass-spec platform used
+    tree_timeout : int
+        time for computation per fragmentation tree in seconds. 0 for an
+        infinite amount of time
+    maxmz : int
+        considers compounds with a precursor mz lower or equal to this
+        value (int)
+    n_jobs : int
+        Number of cpu cores to use. If not specified Sirius uses all available
+        cores
+    num_candidates: int
+        number of fragmentation trees to compute per feature
+    database: str
+        search formulas in given database
+    java_flags : str, optional
+        Setup additional flags for the Java virtual machine.
+
+    Returns
+    -------
+    SiriusDirFmt
+        Directory with computed fragmentation trees
+    '''
+
+    params = ['--quiet',
               '--initial-compound-buffer', str(1),
               '--max-compound-buffer', str(32), '--profile', str(profile),
               '--database', str(database),
@@ -99,28 +97,80 @@ def fingerprint(sirius_path: str, features: MGFDirFmt, ppm_max: int,
               '--maxmz', str(maxmz),
               '--tree-timeout', str(tree_timeout),
               '--ppm-max', str(ppm_max),
-              '-o', str(tmpsir), str(features)]
+              os.path.join(str(features.path), 'features.mgf')]
 
-    tmpzod = os.path.join(tmpdir, 'tmpzod')
-    cmdzod = [str(sirius), '--zodiac', '--sirius', str(tmpsir),
-              '-o', str(tmpzod),
+    return artifactory(sirius_path, params, java_flags, SiriusDirFmt)
+
+
+def rerank_molecular_formulas(sirius_path: str,
+                              fragmentation_trees: SiriusDirFmt,
+                              features: MGFDirFmt,
+                              zodiac_threshold: float = 0.95, n_jobs: int = 1,
+                              java_flags: str = None) -> ZodiacDirFmt:
+    """Reranks molecular formula candidates generated by computing
+       fragmentation trees
+
+    Parameters
+    ----------
+    sirius_path : str
+        Path to Sirius executable (without including the word sirius).
+    fragmentation_trees : SiriusDirFmt
+        Directory with computed fragmentation trees
+    features : MGFDirFmt
+        MGF file for Sirius
+    zodiac_threshold : float
+        threshold filter for molecular formula re-ranking. Higher value
+        recommended for less false positives (float)
+    n_jobs : int, optional
+        Number of cpu cores to use. If not specified Sirius uses all available
+        cores
+    java_flags : str, optional
+        Setup additional flags for the Java virtual machine.
+
+    Returns
+    -------
+    ZodiacDirFmt
+       Directory with reranked molecular formulas
+    """
+
+    params = ['--zodiac', '--sirius',
+              str(fragmentation_trees.get_path()),
               '--thresholdfilter', str(zodiac_threshold),
               '--processors', str(n_jobs),
-              '--spectra', str(features)]
+              '--spectra', os.path.join(str(features.path), 'features.mgf')]
 
-    tmpcsi = os.path.join(tmpdir, 'tmpcsi')
-    cmdfid = [str(sirius), '--processors', str(n_jobs), '--fingerid',
+    return artifactory(sirius_path, params, java_flags, ZodiacDirFmt)
+
+
+def predict_fingerprints(sirius_path: str, molecular_formulas: ZodiacDirFmt,
+                         ppm_max: int, n_jobs: int = 1,
+                         fingerid_db: str = 'pubchem',
+                         java_flags: str = None) -> CSIDirFmt:
+    """Predict molecular fingerprints
+
+    Parameters
+    ----------
+    sirius_path : str
+        Path to Sirius executable (without including the word sirius).
+    molecular_formulas : ZodiacDirFmt
+        Directory with the re-ranked formulae.
+    ppm_max : int
+        Allowed parts per million tolerance for decomposing masses.
+    n_jobs : int, optional
+        Number of cpu cores to use. If not specified Sirius uses all available
+        cores.
+    fingerid_db : str, optional
+        Search structure in given database.
+    java_flags : str, optional
+        Setup additional flags for the Java virtual machine.
+
+    Returns
+    -------
+    CSIDirFmt
+        Directory with predicted fingerprints.
+    """
+
+    params = ['--processors', str(n_jobs), '--fingerid',
               '--fingerid-db', str(fingerid_db), '--ppm-max', str(ppm_max),
-              '-o', str(tmpcsi), str(tmpzod)]
-
-    run_command(cmdsir, os.path.join(tmpdir, 'sirout'))
-    run_command(cmdzod, os.path.join(tmpdir, 'zodout'))
-    run_command(cmdfid, os.path.join(tmpdir, 'csiout'))
-
-    table = collate_fingerprint(tmpcsi)
-    shutil.rmtree(tmpdir)
-
-    if java_flags is not None:
-        os.environ['_JAVA_OPTIONS'] = initial_flags
-
-    return table
+              molecular_formulas.get_path()]
+    return artifactory(sirius_path, params, java_flags, CSIDirFmt)

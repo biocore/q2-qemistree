@@ -8,6 +8,7 @@
 
 import qiime2.plugin.model as model
 from qiime2.plugin import SemanticType
+import os
 
 
 class MGFFile(model.TextFileFormat):
@@ -20,9 +21,38 @@ MGFDirFmt = model.SingleFileDirectoryFormat('MGFFile', 'features.mgf', MGFFile)
 MassSpectrometryFeatures = SemanticType('MassSpectrometryFeatures')
 
 
-class CSIDirFmt(model.DirectoryFormat):
+class OutputDirs(model.DirectoryFormat):
+
+    def get_folder_name(self):
+        return 'base-output'
+
+    def get_path(self):
+        """Get the path to the directory where the outputs are saved"""
+        return os.path.join(str(self.path), self.get_folder_name())
+
     def validate(self, level=None):
         return True  # :D
 
 
-CSIFingerprintFolder = SemanticType('CSIFingerprintFolder')
+class CSIDirFmt(OutputDirs):
+    def get_folder_name(self):
+        return 'csi-output'
+
+
+CSIFolder = SemanticType('CSIFolder')
+
+
+class SiriusDirFmt(OutputDirs):
+    def get_folder_name(self):
+        return 'sirius-output'
+
+
+SiriusFolder = SemanticType('SiriusFolder')
+
+
+class ZodiacDirFmt(OutputDirs):
+    def get_folder_name(self):
+        return 'zodiac-output'
+
+
+ZodiacFolder = SemanticType('ZodiacFolder')

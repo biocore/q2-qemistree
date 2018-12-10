@@ -7,16 +7,20 @@
 # ----------------------------------------------------------------------------
 from ._version import get_versions
 
-from ._fingerprint import fingerprint
+from ._fingerprint import (compute_fragmentation_trees,
+                           rerank_molecular_formulas,
+                           predict_fingerprints)
 from ._hierarchy import make_hierarchy
 from ._match import match_table
-from ._semantics import (MassSpectrometryFeatures, CSIFingerprintFolder,
-                         CSIDirFmt, MGFDirFmt)
+from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
+                         CSIFolder, CSIDirFmt, ZodiacFolder, ZodiacDirFmt,
+                         SiriusFolder, SiriusDirFmt, OutputDirs)
 from ._collate_fingerprint import collate_fingerprint
 
-__all__ = ['fingerprint', 'make_hierarchy', 'MassSpectrometryFeatures',
-           'match_table', 'collate_fingerprint', 'CSIFingerprintFolder',
-           'CSIDirFmt', 'MGFDirFmt']
+__all__ = ['compute_fragmentation_trees', 'rerank_molecular_formulas',
+           'predict_fingerprints', 'collate_fingerprint', 'make_hierarchy',
+           'match_table', 'MassSpectrometryFeatures', 'MGFDirFmt',
+           'CSIFolder', 'CSIDirFmt', 'ZodiacFolder', 'ZodiacDirFmt',
+           'SiriusFolder', 'SiriusDirFmt', 'OutputDirs']
 
 __version__ = get_versions()['version']
-del get_versions
