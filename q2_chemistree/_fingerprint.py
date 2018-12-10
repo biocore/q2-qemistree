@@ -52,6 +52,7 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
                                 maxmz: int = 600, n_jobs: int = 1,
                                 num_candidates: int = 75,
                                 database: str = 'all',
+                                ionization_mode: str = 'auto',
                                 java_flags: str = None) -> SiriusDirFmt:
     '''Compute fragmentation trees for candidate molecular formulas.
 
@@ -65,19 +66,22 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
         allowed parts per million tolerance for decomposing masses
     profile: str
         configuration profile for mass-spec platform used
-    tree_timeout : int
+    tree_timeout : int, optional
         time for computation per fragmentation tree in seconds. 0 for an
         infinite amount of time
-    maxmz : int
+    maxmz : int, optional
         considers compounds with a precursor mz lower or equal to this
         value (int)
-    n_jobs : int
+    n_jobs : int, optional
         Number of cpu cores to use. If not specified Sirius uses all available
         cores
-    num_candidates: int
+    num_candidates: int, optional
         number of fragmentation trees to compute per feature
-    database: str
+    database: str, optional
         search formulas in given database
+    ionization_mode : str, optional
+        Ionization mode for mass spectrometry. One of `auto`, `positive` or
+        `negative`.
     java_flags : str, optional
         Setup additional flags for the Java virtual machine.
 
@@ -87,13 +91,22 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
         Directory with computed fragmentation trees
     '''
 
+    # qiime2 will check that the only possible modes are positive, negative or
+    # auto
+    if ionization_mode in {'auto', 'positive'}:
+        ionization_flag = '--auto-charge'
+    elif ionization_mode == 'negative':
+        ionization_flag = '--ion=[M-H]-'
+    else:
+        raise ValueError('The ionization_type "%s" is invalid')
+
     params = ['--quiet',
               '--initial-compound-buffer', str(1),
               '--max-compound-buffer', str(32), '--profile', str(profile),
               '--database', str(database),
               '--candidates', str(num_candidates),
               '--processors', str(n_jobs),
-              '--auto-charge', '--trust-ion-prediction',
+              '--trust-ion-prediction', ionization_flag,
               '--maxmz', str(maxmz),
               '--tree-timeout', str(tree_timeout),
               '--ppm-max', str(ppm_max),

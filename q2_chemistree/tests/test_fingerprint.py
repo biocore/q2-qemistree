@@ -52,6 +52,24 @@ class FingerprintTests(TestCase):
         contents = os.listdir(result.get_path())
         self.assertTrue(('version.txt' in contents))
 
+    def test_fragmentation_trees_negative_ionization(self):
+        ions = self.ions.view(MGFDirFmt)
+        result = compute_fragmentation_trees(sirius_path=self.goodsirpath,
+                                             features=ions,
+                                             ppm_max=15, profile='orbitrap',
+                                             ionization_mode='negative')
+        contents = os.listdir(result.get_path())
+        self.assertTrue(('version.txt' in contents))
+
+    def test_fragmentation_trees_exception(self):
+        ions = self.ions.view(MGFDirFmt)
+        with self.assertRaises(ValueError):
+            compute_fragmentation_trees(sirius_path=self.goodsirpath,
+                                        features=ions,
+                                        ppm_max=15,
+                                        profile='orbitrap',
+                                        ionization_mode='n3gativ3')
+
     def test_reranking(self):
         ions = self.ions.view(MGFDirFmt)
         sirout = self.sirout.view(SiriusDirFmt)

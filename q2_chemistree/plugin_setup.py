@@ -51,6 +51,7 @@ plugin.register_semantic_type_to_format(CSIFolder,
                                         artifact_format=CSIDirFmt)
 
 PARAMS = {
+    'ionization_mode': Str % Choices(['positive', 'negative', 'auto']),
     'database': Str % Choices(['all', 'pubchem']),
     'sirius_path': Str,
     'profile': Str % Choices(['qtof', 'orbitrap', 'fticr']),
@@ -65,6 +66,7 @@ PARAMS = {
 }
 
 PARAMS_DESC = {
+    'ionization_mode': 'Ionization mode for mass spectrometry',
     'database': 'search formulas in given database',
     'sirius_path': 'path to Sirius executable',
     'ppm_max': 'allowed parts per million tolerance for decomposing masses',
@@ -84,7 +86,8 @@ PARAMS_DESC = {
 
 # method registration
 keys = ['sirius_path', 'features', 'ppm_max', 'tree_timeout', 'maxmz',
-        'n_jobs', 'num_candidates', 'database', 'profile', 'java_flags']
+        'n_jobs', 'num_candidates', 'database', 'profile', 'java_flags',
+        'ionization_mode']
 plugin.methods.register_function(
     function=compute_fragmentation_trees,
     name='Compute fragmentation trees for candidate molecular formulas',
