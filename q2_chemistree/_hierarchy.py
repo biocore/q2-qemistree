@@ -46,7 +46,7 @@ def make_hierarchy(collated_fingerprints: biom.Table,
     table = collated_fingerprints.to_dataframe()
     if table.shape == (0, 0):
         raise ValueError("Cannot have empty fingerprint table")
-    if prob_threshold:
+    if prob_threshold is not None:
         if not 0 <= prob_threshold <= 1:
             raise ValueError("Probability threshold is not in [0,1]")
         table = (table > prob_threshold).astype(int)
