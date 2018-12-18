@@ -145,7 +145,17 @@ plugin.methods.register_function(
     description='Build a phylogeny based on molecular substructures',
     inputs={'collated_fingerprints': FeatureTable[Frequency]},
     parameters={'prob_threshold': Float % Range(0, 1, inclusive_end=True),
-                'distance_metric': Str},
+                'distance_metric': Str % Choices(['braycurtis', 'canberra',
+                                                  'chebyshev', 'cityblock',
+                                                  'correlation', 'cosine',
+                                                  'dice', 'euclidean',
+                                                  'hamming', 'jaccard',
+                                                  'kulsinski', 'mahalanobis',
+                                                  'matching', 'rogerstanimoto',
+                                                  'russellrao', 'seuclidean',
+                                                  'sokalmichener', 'yule'
+                                                  'sokalsneath', 'sqeuclidean',
+                                                  'wminkowski'])},
     input_descriptions={'collated_fingerprints': 'Contingency table of the '
                                                  'probabilities of '
                                                  'molecular substructures '
