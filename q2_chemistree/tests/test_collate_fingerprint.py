@@ -10,8 +10,10 @@ from unittest import TestCase, main
 from biom import load_table
 import pandas as pd
 import os
+import pkg_resources
 from q2_chemistree import collate_fingerprint
 
+data = pkg_resources.resource_filename('q2_chemistree', 'data')
 
 class FingerprintTests(TestCase):
     def setUp(self):
@@ -20,8 +22,8 @@ class FingerprintTests(TestCase):
                                          'data/features_formated.biom')
         self.emptycsi = os.path.join(THIS_DIR, 'data/emptycsi')
         self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
-        properties = os.path.join(THIS_DIR, 'data/molecular_properties.csv')
-        self.properties = pd.read_table(properties, dtype=str)
+        self.properties = pd.read_table(os.path.join(data,
+                                        'molecular_properties.csv'), dtype=str)
         self.properties.set_index('absoluteIndex', inplace=True)
 
     def test_fingerprintOut(self):
@@ -36,7 +38,7 @@ class FingerprintTests(TestCase):
         self.assertEqual(fpfeatrs <= allfeatrs, True)
 
     def test_pubchemTrue(self):
-        tablefp = collate_fingerprint(self.goodcsi, qc_properties='True')
+        tablefp = collate_fingerprint(self.goodcsi, qc_properties=True)
         indx = self.properties.loc[self.properties.type == 'PUBCHEM'].index
         self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
 
