@@ -188,7 +188,7 @@ plugin.methods.register_function(
     description='Collate fingerprints predicted by CSI:FingerID',
     inputs={'csi_result': CSIFolder},
     input_descriptions={'csi_result': 'CSI:FingerID output folder'},
-    parameters={'keep_pubchem': Bool % Choices([True, False])},
+    parameters={'keep_pubchem': Bool},
     parameter_descriptions={'keep_pubchem': 'filters molecular properties to '
                                             'keep only PUBCHEM fingerprints'},
     outputs=[('collated_fingerprints', FeatureTable[Frequency])],
