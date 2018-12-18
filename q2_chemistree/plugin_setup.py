@@ -16,7 +16,7 @@ from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
                          CSIFolder, CSIDirFmt)
 
-from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int
+from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
 
@@ -188,7 +188,7 @@ plugin.methods.register_function(
     description='Collate fingerprints predicted by CSI:FingerID',
     inputs={'csi_result': CSIFolder},
     input_descriptions={'csi_result': 'CSI:FingerID output folder'},
-    parameters={'keep_pubchem': bool % Choices([True, False])},
+    parameters={'keep_pubchem': Bool},
     parameter_descriptions={'keep_pubchem': 'filters molecular properties to '
                                             'keep only PUBCHEM fingerprints'},
     outputs=[('collated_fingerprints', FeatureTable[Frequency])],
