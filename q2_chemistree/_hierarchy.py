@@ -7,7 +7,6 @@
 # ----------------------------------------------------------------------------
 
 import biom
-import numpy as np
 from sklearn.metrics import pairwise_distances
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import linkage
@@ -50,7 +49,7 @@ def make_hierarchy(collated_fingerprints: biom.Table,
     if prob_threshold:
         if not 0 <= prob_threshold <= 1:
             raise ValueError("Probability threshold is not in [0,1]")
-        table = (table>prob_threshold).astype(int)
+        table = (table > prob_threshold).astype(int)
     distmat = pairwise_distances(X=table, Y=None, metric=distance_metric)
     distsq = squareform(distmat, checks=False)
     linkage_matrix = linkage(distsq, method='average')
