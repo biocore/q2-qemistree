@@ -19,7 +19,7 @@ data = pkg_resources.resource_filename('q2_chemistree', 'data')
 
 
 def collate_fingerprint(csi_result: CSIDirFmt,
-                        keep_pubchem: bool = True) -> biom.Table:
+                        qc_properties: bool = True) -> biom.Table:
     '''
     This function collates chemical fingerprints for mass-spec
     features in an experiment.
@@ -28,7 +28,7 @@ def collate_fingerprint(csi_result: CSIDirFmt,
     ----------
     csi_result : CSIDirFmt
         CSI:FingerID output folder
-    keep_pubchem : bool
+    qc_properties : bool
         flag to filter molecular properties to keep only PUBCHEM fingerprints
 
     Raises
@@ -63,7 +63,7 @@ def collate_fingerprint(csi_result: CSIDirFmt,
                                 index_col='absoluteIndex')
     fingerids.index.name = '#featureID'
     fingerids.columns = substructrs.index
-    if keep_pubchem:
+    if qc_properties:
         fingerids = select_pubchem(fingerids)
     npfid = np.asarray(fingerids)
     # biom requires that ids be strings
@@ -72,8 +72,9 @@ def collate_fingerprint(csi_result: CSIDirFmt,
                                sample_ids=fingerids.columns.astype(str))
     return fptable
 
+
 def select_pubchem(fingerids):
     properties = pd.read_table(os.path.join(data, 'molecular_properties.csv'),
                                index_col='absoluteIndex')
-    pubchem_indx =  list(properties.loc[properties.type=='PUBCHEM'].index)
+    pubchem_indx = list(properties.loc[properties.type == 'PUBCHEM'].index)
     return fingerids[pubchem_indx]
