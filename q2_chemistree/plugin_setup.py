@@ -190,7 +190,7 @@ plugin.methods.register_function(
     input_descriptions={'csi_result': 'CSI:FingerID output folder'},
     parameters={'qc_properties': Bool},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
-                                            'keep only PUBCHEM fingerprints'},
+                                             'keep only PUBCHEM fingerprints'},
     outputs=[('collated_fingerprints', FeatureTable[Frequency])],
     output_descriptions={'collated_fingerprints': 'Contingency table of the '
                                                   'probabilities of '
