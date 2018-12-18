@@ -21,7 +21,7 @@ class FingerprintTests(TestCase):
         self.emptycsi = os.path.join(THIS_DIR, 'data/emptycsi')
         self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
         properties = os.path.join(THIS_DIR, 'data/molecular_properties.csv')
-        self.properties = pd.read_table(properties,dtype=str)
+        self.properties = pd.read_table(properties, dtype=str)
         self.properties.set_index('absoluteIndex', inplace=True)
 
     def test_fingerprintOut(self):
@@ -36,14 +36,12 @@ class FingerprintTests(TestCase):
         self.assertEqual(fpfeatrs <= allfeatrs, True)
 
     def test_pubchemTrue(self):
-        tablefp = collate_fingerprint(self.goodcsi, keep_pubchem='True')
-        indx = self.properties.loc[self.properties.type=='PUBCHEM'].index
-        print(indx)
-        print(set(tablefp.ids(axis='sample')))
+        tablefp = collate_fingerprint(self.goodcsi, qc_properties='True')
+        indx = self.properties.loc[self.properties.type == 'PUBCHEM'].index
         self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
 
     def test_pubchemFalse(self):
-        tablefp = collate_fingerprint(self.goodcsi, keep_pubchem=False)
+        tablefp = collate_fingerprint(self.goodcsi, qc_properties=False)
         indx = self.properties.index
         self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
 
