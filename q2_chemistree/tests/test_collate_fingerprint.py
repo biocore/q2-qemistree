@@ -8,17 +8,21 @@
 
 from unittest import TestCase, main
 from biom import load_table
+import pandas as pd
 import os
 from q2_chemistree import collate_fingerprint
 
 
-class fingerprintTests(TestCase):
+class FingerprintTests(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         self.featureTable = os.path.join(THIS_DIR,
                                          'data/features_formated.biom')
         self.emptycsi = os.path.join(THIS_DIR, 'data/emptycsi')
         self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
+        properties = os.path.join(THIS_DIR, 'data/molecular_properties.csv')
+        self.properties = pd.read_table(properties,dtype=str)
+        self.properties.set_index('absoluteIndex', inplace=True)
 
     def test_fingerprintOut(self):
         with self.assertRaises(ValueError):
@@ -30,6 +34,18 @@ class fingerprintTests(TestCase):
         allfeatrs = set(features.ids(axis='observation'))
         fpfeatrs = set(tablefp.ids(axis='observation'))
         self.assertEqual(fpfeatrs <= allfeatrs, True)
+
+    def test_pubchemTrue(self):
+        tablefp = collate_fingerprint(self.goodcsi, keep_pubchem='True')
+        indx = self.properties.loc[self.properties.type=='PUBCHEM'].index
+        print(indx)
+        print(set(tablefp.ids(axis='sample')))
+        self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
+
+    def test_pubchemFalse(self):
+        tablefp = collate_fingerprint(self.goodcsi, keep_pubchem=False)
+        indx = self.properties.index
+        self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
 
 
 if __name__ == '__main__':
