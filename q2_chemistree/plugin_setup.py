@@ -16,7 +16,7 @@ from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
                          CSIFolder, CSIDirFmt)
 
-from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int
+from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
 
@@ -144,14 +144,29 @@ plugin.methods.register_function(
     name='Create a molecular tree',
     description='Build a phylogeny based on molecular substructures',
     inputs={'collated_fingerprints': FeatureTable[Frequency]},
-    parameters={'prob_threshold': Float % Range(0, 1, inclusive_end=True)},
+    parameters={'prob_threshold': Float % Range(0, 1, inclusive_end=True),
+                'distance_metric': Str % Choices(['braycurtis', 'canberra',
+                                                  'chebyshev', 'cityblock',
+                                                  'correlation', 'cosine',
+                                                  'dice', 'euclidean',
+                                                  'hamming', 'jaccard',
+                                                  'kulsinski', 'mahalanobis',
+                                                  'matching', 'rogerstanimoto',
+                                                  'russellrao', 'seuclidean',
+                                                  'sokalmichener', 'yule'
+                                                  'sokalsneath', 'sqeuclidean',
+                                                  'wminkowski'])},
     input_descriptions={'collated_fingerprints': 'Contingency table of the '
                                                  'probabilities of '
                                                  'molecular substructures '
                                                  'within each feature'},
     parameter_descriptions={'prob_threshold': 'Probability threshold below '
                                               'which a substructure is '
-                                              'considered absent.'},
+                                              'considered absent.',
+                            'distance_metric': 'Distance metric to calculate '
+                                               'distances between chemical '
+                                               'fingerprints for '
+                                               'making hierarchy.'},
     outputs=[('tree', Phylogeny[Rooted])],
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
@@ -183,8 +198,9 @@ plugin.methods.register_function(
     description='Collate fingerprints predicted by CSI:FingerID',
     inputs={'csi_result': CSIFolder},
     input_descriptions={'csi_result': 'CSI:FingerID output folder'},
-    parameters={},
-    parameter_descriptions={},
+    parameters={'qc_properties': Bool},
+    parameter_descriptions={'qc_properties': 'filters molecular properties to '
+                                             'keep only PUBCHEM fingerprints'},
     outputs=[('collated_fingerprints', FeatureTable[Frequency])],
     output_descriptions={'collated_fingerprints': 'Contingency table of the '
                                                   'probabilities of '
