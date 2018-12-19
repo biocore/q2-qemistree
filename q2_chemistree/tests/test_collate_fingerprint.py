@@ -12,7 +12,7 @@ import pandas as pd
 import os
 import pkg_resources
 import qiime2
-from q2_chemistree import CSIDirFmt, OutputDirs
+from q2_chemistree import CSIDirFmt
 from q2_chemistree import collate_fingerprint
 
 data = pkg_resources.resource_filename('q2_chemistree', 'data')
