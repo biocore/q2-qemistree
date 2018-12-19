@@ -11,19 +11,24 @@ from biom import load_table
 import pandas as pd
 import os
 import pkg_resources
+import qiime2
+from q2_chemistree import CSIDirFmt, OutputDirs
 from q2_chemistree import collate_fingerprint
 
 data = pkg_resources.resource_filename('q2_chemistree', 'data')
+
 
 class FingerprintTests(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         self.featureTable = os.path.join(THIS_DIR,
                                          'data/features_formated.biom')
-        self.emptycsi = os.path.join(THIS_DIR, 'data/emptycsi')
-        self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
-        self.properties = pd.read_table(os.path.join(data,
-                                        'molecular_properties.csv'), dtype=str)
+        self.emptycsi = os.path.join(os.path.join(THIS_DIR,
+                                                  'data/emptycsi'))
+        self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
+                                                         'data/csiFolder.qza'))
+        properties_path = os.path.join(data, 'molecular_properties.csv')
+        self.properties = pd.read_table(properties_path, dtype=str)
         self.properties.set_index('absoluteIndex', inplace=True)
 
     def test_fingerprintOut(self):
@@ -31,19 +36,22 @@ class FingerprintTests(TestCase):
             collate_fingerprint(self.emptycsi)
 
     def test_featureMatch(self):
-        tablefp = collate_fingerprint(self.goodcsi)
+        goodcsi = self.goodcsi.view(CSIDirFmt)
+        tablefp = collate_fingerprint(goodcsi)
         features = load_table(self.featureTable)
         allfeatrs = set(features.ids(axis='observation'))
         fpfeatrs = set(tablefp.ids(axis='observation'))
         self.assertEqual(fpfeatrs <= allfeatrs, True)
 
     def test_pubchemTrue(self):
-        tablefp = collate_fingerprint(self.goodcsi, qc_properties=True)
+        goodcsi = self.goodcsi.view(CSIDirFmt)
+        tablefp = collate_fingerprint(goodcsi, qc_properties=True)
         indx = self.properties.loc[self.properties.type == 'PUBCHEM'].index
         self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
 
     def test_pubchemFalse(self):
-        tablefp = collate_fingerprint(self.goodcsi, qc_properties=False)
+        goodcsi = self.goodcsi.view(CSIDirFmt)
+        tablefp = collate_fingerprint(goodcsi, qc_properties=False)
         indx = self.properties.index
         self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
 
