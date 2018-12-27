@@ -112,7 +112,7 @@ By default, we only use PUBCHEM fingerprints (total 489 molecular properties). R
 
 ```bash
 qiime chemistree make-hierarchy \
-  --i-collated-fingerprints ollated_FPs_QC.qza \
+  --i-collated-fingerprints collated_FPs_QC.qza \
   --p-prob-threshold 0.5 \
   --o-tree demo-chemisTree.qza
 ```
