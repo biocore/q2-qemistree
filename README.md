@@ -83,10 +83,10 @@ Next, we retain top candidate per MS1 feature using [Zodiac](GitHublink) as foll
 
 ```bash
 qiime chemistree rerank-molecular-formulas --p-sirius-path 'sirius-osx64-4.0.1/bin' \
-  --i-features beverages_sirius.mgf.qza \
+  --i-features sirius.mgf.qza \
   --i-fragmentation-trees FTs.qza \
   --p-zodiac-threshold 0.95 \
-  --p-n-jobs 16 \
+  --p-n-jobs 1 \
   --p-java-flags "-Djava.io.tmpdir=/path-to-some-dir/ -Xms16G -Xmx64G" \
   --o-molecular-formulas MFs.qza
 ```
@@ -96,7 +96,7 @@ This produces a QIIME 2 artifact of type `ZodiacFolder` with top-ranked molecula
 qiime chemistree predict-fingerprints --p-sirius-path 'sirius-osx64-4.0.1/bin' \
   --i-molecular-formulas MFs.qza \
   --p-ppm-max 20 \
-  --p-n-jobs 16 \
+  --p-n-jobs 1 \
   --p-java-flags "-Djava.io.tmpdir=/path-to-some-dir/ -Xms16G -Xmx64G" \
   --o-predicted-fingerprints FPs.qza
   ```
