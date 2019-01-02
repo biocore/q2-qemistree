@@ -6,7 +6,7 @@ A tool to build a tree of MS1 features to compare chemical composition of sample
 
 ## Installation
 
-Once QIIME 2 is [installed](https://docs.qiime2.org/2018.2/install/), activate your QIIME 2 environment and install q2-chemistree following the steps below:
+Once QIIME 2 is [installed](https://docs.qiime2.org/2018.11/install/), activate your QIIME 2 environment and install q2-chemistree following the steps below:
 
 ```bash
 git clone https://github.com/biocore/q2-chemistree.git
@@ -42,7 +42,7 @@ To generate a tree that relates the MS1 features in your experiment, we need to 
 
 These input files can be obtained following peak detection in MZmine2. [Here](https://raw.githubusercontent.com/biocore/q2-chemistree/master/q2_chemistree/demo/batchQE-MZmine-2.33.xml) is an example MZmine2 batch file used to generate these.
 
-To begin this demonstration with, create a separate folder to store all the inputs and outputs:
+To begin this demonstration, create a separate folder to store all the inputs and outputs:
 
 ```bash
 mkdir demo-chemistree
@@ -56,7 +56,7 @@ wget https://raw.githubusercontent.com/biocore/q2-chemistree/master/q2_chemistre
 wget https://raw.githubusercontent.com/biocore/q2-chemistree/master/q2_chemistree/demo/sirius.mgf
 ```
 
-We [import](https://docs.qiime2.org/2018.8/tutorials/importing/) these files into the appropriate QIIME 2 artifact formats as follows:
+We [import](https://docs.qiime2.org/2018.11/tutorials/importing/) these files into the appropriate QIIME 2 artifact formats as follows:
 
 ```bash
 qiime tools import --input-path feature-table.biom --output-path feature-table.qza --type FeatureTable[Frequency]
@@ -70,54 +70,54 @@ qiime chemistree compute-fragmentation-trees --p-sirius-path 'sirius-osx64-4.0.1
   --i-features sirius.mgf.qza \
   --p-ppm-max 15 \
   --p-profile orbitrap \
-  --p-n-jobs 1 \
   --p-ionization-mode positive \
   --p-java-flags "-Djava.io.tmpdir=/path-to-some-dir/ -Xms16G -Xmx64G" \
-  --o-fragmentation-trees FTs.qza
+  --o-fragmentation-trees fragmentation_trees.qza
 ```
 
-This generates a QIIME 2 artifact of type `SiriusFolder`. This contains fragmentation trees with candidate molecular formulas for each MS1 features detected in your experiment.
+This generates a QIIME 2 artifact of type `SiriusFolder`. This contains fragmentation trees with candidate molecular formulas for each MS1 feature detected in your experiment.
 **Note**: `/path-to-some-dir/` should be a directory where you have write permissions and sufficient storage space. We use -Xms16G and -Xmx64G as the minimum and maximum heap size for Java virtual machine (JVM). If left blank, q2-chemistree will use default JVM flags.
 
-Next, we retain top candidate per MS1 feature using [Zodiac](GitHublink) as follows:
+Next, we select top scoring molecular formula as follows:
 
 ```bash
 qiime chemistree rerank-molecular-formulas --p-sirius-path 'sirius-osx64-4.0.1/bin' \
   --i-features sirius.mgf.qza \
-  --i-fragmentation-trees FTs.qza \
+  --i-fragmentation-trees fragmentation_trees.qza \
   --p-zodiac-threshold 0.95 \
-  --p-n-jobs 1 \
   --p-java-flags "-Djava.io.tmpdir=/path-to-some-dir/ -Xms16G -Xmx64G" \
-  --o-molecular-formulas MFs.qza
+  --o-molecular-formulas molecular_formulas.qza
 ```
+
 This produces a QIIME 2 artifact of type `ZodiacFolder` with top-ranked molecular formula for MS1 features. Now, we predict molecular substructures in each feature based on the molecular formulas. We use [CSI:FingerID](https://www.pnas.org/content/112/41/12580) for this purpose as follows:
 
 ```bash
 qiime chemistree predict-fingerprints --p-sirius-path 'sirius-osx64-4.0.1/bin' \
-  --i-molecular-formulas MFs.qza \
+  --i-molecular-formulas molecular_formulas.qza \
   --p-ppm-max 20 \
-  --p-n-jobs 1 \
   --p-java-flags "-Djava.io.tmpdir=/path-to-some-dir/ -Xms16G -Xmx64G" \
-  --o-predicted-fingerprints FPs.qza
+  --o-predicted-fingerprints fingerprints.qza
   ```
+
 This gives us a QIIME 2 artifact of type `CSIFolder` that contains probabilities of molecular substructures (total 2936 molecular properties) within in each feature.
 We now generate a contingency table with these probabilities i.e. molecular fingerprints of MS1 features in our experiment. This is of type `FeatureTable[Frequency]`.
 
 ```bash
-qiime chemistree collate-fingerprint --i-csi-result FPs.qza \
+qiime chemistree collate-fingerprint --i-csi-result fingerprints.qza \
 --p-qc-properties \
---o-collated-fingerprints collated_FPs_QC.qza
+--o-collated-fingerprints collated_fingerprints_qc.qza
 ```
-By default, we only use PUBCHEM fingerprints (total 489 molecular properties). Replacing the flag `--p-qc-properties` by `--p-no-qc-properties` retains all the molecular properties in the contingency table. This table is used to generate out hierarchy of molecules!
+
+By default, we only use PUBCHEM fingerprints (total 489 molecular properties). Adding `--p-no-qc-properties` retains all (2936) the molecular properties in the contingency table. This table is used to generate out hierarchy of molecules!
 
 ```bash
 qiime chemistree make-hierarchy \
-  --i-collated-fingerprints collated_FPs_QC.qza \
+  --i-collated-fingerprints collated_fingerprints_qc.qza \
   --p-prob-threshold 0.5 \
   --o-tree demo-chemisTree.qza
 ```
 
-This generates a tree relating the MS1 features in these data based on molecular substructures predicted for MS1 features! This is of type `Phylogeny[Rooted]`. Note that SIRIUS predicts molecular substructures for a subset of features (typically for 70-90% of all MS1 features) in your experiment (based on factors such as sample type, the quality MS2 spectra, and used-defined tolerances such as `ppm-max`, `zodiac-threshold`). Thus, we need to remove the MS1 features without fingerprints from the feature table with:
+This generates a tree relating the MS1 features in these data based on molecular substructures predicted for MS1 features. This is of type `Phylogeny[Rooted]`. **Note**: SIRIUS predicts molecular substructures for a subset of features (typically for 70-90% of all MS1 features) in your experiment (based on factors such as sample type, the quality MS2 spectra, and used-defined tolerances such as `--p-ppm-max`, `--p-zodiac-threshold`). Thus, we need to remove the MS1 features without fingerprints from the feature table with:
 
 ```bash
 qiime chemistree match-table --i-tree demo-chemisTree.qza \
