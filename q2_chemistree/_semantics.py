@@ -10,7 +10,6 @@ import qiime2.plugin.model as model
 from qiime2.plugin import SemanticType
 import os
 
-
 class MGFFile(model.TextFileFormat):
     def sniff(self):
         # we don't really parse this file
@@ -27,6 +26,8 @@ class FingerprintNetworkEdgesFile(model.TextFileFormat):
 
 FingerprintNetworkEdgesDirFmt = model.SingleFileDirectoryFormat('FingerprintNetworkEdgesFile', 'networkedges.tsv', FingerprintNetworkEdgesFile)
 FingerprintNetworkEdges = SemanticType('FingerprintNetworkEdges')
+
+
 
 
 class OutputDirs(model.DirectoryFormat):

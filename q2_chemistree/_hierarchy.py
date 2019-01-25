@@ -62,7 +62,8 @@ def make_hierarchy(collated_fingerprints: biom.Table,
 
 def make_network(collated_fingerprints: biom.Table,
                    prob_threshold: float = None,
-                   distance_metric: str = 'jaccard') -> None:
+                   network_distance_threshold: float = 0.2,
+                   distance_metric: str = 'jaccard') -> pd.DataFrame:
     '''
     This function makes a tree of relatedness between mass-spectrometry
     features using molecular substructure information.
@@ -75,6 +76,8 @@ def make_network(collated_fingerprints: biom.Table,
     prob_threshold : float
         probability value below which a molecular substructure is
         considered absent from a feature. 'None' for no threshold.
+    network_distance_threshold: float
+        maximum distance for similarity network output
     distance_metric : str
         Distance metric to calculate distances between chemical fingerprints
         for making hierarchy
@@ -103,15 +106,11 @@ def make_network(collated_fingerprints: biom.Table,
 
     for i in range(distmat.shape[0]):
         for j in range(distmat.shape[1]):
-            if distmat[i][j] > 0.8:
+            if i == j:
+                continue
+            if distmat[i][j] < network_distance_threshold:
                 output_list.append([table.index[i], table.index[j], distmat[i][j]])
 
-    my_pd = pd.DataFrame(output_list)
-
-    my_pd.to_csv("ming.tsv")
-
-
-    #print(my_pd)
-    #raise ValueError("Probability threshold is not in [0,1]")
+    my_pd = pd.DataFrame(output_list, columns = ["FeatureID1", "FeatureID2", "Distance"])
 
     return my_pd

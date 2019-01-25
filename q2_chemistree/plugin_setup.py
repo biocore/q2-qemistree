@@ -19,6 +19,7 @@ from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
 from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
+import importlib
 
 plugin = Plugin(
     name='chemistree',
@@ -28,6 +29,7 @@ plugin = Plugin(
     description='Hierarchical orderings for mass spectrometry data',
     short_description='Plugin for exploring chemical diversity.',
 )
+
 
 # type registration
 plugin.register_views(MGFDirFmt)
@@ -184,6 +186,7 @@ plugin.methods.register_function(
     description='Build a phylogeny based on molecular substructures',
     inputs={'collated_fingerprints': FeatureTable[Frequency]},
     parameters={'prob_threshold': Float % Range(0, 1, inclusive_end=True),
+                'network_distance_threshold': Float % Range(0, 1, inclusive_end=True),
                 'distance_metric': Str % Choices(['braycurtis', 'canberra',
                                                   'chebyshev', 'cityblock',
                                                   'correlation', 'cosine',
@@ -202,14 +205,13 @@ plugin.methods.register_function(
     parameter_descriptions={'prob_threshold': 'Probability threshold below '
                                               'which a substructure is '
                                               'considered absent.',
+                            'network_distance_threshold': 'Maximum distance between in the network output', 
                             'distance_metric': 'Distance metric to calculate '
                                                'distances between chemical '
                                                'fingerprints for '
                                                'making hierarchy.'},
     outputs=[('networkedges', FingerprintNetworkEdges)],
-    output_descriptions={'networkedges': 'Tree of relatedness between mass '
-                                 'spectrometry features based on the chemical '
-                                 'substructures within those features'}
+    output_descriptions={'networkedges': 'Output network edges of distances as a molecular network'}
 )
 
 plugin.methods.register_function(
@@ -246,3 +248,5 @@ plugin.methods.register_function(
                                                   'molecular substructures '
                                                   'within each feature'}
 )
+
+importlib.import_module('q2_chemistree._transformer')
