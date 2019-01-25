@@ -66,7 +66,7 @@ qiime tools import --input-path sirius.mgf --output-path sirius.mgf.qza --type M
 First, we generate [fragmentation trees](https://www.sciencedirect.com/science/article/pii/S0165993615000916) for molecular peaks detected using MZmine2:
 
 ```bash
-qiime chemistree compute-fragmentation-trees --p-sirius-path 'sirius-osx64-4.0.1/bin' \
+qiime chemistree compute-fragmentation-trees --p-sirius-path '../sirius-osx64-headless-4.0.1/bin' \
   --i-features sirius.mgf.qza \
   --p-ppm-max 15 \
   --p-profile orbitrap \
@@ -81,7 +81,7 @@ This generates a QIIME 2 artifact of type `SiriusFolder`. This contains fragment
 Next, we select top scoring molecular formula as follows:
 
 ```bash
-qiime chemistree rerank-molecular-formulas --p-sirius-path 'sirius-osx64-4.0.1/bin' \
+qiime chemistree rerank-molecular-formulas --p-sirius-path '../sirius-osx64-headless-4.0.1/bin' \
   --i-features sirius.mgf.qza \
   --i-fragmentation-trees fragmentation_trees.qza \
   --p-zodiac-threshold 0.95 \
@@ -92,7 +92,7 @@ qiime chemistree rerank-molecular-formulas --p-sirius-path 'sirius-osx64-4.0.1/b
 This produces a QIIME 2 artifact of type `ZodiacFolder` with top-ranked molecular formula for MS1 features. Now, we predict molecular substructures in each feature based on the molecular formulas. We use [CSI:FingerID](https://www.pnas.org/content/112/41/12580) for this purpose as follows:
 
 ```bash
-qiime chemistree predict-fingerprints --p-sirius-path 'sirius-osx64-4.0.1/bin' \
+qiime chemistree predict-fingerprints --p-sirius-path 'sirius-osx64-headless-4.0.1/bin' \
   --i-molecular-formulas molecular_formulas.qza \
   --p-ppm-max 20 \
   --p-java-flags "-Djava.io.tmpdir=/path-to-some-dir/ -Xms16G -Xmx64G" \
