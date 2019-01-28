@@ -128,3 +128,17 @@ qiime chemistree match-table --i-tree demo-chemisTree.qza \
 This filters the MS1 table to include only the MS1 features with molecular fingerprints. The resulting table is also of type `FeatureTable[Frequency]`.
 
 Thus, using these steps, we can generate a tree (`demo-chemisTree.qza`) relating MS1 features in mass-spectrometry dataset along with a matched feature table (`filtered-feature-table.qza`). These can be used as inputs to perform [UniFrac](https://aem.asm.org/content/71/12/8228)-based [alpha-diversity](https://docs.qiime2.org/2018.8/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2018.8/plugins/available/diversity/beta-phylogenetic/) analyses.
+
+### Molecular Network Generation
+
+You can generate a molecular network from the fingerprints in parallel to creating a hierarchy for the dataset
+
+```bash
+qiime chemistree make-network \
+  --i-collated-fingerprints collated_fingerprints_qc.qza \
+  --p-prob-threshold 0.5 \
+  --p-network-distance-threshold 0.2 \
+  --o-networkedges demo-network-chemisTree.qza
+```
+
+This outputs a qza with a text file with edges inside of it that can be imported into cytoscape. 
