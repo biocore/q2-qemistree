@@ -149,7 +149,7 @@ plugin.methods.register_function(
                                          'based on the features of the '
                                          'phylogenetic tree'},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
-                                             'retain PUBCHEM fingerprints'}},
+                                             'retain PUBCHEM fingerprints'},
     outputs=[('tree', Phylogeny[Rooted]),
              ('matched_feature_table', FeatureTable[Frequency])],
     output_descriptions={'tree': 'Tree of relatedness between mass '
@@ -158,5 +158,5 @@ plugin.methods.register_function(
                          'matched_feature_table': 'filtered feature table '
                                                   'that contains only the '
                                                   'features present in '
-                                                  'the tree'         }
+                                                  'the tree'}
 )
