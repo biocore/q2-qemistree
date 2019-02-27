@@ -7,51 +7,70 @@
 # ----------------------------------------------------------------------------
 
 import biom
+import pandas as pd
 from sklearn.metrics import pairwise_distances
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import linkage
 from skbio import TreeNode
 
+from ._collate_fingerprint import collate_fingerprint
+from ._match import match_label
+from ._semantics import CSIDirFmt
 
-def make_hierarchy(collated_fingerprints: biom.Table,
-                   prob_threshold: float = None,
-                   distance_metric: str = 'jaccard') -> TreeNode:
+def build_tree(relabeled_fingerprints: pd.DataFrame) -> TreeNode:
     '''
     This function makes a tree of relatedness between mass-spectrometry
-    features using molecular substructure information.
+    features using molecular substructure fingerprints.
+    '''
+    distmat = pairwise_distances(X=relabeled_fingerprints,
+                                 Y=None, metric=distance_metric)
+    distsq = squareform(distmat, checks=False)
+    linkage_matrix = linkage(distsq, method='average')
+    tree = TreeNode.from_linkage_matrix(linkage_matrix,
+                                        list(relabeled_fingerprints.index))
+    return tree
+
+def make_hierarchy(csi_result: CSIDirFmt,
+                   feature_table: biom.Table,
+                   qc_properties: bool = True) -> (TreeNode, biom.Table):
+    '''
+    This function generates a hierarchy of mass-spec features based on
+    predicted chemical fingerprints. It filters the feature to table to
+    retain only the features with fingerprints and relables each feature with
+    a unique hash of its binary fingerprint vector.
 
     Parameters
     ----------
-    collated_fingerprints : biom.Table
-        biom table containing mass-spec feature IDs (as observations)
-        and molecular substructure IDs (as samples).
-    prob_threshold : float
-        probability value below which a molecular substructure is
-        considered absent from a feature. 'None' for no threshold.
-    distance_metric : str
-        Distance metric to calculate distances between chemical fingerprints
-        for making hierarchy
+    csi_result : CSIDirFmt
+        CSI:FingerID output folder
+    qc_properties : bool
+        flag to filter molecular properties to keep only PUBCHEM fingerprints
+    feature_table : biom.Table
+        feature table with mass-spec feature intensity per sample
 
     Raises
     ------
     ValueError
-        If ``collated_fingerprints`` is empty
-        If ``prob_threshold`` is not in [0,1]
+        If ``feature_table`` in empty
+        If collated fingerprint table is empty
+    UserWarning
+        If features in collated fingerprint table are not a subset of
+        features in ``feature_table``
 
     Returns
     -------
     skbio.TreeNode
         a tree of relatedness of molecules
+    biom.Table
+        filtered feature table that contains only the features present in
+        the tree
     '''
-    table = collated_fingerprints.to_dataframe()
-    if table.shape == (0, 0):
-        raise ValueError("Cannot have empty fingerprint table")
-    if prob_threshold is not None:
-        if not 0 <= prob_threshold <= 1:
-            raise ValueError("Probability threshold is not in [0,1]")
-        table = (table > prob_threshold).astype(int)
-    distmat = pairwise_distances(X=table, Y=None, metric=distance_metric)
-    distsq = squareform(distmat, checks=False)
-    linkage_matrix = linkage(distsq, method='average')
-    tree = TreeNode.from_linkage_matrix(linkage_matrix, list(table.index))
-    return tree
+
+    if feature_table.shape == (0, 0):
+        raise ValueError("Cannot have empty feature table")
+    fingerprints = collate_fingerprint(csi_result, qc_properties)
+    relabeled_fingerprints, matched_feature_table = match_label(fingerprints,
+                                                                feature_table)
+    tree = build_tree(relabeled_fingerprints)
+
+    return tree, matched_feature_table
