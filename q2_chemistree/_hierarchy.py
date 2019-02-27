@@ -17,18 +17,20 @@ from ._collate_fingerprint import collate_fingerprint
 from ._match import match_label
 from ._semantics import CSIDirFmt
 
+
 def build_tree(relabeled_fingerprints: pd.DataFrame) -> TreeNode:
     '''
     This function makes a tree of relatedness between mass-spectrometry
     features using molecular substructure fingerprints.
     '''
     distmat = pairwise_distances(X=relabeled_fingerprints,
-                                 Y=None, metric=distance_metric)
+                                 Y=None, metric=jaccard)
     distsq = squareform(distmat, checks=False)
     linkage_matrix = linkage(distsq, method='average')
     tree = TreeNode.from_linkage_matrix(linkage_matrix,
                                         list(relabeled_fingerprints.index))
     return tree
+
 
 def make_hierarchy(csi_result: CSIDirFmt,
                    feature_table: biom.Table,
