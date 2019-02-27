@@ -11,15 +11,13 @@ from ._fingerprint import (compute_fragmentation_trees,
                            rerank_molecular_formulas,
                            predict_fingerprints)
 from ._hierarchy import make_hierarchy
-from ._match import match_table
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
-                         CSIFolder, CSIDirFmt, ZodiacFolder, ZodiacDirFmt,
+                         CSIFolder, ZodiacFolder, ZodiacDirFmt,
                          SiriusFolder, SiriusDirFmt, OutputDirs)
-from ._collate_fingerprint import collate_fingerprint
 
 __all__ = ['compute_fragmentation_trees', 'rerank_molecular_formulas',
-           'predict_fingerprints', 'collate_fingerprint', 'make_hierarchy',
-           'match_table', 'MassSpectrometryFeatures', 'MGFDirFmt',
+           'predict_fingerprints', 'make_hierarchy',
+           'MassSpectrometryFeatures', 'MGFDirFmt',
            'CSIFolder', 'CSIDirFmt', 'ZodiacFolder', 'ZodiacDirFmt',
            'SiriusFolder', 'SiriusDirFmt', 'OutputDirs']
 
