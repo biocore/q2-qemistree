@@ -10,7 +10,6 @@ import biom
 import warnings
 import hashlib
 import numpy as np
-from skbio import TreeNode
 
 
 def match_label(collated_fingerprints: biom.Table, feature_table: biom.Table):
@@ -41,9 +40,9 @@ def match_label(collated_fingerprints: biom.Table, feature_table: biom.Table):
     npfid = np.asarray(matched_table)
     # biom requires that ids be strings
     matched_table = biom.table.Table(data=npfid,
-                                     observation_ids=\
+                                     observation_ids=
                                      matched_table.index.astype(str),
-                                     sample_ids=\
+                                     sample_ids=
                                      matched_table.columns.astype(str))
 
     return relabeled_fingerprints, matched_table
