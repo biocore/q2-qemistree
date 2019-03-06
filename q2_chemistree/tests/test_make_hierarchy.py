@@ -7,42 +7,36 @@
 # ----------------------------------------------------------------------------
 
 from unittest import TestCase, main
+import os
+import qiime2
 from biom.table import Table
+from biom import load_table
 import pandas as pd
 import numpy as np
 from q2_chemistree import make_hierarchy
 
+from q2_chemistree._semantics import CSIDirFmt
+# from q2_chemistree._hierarchy import build_tree
 
 class test_hierarchy(TestCase):
     def setUp(self):
+        THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         tablefp = Table({}, [], [])
-        self.emptyin = tablefp
-
-        table = pd.DataFrame({'1': [1, 1, 1], '2': [0, 1, 1],
-                              '3': [0, 0, 1], '4': [0, 0, 0]})
-        nptable = np.asarray(table)
-        tablefp = Table(data=nptable, observation_ids=table.index,
-                        sample_ids=table.columns)
-        self.goodin = tablefp
-
-        self.bigthresh = 1.5
-        self.smallthresh = -0.5
-        self.goodthresh = 0.5
-
-    def test_emptyFingerprint(self):
+        self.emptyfeatures = tablefp
+        goodtable = os.path.join(THIS_DIR, 'data/features_formated.biom')
+        self.features = load_table(goodtable)
+        self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
+                                                         'data/csiFolder.qza'))
+    def test_emptyFeatures(self):
+        goodcsi = self.goodcsi.view(CSIDirFmt)
         with self.assertRaises(ValueError):
-            make_hierarchy(self.emptyin, prob_threshold=self.goodthresh)
-
-    def test_thresholdError(self):
-        with self.assertRaises(ValueError):
-            make_hierarchy(self.goodin, prob_threshold=self.bigthresh)
-        with self.assertRaises(ValueError):
-            make_hierarchy(self.goodin, prob_threshold=self.smallthresh)
+            make_hierarchy(goodcsi, self.emptyfeatures)
 
     def test_tipMatch(self):
-        treeout = make_hierarchy(self.goodin, prob_threshold=self.goodthresh)
+        goodcsi = self.goodcsi.view(CSIDirFmt)
+        treeout, feature_table = _collate_fingerprint(goodcsi)
         tip_names = {node.name for node in treeout.tips()}
-        self.assertEqual(tip_names, set(self.goodin._observation_ids))
+        self.assertEqual(tip_names, set(feature_table._observation_ids))
 
 
 if __name__ == '__main__':
