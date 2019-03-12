@@ -12,7 +12,7 @@ from ._fingerprint import (compute_fragmentation_trees,
                            predict_fingerprints)
 from ._hierarchy import make_hierarchy
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
-                         CSIFolder, ZodiacFolder, ZodiacDirFmt,
+                         CSIFolder, CSIDirFmt, ZodiacFolder, ZodiacDirFmt,
                          SiriusFolder, SiriusDirFmt, OutputDirs)
 
 __all__ = ['compute_fragmentation_trees', 'rerank_molecular_formulas',
