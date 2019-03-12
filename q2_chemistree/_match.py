@@ -7,7 +7,6 @@
 # ----------------------------------------------------------------------------
 
 import biom
-import warnings
 import hashlib
 import numpy as np
 
