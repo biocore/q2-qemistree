@@ -8,7 +8,6 @@
 
 from unittest import TestCase, main
 import os
-import warnings
 from biom import load_table
 from biom.table import Table
 
