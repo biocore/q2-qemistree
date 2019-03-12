@@ -14,9 +14,7 @@ from biom import load_table
 import pandas as pd
 import numpy as np
 from q2_chemistree import make_hierarchy
-
-from q2_chemistree._semantics import CSIDirFmt
-# from q2_chemistree._hierarchy import build_tree
+from q2_chemistree import CSIDirFmt
 
 class test_hierarchy(TestCase):
     def setUp(self):
@@ -34,7 +32,7 @@ class test_hierarchy(TestCase):
 
     def test_tipMatch(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
-        treeout, feature_table = _collate_fingerprint(goodcsi)
+        treeout, feature_table = make_hierarchy(goodcsi, self.features)
         tip_names = {node.name for node in treeout.tips()}
         self.assertEqual(tip_names, set(feature_table._observation_ids))
 
