@@ -11,10 +11,9 @@ import os
 import qiime2
 from biom.table import Table
 from biom import load_table
-import pandas as pd
-import numpy as np
 from q2_chemistree import make_hierarchy
 from q2_chemistree import CSIDirFmt
+
 
 class test_hierarchy(TestCase):
     def setUp(self):
@@ -25,6 +24,7 @@ class test_hierarchy(TestCase):
         self.features = load_table(goodtable)
         self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                                          'data/csiFolder.qza'))
+
     def test_emptyFeatures(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
         with self.assertRaises(ValueError):
