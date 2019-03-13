@@ -15,7 +15,7 @@ from q2_chemistree import make_hierarchy
 from q2_chemistree import CSIDirFmt
 
 
-class test_hierarchy(TestCase):
+class TestHierarchy(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         tablefp = Table({}, [], [])
