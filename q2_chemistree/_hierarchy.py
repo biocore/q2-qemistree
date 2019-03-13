@@ -28,7 +28,7 @@ def build_tree(relabeled_fingerprints: pd.DataFrame) -> TreeNode:
     distsq = squareform(distmat, checks=False)
     linkage_matrix = linkage(distsq, method='average')
     tree = TreeNode.from_linkage_matrix(linkage_matrix,
-                                        list(relabeled_fingerprints.index))
+                                        relabeled_fingerprints.index.tolist())
     return tree
 
 
@@ -37,18 +37,18 @@ def make_hierarchy(csi_result: CSIDirFmt,
                    qc_properties: bool = True) -> (TreeNode, biom.Table):
     '''
     This function generates a hierarchy of mass-spec features based on
-    predicted chemical fingerprints. It filters the feature to table to
+    predicted chemical fingerprints. It filters the feature table to
     retain only the features with fingerprints and relables each feature with
-    a unique hash of its binary fingerprint vector.
+    a hash (MD5) of its binary fingerprint vector.
 
     Parameters
     ----------
     csi_result : CSIDirFmt
         CSI:FingerID output folder
-    qc_properties : bool
-        flag to filter molecular properties to keep only PUBCHEM fingerprints
     feature_table : biom.Table
         feature table with mass-spec feature intensity per sample
+    qc_properties : bool, default True
+        flag to filter molecular properties to keep only PUBCHEM fingerprints
 
     Raises
     ------
@@ -68,7 +68,7 @@ def make_hierarchy(csi_result: CSIDirFmt,
         the tree
     '''
 
-    if feature_table.shape == (0, 0):
+    if feature_table.is_empty():
         raise ValueError("Cannot have empty feature table")
     fingerprints = collate_fingerprint(csi_result, qc_properties)
     relabeled_fingerprints, matched_feature_table = match_label(fingerprints,
