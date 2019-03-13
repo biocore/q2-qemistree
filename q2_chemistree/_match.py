@@ -14,12 +14,12 @@ import numpy as np
 def match_label(collated_fingerprints: biom.Table, feature_table: biom.Table):
     '''
     This function filters the feature table to retain only features with
-    fingerprints. It also relabels features with md5 hash of its
+    fingerprints. It also relabels features with MD5 hash of its
     binary fingerprint vector.
     '''
     fps = collated_fingerprints.to_dataframe(dense=True)
     allfps = set(fps.index)
-    if fps.shape == (0, 0):
+    if fps.empty:
         raise ValueError("Cannot have empty fingerprint table")
     table = feature_table.to_dataframe(dense=True)
     allfeatrs = set(table.index)
@@ -31,13 +31,13 @@ def match_label(collated_fingerprints: biom.Table, feature_table: biom.Table):
     filtered_table = table.reindex(allfps)
     fps = (fps > 0.5).astype(int)
     for fid in fps.index:
-        md5 = hashlib.sha256(fps.loc[fid].values.tobytes()).hexdigest()
+        md5 = str(hashlib.sha256(fps.loc[fid].values.tobytes()).hexdigest())
         fps.loc[fid, 'label'] = md5
         filtered_table.loc[fid, 'label'] = md5
-    relabel_fps = fps.groupby(fps.label).first()
-    matched_table = filtered_table.groupby(filtered_table.label).sum()
+    relabel_fps = fps.groupby('label').first()
+    matched_table = filtered_table.groupby('label').sum()
     # biom requires that ids be strings
-    npfeatures = np.asarray(matched_table)
+    npfeatures = matched_table.values
     matched_table = biom.table.Table(data=npfeatures,
                                      observation_ids=
                                      matched_table.index.astype(str),
