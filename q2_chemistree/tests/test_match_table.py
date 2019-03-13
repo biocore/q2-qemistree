@@ -15,7 +15,7 @@ from q2_chemistree._collate_fingerprint import collate_fingerprint
 from q2_chemistree._match import match_label
 
 
-class test_match(TestCase):
+class TestMatch(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         table = Table({}, [], [])
