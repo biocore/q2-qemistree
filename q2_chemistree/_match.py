@@ -8,7 +8,6 @@
 
 import biom
 import hashlib
-import numpy as np
 
 
 def match_label(collated_fingerprints: biom.Table, feature_table: biom.Table):
