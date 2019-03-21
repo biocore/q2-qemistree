@@ -41,20 +41,20 @@ class FingerprintTests(TestCase):
         tablefp = collate_fingerprint(goodcsi)
         features = load_table(self.featureTable)
         allfeatrs = set(features.ids(axis='observation'))
-        fpfeatrs = set(tablefp.ids(axis='observation'))
+        fpfeatrs = set(tablefp.index)
         self.assertEqual(fpfeatrs <= allfeatrs, True)
 
     def test_pubchemTrue(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
         tablefp = collate_fingerprint(goodcsi, qc_properties=True)
         indx = self.properties.loc[self.properties.type == 'PUBCHEM'].index
-        self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
+        self.assertEqual(set(tablefp.columns) == set(indx), True)
 
     def test_pubchemFalse(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
         tablefp = collate_fingerprint(goodcsi, qc_properties=False)
         indx = self.properties.index
-        self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
+        self.assertEqual(set(tablefp.columns) == set(indx), True)
 
 
 if __name__ == '__main__':
