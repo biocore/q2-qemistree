@@ -8,15 +8,17 @@
 
 import biom
 import hashlib
+import pandas as pd
 
 
-def match_label(collated_fingerprints: biom.Table, feature_table: biom.Table):
+def match_label(collated_fingerprints: pd.DataFrame,
+                feature_table: biom.Table):
     '''
     This function filters the feature table to retain only features with
     fingerprints. It also relabels features with MD5 hash of its
     binary fingerprint vector.
     '''
-    fps = collated_fingerprints.to_dataframe(dense=True)
+    fps = collated_fingerprints.copy()
     allfps = set(fps.index)
     if fps.empty:
         raise ValueError("Cannot have empty fingerprint table")
