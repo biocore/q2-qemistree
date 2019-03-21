@@ -8,6 +8,7 @@
 
 from unittest import TestCase, main
 import os
+import pandas as pd
 from biom import load_table
 from biom.table import Table
 
@@ -18,9 +19,9 @@ from q2_chemistree._match import match_label
 class TestMatch(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-        table = Table({}, [], [])
+        table = pd.DataFrame()
         self.emptyfps = table
-        table = Table({}, ['a', 'b', 'c'], [])
+        table = pd.DataFrame(index=['a', 'b', 'c'])
         self.wrongtips = table
         goodtable = os.path.join(THIS_DIR, 'data/features_formated.biom')
         self.features = load_table(goodtable)
