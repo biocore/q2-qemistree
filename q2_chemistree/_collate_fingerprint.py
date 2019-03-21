@@ -41,7 +41,7 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = True):
     if fingerids.shape == (0, 0):
         raise ValueError('Fingerprint file is empty!')
     substructrs = pd.read_table(os.path.join(csi_result, 'fingerprints.csv'),
-                                index_col='relativeIndex')
+                                index_col='relativeIndex', dtype=str)
     fingerids.index.name = '#featureID'
     fingerids.columns = substructrs.loc[fingerids.columns, 'absoluteIndex']
     if qc_properties is True:
@@ -49,10 +49,6 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = True):
                                    'molecular_properties.csv'),
                                    index_col='absoluteIndex')
         pubchem_indx = list(properties.loc[properties.type == 'PUBCHEM'].index)
+        pubchem_indx = list(map(str, pubchem_indx))
         fingerids = fingerids[pubchem_indx]
-    npfid = np.asarray(fingerids)
-    # biom requires that ids be strings
-    fptable = biom.table.Table(data=npfid,
-                               observation_ids=fingerids.index.astype(str),
-                               sample_ids=fingerids.columns.astype(str))
-    return fptable
+    return fingerids
