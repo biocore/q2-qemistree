@@ -7,9 +7,7 @@
 # ----------------------------------------------------------------------------
 
 import os
-import biom
 import pandas as pd
-import numpy as np
 import pkg_resources
 
 from ._semantics import CSIDirFmt
