@@ -10,7 +10,6 @@ from unittest import TestCase, main
 import os
 import pandas as pd
 from biom import load_table
-from biom.table import Table
 
 from q2_chemistree._collate_fingerprint import collate_fingerprint
 from q2_chemistree._match import match_label
@@ -21,7 +20,7 @@ class TestMatch(TestCase):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         table = pd.DataFrame()
         self.emptyfps = table
-        table = pd.DataFrame(index=['a', 'b', 'c'])
+        table = pd.DataFrame(index=['a', 'b', 'c'], data=['a', 'b', 'c'])
         self.wrongtips = table
         goodtable = os.path.join(THIS_DIR, 'data/features_formated.biom')
         self.features = load_table(goodtable)
@@ -29,11 +28,13 @@ class TestMatch(TestCase):
         self.tablefp = collate_fingerprint(goodcsi)
 
     def test_emptyTable(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaisesRegex(ValueError, "^Cannot have empty"
+                                     " fingerprint table$"):
             match_label(self.emptyfps, self.features)
 
     def test_tipMismatch(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaisesRegex(ValueError, "^The following tips were not"
+                                     " found in the feature table:"):
             match_label(self.wrongtips, self.features)
 
     def test_matchPipeline(self):
