@@ -109,8 +109,12 @@ def make_network(collated_fingerprints: biom.Table,
             if i == j:
                 continue
             if distmat[i][j] < network_distance_threshold:
-                output_list.append([table.index[i], table.index[j], distmat[i][j]])
+                output_list.append([table.index[i],
+                table.index[j],
+                distmat[i][j]])
 
-    my_pd = pd.DataFrame(output_list, columns = ["FeatureID1", "FeatureID2", "Distance"])
+    my_pd = pd.DataFrame(output_list, columns = ["FeatureID1",
+                                                    "FeatureID2",
+                                                    "Distance"])
 
     return my_pd
