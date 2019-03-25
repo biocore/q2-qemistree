@@ -10,6 +10,7 @@ import qiime2.plugin.model as model
 from qiime2.plugin import SemanticType
 import os
 
+
 class MGFFile(model.TextFileFormat):
     def sniff(self):
         # we don't really parse this file
@@ -19,12 +20,15 @@ class MGFFile(model.TextFileFormat):
 MGFDirFmt = model.SingleFileDirectoryFormat('MGFFile', 'features.mgf', MGFFile)
 MassSpectrometryFeatures = SemanticType('MassSpectrometryFeatures')
 
+
 class FingerprintNetworkEdgesFile(model.TextFileFormat):
     def sniff(self):
         # we don't really parse this file
         return True
 
-FingerprintNetworkEdgesDirFmt = model.SingleFileDirectoryFormat('FingerprintNetworkEdgesFile', 'networkedges.tsv', FingerprintNetworkEdgesFile)
+
+FingerprintNetworkEdgesDirFmt = model.SingleFileDirectoryFormat(
+'FingerprintNetworkEdgesFile', 'networkedges.tsv', FingerprintNetworkEdgesFile)
 FingerprintNetworkEdges = SemanticType('FingerprintNetworkEdges')
 
 
