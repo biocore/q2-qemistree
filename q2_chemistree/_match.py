@@ -39,10 +39,8 @@ def match_label(collated_fingerprints: pd.DataFrame,
     matched_table = filtered_table.groupby('label').sum()
     # biom requires that ids be strings
     npfeatures = matched_table.values
-    matched_table = biom.table.Table(data=npfeatures,
-                                     observation_ids=
-                                     matched_table.index.astype(str),
-                                     sample_ids=
-                                     matched_table.columns.astype(str))
+    matched_table = biom.table.Table(
+        data=npfeatures, observation_ids=matched_table.index.astype(str),
+        sample_ids=matched_table.columns.astype(str))
 
     return relabel_fps, matched_table
