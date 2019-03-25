@@ -29,12 +29,12 @@ class TestMatch(TestCase):
 
     def test_emptyTable(self):
         with self.assertRaisesRegex(ValueError, "^Cannot have empty"
-                                     " fingerprint table$"):
+            " fingerprint table$"):
             match_label(self.emptyfps, self.features)
 
     def test_tipMismatch(self):
         with self.assertRaisesRegex(ValueError, "^The following tips were not"
-                                     " found in the feature table:"):
+            " found in the feature table:"):
             match_label(self.wrongtips, self.features)
 
     def test_matchPipeline(self):
