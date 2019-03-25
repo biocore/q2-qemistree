@@ -31,6 +31,7 @@ FingerprintNetworkEdgesDirFmt = model.SingleFileDirectoryFormat(
 'FingerprintNetworkEdgesFile', 'networkedges.tsv', FingerprintNetworkEdgesFile)
 FingerprintNetworkEdges = SemanticType('FingerprintNetworkEdges')
 
+
 class OutputDirs(model.DirectoryFormat):
 
     def get_folder_name(self):

@@ -2,6 +2,7 @@ from .plugin_setup import plugin
 from ._semantics import FingerprintNetworkEdgesFile
 import pandas as pd
 
+
 @plugin.register_transformer
 def dataframe_to_edges(data: pd.DataFrame) -> FingerprintNetworkEdgesFile:
     ff = FingerprintNetworkEdgesFile()

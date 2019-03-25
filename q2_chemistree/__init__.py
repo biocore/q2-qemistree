@@ -14,15 +14,16 @@ from ._hierarchy import make_hierarchy
 from ._match import match_table
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          CSIFolder, CSIDirFmt, ZodiacFolder, ZodiacDirFmt,
-                         SiriusFolder, SiriusDirFmt, OutputDirs, FingerprintNetworkEdgesFile, FingerprintNetworkEdgesDirFmt)
+                         SiriusFolder, SiriusDirFmt, OutputDirs,
+                         FingerprintNetworkEdgesFile,
+                         FingerprintNetworkEdgesDirFmt)
 from ._collate_fingerprint import collate_fingerprint
-from ._transformer import dataframe_to_edges
-
 
 __all__ = ['compute_fragmentation_trees', 'rerank_molecular_formulas',
            'predict_fingerprints', 'collate_fingerprint', 'make_hierarchy',
            'match_table', 'MassSpectrometryFeatures', 'MGFDirFmt',
            'CSIFolder', 'CSIDirFmt', 'ZodiacFolder', 'ZodiacDirFmt',
-           'SiriusFolder', 'SiriusDirFmt', 'OutputDirs', 'FingerprintNetworkEdgesFile', 'FingerprintNetworkEdgesDirFmt']
+           'SiriusFolder', 'SiriusDirFmt', 'OutputDirs',
+           'FingerprintNetworkEdgesFile', 'FingerprintNetworkEdgesDirFmt']
 
 __version__ = get_versions()['version']

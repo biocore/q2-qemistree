@@ -11,7 +11,6 @@ from sklearn.metrics import pairwise_distances
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import linkage
 from skbio import TreeNode
-from ._semantics import FingerprintNetworkEdgesFile
 import pandas as pd
 
 
@@ -51,6 +50,7 @@ def make_hierarchy(collated_fingerprints: biom.Table,
     if prob_threshold is not None:
         if not 0 <= prob_threshold <= 1:
             raise ValueError("Probability threshold is not in [0,1]")
+
         table = (table > prob_threshold).astype(int)
     distmat = pairwise_distances(X=table, Y=None, metric=distance_metric)
     distsq = squareform(distmat, checks=False)
@@ -61,9 +61,9 @@ def make_hierarchy(collated_fingerprints: biom.Table,
 
 
 def make_network(collated_fingerprints: biom.Table,
-                   prob_threshold: float = None,
-                   network_distance_threshold: float = 0.2,
-                   distance_metric: str = 'jaccard') -> pd.DataFrame:
+                prob_threshold: float = None,
+                network_distance_threshold: float = 0.2,
+                distance_metric: str = 'jaccard') -> pd.DataFrame:
     '''
     This function makes a tree of relatedness between mass-spectrometry
     features using molecular substructure information.
@@ -113,7 +113,7 @@ def make_network(collated_fingerprints: biom.Table,
                 table.index[j],
                 distmat[i][j]])
 
-    my_pd = pd.DataFrame(output_list, columns = ["FeatureID1",
+    my_pd = pd.DataFrame(output_list, columns=["FeatureID1",
                                                     "FeatureID2",
                                                     "Distance"])
 
