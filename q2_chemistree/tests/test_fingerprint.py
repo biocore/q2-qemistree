@@ -82,8 +82,7 @@ class FingerprintTests(TestCase):
     def test_fingerid(self):
         zodout = self.zodout.view(ZodiacDirFmt)
         result = predict_fingerprints(sirius_path=self.goodsirpath,
-                                      molecular_formulas=zodout,
-                                      ppm_max=15)
+                                      molecular_formulas=zodout, ppm_max=15)
         contents = os.listdir(result.get_path())
         self.assertTrue(('summary_csi_fingerid.csv' in contents))
 

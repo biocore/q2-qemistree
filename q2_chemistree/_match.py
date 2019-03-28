@@ -7,47 +7,40 @@
 # ----------------------------------------------------------------------------
 
 import biom
-import warnings
-from skbio import TreeNode
+import hashlib
+import pandas as pd
 
 
-def match_table(tree: TreeNode,
-                feature_table: biom.Table) -> biom.Table:
+def match_label(collated_fingerprints: pd.DataFrame,
+                feature_table: biom.Table):
     '''
-    Filters the feature table to retain the features present in the tree.
-
-    Parameters
-    ----------
-    tree : TreeNode
-        skbio TreeNode object representing tree of relatedness
-        between molecules
-    feature_table : pd.DataFrame
-        feature table with features in columns and samples in rows
-
-    Raises
-    ------
-    ValueError
-        If ``feature_table`` has no features
-        If ``tree`` tips are not a subset of feature names in ``feature_table``
-        If ``filtered_feature_table`` is empty
-
-    Returns
-    -------
-    biom.Table
-        filtered feature table that contains only the features present in
-        the tree
+    This function filters the feature table to retain only features with
+    fingerprints. It also relabels features with MD5 hash of its
+    binary fingerprint vector.
     '''
-    if feature_table.shape[0] == 0:
-        raise ValueError("There are no features in the feature table!")
-    allfeatrs = set(feature_table.ids(axis='observation'))
-    tip_names = {node.name for node in tree.tips()}
-    if not tip_names.issubset(allfeatrs):
-        extra_tips = tip_names-tip_names.intersection(allfeatrs)
-        warnings.warn(UserWarning('The following tips were not '
-                                  'found in the feature table:\n' +
-                                  ', '.join([str(i) for i in extra_tips])))
-    common_features = list(allfeatrs.intersection(tip_names))
-    filtered_feature_table = feature_table.filter(common_features,
-                                                  axis='observation',
-                                                  inplace=False)
-    return filtered_feature_table
+    fps = collated_fingerprints.copy()
+    allfps = set(fps.index)
+    if fps.empty:
+        raise ValueError("Cannot have empty fingerprint table")
+    table = feature_table.to_dataframe(dense=True)
+    allfeatrs = set(table.index)
+    if not allfps.issubset(allfeatrs):
+        extra_tips = allfps-allfps.intersection(allfeatrs)
+        raise ValueError('The following tips were not '
+                         'found in the feature table:\n' +
+                         ', '.join([str(i) for i in extra_tips]))
+    filtered_table = table.reindex(allfps)
+    fps = (fps > 0.5).astype(int)
+    for fid in fps.index:
+        md5 = str(hashlib.sha256(fps.loc[fid].values.tobytes()).hexdigest())
+        fps.loc[fid, 'label'] = md5
+        filtered_table.loc[fid, 'label'] = md5
+    relabel_fps = fps.groupby('label').first()
+    matched_table = filtered_table.groupby('label').sum()
+    # biom requires that ids be strings
+    npfeatures = matched_table.values
+    matched_table = biom.table.Table(
+        data=npfeatures, observation_ids=matched_table.index.astype(str),
+        sample_ids=matched_table.columns.astype(str))
+
+    return relabel_fps, matched_table
