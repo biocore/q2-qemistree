@@ -12,8 +12,9 @@ from ._hierarchy import make_hierarchy
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          SiriusFolder, SiriusDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
-                         CSIFolder, CSIDirFmt, FeatureData, Molecules,
-                         TSVMoleculesFormat)
+                         CSIFolder, CSIDirFmt)
+                         #  FeatureData, Molecules,
+                         # TSVMoleculesFormat)
 
 from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool, List
 from q2_types.feature_table import FeatureTable, Frequency
@@ -156,7 +157,9 @@ plugin.methods.register_function(
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints'},
     outputs=[('tree', Phylogeny[Rooted]),
-             ('matched_feature_table', FeatureTable[Frequency])],
+             ('matched_feature_table', FeatureTable[Frequency]),
+             # ('')
+             ],
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
                                  'substructures within those features',
