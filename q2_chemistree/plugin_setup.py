@@ -50,9 +50,9 @@ plugin.register_semantic_types(CSIFolder)
 plugin.register_semantic_type_to_format(CSIFolder,
                                         artifact_format=CSIDirFmt)
 
-
-plugin.register_semantic_type_to_format(FeatureData[Molecules],
-                                        artifact_format=TSVMoleculesFormat)
+# 
+# plugin.register_semantic_type_to_format(FeatureData[Molecules],
+#                                         artifact_format=TSVMoleculesFormat)
 
 PARAMS = {
     'ionization_mode': Str % Choices(['positive', 'negative', 'auto']),
