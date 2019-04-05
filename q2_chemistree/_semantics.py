@@ -8,7 +8,10 @@
 
 import qiime2.plugin.model as model
 from qiime2.plugin import SemanticType
+from qiime2 import plugin
+from q2_types.feature_data import FeatureData
 import os
+import pandas as pd
 
 
 class MGFFile(model.TextFileFormat):
@@ -19,6 +22,19 @@ class MGFFile(model.TextFileFormat):
 
 MGFDirFmt = model.SingleFileDirectoryFormat('MGFFile', 'features.mgf', MGFFile)
 MassSpectrometryFeatures = SemanticType('MassSpectrometryFeatures')
+
+
+# TODO: define this class
+# TSVMoleculesFormat (mimic MGFFile)
+class TSVMolecules(model.TextFileFormat):
+    def sniff(self):
+        return True
+
+
+TSVMoleculesFormat = model.SingleFileDirectoryFormat('TSVMoleculesFormat',
+                                                     'feature_data.tsv',
+                                                     TSVMolecules)
+Molecules = SemanticType('Molecules', variant_of=FeatureData.field['type'])
 
 
 class OutputDirs(model.DirectoryFormat):
