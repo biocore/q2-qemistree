@@ -33,7 +33,8 @@ class FingerprintTests(TestCase):
         self.properties.set_index('absoluteIndex', inplace=True)
 
     def test_fingerprintOut(self):
-        with self.assertRaises(ValueError):
+        msg = "Fingerprint file is empty!"
+        with self.assertRaisesRegex(ValueError, msg):
             collate_fingerprint(self.emptycsi)
 
     def test_featureMatch(self):
