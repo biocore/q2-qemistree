@@ -11,8 +11,13 @@ import os
 import qiime2
 from biom.table import Table
 from biom import load_table
+from q2_feature_table import merge
 from q2_chemistree import make_hierarchy
 from q2_chemistree import CSIDirFmt
+
+from q2_chemistree._match import match_label
+from q2_chemistree._collate_fingerprint import collate_fingerprint
+from q2_chemistree._hierarchy import merge_feature_data
 
 
 class TestHierarchy(TestCase):
@@ -22,20 +27,65 @@ class TestHierarchy(TestCase):
         self.emptyfeatures = tablefp
         goodtable = os.path.join(THIS_DIR, 'data/features_formated.biom')
         self.features = load_table(goodtable)
+        goodtable = os.path.join(THIS_DIR, 'data/features2_formated.biom')
+        self.features2 = load_table(goodtable)
         self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                                          'data/csiFolder.qza'))
+        goodcsi = self.goodcsi.view(CSIDirFmt)
+        self.collated = collate_fingerprint(goodcsi)
+        self.goodcsi2 = qiime2.Artifact.load(os.path.join(
+                                            THIS_DIR, 'data/csiFolder2.qza'))
+        goodcsi = self.goodcsi2.view(CSIDirFmt)
+        self.collated2 = collate_fingerprint(goodcsi)
+
+    def test_unequal_inputs(self):
+        goodcsi = self.goodcsi.view(CSIDirFmt)
+        msg = ("The feature tables and CSI results should have a one-to-one"
+               " correspondance.")
+        with self.assertRaisesRegex(ValueError, msg):
+            make_hierarchy([goodcsi], [self.features, self.features2])
+
+    def test_mergeFeatureDataSingle(self):
+        relabeled_fp, matched_ft, feature_data = match_label(self.collated,
+                                                             self.features)
+        merged_fdata = merge_feature_data([feature_data])
+        fdata_featrs = set(merged_fdata.index)
+        fts = [matched_ft]
+        merged_fts = merge(fts, overlap_method = 'error_on_overlapping_sample')
+        featrs = set(merged_fts.ids(axis='observation'))
+        self.assertEqual(fdata_featrs, featrs)
+
+    def test_mergeFeatureDataMultiple(self):
+        relabeled_fp, matched_ft, feature_data = match_label(self.collated,
+                                                             self.features)
+        relabeled_fp2, matched_ft2, feature_data2 = match_label(self.collated2,
+                                                                self.features2)
+        merged_fdata = merge_feature_data([feature_data, feature_data2])
+        fts = [matched_ft, matched_ft2]
+        merged_fts = merge(fts, overlap_method = 'error_on_overlapping_sample')
+        featrs = set(merged_fts.ids(axis='observation'))
+        fdata_featrs = set(merged_fdata.index)
+        self.assertEqual(fdata_featrs, featrs)
 
     def test_emptyFeatures(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
         with self.assertRaises(ValueError):
-            make_hierarchy(goodcsi, self.emptyfeatures)
+            make_hierarchy([goodcsi], [self.emptyfeatures])
 
-    def test_tipMatch(self):
+    def test_tipMatchSingle(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
-        treeout, feature_table = make_hierarchy(goodcsi, self.features)
+        treeout, feature_table, merged_fdata = make_hierarchy(
+            [goodcsi], [self.features])
         tip_names = {node.name for node in treeout.tips()}
         self.assertEqual(tip_names, set(feature_table._observation_ids))
 
+    def test_Pipeline(self):
+        goodcsi1 = self.goodcsi.view(CSIDirFmt)
+        goodcsi2 = self.goodcsi2.view(CSIDirFmt)
+        treeout, merged_fts, merged_fdata = make_hierarchy(
+            [goodcsi1, goodcsi2], [self.features, self.features2])
+        tip_names = {node.name for node in treeout.tips()}
+        self.assertEqual(tip_names, set(merged_fts._observation_ids))
 
 if __name__ == '__main__':
     main()
