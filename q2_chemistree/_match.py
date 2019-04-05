@@ -35,6 +35,9 @@ def match_label(collated_fingerprints: pd.DataFrame,
         md5 = str(hashlib.sha256(fps.loc[fid].values.tobytes()).hexdigest())
         fps.loc[fid, 'label'] = md5
         filtered_table.loc[fid, 'label'] = md5
+    feature_data = pd.DataFrame(columns=['label', '#featureID'])
+    feature_data['label'] = fps['label']
+    feature_data['#featureID'] = fps.index
     relabel_fps = fps.groupby('label').first()
     matched_table = filtered_table.groupby('label').sum()
     # biom requires that ids be strings
@@ -43,4 +46,4 @@ def match_label(collated_fingerprints: pd.DataFrame,
         data=npfeatures, observation_ids=matched_table.index.astype(str),
         sample_ids=matched_table.columns.astype(str))
 
-    return relabel_fps, matched_table
+    return relabel_fps, matched_table, feature_data
