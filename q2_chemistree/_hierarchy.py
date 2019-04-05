@@ -34,30 +34,31 @@ def build_tree(relabeled_fingerprints: pd.DataFrame) -> TreeNode:
 
 
 def merge_feature_data(fdata: pd.DataFrame):
-    '''This function merges feature data from multiple feature tables. The
+    '''
+    This function merges feature data from multiple feature tables. The
     resulting table is indexed by MD5 hash mapped to unique feature
     identifiers in the original feature tables.
     '''
-    for idx in range(len(fdata)):
-        fdata['table_number'] = idx
-    merged_fdata = pd.concat(fdata, sort=False)
+    for idx, data in enumerate(fdata):
+        data['table_number'] = str(idx)
+    merged_fdata = pd.concat(fdata)
     duplicates = merged_fdata[merged_fdata.index.duplicated()].index.unique()
     if len(duplicates) == 0:
         return merged_fdata
     else:
         for idx in duplicates:
-            merged_fdata.loc[idx, '#featureID'] =
-                (',').join(list(merged_data.loc[idx, '#featureID']))
-            merged_fdata.loc[idx, 'table_number'] =
-                (',').join(list(merged_data.loc[idx, 'table_number']))
-        merged_fdata =
-            merged_fdata[~merged_fdata.index.duplicated(keep='first')]
-        return merged_data
+            merged_fdata.loc[idx, '#featureID'] = (',').join(
+                list(merged_fdata.loc[idx, '#featureID']))
+            merged_fdata.loc[idx, 'table_number'] = (',').join(
+                list(merged_fdata.loc[idx, 'table_number']))
+        merged_fdata = merged_fdata[~merged_fdata.index.duplicated(
+            keep='first')]
+        return merged_fdata
 
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
-                   qc_properties: bool = True) -> (TreeNode, biom.Table):
-                                                   # pd.DataFrame):
+                   qc_properties: bool = True) -> (TreeNode, biom.Table,
+                                                   pd.DataFrame):
     '''
     This function generates a hierarchy of mass-spec features based on
     predicted chemical fingerprints. It filters the feature table to
@@ -105,7 +106,7 @@ def make_hierarchy(csi_results: CSIDirFmt,
         fts.append(matched_ft)
         fdata.append(feature_data)
     merged_fdata = merge_feature_data(fdata)
-    merged_fps = pd.concat(relabeled_fps)
+    merged_fps = pd.concat(fps)
     merged_fps = merged_fps[~merged_fps.index.duplicated(keep='first')]
     merged_fts = merge(fts, overlap_method = 'error_on_overlapping_sample')
     tree = build_tree(merged_fps)
