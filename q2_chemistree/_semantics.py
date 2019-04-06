@@ -8,10 +8,8 @@
 
 import qiime2.plugin.model as model
 from qiime2.plugin import SemanticType
-from qiime2 import plugin
 from q2_types.feature_data import FeatureData
 import os
-import pandas as pd
 
 
 class MGFFile(model.TextFileFormat):
