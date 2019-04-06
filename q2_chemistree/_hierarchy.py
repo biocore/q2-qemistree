@@ -40,9 +40,10 @@ def merge_feature_data(fdata: pd.DataFrame):
     identifiers in the original feature tables.
     '''
     for idx, data in enumerate(fdata):
-        data['table_number'] = str(idx)
+        data['table_number'] = str(idx+1)
     merged_fdata = pd.concat(fdata)
-    duplicates = merged_fdata[merged_fdata.index.duplicated()].index.unique()
+    dupl_bool = merged_fdata.index.duplicated(keep='first')
+    duplicates = merged_fdata[dupl_bool].index.unique()
     if len(duplicates) == 0:
         return merged_fdata
     else:
@@ -51,9 +52,9 @@ def merge_feature_data(fdata: pd.DataFrame):
                 list(merged_fdata.loc[idx, '#featureID']))
             merged_fdata.loc[idx, 'table_number'] = (',').join(
                 list(merged_fdata.loc[idx, 'table_number']))
-        merged_fdata = merged_fdata[~merged_fdata.index.duplicated(
-            keep='first')]
+        merged_fdata = merged_fdata[~dupl_bool]
         return merged_fdata
+
 
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
@@ -108,7 +109,7 @@ def make_hierarchy(csi_results: CSIDirFmt,
     merged_fdata = merge_feature_data(fdata)
     merged_fps = pd.concat(fps)
     merged_fps = merged_fps[~merged_fps.index.duplicated(keep='first')]
-    merged_fts = merge(fts, overlap_method = 'error_on_overlapping_sample')
+    merged_fts = merge(fts, overlap_method='error_on_overlapping_sample')
     tree = build_tree(merged_fps)
 
     return tree, merged_fts, merged_fdata
