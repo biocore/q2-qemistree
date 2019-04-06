@@ -14,8 +14,7 @@ from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          SiriusFolder, SiriusDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
                          CSIFolder, CSIDirFmt,
-                         FeatureData, TSVMolecules, Molecules,
-                         TSVMoleculesFormat)
+                         FeatureData, TSVMoleculesFormat, Molecules)
 
 from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool, List
 from q2_types.feature_table import FeatureTable, Frequency
@@ -144,7 +143,7 @@ plugin.methods.register_function(
                                                    'per feature using '
                                                    'CSI:FingerID'}
 )
-#TODO update input descriptions to clarify the importance of order
+# TODO update input descriptions to clarify the importance of order
 plugin.methods.register_function(
     function=make_hierarchy,
     name='Create a molecular tree',
@@ -160,18 +159,19 @@ plugin.methods.register_function(
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints'},
     outputs=[('tree', Phylogeny[Rooted]),
-             ('merged_fts', FeatureTable[Frequency]),
-             ('merged_fdata', FeatureData[Molecules])],
+             ('merged_feature_table', FeatureTable[Frequency]),
+             ('merged_feature_data', FeatureData[Molecules])],
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
                                  'substructures within those features',
-                         'merged_fts': 'filtered feature table '
-                                                  'that contains only the '
-                                                  'features present in '
-                                                  'the tree',
-                         'merged_fdata': 'mapping of unique feature '
-                                         'identifiers in input feature_tables '
-                                         'to MD5 hash of feature fingerprints'}
+                         'merged_feature_table': 'filtered feature table '
+                                                 'that contains only the '
+                                                 'features present in '
+                                                 'the tree',
+                         'merged_feature_data': 'mapping of unique feature '
+                                                'identifiers in input '
+                                                'feature tables to MD5 hash '
+                                                'of feature fingerprints'}
 )
 
 importlib.import_module('q2_chemistree._transformer')
