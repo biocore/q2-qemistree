@@ -6,7 +6,7 @@ A tool to build a tree of MS1 features to compare chemical composition of sample
 
 ## Installation
 
-Once QIIME 2 is [installed](https://docs.qiime2.org/2018.11/install/), activate your QIIME 2 environment and install q2-chemistree following the steps below:
+Once QIIME 2 is [installed](https://docs.qiime2.org/2019.1/install/), activate your QIIME 2 environment and install q2-chemistree following the steps below:
 
 ```bash
 git clone https://github.com/biocore/q2-chemistree.git
@@ -118,4 +118,4 @@ This method performs the following tasks:
 4. Generates a combined feature data file that contains information about unique identifiers of each feature (corresponding to the tip names on the tree) and maps it to the original feature identifiers and feature tables that each feature was detected in. This is of type `FeatureData[Molecules]`.
 
 
-Thus, using these steps, we can generate a tree (`demo-chemisTree.qza`) relating MS1 features in a mass-spectrometry dataset along with a matched feature table (`filtered-feature-table.qza`). These can be used as inputs to perform chemical phylogeny-based [alpha-diversity](https://docs.qiime2.org/2018.11/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2018.11/plugins/available/diversity/beta-phylogenetic/) analyses.
+Thus, using these steps, we can generate a tree (`demo-chemisTree.qza`) relating MS1 features in a mass-spectrometry dataset along with a matched feature table (`filtered-feature-table.qza`). These can be used as inputs to perform chemical phylogeny-based [alpha-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/beta-phylogenetic/) analyses.
