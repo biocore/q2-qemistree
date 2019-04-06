@@ -69,9 +69,9 @@ def make_hierarchy(csi_results: CSIDirFmt,
     Parameters
     ----------
     csi_results : CSIDirFmt
-        CSI:FingerID output folder
+        one or more CSI:FingerID output folder
     feature_table : biom.Table
-        feature table with mass-spec feature intensity per sample
+        one or more feature tables with mass-spec feature intensity per sample
     qc_properties : bool, default True
         flag to filter molecular properties to keep only PUBCHEM fingerprints
 
@@ -89,8 +89,10 @@ def make_hierarchy(csi_results: CSIDirFmt,
     skbio.TreeNode
         a tree of relatedness of molecules
     biom.Table
-        filtered feature table that contains only the features present in
-        the tree
+        merged feature table that is filtered to contain only the
+        features present in the tree
+    pd.DataFrame
+        merged feature data
     '''
 
     fps, fts, fdata = [], [], []
