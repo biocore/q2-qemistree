@@ -153,9 +153,9 @@ plugin.methods.register_function(
     parameters={'qc_properties': Bool},
     input_descriptions={'csi_results': 'one or more CSI:FingerID '
                                        'output folders',
-                        'feature_tables': 'feature table(s) that will be '
-                                          'filtered based on the features '
-                                          'of the phylogenetic tree'},
+                        'feature_tables': 'one or more feature tables with '
+                                          'mass-spec feature intensity '
+                                          'per sample'},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints'},
     outputs=[('tree', Phylogeny[Rooted]),
