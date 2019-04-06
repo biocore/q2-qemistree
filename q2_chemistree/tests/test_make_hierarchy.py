@@ -9,13 +9,12 @@
 from unittest import TestCase, main
 import os
 import qiime2
+import pandas as pd
 from biom.table import Table
 from biom import load_table
-from q2_feature_table import merge
 from q2_chemistree import make_hierarchy
 from q2_chemistree import CSIDirFmt
 
-from q2_chemistree._match import match_label
 from q2_chemistree._collate_fingerprint import collate_fingerprint
 from q2_chemistree._hierarchy import merge_feature_data
 
@@ -46,26 +45,38 @@ class TestHierarchy(TestCase):
             make_hierarchy([goodcsi], [self.features, self.features2])
 
     def test_mergeFeatureDataSingle(self):
-        relabeled_fp, matched_ft, feature_data = match_label(self.collated,
-                                                             self.features)
-        merged_fdata = merge_feature_data([feature_data])
-        fdata_featrs = set(merged_fdata.index)
-        fts = [matched_ft]
-        merged_fts = merge(fts, overlap_method = 'error_on_overlapping_sample')
-        featrs = set(merged_fts.ids(axis='observation'))
+        goodcsi1 = self.goodcsi.view(CSIDirFmt)
+        treeout, merged_fts, merged_fdata = make_hierarchy(
+            [goodcsi1], [self.features])
+        featrs = sorted(list(merged_fts.ids(axis='observation')))
+        fdata_featrs = sorted(list(merged_fdata.index))
+        self.assertEqual(len(featrs) <= self.features.shape[0], True)
         self.assertEqual(fdata_featrs, featrs)
 
     def test_mergeFeatureDataMultiple(self):
-        relabeled_fp, matched_ft, feature_data = match_label(self.collated,
-                                                             self.features)
-        relabeled_fp2, matched_ft2, feature_data2 = match_label(self.collated2,
-                                                                self.features2)
-        merged_fdata = merge_feature_data([feature_data, feature_data2])
-        fts = [matched_ft, matched_ft2]
-        merged_fts = merge(fts, overlap_method = 'error_on_overlapping_sample')
-        featrs = set(merged_fts.ids(axis='observation'))
-        fdata_featrs = set(merged_fdata.index)
+        goodcsi1 = self.goodcsi.view(CSIDirFmt)
+        goodcsi2 = self.goodcsi2.view(CSIDirFmt)
+        treeout, merged_fts, merged_fdata = make_hierarchy(
+            [goodcsi1, goodcsi2], [self.features, self.features2])
+        featrs = sorted(list(merged_fts.ids(axis='observation')))
+        fdata_featrs = sorted(list(merged_fdata.index))
+        nfeatr = self.features.shape[0]
+        nfeatr2 = self.features2.shape[0]
+        self.assertEqual(len(featrs) <= nfeatr+nfeatr2, True)
         self.assertEqual(fdata_featrs, featrs)
+
+    def test_FeatureDataMultipleRepeated(self):
+        fdata1 = pd.DataFrame(index=list('aabbc'),
+                              data=[['1', '1'], ['1', '2'], ['1', '3'],
+                              ['1', '4'], ['1', '5']],
+                              columns=['table_number', '#featureID'])
+        fdata2 = pd.DataFrame(index=list('accdef'),
+                              data=[['2', '1'], ['2', '2'], ['2', '3'],
+                              ['2', '4'], ['2', '5'], ['2', '6']],
+                              columns=['table_number', '#featureID'])
+        merged_fdata = merge_feature_data([fdata1, fdata2])
+        fdata_featrs = sorted(list(merged_fdata.index))
+        self.assertEqual(fdata_featrs, ['a', 'b', 'c', 'd', 'e', 'f'])
 
     def test_emptyFeatures(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
@@ -86,6 +97,7 @@ class TestHierarchy(TestCase):
             [goodcsi1, goodcsi2], [self.features, self.features2])
         tip_names = {node.name for node in treeout.tips()}
         self.assertEqual(tip_names, set(merged_fts._observation_ids))
+
 
 if __name__ == '__main__':
     main()
