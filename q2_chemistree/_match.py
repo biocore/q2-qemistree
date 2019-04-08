@@ -19,25 +19,28 @@ def match_label(collated_fingerprints: pd.DataFrame,
     binary fingerprint vector.
     '''
     fps = collated_fingerprints.copy()
-    allfps = set(fps.index)
+    allfps = list(fps.index)
     if fps.empty:
         raise ValueError("Cannot have empty fingerprint table")
     table = feature_table.to_dataframe(dense=True)
     allfeatrs = set(table.index)
-    if not allfps.issubset(allfeatrs):
-        extra_tips = allfps-allfps.intersection(allfeatrs)
+    if not set(allfps).issubset(allfeatrs):
+        extra_tips = set(allfps) - set(allfps).intersection(allfeatrs)
         raise ValueError('The following tips were not '
                          'found in the feature table:\n' +
                          ', '.join([str(i) for i in extra_tips]))
     filtered_table = table.reindex(allfps)
+    fps = fps.apply(pd.to_numeric)
     fps = (fps > 0.5).astype(int)
-    for fid in fps.index:
+    list_md5 = []
+    for fid in allfps:
         md5 = str(hashlib.sha256(fps.loc[fid].values.tobytes()).hexdigest())
-        fps.loc[fid, 'label'] = md5
-        filtered_table.loc[fid, 'label'] = md5
+        list_md5.append(md5)
+    fps['label'] = list_md5
+    filtered_table['label'] = list_md5
     feature_data = pd.DataFrame(columns=['label', '#featureID'])
-    feature_data['label'] = fps['label']
-    feature_data['#featureID'] = fps.index
+    feature_data['label'] = list_md5
+    feature_data['#featureID'] = allfps
     feature_data.set_index('label', inplace=True)
     relabel_fps = fps.groupby('label').first()
     matched_table = filtered_table.groupby('label').sum()
