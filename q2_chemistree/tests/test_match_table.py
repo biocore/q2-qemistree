@@ -40,15 +40,15 @@ class TestMatch(TestCase):
     def test_matchFdata(self):
         relabeled_fps, matched_ft, matched_fdata = match_label(self.tablefp,
                                                                self.features)
-        fdata_featrs = set(matched_fdata.index)
-        featrs = set(matched_ft.ids(axis='observation'))
+        fdata_featrs = sorted(list(matched_fdata.index))
+        featrs = sorted(list(matched_ft.ids(axis='observation')))
         self.assertEqual(fdata_featrs, featrs)
 
     def test_matchFps(self):
         relabeled_fps, matched_ft, matched_fdata = match_label(self.tablefp,
                                                                self.features)
-        featrs = set(matched_ft.ids(axis='observation'))
-        fps = set(relabeled_fps.index)
+        featrs = sorted(list(matched_ft.ids(axis='observation')))
+        fps = sorted(list(relabeled_fps.index))
         self.assertEqual(fps, featrs)
 
 
