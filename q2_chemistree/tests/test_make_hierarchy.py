@@ -50,7 +50,7 @@ class TestHierarchy(TestCase):
             [goodcsi1], [self.features])
         featrs = sorted(list(merged_fts.ids(axis='observation')))
         fdata_featrs = sorted(list(merged_fdata.index))
-        self.assertEqual(len(featrs) <= self.features.shape[0], True)
+        self.assertEqual(len(featrs) == 3, True)
         self.assertEqual(fdata_featrs, featrs)
 
     def test_mergeFeatureDataMultiple(self):
@@ -60,9 +60,7 @@ class TestHierarchy(TestCase):
             [goodcsi1, goodcsi2], [self.features, self.features2])
         featrs = sorted(list(merged_fts.ids(axis='observation')))
         fdata_featrs = sorted(list(merged_fdata.index))
-        nfeatr = self.features.shape[0]
-        nfeatr2 = self.features2.shape[0]
-        self.assertEqual(len(featrs) <= nfeatr+nfeatr2, True)
+        self.assertEqual(len(featrs) == 9, True)
         self.assertEqual(fdata_featrs, featrs)
 
     def test_FeatureDataMultipleRepeated(self):
@@ -76,6 +74,8 @@ class TestHierarchy(TestCase):
                               columns=['table_number', '#featureID'])
         merged_fdata = merge_feature_data([fdata1, fdata2])
         fdata_featrs = sorted(list(merged_fdata.index))
+        self.assertEqual(merged_fdata.loc['a','table_number'], '1,1,2')
+        self.assertEqual(merged_fdata.loc['c','table_number'], '1,2,2')
         self.assertEqual(fdata_featrs, ['a', 'b', 'c', 'd', 'e', 'f'])
 
     def test_emptyFeatures(self):
