@@ -74,8 +74,8 @@ class TestHierarchy(TestCase):
                               columns=['table_number', '#featureID'])
         merged_fdata = merge_feature_data([fdata1, fdata2])
         fdata_featrs = sorted(list(merged_fdata.index))
-        self.assertEqual(merged_fdata.loc['a','table_number'], '1,1,2')
-        self.assertEqual(merged_fdata.loc['c','table_number'], '1,2,2')
+        self.assertEqual(merged_fdata.loc['a', 'table_number'], '1,1,2')
+        self.assertEqual(merged_fdata.loc['c', 'table_number'], '1,2,2')
         self.assertEqual(fdata_featrs, ['a', 'b', 'c', 'd', 'e', 'f'])
 
     def test_emptyFeatures(self):
