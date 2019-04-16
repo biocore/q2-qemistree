@@ -17,7 +17,35 @@ def match_label(collated_fingerprints: pd.DataFrame,
     This function filters the feature table to retain only features with
     fingerprints. It also relabels features with MD5 hash of its
     binary fingerprint vector.
+
+    Parameters
+    ----------
+    collated_fingerprints : pd.DataFrame
+        table containing mass-spec molecular substructures (columns) for each
+        mass-spec feature (index)
+    feature_table : biom.Table
+        feature tables with mass-spec feature intensity per sample.
+
+    Raises
+    ------
+    ValueError
+        If features in collated fingerprint table are not a subset of
+        features in ``feature_table``
+
+    Returns
+    -------
+    pd.DataFrame
+        fingerprint table with features relabeled with MD5 hash of
+        its binary fingerprint vector
+    biom.Table
+        feature table that is filtered to contain only the
+        features with predicted fingerprints. Features are labeled by MD5 hash
+        of its binary fingerprint vector
+    pd.DataFrame
+        table that maps MD5 hash of a feature to the original feature ID in
+        the input feature table
     '''
+
     fps = collated_fingerprints.copy()
     allfps = list(fps.index)
     if fps.empty:
