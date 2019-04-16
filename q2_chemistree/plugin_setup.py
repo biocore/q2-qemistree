@@ -143,7 +143,7 @@ plugin.methods.register_function(
                                                    'per feature using '
                                                    'CSI:FingerID'}
 )
-# TODO update input descriptions to clarify the importance of order
+
 plugin.methods.register_function(
     function=make_hierarchy,
     name='Create a molecular tree',
