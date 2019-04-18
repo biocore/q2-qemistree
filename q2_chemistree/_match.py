@@ -58,11 +58,10 @@ def match_label(collated_fingerprints: pd.DataFrame,
                          'found in the feature table:\n' +
                          ', '.join([str(i) for i in extra_tips]))
     filtered_table = table.reindex(allfps)
-    fps = fps.apply(pd.to_numeric)
     fps = (fps > 0.5).astype(int)
     list_md5 = []
     for fid in allfps:
-        md5 = str(hashlib.sha256(fps.loc[fid].values.tobytes()).hexdigest())
+        md5 = str(hashlib.md5(fps.loc[fid].values.tobytes()).hexdigest())
         list_md5.append(md5)
     fps['label'] = list_md5
     filtered_table['label'] = list_md5
