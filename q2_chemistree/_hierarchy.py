@@ -12,6 +12,7 @@ from sklearn.metrics import pairwise_distances
 from scipy.spatial.distance import squareform
 from scipy.cluster.hierarchy import linkage
 from skbio import TreeNode
+from q2_feature_table import merge
 
 from ._collate_fingerprint import collate_fingerprint
 from ._match import match_label
@@ -32,9 +33,33 @@ def build_tree(relabeled_fingerprints: pd.DataFrame) -> TreeNode:
     return tree
 
 
-def make_hierarchy(csi_result: CSIDirFmt,
-                   feature_table: biom.Table,
-                   qc_properties: bool = True) -> (TreeNode, biom.Table):
+def merge_feature_data(fdata: pd.DataFrame):
+    '''
+    This function merges feature data from multiple feature tables. The
+    resulting table is indexed by MD5 hash mapped to unique feature
+    identifiers in the original feature tables.
+    '''
+    for idx, data in enumerate(fdata):
+        data['table_number'] = str(idx+1)
+    merged_fdata = pd.concat(fdata)
+    dupl_bool = merged_fdata.index.duplicated(keep='first')
+    duplicates = merged_fdata[dupl_bool].index.unique()
+    if len(duplicates) == 0:
+        return merged_fdata
+    else:
+        for idx in duplicates:
+            merged_fdata.loc[idx, '#featureID'] = (',').join(
+                list(merged_fdata.loc[idx, '#featureID']))
+            merged_fdata.loc[idx, 'table_number'] = (',').join(
+                list(merged_fdata.loc[idx, 'table_number']))
+        merged_fdata = merged_fdata[~dupl_bool]
+        return merged_fdata
+
+
+def make_hierarchy(csi_results: CSIDirFmt,
+                   feature_tables: biom.Table,
+                   qc_properties: bool = True) -> (TreeNode, biom.Table,
+                                                   pd.DataFrame):
     '''
     This function generates a hierarchy of mass-spec features based on
     predicted chemical fingerprints. It filters the feature table to
@@ -43,10 +68,10 @@ def make_hierarchy(csi_result: CSIDirFmt,
 
     Parameters
     ----------
-    csi_result : CSIDirFmt
-        CSI:FingerID output folder
+    csi_results : CSIDirFmt
+        one or more CSI:FingerID output folder
     feature_table : biom.Table
-        feature table with mass-spec feature intensity per sample
+        one or more feature tables with mass-spec feature intensity per sample
     qc_properties : bool, default True
         flag to filter molecular properties to keep only PUBCHEM fingerprints
 
@@ -64,15 +89,29 @@ def make_hierarchy(csi_result: CSIDirFmt,
     skbio.TreeNode
         a tree of relatedness of molecules
     biom.Table
-        filtered feature table that contains only the features present in
-        the tree
+        merged feature table that is filtered to contain only the
+        features present in the tree
+    pd.DataFrame
+        merged feature data
     '''
 
-    if feature_table.is_empty():
-        raise ValueError("Cannot have empty feature table")
-    fingerprints = collate_fingerprint(csi_result, qc_properties)
-    relabeled_fingerprints, matched_feature_table = match_label(fingerprints,
-                                                                feature_table)
-    tree = build_tree(relabeled_fingerprints)
+    fps, fts, fdata = [], [], []
+    if len(feature_tables) != len(csi_results):
+        raise ValueError("The feature tables and CSI results should have a "
+                         "one-to-one correspondance.")
+    for feature_table, csi_result in zip(feature_tables, csi_results):
+        if feature_table.is_empty():
+            raise ValueError("Cannot have empty feature table")
+        fingerprints = collate_fingerprint(csi_result, qc_properties)
+        relabeled_fp, matched_ft, feature_data = match_label(fingerprints,
+                                                             feature_table)
+        fps.append(relabeled_fp)
+        fts.append(matched_ft)
+        fdata.append(feature_data)
+    merged_fdata = merge_feature_data(fdata)
+    merged_fps = pd.concat(fps)
+    merged_fps = merged_fps[~merged_fps.index.duplicated(keep='first')]
+    merged_fts = merge(fts, overlap_method='error_on_overlapping_sample')
+    tree = build_tree(merged_fps)
 
-    return tree, matched_feature_table
+    return tree, merged_fts, merged_fdata

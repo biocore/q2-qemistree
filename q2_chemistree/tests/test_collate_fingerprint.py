@@ -12,8 +12,8 @@ import pandas as pd
 import os
 import pkg_resources
 import qiime2
-from q2_chemistree import CSIDirFmt
 
+from q2_chemistree import CSIDirFmt
 from q2_chemistree._collate_fingerprint import collate_fingerprint
 
 data = pkg_resources.resource_filename('q2_chemistree', 'data')
@@ -33,7 +33,8 @@ class FingerprintTests(TestCase):
         self.properties.set_index('absoluteIndex', inplace=True)
 
     def test_fingerprintOut(self):
-        with self.assertRaises(ValueError):
+        msg = "Fingerprint file is empty!"
+        with self.assertRaisesRegex(ValueError, msg):
             collate_fingerprint(self.emptycsi)
 
     def test_featureMatch(self):

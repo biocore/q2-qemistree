@@ -34,7 +34,7 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = True):
                 fname = os.listdir(os.path.join(fidpath, 'fingerprints'))[0]
                 with open(os.path.join(fidpath, 'fingerprints', fname)) as f:
                     fp = f.read().strip().split('\n')
-                molfp[fid] = fp
+                molfp[fid] = [float(val) for val in fp]
     fingerids = pd.DataFrame.from_dict(molfp, orient='index')
     if fingerids.shape == (0, 0):
         raise ValueError('Fingerprint file is empty!')

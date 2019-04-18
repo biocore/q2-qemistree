@@ -5,6 +5,7 @@
 #
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
+import importlib
 from ._fingerprint import (compute_fragmentation_trees,
                            rerank_molecular_formulas,
                            predict_fingerprints)
@@ -12,9 +13,10 @@ from ._hierarchy import make_hierarchy
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          SiriusFolder, SiriusDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
-                         CSIFolder, CSIDirFmt)
+                         CSIFolder, CSIDirFmt,
+                         FeatureData, TSVMoleculesFormat, Molecules)
 
-from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool
+from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool, List
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
 
@@ -47,6 +49,11 @@ plugin.register_views(CSIDirFmt)
 plugin.register_semantic_types(CSIFolder)
 plugin.register_semantic_type_to_format(CSIFolder,
                                         artifact_format=CSIDirFmt)
+
+plugin.register_views(TSVMoleculesFormat)
+plugin.register_semantic_types(Molecules)
+plugin.register_semantic_type_to_format(FeatureData[Molecules],
+                                        artifact_format=TSVMoleculesFormat)
 
 PARAMS = {
     'ionization_mode': Str % Choices(['positive', 'negative', 'auto']),
@@ -141,22 +148,30 @@ plugin.methods.register_function(
     function=make_hierarchy,
     name='Create a molecular tree',
     description='Build a phylogeny based on molecular substructures',
-    inputs={'csi_result': CSIFolder,
-            'feature_table': FeatureTable[Frequency]},
+    inputs={'csi_results': List[CSIFolder],
+            'feature_tables': List[FeatureTable[Frequency]]},
     parameters={'qc_properties': Bool},
-    input_descriptions={'csi_result': 'CSI:FingerID output folder',
-                        'feature_table': 'Feature table that will be filtered '
-                                         'based on the features of the '
-                                         'phylogenetic tree'},
+    input_descriptions={'csi_results': 'one or more CSI:FingerID '
+                                       'output folders',
+                        'feature_tables': 'one or more feature tables with '
+                                          'mass-spec feature intensity '
+                                          'per sample'},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints'},
     outputs=[('tree', Phylogeny[Rooted]),
-             ('matched_feature_table', FeatureTable[Frequency])],
+             ('merged_feature_table', FeatureTable[Frequency]),
+             ('merged_feature_data', FeatureData[Molecules])],
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
                                  'substructures within those features',
-                         'matched_feature_table': 'filtered feature table '
-                                                  'that contains only the '
-                                                  'features present in '
-                                                  'the tree'}
+                         'merged_feature_table': 'filtered feature table '
+                                                 'that contains only the '
+                                                 'features present in '
+                                                 'the tree',
+                         'merged_feature_data': 'mapping of unique feature '
+                                                'identifiers in input '
+                                                'feature tables to MD5 hash '
+                                                'of feature fingerprints'}
 )
+
+importlib.import_module('q2_chemistree._transformer')
