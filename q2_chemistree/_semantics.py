@@ -34,15 +34,31 @@ TSVMoleculesFormat = model.SingleFileDirectoryFormat('TSVMoleculesFormat',
                                                      TSVMolecules)
 Molecules = SemanticType('Molecules', variant_of=FeatureData.field['type'])
 
+
+# TODO: define this class
+# FingerprintNetworkEdgesFile (mimic MGFFile)
+class TSVFingerprints(model.TextFileFormat):
+    def sniff(self):
+        # we don't really parse this file
+        return True
+
+FingerprintsDirFmt = model.SingleFileDirectoryFormat('TSVFingerprints', 
+                                                    'fingerprints.tsv', 
+                                                    TSVFingerprints)
+MergedFingerprints = SemanticType('MergedFingerprints')
+
+# TODO: define this class
+# FingerprintNetworkEdgesFile (mimic MGFFile)
 class FingerprintNetworkEdgesFile(model.TextFileFormat):
     def sniff(self):
         # we don't really parse this file
         return True
 
-
 FingerprintNetworkEdgesDirFmt = model.SingleFileDirectoryFormat(
 'FingerprintNetworkEdgesFile', 'networkedges.tsv', FingerprintNetworkEdgesFile)
 FingerprintNetworkEdges = SemanticType('FingerprintNetworkEdges')
+
+
 
 class OutputDirs(model.DirectoryFormat):
 
