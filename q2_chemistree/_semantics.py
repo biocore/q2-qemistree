@@ -8,6 +8,7 @@
 
 import qiime2.plugin.model as model
 from qiime2.plugin import SemanticType
+from q2_types.feature_data import FeatureData
 import os
 
 
@@ -21,6 +22,18 @@ MGFDirFmt = model.SingleFileDirectoryFormat('MGFFile', 'features.mgf', MGFFile)
 MassSpectrometryFeatures = SemanticType('MassSpectrometryFeatures')
 
 
+# TODO: define this class
+# TSVMoleculesFormat (mimic MGFFile)
+class TSVMolecules(model.TextFileFormat):
+    def sniff(self):
+        return True
+
+
+TSVMoleculesFormat = model.SingleFileDirectoryFormat('TSVMoleculesFormat',
+                                                     'feature_data.tsv',
+                                                     TSVMolecules)
+Molecules = SemanticType('Molecules', variant_of=FeatureData.field['type'])
+
 class FingerprintNetworkEdgesFile(model.TextFileFormat):
     def sniff(self):
         # we don't really parse this file
@@ -30,7 +43,6 @@ class FingerprintNetworkEdgesFile(model.TextFileFormat):
 FingerprintNetworkEdgesDirFmt = model.SingleFileDirectoryFormat(
 'FingerprintNetworkEdgesFile', 'networkedges.tsv', FingerprintNetworkEdgesFile)
 FingerprintNetworkEdges = SemanticType('FingerprintNetworkEdges')
-
 
 class OutputDirs(model.DirectoryFormat):
 

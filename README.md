@@ -6,7 +6,7 @@ A tool to build a tree of MS1 features to compare chemical composition of sample
 
 ## Installation
 
-Once QIIME 2 is [installed](https://docs.qiime2.org/2018.11/install/), activate your QIIME 2 environment and install q2-chemistree following the steps below:
+Once QIIME 2 is [installed](https://docs.qiime2.org/2019.1/install/), activate your QIIME 2 environment and install q2-chemistree following the steps below:
 
 ```bash
 git clone https://github.com/biocore/q2-chemistree.git
@@ -15,7 +15,7 @@ pip install .
 qiime dev refresh-cache
 ```
 
-q2-chemistree uses [SIRIUS](https://github.com/boecker-lab/sirius), a software-framework developed for de-novo identification of metabolites. We use molecular substrucures predicted by SIRIUS to build a hierarchy of the MS1 features in a dataset. SIRIUS is freely available [here](https://bio.informatik.uni-jena.de/software/sirius/). For this demo, we download SIRIUS for macOS as follows (for linux the only thing that changes is the URL from which the binary is downloaded):
+q2-chemistree uses [SIRIUS](https://www.nature.com/articles/s41592-019-0344-8), a software-framework developed for de-novo identification of metabolites. We use molecular substrucures predicted by SIRIUS to build a hierarchy of the MS1 features in a dataset. For this demo, please download and unzip the latest version of SIRIUS from [here](https://bio.informatik.uni-jena.de/sirius/). Below, we download SIRIUS for macOS as follows (for linux the only thing that changes is the URL from which the binary is downloaded):
 
 ```bash
 wget https://bio.informatik.uni-jena.de/repository/dist-release-local/de/unijena/bioinf/ms/sirius/4.0.1/sirius-4.0.1-osx64-headless.zip
@@ -30,9 +30,7 @@ unzip sirius-4.0.1-osx64-headless.zip
 qiime chemistree compute-fragmentation-trees
 qiime chemistree rerank-molecular-formulas
 qiime chemistree predict-fingerprints
-qiime chemistree collate-fingerprint
 qiime chemistree make-hierarchy
-qiime chemistree match-table
 ```
 
 To generate a tree that relates the MS1 features in your experiment, we need to pre-process mass-spectrometry data (.mzXML files) using [MZmine2](http://mzmine.github.io) and produce the following inputs:
@@ -100,32 +98,38 @@ qiime chemistree predict-fingerprints --p-sirius-path 'sirius-osx64-headless-4.0
   ```
 
 This gives us a QIIME 2 artifact of type `CSIFolder` that contains probabilities of molecular substructures (total 2936 molecular properties) within in each feature.
-We now generate a contingency table with these probabilities i.e. molecular fingerprints of MS1 features in our experiment. This is of type `FeatureTable[Frequency]`.
-
-```bash
-qiime chemistree collate-fingerprint --i-csi-result fingerprints.qza \
---p-qc-properties \
---o-collated-fingerprints collated_fingerprints_qc.qza
-```
-
-By default, we only use PUBCHEM fingerprints (total 489 molecular properties). Adding `--p-no-qc-properties` retains all (2936) the molecular properties in the contingency table. This table is used to generate out hierarchy of molecules!
+Now, we use these predicted molecular substructures to generate a hierarchy of molecules as follows:
 
 ```bash
 qiime chemistree make-hierarchy \
-  --i-collated-fingerprints collated_fingerprints_qc.qza \
-  --p-prob-threshold 0.5 \
-  --o-tree demo-chemisTree.qza
+  --i-csi-results fingerprints.qza \
+  --i-feature-tables feature-table.qza \
+  --o-tree demo-chemistree.qza \
+  --o-merged-feature-table filtered-feature-table.qza
+  --o-merged-feature-data feature-data.qza
 ```
 
-This generates a tree relating the MS1 features in these data based on molecular substructures predicted for MS1 features. This is of type `Phylogeny[Rooted]`. **Note**: SIRIUS predicts molecular substructures for a subset of features (typically for 70-90% of all MS1 features) in your experiment (based on factors such as sample type, the quality MS2 spectra, and used-defined tolerances such as `--p-ppm-max`, `--p-zodiac-threshold`). Thus, we need to remove the MS1 features without fingerprints from the feature table with:
+To support meta-analyses, this method is capable of handling one or more datasets i.e pairs of CSI results and feature tables. Below is an example for two datasets:
 
 ```bash
-qiime chemistree match-table --i-tree demo-chemisTree.qza \
-  --i-feature-table feature-table.qza \
-  --o-filtered-feature-table filtered-feature-table.qza
+qiime chemistree make-hierarchy \
+  --i-csi-results fingerprints.qza \
+  --i-csi-results fingerprints2.qza \
+  --i-feature-tables feature-table.qza \
+  --i-feature-tables feature-table2.qza
+  --o-tree merged-chemistree.qza \
+  --o-merged-feature-table merged-feature-table.qza \
+  --o-merged-feature-data merged-feature-data.qza
 ```
 
-This filters the MS1 table to include only the MS1 features with molecular fingerprints. The resulting table is also of type `FeatureTable[Frequency]`.
+**Note:** The input CSI results and feature tables should have a one-to-one correspondance i.e csi results and feature tables from all datasets should be provided in the same order.
+
+This method generates the following:
+1. A combined feature table by merging all the input feature tables; MS1 features without fingerprints are filtered out of this feature table. This is done because SIRIUS predicts molecular substructures for a subset of features (typically for 70-90% of all MS1 features) in an experiment (based on factors such as sample type, the quality MS2 spectra, and user-defined tolerances such as `--p-ppm-max`, `--p-zodiac-threshold`). This output is of type `FeatureTable[Frequency]`.
+2. A tree relating the MS1 features in these data based on molecular substructures predicted for MS1 features. This is of type `Phylogeny[Rooted]`. By default, we only use PubChem fingerprints (total 489 molecular properties). Adding `--p-no-qc-properties` retains all (2936) the molecular properties in the contingency table.
+**Note**: The latest release of [SIRIUS](https://www.nature.com/articles/s41592-019-0344-8) uses PubChem version downloaded on 13 August 2017.
+3. A combined feature data file that contains unique identifiers of each feature, their corresponding original feature identifier, and feature tables that each feature was detected in. This is of type `FeatureData[Molecules]`. (The renaming of features needs to be done to avoid overlapping, non-unique feature identifiers in the original feature table)
+
 
 Thus, using these steps, we can generate a tree (`demo-chemisTree.qza`) relating MS1 features in mass-spectrometry dataset along with a matched feature table (`filtered-feature-table.qza`). These can be used as inputs to perform [UniFrac](https://aem.asm.org/content/71/12/8228)-based [alpha-diversity](https://docs.qiime2.org/2018.8/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2018.8/plugins/available/diversity/beta-phylogenetic/) analyses.
 

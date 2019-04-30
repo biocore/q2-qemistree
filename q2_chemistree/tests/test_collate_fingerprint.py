@@ -12,8 +12,9 @@ import pandas as pd
 import os
 import pkg_resources
 import qiime2
+
 from q2_chemistree import CSIDirFmt
-from q2_chemistree import collate_fingerprint
+from q2_chemistree._collate_fingerprint import collate_fingerprint
 
 data = pkg_resources.resource_filename('q2_chemistree', 'data')
 
@@ -32,7 +33,8 @@ class FingerprintTests(TestCase):
         self.properties.set_index('absoluteIndex', inplace=True)
 
     def test_fingerprintOut(self):
-        with self.assertRaises(ValueError):
+        msg = "Fingerprint file is empty!"
+        with self.assertRaisesRegex(ValueError, msg):
             collate_fingerprint(self.emptycsi)
 
     def test_featureMatch(self):
@@ -40,20 +42,20 @@ class FingerprintTests(TestCase):
         tablefp = collate_fingerprint(goodcsi)
         features = load_table(self.featureTable)
         allfeatrs = set(features.ids(axis='observation'))
-        fpfeatrs = set(tablefp.ids(axis='observation'))
+        fpfeatrs = set(tablefp.index)
         self.assertEqual(fpfeatrs <= allfeatrs, True)
 
     def test_pubchemTrue(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
         tablefp = collate_fingerprint(goodcsi, qc_properties=True)
         indx = self.properties.loc[self.properties.type == 'PUBCHEM'].index
-        self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
+        self.assertEqual(set(tablefp.columns) == set(indx), True)
 
     def test_pubchemFalse(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
         tablefp = collate_fingerprint(goodcsi, qc_properties=False)
         indx = self.properties.index
-        self.assertEqual(set(tablefp.ids(axis='sample')) == set(indx), True)
+        self.assertEqual(set(tablefp.columns) == set(indx), True)
 
 
 if __name__ == '__main__':

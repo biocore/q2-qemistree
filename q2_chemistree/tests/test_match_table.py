@@ -8,43 +8,48 @@
 
 from unittest import TestCase, main
 import os
-import warnings
+import pandas as pd
 from biom import load_table
-from biom.table import Table
-from q2_chemistree import match_table, collate_fingerprint, make_hierarchy
+
+from q2_chemistree._collate_fingerprint import collate_fingerprint
+from q2_chemistree._match import match_label
 
 
-class test_match(TestCase):
+class TestMatch(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-        table = Table({}, [], [])
-        self.emptyfeatures = table
-        table = Table({}, ['a', 'b', 'c'], [])
+        table = pd.DataFrame()
+        self.emptyfps = table
+        table = pd.DataFrame(index=['a', 'b', 'c'], data=['a', 'b', 'c'])
         self.wrongtips = table
-        self.goodtable = os.path.join(THIS_DIR, 'data/features_formated.biom')
-        self.goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
-        self.goodthresh = 0.5
-        tablefp = collate_fingerprint(self.goodcsi)
-        treeout = make_hierarchy(tablefp, prob_threshold=self.goodthresh)
-        self.goodtree = treeout
+        goodtable = os.path.join(THIS_DIR, 'data/features_formated.biom')
+        self.features = load_table(goodtable)
+        goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
+        self.tablefp = collate_fingerprint(goodcsi)
 
     def test_emptyTable(self):
-        with self.assertRaises(ValueError):
-            match_table(self.goodtree, self.emptyfeatures)
+        msg = "Cannot have empty fingerprint table"
+        with self.assertRaisesRegex(ValueError, msg):
+            match_label(self.emptyfps, self.features)
 
     def test_tipMismatch(self):
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            match_table(self.goodtree, self.wrongtips)
-            assert len(w) == 1
-            assert issubclass(w[-1].category, UserWarning)
+        msg = "^The following tips were not found in the feature table:"
+        with self.assertRaisesRegex(ValueError, msg):
+            match_label(self.wrongtips, self.features)
 
-    def test_matchPipeline(self):
-        tips = {node.name for node in self.goodtree.tips()}
-        features = load_table(self.goodtable)
-        tableout = match_table(self.goodtree, features)
-        tableids = set(tableout.ids(axis='observation'))
-        self.assertEqual(tips, tableids)
+    def test_matchFdata(self):
+        relabeled_fps, matched_ft, matched_fdata = match_label(self.tablefp,
+                                                               self.features)
+        fdata_featrs = sorted(list(matched_fdata.index))
+        featrs = sorted(list(matched_ft.ids(axis='observation')))
+        self.assertEqual(fdata_featrs, featrs)
+
+    def test_matchFps(self):
+        relabeled_fps, matched_ft, matched_fdata = match_label(self.tablefp,
+                                                               self.features)
+        featrs = sorted(list(matched_ft.ids(axis='observation')))
+        fps = sorted(list(relabeled_fps.index))
+        self.assertEqual(fps, featrs)
 
 
 if __name__ == '__main__':
