@@ -5,19 +5,19 @@
 #
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
+import importlib
 from ._fingerprint import (compute_fragmentation_trees,
                            rerank_molecular_formulas,
                            predict_fingerprints)
 from ._hierarchy import make_hierarchy, make_network
-from ._match import match_table
-from ._collate_fingerprint import collate_fingerprint
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          SiriusFolder, SiriusDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
-                         CSIFolder, CSIDirFmt, FingerprintNetworkEdges,
+                         CSIFolder, CSIDirFmt,
+                         FeatureData, TSVMoleculesFormat, Molecules, FingerprintNetworkEdges,
                          FingerprintNetworkEdgesDirFmt)
 
-from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool
+from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool, List
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
 import importlib
@@ -52,6 +52,11 @@ plugin.register_views(CSIDirFmt)
 plugin.register_semantic_types(CSIFolder)
 plugin.register_semantic_type_to_format(CSIFolder,
                                         artifact_format=CSIDirFmt)
+
+plugin.register_views(TSVMoleculesFormat)
+plugin.register_semantic_types(Molecules)
+plugin.register_semantic_type_to_format(FeatureData[Molecules],
+                                        artifact_format=TSVMoleculesFormat)
 
 plugin.register_views(FingerprintNetworkEdgesDirFmt)
 plugin.register_semantic_types(FingerprintNetworkEdges)
@@ -151,34 +156,30 @@ plugin.methods.register_function(
     function=make_hierarchy,
     name='Create a molecular tree',
     description='Build a phylogeny based on molecular substructures',
-    inputs={'collated_fingerprints': FeatureTable[Frequency]},
-    parameters={'prob_threshold': Float % Range(0, 1, inclusive_end=True),
-                'distance_metric': Str % Choices(['braycurtis', 'canberra',
-                                                  'chebyshev', 'cityblock',
-                                                  'correlation', 'cosine',
-                                                  'dice', 'euclidean',
-                                                  'hamming', 'jaccard',
-                                                  'kulsinski', 'mahalanobis',
-                                                  'matching', 'rogerstanimoto',
-                                                  'russellrao', 'seuclidean',
-                                                  'sokalmichener', 'yule'
-                                                  'sokalsneath', 'sqeuclidean',
-                                                  'wminkowski'])},
-    input_descriptions={'collated_fingerprints': 'Contingency table of the '
-                                                 'probabilities of '
-                                                 'molecular substructures '
-                                                 'within each feature'},
-    parameter_descriptions={'prob_threshold': 'Probability threshold below '
-                                              'which a substructure is '
-                                              'considered absent.',
-                            'distance_metric': 'Distance metric to calculate '
-                                               'distances between chemical '
-                                               'fingerprints for '
-                                               'making hierarchy.'},
-    outputs=[('tree', Phylogeny[Rooted])],
+    inputs={'csi_results': List[CSIFolder],
+            'feature_tables': List[FeatureTable[Frequency]]},
+    parameters={'qc_properties': Bool},
+    input_descriptions={'csi_results': 'one or more CSI:FingerID '
+                                       'output folders',
+                        'feature_tables': 'one or more feature tables with '
+                                          'mass-spec feature intensity '
+                                          'per sample'},
+    parameter_descriptions={'qc_properties': 'filters molecular properties to '
+                                             'retain PUBCHEM fingerprints'},
+    outputs=[('tree', Phylogeny[Rooted]),
+             ('merged_feature_table', FeatureTable[Frequency]),
+             ('merged_feature_data', FeatureData[Molecules])],
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
-                                 'substructures within those features'}
+                                 'substructures within those features',
+                         'merged_feature_table': 'filtered feature table '
+                                                 'that contains only the '
+                                                 'features present in '
+                                                 'the tree',
+                         'merged_feature_data': 'mapping of unique feature '
+                                                'identifiers in input '
+                                                'feature tables to MD5 hash '
+                                                'of feature fingerprints'}
 )
 
 plugin.methods.register_function(
@@ -215,41 +216,6 @@ plugin.methods.register_function(
     outputs=[('networkedges', FingerprintNetworkEdges)],
     output_descriptions={'networkedges': 'Output network edges of '
                                             'distances as a molecular network'}
-)
-
-plugin.methods.register_function(
-    function=match_table,
-    name='Match feature table to tree tips',
-    description='Filters feature table to to match tree tips',
-    inputs={'tree': Phylogeny[Rooted],
-            'feature_table': FeatureTable[Frequency]},
-    input_descriptions={'tree': 'Phylogenetic tree with the features that will'
-                                ' be retained on the feature table',
-                        'feature_table': 'Feature table that will be filtered '
-                                         'based on the features of the '
-                                         'phylogenetic tree'},
-    parameters={},
-    outputs=[('filtered_feature_table', FeatureTable[Frequency])],
-    output_descriptions={'filtered_feature_table': 'filtered feature table '
-                                                   'that contains only the '
-                                                   'features present in '
-                                                   'the tree'}
-)
-
-plugin.methods.register_function(
-    function=collate_fingerprint,
-    name='Collate fingerprints into a table',
-    description='Collate fingerprints predicted by CSI:FingerID',
-    inputs={'csi_result': CSIFolder},
-    input_descriptions={'csi_result': 'CSI:FingerID output folder'},
-    parameters={'qc_properties': Bool},
-    parameter_descriptions={'qc_properties': 'filters molecular properties to '
-                                             'keep only PUBCHEM fingerprints'},
-    outputs=[('collated_fingerprints', FeatureTable[Frequency])],
-    output_descriptions={'collated_fingerprints': 'Contingency table of the '
-                                                  'probabilities of '
-                                                  'molecular substructures '
-                                                  'within each feature'}
 )
 
 importlib.import_module('q2_chemistree._transformer')
