@@ -18,7 +18,6 @@ from ._collate_fingerprint import collate_fingerprint
 from ._match import match_label
 from ._semantics import CSIDirFmt
 
-
 def build_tree(relabeled_fingerprints: pd.DataFrame) -> TreeNode:
     '''
     This function makes a tree of relatedness between mass-spectrometry
@@ -31,20 +30,6 @@ def build_tree(relabeled_fingerprints: pd.DataFrame) -> TreeNode:
     tree = TreeNode.from_linkage_matrix(linkage_matrix,
                                         relabeled_fingerprints.index.tolist())
     return tree
-
-# def build_network(relabeled_fingerprints: pd.DataFrame) -> pd.DataFrame:
-#      '''
-#     This function makes a tree of relatedness between mass-spectrometry
-#     features using molecular substructure fingerprints.
-#     '''
-#     distmat = pairwise_distances(X=relabeled_fingerprints,
-#                                  Y=None, metric='jaccard')
-#     distsq = squareform(distmat, checks=False)
-#     linkage_matrix = linkage(distsq, method='average')
-#     tree = TreeNode.from_linkage_matrix(linkage_matrix,
-#                                         relabeled_fingerprints.index.tolist())
-#     return tree
-
 
 def merge_feature_data(fdata: pd.DataFrame):
     '''
@@ -128,81 +113,3 @@ def make_hierarchy(csi_results: CSIDirFmt,
     tree = build_tree(merged_fps)
 
     return tree, merged_fts, merged_fdata
-
-def output_fingerprints(csi_results: CSIDirFmt) -> pd.DataFrame:
-    all_fingerprints = collate_fingerprint(csi_results, False)
-    all_fingerprints["#FeatureID"] = all_fingerprints.index
-    print(all_fingerprints.head())
-    return all_fingerprints
-    
-
-
-# def make_network(csi_results: CSIDirFmt,
-#                 prob_threshold: float = None,
-#                 network_distance_threshold: float = 0.2,
-#                 distance_metric: str = 'jaccard') -> pd.DataFrame:
-#     '''
-#     This function makes a tree of relatedness between mass-spectrometry
-#     features using molecular substructure information.
-
-#     Parameters
-#     ----------
-#     collated_fingerprints : biom.Table
-#         biom table containing mass-spec feature IDs (as observations)
-#         and molecular substructure IDs (as samples).
-#     prob_threshold : float
-#         probability value below which a molecular substructure is
-#         considered absent from a feature. 'None' for no threshold.
-#     network_distance_threshold: float
-#         maximum distance for similarity network output
-#     distance_metric : str
-#         Distance metric to calculate distances between chemical fingerprints
-#         for making hierarchy
-
-#     Raises
-#     ------
-#     ValueError
-#         If ``collated_fingerprints`` is empty
-#         If ``prob_threshold`` is not in [0,1]
-
-#     Returns
-#     -------
-#     FingerprintNetworkEdgesFile
-#         network edges
-#     '''
-#     fps = []
-#     for feature_table, csi_result in zip(feature_tables, csi_results):
-#         if feature_table.is_empty():
-#             raise ValueError("Cannot have empty feature table")
-#         fingerprints = collate_fingerprint(csi_result, qc_properties)
-#         relabeled_fp, matched_ft, feature_data = match_label(fingerprints,
-#                                                              feature_table)
-#         fps.append(relabeled_fp)
-#     merged_fdata = merge_feature_data(fdata)
-#     merged_fps = pd.concat(fps)
-#     merged_fps = merged_fps[~merged_fps.index.duplicated(keep='first')]
-
-#     if table.shape == (0, 0):
-#         raise ValueError("Cannot have empty fingerprint table")
-#     if prob_threshold is not None:
-#         if not 0 <= prob_threshold <= 1:
-#             raise ValueError("Probability threshold is not in [0,1]")
-#         table = (table > prob_threshold).astype(int)
-#     distmat = pairwise_distances(X=table, Y=None, metric=distance_metric)
-
-#     output_list = []
-
-#     for i in range(distmat.shape[0]):
-#         for j in range(distmat.shape[1]):
-#             if i == j:
-#                 continue
-#             if distmat[i][j] < network_distance_threshold:
-#                 output_list.append([table.index[i],
-#                 table.index[j],
-#                 distmat[i][j]])
-
-#     my_pd = pd.DataFrame(output_list, columns=["FeatureID1",
-#                                                     "FeatureID2",
-#                                                     "Distance"])
-
-#     return my_pd

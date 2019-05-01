@@ -9,7 +9,9 @@ import importlib
 from ._fingerprint import (compute_fragmentation_trees,
                            rerank_molecular_formulas,
                            predict_fingerprints)
-from ._hierarchy import make_hierarchy, output_fingerprints
+from ._hierarchy import make_hierarchy
+from ._summarize import output_fingerprints
+from ._network import make_network
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          SiriusFolder, SiriusDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
@@ -203,40 +205,38 @@ plugin.methods.register_function(
     output_descriptions={'collated_fingerprints': 'Output fingerprints collated'}
 )
 
-# plugin.methods.register_function(
-#     function=make_network,
-#     name='Create a molecular tree',
-#     description='Build a phylogeny based on molecular substructures',
-#     inputs={'collated_fingerprints': FeatureTable[Frequency]},
-#     parameters={'prob_threshold': Float % Range(0, 1, inclusive_end=True),
-#         'network_distance_threshold': Float % Range(0, 1, inclusive_end=True),
-#         'distance_metric': Str % Choices(['braycurtis', 'canberra',
-#                                           'chebyshev', 'cityblock',
-#                                           'correlation', 'cosine',
-#                                           'dice', 'euclidean',
-#                                           'hamming', 'jaccard',
-#                                           'kulsinski', 'mahalanobis',
-#                                           'matching', 'rogerstanimoto',
-#                                           'russellrao', 'seuclidean',
-#                                           'sokalmichener', 'yule'
-#                                           'sokalsneath', 'sqeuclidean',
-#                                           'wminkowski'])},
-#     input_descriptions={'collated_fingerprints': 'Contingency table of the '
-#                                                  'probabilities of '
-#                                                  'molecular substructures '
-#                                                  'within each feature'},
-#     parameter_descriptions={'prob_threshold': 'Probability threshold below '
-#                                               'which a substructure is '
-#                                               'considered absent.',
-#                             'network_distance_threshold': 'Maximum distance '
-#                                             'between in the network output',
-#                             'distance_metric': 'Distance metric to calculate '
-#                                                'distances between chemical '
-#                                                'fingerprints for '
-#                                                'making hierarchy.'},
-#     outputs=[('networkedges', FingerprintNetworkEdges)],
-#     output_descriptions={'networkedges': 'Output network edges of '
-#                                             'distances as a molecular network'}
-# )
+plugin.methods.register_function(
+    function=make_network,
+    name='Create a molecular network',
+    description='Build a network based on molecular substructures',
+    inputs={'csi_results': CSIFolder},
+    parameters={'prob_threshold': Float % Range(0, 1, inclusive_end=True),
+        'network_distance_threshold': Float % Range(0, 1, inclusive_end=True),
+        'distance_metric': Str % Choices(['braycurtis', 'canberra',
+                                          'chebyshev', 'cityblock',
+                                          'correlation', 'cosine',
+                                          'dice', 'euclidean',
+                                          'hamming', 'jaccard',
+                                          'kulsinski', 'mahalanobis',
+                                          'matching', 'rogerstanimoto',
+                                          'russellrao', 'seuclidean',
+                                          'sokalmichener', 'yule'
+                                          'sokalsneath', 'sqeuclidean',
+                                          'wminkowski'])},
+    input_descriptions={'csi_results': 'one CSI:FingerID '
+                                       'output folder'},
+    parameter_descriptions={'prob_threshold': 'Probability threshold below '
+                                              'which a substructure is '
+                                              'considered absent.',
+                            'network_distance_threshold': 'Maximum distance '
+                                            'between in the network output',
+                            'distance_metric': 'Distance metric to calculate '
+                                               'distances between chemical '
+                                               'fingerprints for '
+                                               'making network.'},
+    outputs=[('networkedges', FingerprintNetworkEdges)],
+    output_descriptions={'networkedges': 'Output network edges of '
+                                            'distances as a molecular network'}
+)
 
 importlib.import_module('q2_chemistree._transformer')
