@@ -53,8 +53,6 @@ def make_network(csi_results: CSIDirFmt,
 
     distmat = pairwise_distances(X=all_fingerprints, Y=None, metric=distance_metric)
 
-    print(distmat)
-
     output_list = []
 
     for i in range(distmat.shape[0]):
