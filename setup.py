@@ -13,7 +13,7 @@ setup(
     version=versioneer.get_version(),
     cmdclass=versioneer.get_cmdclass(),
     packages=find_packages(),
-    author='Anupriya Tripathi',
+    author='The q2-qemistree development team',
     author_email='a3tripat@ucsd.edu',
     description='Molecular tree inference for metabolomics analysis.',
     license='BSD-2-Clause',

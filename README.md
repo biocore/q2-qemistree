@@ -1,4 +1,5 @@
 # q2-qemistree
+##### Canonically pronounced *chemis-tree*.
 
 [![Build Status](https://travis-ci.org/biocore/q2-qemistree.svg?branch=master)](https://travis-ci.org/biocore/q2-qemistree) [![Coverage Status](https://coveralls.io/repos/github/biocore/q2-qemistree/badge.svg?branch=master)](https://coveralls.io/github/biocore/q2-qemistree?branch=master)
 
