@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2016-2018, q2-chemistree development team.
+# Copyright (c) 2016-2018, q2-qemistree development team.
 #
 # Distributed under the terms of the Modified BSD License.
 #
@@ -8,10 +8,10 @@
 
 import unittest
 
-from q2_chemistree.plugin_setup import plugin as chemistree_plugin
+from q2_qemistree.plugin_setup import plugin as qemistree_plugin
 
 
 class PluginSetupTests(unittest.TestCase):
 
     def test_plugin_setup(self):
-        self.assertEqual(chemistree_plugin.name, 'chemistree')
+        self.assertEqual(qemistree_plugin.name, 'qemistree')

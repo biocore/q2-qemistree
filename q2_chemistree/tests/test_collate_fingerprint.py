@@ -13,10 +13,10 @@ import os
 import pkg_resources
 import qiime2
 
-from q2_chemistree import CSIDirFmt
-from q2_chemistree._collate_fingerprint import collate_fingerprint
+from q2_qemistree import CSIDirFmt
+from q2_qemistree._collate_fingerprint import collate_fingerprint
 
-data = pkg_resources.resource_filename('q2_chemistree', 'data')
+data = pkg_resources.resource_filename('q2_qemistree', 'data')
 
 
 class FingerprintTests(TestCase):

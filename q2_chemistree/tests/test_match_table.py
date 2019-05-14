@@ -11,8 +11,8 @@ import os
 import pandas as pd
 from biom import load_table
 
-from q2_chemistree._collate_fingerprint import collate_fingerprint
-from q2_chemistree._match import match_label
+from q2_qemistree._collate_fingerprint import collate_fingerprint
+from q2_qemistree._match import match_label
 
 
 class TestMatch(TestCase):
