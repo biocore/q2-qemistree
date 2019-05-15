@@ -15,7 +15,7 @@ install:
   - wget -q https://bio.informatik.uni-jena.de/repository/dist-release-local/de/unijena/bioinf/ms/sirius/4.0.1/sirius-4.0.1-linux64-headless.zip
   - unzip sirius-4.0.1-linux64-headless.zip
   - mv sirius-linux64-headless-4.0.1 q2_qemistree/tests/data/
-  - conda env create -q -n test-env --file qiime2-latest-py35-linux-conda.yml
+  - conda env create -q -n test-env --file qiime2-latest-py36-linux-conda.yml
   - source activate test-env
   - conda install -q pytest-cov
   - pip install -q flake8 coveralls
