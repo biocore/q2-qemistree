@@ -13,7 +13,7 @@ import pkg_resources
 from ._semantics import CSIDirFmt
 
 
-data = pkg_resources.resource_filename('q2_chemistree', 'data')
+data = pkg_resources.resource_filename('q2_qemistree', 'data')
 
 
 def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = True):

@@ -9,7 +9,7 @@ test: all
 	py.test
 
 test-cov: all
-	py.test --cov=q2_chemistree
+	py.test --cov=q2_qemistree
 
 install: all
 	python setup.py install
