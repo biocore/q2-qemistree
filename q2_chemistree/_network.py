@@ -16,7 +16,7 @@ from ._collate_fingerprint import collate_fingerprint
 from ._semantics import CSIDirFmt
 
 def make_network(csi_results: CSIDirFmt,
-                prob_threshold: float = None,
+                prob_threshold: float = 0.5,
                 network_distance_threshold: float = 0.2,
                 distance_metric: str = 'jaccard') -> pd.DataFrame:
     '''
@@ -25,9 +25,8 @@ def make_network(csi_results: CSIDirFmt,
 
     Parameters
     ----------
-    collated_fingerprints : biom.Table
-        biom table containing mass-spec feature IDs (as observations)
-        and molecular substructure IDs (as samples).
+    csi_results : CSIDirFmt
+        one or more CSI:FingerID output folder
     prob_threshold : float
         probability value below which a molecular substructure is
         considered absent from a feature. 'None' for no threshold.
@@ -50,6 +49,12 @@ def make_network(csi_results: CSIDirFmt,
     '''
     
     all_fingerprints = collate_fingerprint(csi_results, False)
+
+    #Rounding to 0 
+    if prob_threshold != None:
+        for key in all_fingerprints.keys():
+            fingerprint_column = all_fingerprints[key]
+            all_fingerprints[key] = fingerprint_column.where(fingerprint_column < prob_threshold, 0.0)
 
     distmat = pairwise_distances(X=all_fingerprints, Y=None, metric=distance_metric)
 
