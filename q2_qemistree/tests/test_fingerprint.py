@@ -11,8 +11,8 @@ import qiime2
 import os
 from q2_qemistree import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, OutputDirs
 from q2_qemistree import (compute_fragmentation_trees,
-                           rerank_molecular_formulas,
-                           predict_fingerprints)
+                          rerank_molecular_formulas,
+                          predict_fingerprints)
 from q2_qemistree._fingerprint import artifactory
 
 
