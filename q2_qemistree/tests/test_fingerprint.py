@@ -9,11 +9,11 @@
 from unittest import TestCase, main
 import qiime2
 import os
-from q2_chemistree import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, OutputDirs
-from q2_chemistree import (compute_fragmentation_trees,
-                           rerank_molecular_formulas,
-                           predict_fingerprints)
-from q2_chemistree._fingerprint import artifactory
+from q2_qemistree import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, OutputDirs
+from q2_qemistree import (compute_fragmentation_trees,
+                          rerank_molecular_formulas,
+                          predict_fingerprints)
+from q2_qemistree._fingerprint import artifactory
 
 
 class FingerprintTests(TestCase):

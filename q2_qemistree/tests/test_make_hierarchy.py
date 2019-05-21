@@ -12,11 +12,11 @@ import qiime2
 import pandas as pd
 from biom.table import Table
 from biom import load_table
-from q2_chemistree import make_hierarchy
-from q2_chemistree import CSIDirFmt
+from q2_qemistree import make_hierarchy
+from q2_qemistree import CSIDirFmt
 
-from q2_chemistree._collate_fingerprint import collate_fingerprint
-from q2_chemistree._hierarchy import merge_feature_data
+from q2_qemistree._collate_fingerprint import collate_fingerprint
+from q2_qemistree._hierarchy import merge_feature_data
 
 
 class TestHierarchy(TestCase):

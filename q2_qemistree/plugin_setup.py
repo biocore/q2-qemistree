@@ -21,10 +21,10 @@ from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
 
 plugin = Plugin(
-    name='chemistree',
+    name='qemistree',
     version='0.0.0',
-    website='https://github.com/biocore/q2-chemistree',
-    package='q2_chemistree',
+    website='https://github.com/biocore/q2-qemistree',
+    package='q2_qemistree',
     description='Hierarchical orderings for mass spectrometry data',
     short_description='Plugin for exploring chemical diversity.',
 )
@@ -174,4 +174,4 @@ plugin.methods.register_function(
                                                 'of feature fingerprints'}
 )
 
-importlib.import_module('q2_chemistree._transformer')
+importlib.import_module('q2_qemistree._transformer')
