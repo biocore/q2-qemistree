@@ -40,7 +40,7 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = True):
         raise ValueError('Fingerprint file is empty!')
     substructrs = pd.read_table(os.path.join(csi_result, 'fingerprints.csv'),
                                 index_col='relativeIndex', dtype=str)
-    fingerids.index.name = '#featureID'
+    fingerids.index.name = 'row ID'
     fingerids.columns = substructrs.loc[fingerids.columns, 'absoluteIndex']
     if qc_properties is True:
         properties = pd.read_table(os.path.join(data,
