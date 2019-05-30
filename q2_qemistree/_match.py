@@ -11,12 +11,12 @@ import hashlib
 import pandas as pd
 
 
-def match_label(collated_fingerprints: pd.DataFrame,
-                feature_table: biom.Table):
+def match_tables(collated_fingerprints: pd.DataFrame,
+                feature_table: biom.Table,
+                feature_data: pd.DataFrame):
     '''
     This function filters the feature table to retain only features with
-    fingerprints. It also relabels features with MD5 hash of its
-    binary fingerprint vector.
+    fingerprints.
 
     Parameters
     ----------
@@ -24,13 +24,20 @@ def match_label(collated_fingerprints: pd.DataFrame,
         table containing mass-spec molecular substructures (columns) for each
         mass-spec feature (index)
     feature_table : biom.Table
-        feature tables with mass-spec feature intensity per sample.
+        feature tables with mass-spec feature intensity per sample
+    feature_data : pd.DataFrame
+        metadata (row ID, row m/z) about features in the feature table
 
     Raises
     ------
     ValueError
         If features in collated fingerprint table are not a subset of
         features in ``feature_table``
+        If feature identifiers in feature table and feature data do not match
+        If 'row m/z' missing in feature data columms
+    UserWarning
+        If features in collated fingerprint table are not a subset of
+        features in corresponding feature table
 
     Returns
     -------
@@ -48,33 +55,20 @@ def match_label(collated_fingerprints: pd.DataFrame,
 
     fps = collated_fingerprints.copy()
     allfps = list(fps.index)
-    if fps.empty:
-        raise ValueError("Cannot have empty fingerprint table")
-    table = feature_table.to_dataframe(dense=True)
-    allfeatrs = set(table.index)
+    ftable = feature_table.to_dataframe(dense=True)
+    allfeatrs = set(ftable.index)
+    if 'row m/z' not in feature_data.columns:
+        raise ValueError("Feature data does not contain 'row m/z'"")
+    if not set(feature_data['row m/z']) == allfeatrs:
+        raise ValueError('The identifiers in feature data and feature table '
+                         ' do not match')
     if not set(allfps).issubset(allfeatrs):
         extra_tips = set(allfps) - set(allfps).intersection(allfeatrs)
         raise ValueError('The following tips were not '
                          'found in the feature table:\n' +
                          ', '.join([str(i) for i in extra_tips]))
-    filtered_table = table.reindex(allfps)
     fps = (fps > 0.5).astype(int)
-    list_md5 = []
-    for fid in allfps:
-        md5 = str(hashlib.md5(fps.loc[fid].values.tobytes()).hexdigest())
-        list_md5.append(md5)
-    fps['label'] = list_md5
-    filtered_table['label'] = list_md5
-    feature_data = pd.DataFrame(columns=['label', '#featureID'])
-    feature_data['label'] = list_md5
-    feature_data['#featureID'] = allfps
-    feature_data.set_index('label', inplace=True)
-    relabel_fps = fps.groupby('label').first()
-    matched_table = filtered_table.groupby('label').sum()
-    # biom requires that ids be strings
-    npfeatures = matched_table.values
-    matched_table = biom.table.Table(
-        data=npfeatures, observation_ids=matched_table.index.astype(str),
-        sample_ids=matched_table.columns.astype(str))
+    filtered_fdata = feature_data.reindex(allfps)
+    filtered_ftable = ftable.reindex(allfps)
 
-    return relabel_fps, matched_table, feature_data
+    return filtered_ftable, filtered_fdata
