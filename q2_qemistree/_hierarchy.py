@@ -60,9 +60,9 @@ def merge_relabel(fps :pd.DataFrame, fts: pd.DataFrame, fdata: pd.DataFrame):
         fts[i].index = ['table' + n + '_' + fid for fid in fts[i].index]
         npfeatures = fts[idx].values
         ft_biom = biom.table.Table(
-            data=npfeatures, observation_ids=fts[idx].index.astype(str),
-            sample_ids=fts[idx].columns.astype(str))
-        fts[idx] = ft_biom
+            data=npfeatures, observation_ids=fts[i].index.astype(str),
+            sample_ids=fts[i].columns.astype(str))
+        fts[i] = ft_biom
     merged_fps = pd.concat(fps)
     merged_fps.index.name = '#featureID'
     merged_fdata = pd.concat(fdata)
@@ -91,6 +91,10 @@ def make_hierarchy(csi_results: CSIDirFmt,
         one or more CSI:FingerID output folder
     feature_table : biom.Table
         one or more feature tables with mass-spec feature intensity per sample
+    feature_data : pd.DataFrame
+        metadata (row ID, row m/z) about features in the feature table
+    mz_tolerance : float
+        maximum allowable tolerance in m/z of parent ions
     qc_properties : bool, default False
         flag to filter molecular properties to keep only PUBCHEM fingerprints
 
@@ -124,10 +128,10 @@ def make_hierarchy(csi_results: CSIDirFmt,
         if feature_table.is_empty():
             raise ValueError("Cannot have empty feature table")
         fingerprints = collate_fingerprint(csi_result, qc_properties)
-        matched_ftable, matched_fdata = match_tables(fingerprints,
-                                                     feature_table,
-                                                     feature_data)
-        fps.append(fingerprints)
+        bin_fps, matched_ftable, matched_fdata = match_tables(fingerprints,
+                                                              feature_table,
+                                                              feature_data)
+        fps.append(bin_fps)
         fts.append(matched_ftable)
         fdata.append(matched_fdata)
     merged_fps, merged_ftable, merged_fdata = merge_relabel(fps, fts, fdata)
