@@ -12,8 +12,8 @@ import pandas as pd
 
 
 def match_tables(collated_fingerprints: pd.DataFrame,
-                feature_table: biom.Table,
-                feature_data: pd.DataFrame):
+                 feature_table: biom.Table,
+                 feature_data: pd.DataFrame):
     '''
     This function filters the feature table to retain only features with
     fingerprints.
@@ -25,8 +25,6 @@ def match_tables(collated_fingerprints: pd.DataFrame,
         mass-spec feature (index)
     feature_table : biom.Table
         feature tables with mass-spec feature intensity per sample
-    mz_tolerance : float
-        maximum allowable tolerance in m/z of parent ions
     feature_data : pd.DataFrame
         metadata (row ID, row m/z) about features in the feature table
 
