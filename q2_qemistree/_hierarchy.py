@@ -20,26 +20,16 @@ from ._collate_fingerprint import collate_fingerprint
 from ._match import match_label
 from ._semantics import CSIDirFmt
 
-def pairwise(merged_fps, merged_fdata=None, operation):
-    X = merged_fps.copy()
-    fnames = list(merged_fps.index)
-    n_featrs = len(fnames)
-    precomputed = pd.DataFrame(index=fnames, columns=fnames, dtype='float')
-    iterator = list(combinations_with_replacement(fnames, 2))
-    if operation == 'intersect':
-        for i, j in iterator:
-            precomputed.loc[i, j] = np.bitwise_and(X[i], X[j]).sum()
-    if operation == 'union':
-        for i, j in iterator:
-            precomputed.loc[i, j] = np.bitwise_or(X[i], X[j]).sum()
-    if operation == 'mzdiff':
-        for i, j in iterator:
-            mzi = float(merged_fdata.loc[i, 'row m/z'])
-            mzj = float(merged_fdata.loc[j, 'row m/z'])
-            precomputed.loc[i, j] = abs(mzi-mzj)
+def jaccard_modified(u,v):
+    identical = np.abs(u[-1] == v[-1])
+    u = u[:-1]
+    v = v[:-1]
+    nonzero = np.bitwise_or(u != 0, v != 0)
+    unequal_nonzero = np.bitwise_and((u != v), nonzero)
+    a = np.double(unequal_nonzero.sum()) + identical
+    b = np.double(nonzero.sum()) + 1
 
-    #TODO: fill lower triangle!!
-    return precomputed
+    return (a / b) if b != 0 else 0
 
 def build_tree(merged_fps: pd.DataFrame,
                merged_fdata: pd.DataFrame,
@@ -49,45 +39,36 @@ def build_tree(merged_fps: pd.DataFrame,
     features using molecular substructure fingerprints.
     '''
 
-    intersect = pairwise(merged_fps, operation='intersect')
-    union = pairwise(merged_fps, operation='union')
-    mzdiff = pairwise(merged_fps, merged_fdata, operation='mzdiff')
-
-    # iterate over all pairs:
-        # if mzdiff > mz_tolerance:
-            # distance = 1-intersection/(union+1)
-        #else:
-            # distance = 1-intersection+1/(union+1)
-
-    ## OLD code
-    # distmat = pairwise_distances(X=relabeled_fingerprints,
-    #                              Y=None, metric='jaccard')
-    # distsq = squareform(distmat, checks=False)
-    # linkage_matrix = linkage(distsq, method='average')
-    # tree = TreeNode.from_linkage_matrix(linkage_matrix,
-    #                                     relabeled_fingerprints.index.tolist())
+    distmat = pairwise_distances(X=merged_fps,
+                                 Y=None, metric=jaccard_modified)
+    distsq = squareform(distmat, checks=False)
+    linkage_matrix = linkage(distsq, method='average')
+    tree = TreeNode.from_linkage_matrix(linkage_matrix,
+                                        merged_fps.index.tolist())
     return tree
 
 
-def merge_feature_data(fps :pd.DataFrame, fts: pd.DataFrame,
-                       fdata: pd.DataFrame):
+def merge_relabel(fps :pd.DataFrame, fts: pd.DataFrame, fdata: pd.DataFrame):
     '''
     This function merges fingerprints, feature table and feature data from
     multiple feature tables.
     '''
-    for idx, data in enumerate(fdata):
-        n_data = str(idx+1)
-        fdata[idx].index = [n_data + '_' + fid for fid in fdata[idx].index]
-        fps[idx].index = [n_data + '_' + fid for fid in fps[idx].index]
-        fts[idx].index = [n_data + '_' + fid for fid in fts[idx].index]
+    for i, data in enumerate(fdata):
+        n = str(i+1)
+        fdata[i].index = ['table' + n + '_' + fid for fid in fdata[i].index]
+        fps[i].index = ['table' + n + '_' + fid for fid in fps[i].index]
+        fts[i].index = ['table' + n + '_' + fid for fid in fts[i].index]
         npfeatures = fts[idx].values
         ft_biom = biom.table.Table(
             data=npfeatures, observation_ids=fts[idx].index.astype(str),
             sample_ids=fts[idx].columns.astype(str))
         fts[idx] = ft_biom
     merged_fps = pd.concat(fps)
+    merged_fps.index.name = '#featureID'
     merged_fdata = pd.concat(fdata)
-    merged_ftable = merge(ftable, overlap_method='error_on_overlapping_sample')
+    merged_fdata.index.name = '#featureID'
+    merged_ftable = merge(fts, overlap_method='error_on_overlapping_sample')
+    merged_ftable.table_id = '#featureID'
 
     return merged_fps, merged_ftable, merged_fdata
 
@@ -95,7 +76,7 @@ def merge_feature_data(fps :pd.DataFrame, fts: pd.DataFrame,
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
                    feature_data: pd.DataFrame,
-                   mz_tolerance: Float,
+                   mz_tolerance: float,
                    qc_properties: bool = False) -> (TreeNode, biom.Table,
                                                     pd.DataFrame):
     '''
