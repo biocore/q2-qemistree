@@ -25,6 +25,8 @@ def match_tables(collated_fingerprints: pd.DataFrame,
         mass-spec feature (index)
     feature_table : biom.Table
         feature tables with mass-spec feature intensity per sample
+    mz_tolerance : float
+        maximum allowable tolerance in m/z of parent ions
     feature_data : pd.DataFrame
         metadata (row ID, row m/z) about features in the feature table
 
@@ -42,15 +44,13 @@ def match_tables(collated_fingerprints: pd.DataFrame,
     Returns
     -------
     pd.DataFrame
-        fingerprint table with features relabeled with MD5 hash of
-        its binary fingerprint vector
+        fingerprint table with binary fingerprint vector
     biom.Table
-        feature table that is filtered to contain only the
-        features with predicted fingerprints. Features are labeled by MD5 hash
-        of its binary fingerprint vector
+        feature table that is filtered to contain only the features with
+        predicted fingerprints.
     pd.DataFrame
-        table that maps MD5 hash of a feature to the original feature ID in
-        the input feature table
+        feature data table that is filtered to contain only the features with
+        predicted fingerprints.
     '''
 
     fps = collated_fingerprints.copy()
@@ -59,7 +59,7 @@ def match_tables(collated_fingerprints: pd.DataFrame,
     allfeatrs = set(ftable.index)
     if 'row m/z' not in feature_data.columns:
         raise ValueError("Feature data does not contain 'row m/z'"")
-    if not set(feature_data['row m/z']) == allfeatrs:
+    if not set(feature_data.index) == allfeatrs:
         raise ValueError('The identifiers in feature data and feature table '
                          ' do not match')
     if not set(allfps).issubset(allfeatrs):
@@ -67,8 +67,8 @@ def match_tables(collated_fingerprints: pd.DataFrame,
         raise ValueError('The following tips were not '
                          'found in the feature table:\n' +
                          ', '.join([str(i) for i in extra_tips]))
-    fps = (fps > 0.5).astype(int)
+    binary_fps = (fps > 0.5).astype(int)
     filtered_fdata = feature_data.reindex(allfps)
     filtered_ftable = ftable.reindex(allfps)
 
-    return filtered_ftable, filtered_fdata
+    return binary_fps, filtered_ftable, filtered_fdata
