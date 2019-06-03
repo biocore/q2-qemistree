@@ -16,12 +16,12 @@ from itertools import combinations_with_replacement
 from q2_feature_table import merge
 
 from ._collate_fingerprint import collate_fingerprint
-from ._match import match_label
+from ._match import match_tables
 from ._semantics import CSIDirFmt
 
 def pdist_union(u,v):
     b = np.double(np.bitwise_or(u, v).sum())
-    
+
     return b
 
 def pairwise_jaccard_modified(merged_fps: pd.DataFrame,
