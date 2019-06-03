@@ -161,7 +161,7 @@ plugin.methods.register_function(
                                         'with m/z of parent ions in the '
                                         'feature table'},
     parameter_descriptions={'mz_tolerance': 'maximum allowable tolerance in '
-                                            'm/z of parent ions'
+                                            'm/z of parent ions',
                             'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints'},
     outputs=[('tree', Phylogeny[Rooted]),
