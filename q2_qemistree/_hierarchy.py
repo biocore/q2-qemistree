@@ -8,8 +8,7 @@
 
 import biom
 import pandas as pd
-from sklearn.metrics import pairwise_distances
-from scipy.spatial.distance import squareform
+from scipy.spatial.distance import squareform, pdist
 from scipy.cluster.hierarchy import linkage
 from skbio import TreeNode
 import numpy as np
@@ -20,27 +19,36 @@ from ._collate_fingerprint import collate_fingerprint
 from ._match import match_label
 from ._semantics import CSIDirFmt
 
-def jaccard_modified(u,v):
-    identical = np.abs(u[-1] == v[-1])
-    u = u[:-1]
-    v = v[:-1]
-    nonzero = np.bitwise_or(u != 0, v != 0)
-    unequal_nonzero = np.bitwise_and((u != v), nonzero)
-    a = np.double(unequal_nonzero.sum()) + identical
-    b = np.double(nonzero.sum()) + 1
+def pdist_union(u,v):
+    b = np.double(np.bitwise_or(u, v).sum())
+    
+    return b
 
-    return (a / b) if b != 0 else 0
+def pairwise_jaccard_modified(merged_fps: pd.DataFrame,
+                              merged_fdata: pd.DataFrame,
+                              mz_tolerance: float):
+    merged_fdata['row m/z'] = pd.to_numeric(merged_fdata['row m/z'])
+    merged_fdata = merged_fdata.sort_index()
+    merged_fps = merged_fps.sort_index()
+    jsim = 1 - pdist(X=merged_fps, metric='jaccard')
+    union = pdist(X=merged_fps != 0, metric=pdist_union)
+    mz_diff = pdist(X=merged_fdata['row m/z'].values.reshape(-1, 1),
+                    metric='cityblock')
+    mz_diff =  (mz_diff <= mz_tolerance).astype(np.int32)
+    intersection = jsim * union
+    jmod = 1 - ((intersection+mz_diff)/(union+1))
+
+    return jmod
 
 def build_tree(merged_fps: pd.DataFrame,
                merged_fdata: pd.DataFrame,
-               mz_tolerance: Float) -> TreeNode:
+               mz_tolerance: float) -> TreeNode:
     '''
     This function makes a tree of relatedness between mass-spectrometry
     features using molecular substructure fingerprints.
     '''
 
-    distmat = pairwise_distances(X=merged_fps,
-                                 Y=None, metric=jaccard_modified)
+    distmat = pairwise_jaccard_modified(merged_fps, merged_fdata, mz_tolerance)
     distsq = squareform(distmat, checks=False)
     linkage_matrix = linkage(distsq, method='average')
     tree = TreeNode.from_linkage_matrix(linkage_matrix,
@@ -58,7 +66,7 @@ def merge_relabel(fps :pd.DataFrame, fts: pd.DataFrame, fdata: pd.DataFrame):
         fdata[i].index = ['table' + n + '_' + fid for fid in fdata[i].index]
         fps[i].index = ['table' + n + '_' + fid for fid in fps[i].index]
         fts[i].index = ['table' + n + '_' + fid for fid in fts[i].index]
-        npfeatures = fts[idx].values
+        npfeatures = fts[i].values
         ft_biom = biom.table.Table(
             data=npfeatures, observation_ids=fts[i].index.astype(str),
             sample_ids=fts[i].columns.astype(str))
@@ -117,24 +125,24 @@ def make_hierarchy(csi_results: CSIDirFmt,
         matched feature data
     '''
 
-    fps, fts, fdata = [], [], []
+    fps, fts, fds = [], [], []
     if len(feature_tables) != len(csi_results):
         raise ValueError("The feature tables and CSI results should have a "
                          "one-to-one correspondance.")
     if len(feature_tables) != len(feature_data):
         raise ValueError("The feature tables and feature data should have a "
                          "one-to-one correspondance.")
-    for feature_table, csi_result in zip(feature_tables, csi_results):
-        if feature_table.is_empty():
+    for f_table, f_data, csi in zip(feature_tables, feature_data, csi_results):
+        if f_table.is_empty():
             raise ValueError("Cannot have empty feature table")
-        fingerprints = collate_fingerprint(csi_result, qc_properties)
+        fingerprints = collate_fingerprint(csi, qc_properties)
         bin_fps, matched_ftable, matched_fdata = match_tables(fingerprints,
-                                                              feature_table,
-                                                              feature_data)
+                                                              f_table,
+                                                              f_data)
         fps.append(bin_fps)
         fts.append(matched_ftable)
-        fdata.append(matched_fdata)
-    merged_fps, merged_ftable, merged_fdata = merge_relabel(fps, fts, fdata)
+        fds.append(matched_fdata)
+    merged_fps, merged_ftable, merged_fdata = merge_relabel(fps, fts, fds)
     tree = build_tree(merged_fps, merged_fdata, mz_tolerance)
 
     return tree, merged_fts, merged_fdata
