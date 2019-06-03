@@ -56,7 +56,7 @@ def match_tables(collated_fingerprints: pd.DataFrame,
     ftable = feature_table.to_dataframe(dense=True)
     allfeatrs = set(ftable.index)
     if 'row m/z' not in feature_data.columns:
-        raise ValueError("Feature data does not contain 'row m/z'"")
+        raise ValueError("Feature data does not contain 'row m/z'")
     if not set(feature_data.index) == allfeatrs:
         raise ValueError('The identifiers in feature data and feature table '
                          ' do not match')
