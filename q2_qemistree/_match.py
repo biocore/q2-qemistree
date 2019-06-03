@@ -59,7 +59,7 @@ def match_tables(collated_fingerprints: pd.DataFrame,
         raise ValueError("Feature data does not contain 'row m/z'")
     if not set(feature_data.index) == allfeatrs:
         raise ValueError('The identifiers in feature data and feature table '
-                         ' do not match')
+                         'do not match')
     if not set(allfps).issubset(allfeatrs):
         extra_tips = set(allfps) - set(allfps).intersection(allfeatrs)
         raise ValueError('The following tips were not '
