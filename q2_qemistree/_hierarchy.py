@@ -19,7 +19,7 @@ from ._match import match_tables
 from ._semantics import CSIDirFmt
 
 
-def pdist_union(u, v):
+def _pdist_union(u, v):
     b = np.double(np.bitwise_or(u, v).sum())
 
     return b
@@ -32,7 +32,7 @@ def pairwise_jaccard_modified(merged_fps: pd.DataFrame,
     merged_fdata = merged_fdata.sort_index()
     merged_fps = merged_fps.sort_index()
     jsim = 1 - pdist(X=merged_fps, metric='jaccard')
-    union = pdist(X=merged_fps != 0, metric=pdist_union)
+    union = pdist(X=merged_fps != 0, metric=_pdist_union)
     mz_diff = pdist(X=merged_fdata['row m/z'].values.reshape(-1, 1),
                     metric='cityblock')
     mz_diff = (mz_diff <= mz_tolerance).astype(np.int32)
@@ -68,9 +68,9 @@ def merge_relabel(fps: pd.DataFrame, fts: pd.DataFrame, fdata: pd.DataFrame):
         fdata[i].index = ['table' + n + '_' + fid for fid in fdata[i].index]
         fps[i].index = ['table' + n + '_' + fid for fid in fps[i].index]
         fts[i].index = ['table' + n + '_' + fid for fid in fts[i].index]
-        npfeatures = fts[i].values
         ft_biom = biom.table.Table(
-            data=npfeatures, observation_ids=fts[i].index.astype(str),
+            data=npfeatures = fts[i].values,
+            observation_ids=fts[i].index.astype(str),
             sample_ids=fts[i].columns.astype(str))
         fts[i] = ft_biom
     merged_fps = pd.concat(fps)
@@ -103,7 +103,7 @@ def make_hierarchy(csi_results: CSIDirFmt,
         one or more feature tables with mass-spec feature intensity per sample
     feature_data : pd.DataFrame
         metadata (row ID, row m/z) about features in the feature table
-    mz_tolerance : float
+    mz_tolerance : float, optional
         maximum allowable tolerance in m/z of parent ions
     qc_properties : bool, default False
         flag to filter molecular properties to keep only PUBCHEM fingerprints
