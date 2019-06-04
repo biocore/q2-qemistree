@@ -13,7 +13,6 @@ from biom import load_table
 
 from q2_qemistree._collate_fingerprint import collate_fingerprint
 from q2_qemistree._match import match_tables
-from q2_qemistree._semantics import CSIDirFmt
 from q2_qemistree._transformer import _read_dataframe
 
 
