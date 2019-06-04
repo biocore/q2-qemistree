@@ -1,0 +1,5679 @@
+{
+  "molecularFormula": "C20H23N",
+  "root": "C20H23N",
+  "annotations": {
+    "numberOfUnconsideredCandidates": 0,
+    "lowestConsideredCandidateScore": 42.16924445941673,
+    "ion": "[M + H]+",
+    "recalibration": "0.9999950028690878x + 5.117219565420328E-4",
+    "precursorIonType": "[M + H]+",
+    "score": {
+      "total": 42.16924445941673,
+      "recalibrationBonus": 0.0,
+      "recalibrationPenalty": 0.0,
+      "beautificationPenalty": 0.0,
+      "root": 0.895257159889514,
+      "tree": 42.16924445941673,
+      "isotope": 6.0360211222906495
+    },
+    "ratioOfExplainedPeaks": 0.4166666666666667,
+    "explainedIntensity": 0.930568016332753,
+    "explainedIntensityOfExplainablePeaks": 0.9396129468263489,
+    "treeType": "neutralized"
+  },
+  "fragments": [
+    {
+      "id": 0,
+      "molecularFormula": "C20H23N",
+      "ion": "[M + H]+",
+      "mz": 278.1905,
+      "relativeIntensity": 54.911871315556276,
+      "recalibratedMass": 278.1899517373417,
+      "massDeviation": "0.6247945541119686 ppm (1.7381190940568558E-4 m/z)",
+      "recalibratedMassDeviation": "-1.3460254281460915 ppm (-3.7445074889319585E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 278.1901,
+          "intensity": 207209.21875
+        },
+        {
+          "mz": 278.1901,
+          "intensity": 187018.671875
+        },
+        {
+          "mz": 278.1901,
+          "intensity": 372209.8125
+        },
+        {
+          "mz": 278.1901,
+          "intensity": 194342.109375
+        },
+        {
+          "mz": 278.1902,
+          "intensity": 279415.6875
+        },
+        {
+          "mz": 278.1902,
+          "intensity": 147978.515625
+        },
+        {
+          "mz": 278.1902,
+          "intensity": 167128.859375
+        },
+        {
+          "mz": 278.1902,
+          "intensity": 116456.2890625
+        },
+        {
+          "mz": 278.1902,
+          "intensity": 219699.390625
+        },
+        {
+          "mz": 278.1902,
+          "intensity": 161047.828125
+        },
+        {
+          "mz": 278.1902,
+          "intensity": 71552.125
+        },
+        {
+          "mz": 278.1903,
+          "intensity": 161748.40625
+        },
+        {
+          "mz": 278.1903,
+          "intensity": 252597.234375
+        },
+        {
+          "mz": 278.1904,
+          "intensity": 35335.60546875
+        },
+        {
+          "mz": 278.1904,
+          "intensity": 166175.5
+        },
+        {
+          "mz": 278.1904,
+          "intensity": 121442.140625
+        },
+        {
+          "mz": 278.1905,
+          "intensity": 187701.484375
+        },
+        {
+          "mz": 278.1906,
+          "intensity": 140699.296875
+        },
+        {
+          "mz": 278.1906,
+          "intensity": 262745.53125
+        },
+        {
+          "mz": 278.1908,
+          "intensity": 141722.03125
+        },
+        {
+          "mz": 278.1909,
+          "intensity": 125531.328125
+        },
+        {
+          "mz": 278.1909,
+          "intensity": 141471.984375
+        },
+        {
+          "mz": 278.191,
+          "intensity": 184464.9375
+        },
+        {
+          "mz": 278.191,
+          "intensity": 166622.53125
+        },
+        {
+          "mz": 278.1911,
+          "intensity": 197415.515625
+        },
+        {
+          "mz": 278.1911,
+          "intensity": 197991.75
+        },
+        {
+          "mz": 278.1911,
+          "intensity": 204742.390625
+        },
+        {
+          "mz": 278.1912,
+          "intensity": 164076.359375
+        },
+        {
+          "mz": 278.1913,
+          "intensity": 153870.78125
+        },
+        {
+          "mz": 278.1915,
+          "intensity": 191454.8125
+        },
+        {
+          "mz": 278.1915,
+          "intensity": 198453.1875
+        },
+        {
+          "mz": 278.1916,
+          "intensity": 312718.21875
+        },
+        {
+          "mz": 278.1916,
+          "intensity": 150197.96875
+        },
+        {
+          "mz": 278.1917,
+          "intensity": 304035.6875
+        },
+        {
+          "mz": 278.1917,
+          "intensity": 169185.890625
+        },
+        {
+          "mz": 278.1917,
+          "intensity": 165753.21875
+        },
+        {
+          "mz": 278.1918,
+          "intensity": 181356.71875
+        },
+        {
+          "mz": 278.1918,
+          "intensity": 188325.0
+        },
+        {
+          "mz": 278.1919,
+          "intensity": 104801.0859375
+        },
+        {
+          "mz": 278.1919,
+          "intensity": 183960.671875
+        },
+        {
+          "mz": 278.192,
+          "intensity": 227562.5625
+        },
+        {
+          "mz": 278.192,
+          "intensity": 165376.03125
+        },
+        {
+          "mz": 278.1921,
+          "intensity": 269865.875
+        },
+        {
+          "mz": 278.1922,
+          "intensity": 105663.1796875
+        },
+        {
+          "mz": 278.1922,
+          "intensity": 256242.578125
+        },
+        {
+          "mz": 278.1924,
+          "intensity": 205815.046875
+        },
+        {
+          "mz": 278.1924,
+          "intensity": 234310.359375
+        },
+        {
+          "mz": 278.1925,
+          "intensity": 236466.546875
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 6.9312782821801635,
+      "scores": {
+        "Mass Deviation": -0.10474284011048611,
+        "AdductTypeScorer": 0.0,
+        "IntrinsicallyChargedScorer": 0.0,
+        "PhosphorScorer": 0.0,
+        "StrangeElementRootScorer": 0.0,
+        "Chemical Prior": 1.0,
+        "IsotopeMs1Scorer": 6.0360211222906495
+      },
+      "isotopes": {
+        "score": 6.0360211222906495,
+        "mz": [
+          278.1905,
+          279.1939,
+          280.197
+        ],
+        "relInt": [
+          1.0,
+          0.21209486689923387,
+          0.023573725317158605
+        ]
+      }
+    },
+    {
+      "id": 1,
+      "molecularFormula": "C18H16",
+      "ion": "[M + H]+",
+      "mz": 233.1336,
+      "relativeIntensity": 20.765368673154633,
+      "recalibratedMass": 233.1331461296623,
+      "massDeviation": "4.817134507735014 ppm (0.0011230359094724918 m/z)",
+      "recalibratedMassDeviation": "2.870315023297374 ppm (6.691655717645517E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 233.1307,
+          "intensity": 99158.65625
+        },
+        {
+          "mz": 233.1308,
+          "intensity": 46735.09375
+        },
+        {
+          "mz": 233.1308,
+          "intensity": 47255.5234375
+        },
+        {
+          "mz": 233.1309,
+          "intensity": 45921.25390625
+        },
+        {
+          "mz": 233.1309,
+          "intensity": 66576.546875
+        },
+        {
+          "mz": 233.1309,
+          "intensity": 57178.47265625
+        },
+        {
+          "mz": 233.131,
+          "intensity": 56270.3125
+        },
+        {
+          "mz": 233.1311,
+          "intensity": 77074.90625
+        },
+        {
+          "mz": 233.1311,
+          "intensity": 68418.109375
+        },
+        {
+          "mz": 233.1312,
+          "intensity": 75174.234375
+        },
+        {
+          "mz": 233.1313,
+          "intensity": 53014.53515625
+        },
+        {
+          "mz": 233.1315,
+          "intensity": 72587.984375
+        },
+        {
+          "mz": 233.1316,
+          "intensity": 73787.9296875
+        },
+        {
+          "mz": 233.1316,
+          "intensity": 60571.9609375
+        },
+        {
+          "mz": 233.1317,
+          "intensity": 120530.25
+        },
+        {
+          "mz": 233.1317,
+          "intensity": 48535.0234375
+        },
+        {
+          "mz": 233.1317,
+          "intensity": 71578.109375
+        },
+        {
+          "mz": 233.1317,
+          "intensity": 67184.6640625
+        },
+        {
+          "mz": 233.1317,
+          "intensity": 72493.453125
+        },
+        {
+          "mz": 233.1317,
+          "intensity": 66591.109375
+        },
+        {
+          "mz": 233.1318,
+          "intensity": 123501.4609375
+        },
+        {
+          "mz": 233.1319,
+          "intensity": 79125.984375
+        },
+        {
+          "mz": 233.1319,
+          "intensity": 67588.5234375
+        },
+        {
+          "mz": 233.1319,
+          "intensity": 71479.6484375
+        },
+        {
+          "mz": 233.1319,
+          "intensity": 41259.23046875
+        },
+        {
+          "mz": 233.132,
+          "intensity": 108205.78125
+        },
+        {
+          "mz": 233.1321,
+          "intensity": 41253.7734375
+        },
+        {
+          "mz": 233.1321,
+          "intensity": 102172.4921875
+        },
+        {
+          "mz": 233.1322,
+          "intensity": 74937.3515625
+        },
+        {
+          "mz": 233.1323,
+          "intensity": 94309.328125
+        },
+        {
+          "mz": 233.1323,
+          "intensity": 97654.5234375
+        },
+        {
+          "mz": 233.1331,
+          "intensity": 43320.5234375
+        },
+        {
+          "mz": 233.1333,
+          "intensity": 65790.4375
+        },
+        {
+          "mz": 233.1334,
+          "intensity": 78469.28125
+        },
+        {
+          "mz": 233.1335,
+          "intensity": 80704.3125
+        },
+        {
+          "mz": 233.1335,
+          "intensity": 65539.9375
+        },
+        {
+          "mz": 233.1336,
+          "intensity": 149608.859375
+        },
+        {
+          "mz": 233.1336,
+          "intensity": 73157.25
+        },
+        {
+          "mz": 233.1337,
+          "intensity": 97429.6640625
+        },
+        {
+          "mz": 233.1337,
+          "intensity": 56793.96875
+        },
+        {
+          "mz": 233.1337,
+          "intensity": 62321.9296875
+        },
+        {
+          "mz": 233.1337,
+          "intensity": 43889.30859375
+        },
+        {
+          "mz": 233.1337,
+          "intensity": 56038.73828125
+        },
+        {
+          "mz": 233.1338,
+          "intensity": 64296.34375
+        },
+        {
+          "mz": 233.1339,
+          "intensity": 13470.4365234375
+        },
+        {
+          "mz": 233.1339,
+          "intensity": 27884.630859375
+        },
+        {
+          "mz": 233.1339,
+          "intensity": 101332.703125
+        },
+        {
+          "mz": 233.134,
+          "intensity": 68425.5625
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 2.1792672424910315,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.0,
+        "ClippedPeakIsNoiseScorer": 2.9353367018238727,
+        "Mass Deviation": -0.2560694593328413,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 2,
+      "molecularFormula": "C18H14",
+      "ion": "[M + H]+",
+      "mz": 231.1176,
+      "relativeIntensity": 0.3495386933220277,
+      "recalibratedMass": 231.11715035309797,
+      "massDeviation": "3.345049920388491 ppm (7.730999094803792E-4 m/z)",
+      "recalibratedMassDeviation": "1.3995197108706297 ppm (3.234530074394115E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 231.1148,
+          "intensity": 2171.92626953125
+        },
+        {
+          "mz": 231.1152,
+          "intensity": 2525.767822265625
+        },
+        {
+          "mz": 231.1154,
+          "intensity": 2320.3115234375
+        },
+        {
+          "mz": 231.1155,
+          "intensity": 1920.32666015625
+        },
+        {
+          "mz": 231.1155,
+          "intensity": 2066.7001953125
+        },
+        {
+          "mz": 231.1156,
+          "intensity": 2881.2705078125
+        },
+        {
+          "mz": 231.1156,
+          "intensity": 2407.667724609375
+        },
+        {
+          "mz": 231.1158,
+          "intensity": 2207.166748046875
+        },
+        {
+          "mz": 231.1158,
+          "intensity": 2171.40087890625
+        },
+        {
+          "mz": 231.116,
+          "intensity": 2277.8525390625
+        },
+        {
+          "mz": 231.116,
+          "intensity": 2345.746337890625
+        },
+        {
+          "mz": 231.1176,
+          "intensity": 2826.063232421875
+        },
+        {
+          "mz": 231.1176,
+          "intensity": 2233.81103515625
+        },
+        {
+          "mz": 231.1176,
+          "intensity": 3551.73095703125
+        },
+        {
+          "mz": 231.1176,
+          "intensity": 2959.423828125
+        },
+        {
+          "mz": 231.1177,
+          "intensity": 1872.80029296875
+        },
+        {
+          "mz": 231.1177,
+          "intensity": 3160.197265625
+        },
+        {
+          "mz": 231.1177,
+          "intensity": 2526.57080078125
+        },
+        {
+          "mz": 231.118,
+          "intensity": 1914.899658203125
+        },
+        {
+          "mz": 231.118,
+          "intensity": 2977.493408203125
+        },
+        {
+          "mz": 231.1184,
+          "intensity": 1958.171142578125
+        },
+        {
+          "mz": 231.1184,
+          "intensity": 1838.08544921875
+        },
+        {
+          "mz": 231.119,
+          "intensity": 1769.1922607421875
+        },
+        {
+          "mz": 231.1196,
+          "intensity": 2289.614990234375
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": -0.15210009124585305,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.0,
+        "ClippedPeakIsNoiseScorer": 0.46589778686954647,
+        "Mass Deviation": -0.11799787811539952,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 3,
+      "molecularFormula": "C17H13",
+      "ion": "[M + H]+",
+      "mz": 218.1099,
+      "relativeIntensity": 6.091378819587169,
+      "recalibratedMass": 218.10947760368532,
+      "massDeviation": "4.117795246708522 ppm (8.98131909480071E-4 m/z)",
+      "recalibratedMassDeviation": "2.18117800297806 ppm (4.7573559479019423E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 218.1076,
+          "intensity": 23162.7265625
+        },
+        {
+          "mz": 218.1078,
+          "intensity": 19932.2734375
+        },
+        {
+          "mz": 218.1078,
+          "intensity": 22409.15625
+        },
+        {
+          "mz": 218.1078,
+          "intensity": 18010.697265625
+        },
+        {
+          "mz": 218.1079,
+          "intensity": 19513.703125
+        },
+        {
+          "mz": 218.1079,
+          "intensity": 19372.802734375
+        },
+        {
+          "mz": 218.1079,
+          "intensity": 15162.55859375
+        },
+        {
+          "mz": 218.108,
+          "intensity": 20059.10546875
+        },
+        {
+          "mz": 218.1081,
+          "intensity": 17913.857421875
+        },
+        {
+          "mz": 218.1081,
+          "intensity": 20704.6171875
+        },
+        {
+          "mz": 218.1082,
+          "intensity": 31684.603515625
+        },
+        {
+          "mz": 218.1084,
+          "intensity": 34398.37890625
+        },
+        {
+          "mz": 218.1084,
+          "intensity": 21932.916015625
+        },
+        {
+          "mz": 218.1084,
+          "intensity": 28618.576171875
+        },
+        {
+          "mz": 218.1084,
+          "intensity": 26770.955078125
+        },
+        {
+          "mz": 218.1085,
+          "intensity": 20483.17578125
+        },
+        {
+          "mz": 218.1085,
+          "intensity": 12816.3681640625
+        },
+        {
+          "mz": 218.1086,
+          "intensity": 16160.58203125
+        },
+        {
+          "mz": 218.1086,
+          "intensity": 18246.875
+        },
+        {
+          "mz": 218.1086,
+          "intensity": 32755.412109375
+        },
+        {
+          "mz": 218.1087,
+          "intensity": 29114.271484375
+        },
+        {
+          "mz": 218.1087,
+          "intensity": 13471.060546875
+        },
+        {
+          "mz": 218.1093,
+          "intensity": 21265.646484375
+        },
+        {
+          "mz": 218.1094,
+          "intensity": 10624.0380859375
+        },
+        {
+          "mz": 218.1095,
+          "intensity": 23887.56640625
+        },
+        {
+          "mz": 218.1095,
+          "intensity": 18535.2890625
+        },
+        {
+          "mz": 218.1097,
+          "intensity": 10030.1201171875
+        },
+        {
+          "mz": 218.1098,
+          "intensity": 20811.39453125
+        },
+        {
+          "mz": 218.1098,
+          "intensity": 20260.34375
+        },
+        {
+          "mz": 218.1099,
+          "intensity": 30655.11328125
+        },
+        {
+          "mz": 218.1099,
+          "intensity": 43035.91796875
+        },
+        {
+          "mz": 218.1099,
+          "intensity": 19428.34765625
+        },
+        {
+          "mz": 218.1099,
+          "intensity": 26735.474609375
+        },
+        {
+          "mz": 218.11,
+          "intensity": 17095.041015625
+        },
+        {
+          "mz": 218.11,
+          "intensity": 24687.044921875
+        },
+        {
+          "mz": 218.11,
+          "intensity": 24674.423828125
+        },
+        {
+          "mz": 218.11,
+          "intensity": 14005.6455078125
+        },
+        {
+          "mz": 218.11,
+          "intensity": 19546.357421875
+        },
+        {
+          "mz": 218.1101,
+          "intensity": 4178.4521484375
+        },
+        {
+          "mz": 218.1102,
+          "intensity": 14842.2890625
+        },
+        {
+          "mz": 218.1103,
+          "intensity": 30972.1171875
+        },
+        {
+          "mz": 218.1103,
+          "intensity": 15500.2734375
+        },
+        {
+          "mz": 218.1103,
+          "intensity": 12315.69921875
+        },
+        {
+          "mz": 218.1104,
+          "intensity": 14643.396484375
+        },
+        {
+          "mz": 218.1105,
+          "intensity": 17202.9609375
+        },
+        {
+          "mz": 218.1105,
+          "intensity": 22176.962890625
+        },
+        {
+          "mz": 218.1107,
+          "intensity": 23737.666015625
+        },
+        {
+          "mz": 218.1108,
+          "intensity": 12827.1484375
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 1.2000327798030568,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.0,
+        "ClippedPeakIsNoiseScorer": 1.8895755525452458,
+        "Mass Deviation": -0.18954277274218906,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 4,
+      "molecularFormula": "C17H12",
+      "ion": "[M + H]+",
+      "mz": 217.1006,
+      "relativeIntensity": 0.21622440779401494,
+      "recalibratedMass": 217.10096818117054,
+      "massDeviation": "-2.656999061932256 ppm (-5.768360905449299E-4 m/z)",
+      "recalibratedMassDeviation": "-0.9610962205070248 ppm (-2.0865491998733887E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 217.099,
+          "intensity": 1888.3726806640625
+        },
+        {
+          "mz": 217.0991,
+          "intensity": 2361.654296875
+        },
+        {
+          "mz": 217.0993,
+          "intensity": 2135.799072265625
+        },
+        {
+          "mz": 217.1002,
+          "intensity": 2034.280517578125
+        },
+        {
+          "mz": 217.1003,
+          "intensity": 2314.63330078125
+        },
+        {
+          "mz": 217.1003,
+          "intensity": 2406.140380859375
+        },
+        {
+          "mz": 217.1006,
+          "intensity": 1936.1378173828125
+        },
+        {
+          "mz": 217.1006,
+          "intensity": 2759.8056640625
+        },
+        {
+          "mz": 217.1008,
+          "intensity": 1566.5343017578125
+        },
+        {
+          "mz": 217.1009,
+          "intensity": 2697.2021484375
+        },
+        {
+          "mz": 217.102,
+          "intensity": 2174.332275390625
+        },
+        {
+          "mz": 217.1021,
+          "intensity": 1698.3883056640625
+        },
+        {
+          "mz": 217.1021,
+          "intensity": 1739.111328125
+        },
+        {
+          "mz": 217.1026,
+          "intensity": 1561.0478515625
+        },
+        {
+          "mz": 217.1033,
+          "intensity": 2232.764892578125
+        },
+        {
+          "mz": 217.1034,
+          "intensity": 1912.94140625
+        },
+        {
+          "mz": 217.1034,
+          "intensity": 1948.7713623046875
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": -0.3109051982715889,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.0,
+        "ClippedPeakIsNoiseScorer": 0.26875128215255106,
+        "Mass Deviation": -0.07965648042413999,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 5,
+      "molecularFormula": "C16H14",
+      "ion": "[M + H]+",
+      "mz": 207.1167,
+      "relativeIntensity": 0.4746920886736761,
+      "recalibratedMass": 207.11630063397945,
+      "massDeviation": "-0.6126984956842011 ppm (-1.2690009052107598E-4 m/z)",
+      "recalibratedMassDeviation": "-2.5409207747996634 ppm (-5.262661110805311E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 207.1151,
+          "intensity": 1825.663330078125
+        },
+        {
+          "mz": 207.1155,
+          "intensity": 2465.582275390625
+        },
+        {
+          "mz": 207.1156,
+          "intensity": 2747.2041015625
+        },
+        {
+          "mz": 207.1166,
+          "intensity": 2162.181396484375
+        },
+        {
+          "mz": 207.1166,
+          "intensity": 2713.409423828125
+        },
+        {
+          "mz": 207.1167,
+          "intensity": 3901.52099609375
+        },
+        {
+          "mz": 207.1167,
+          "intensity": 1669.34814453125
+        },
+        {
+          "mz": 207.1167,
+          "intensity": 5234.673828125
+        },
+        {
+          "mz": 207.1167,
+          "intensity": 2022.8673095703125
+        },
+        {
+          "mz": 207.1167,
+          "intensity": 2080.9365234375
+        },
+        {
+          "mz": 207.1168,
+          "intensity": 1737.7275390625
+        },
+        {
+          "mz": 207.1168,
+          "intensity": 3129.27294921875
+        },
+        {
+          "mz": 207.1168,
+          "intensity": 1967.331298828125
+        },
+        {
+          "mz": 207.117,
+          "intensity": 3632.734619140625
+        },
+        {
+          "mz": 207.1171,
+          "intensity": 1423.8902587890625
+        },
+        {
+          "mz": 207.1172,
+          "intensity": 2237.26806640625
+        },
+        {
+          "mz": 207.1172,
+          "intensity": 2175.9296875
+        },
+        {
+          "mz": 207.1173,
+          "intensity": 2562.774658203125
+        },
+        {
+          "mz": 207.1173,
+          "intensity": 2456.586669921875
+        },
+        {
+          "mz": 207.1174,
+          "intensity": 2145.332275390625
+        },
+        {
+          "mz": 207.1177,
+          "intensity": 2069.108154296875
+        },
+        {
+          "mz": 207.1178,
+          "intensity": 2384.331298828125
+        },
+        {
+          "mz": 207.1178,
+          "intensity": 2375.5400390625
+        },
+        {
+          "mz": 207.1179,
+          "intensity": 2617.880859375
+        },
+        {
+          "mz": 207.1179,
+          "intensity": 1767.6602783203125
+        },
+        {
+          "mz": 207.118,
+          "intensity": 3787.04150390625
+        },
+        {
+          "mz": 207.1181,
+          "intensity": 1782.2054443359375
+        },
+        {
+          "mz": 207.1181,
+          "intensity": 2311.24462890625
+        },
+        {
+          "mz": 207.1182,
+          "intensity": 2194.33837890625
+        },
+        {
+          "mz": 207.1182,
+          "intensity": 1920.1124267578125
+        },
+        {
+          "mz": 207.1182,
+          "intensity": 2303.864013671875
+        },
+        {
+          "mz": 207.1184,
+          "intensity": 1840.0228271484375
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": -0.12875164318598892,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.0,
+        "ClippedPeakIsNoiseScorer": 0.595111637295873,
+        "Mass Deviation": -0.22386328048186194,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 6,
+      "molecularFormula": "C16H12",
+      "ion": "[M + H]+",
+      "mz": 205.1017,
+      "relativeIntensity": 5.004055249354087,
+      "recalibratedMass": 205.10130485532014,
+      "massDeviation": "2.5507536478886554 ppm (5.231639094631646E-4 m/z)",
+      "recalibratedMassDeviation": "0.6241755979894197 ppm (1.280192296064797E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 205.0999,
+          "intensity": 16181.80859375
+        },
+        {
+          "mz": 205.1,
+          "intensity": 31016.5
+        },
+        {
+          "mz": 205.1,
+          "intensity": 21021.173828125
+        },
+        {
+          "mz": 205.1,
+          "intensity": 26682.763671875
+        },
+        {
+          "mz": 205.1001,
+          "intensity": 15686.36328125
+        },
+        {
+          "mz": 205.1001,
+          "intensity": 16345.4912109375
+        },
+        {
+          "mz": 205.1003,
+          "intensity": 15656.88671875
+        },
+        {
+          "mz": 205.1003,
+          "intensity": 26275.3671875
+        },
+        {
+          "mz": 205.1003,
+          "intensity": 13912.3154296875
+        },
+        {
+          "mz": 205.1003,
+          "intensity": 13819.2236328125
+        },
+        {
+          "mz": 205.1004,
+          "intensity": 15816.0576171875
+        },
+        {
+          "mz": 205.1004,
+          "intensity": 9836.822265625
+        },
+        {
+          "mz": 205.1004,
+          "intensity": 25216.349609375
+        },
+        {
+          "mz": 205.1004,
+          "intensity": 16090.2822265625
+        },
+        {
+          "mz": 205.1005,
+          "intensity": 18954.396484375
+        },
+        {
+          "mz": 205.1007,
+          "intensity": 16776.21875
+        },
+        {
+          "mz": 205.1008,
+          "intensity": 24709.826171875
+        },
+        {
+          "mz": 205.101,
+          "intensity": 8026.46875
+        },
+        {
+          "mz": 205.1012,
+          "intensity": 15038.9677734375
+        },
+        {
+          "mz": 205.1012,
+          "intensity": 19127.265625
+        },
+        {
+          "mz": 205.1013,
+          "intensity": 10058.8408203125
+        },
+        {
+          "mz": 205.1013,
+          "intensity": 12241.796875
+        },
+        {
+          "mz": 205.1014,
+          "intensity": 14003.0185546875
+        },
+        {
+          "mz": 205.1015,
+          "intensity": 23452.021484375
+        },
+        {
+          "mz": 205.1015,
+          "intensity": 22644.029296875
+        },
+        {
+          "mz": 205.1016,
+          "intensity": 24547.83203125
+        },
+        {
+          "mz": 205.1016,
+          "intensity": 20226.68359375
+        },
+        {
+          "mz": 205.1016,
+          "intensity": 14991.9814453125
+        },
+        {
+          "mz": 205.1016,
+          "intensity": 6373.87939453125
+        },
+        {
+          "mz": 205.1016,
+          "intensity": 18381.9921875
+        },
+        {
+          "mz": 205.1017,
+          "intensity": 13984.8388671875
+        },
+        {
+          "mz": 205.1017,
+          "intensity": 11828.4072265625
+        },
+        {
+          "mz": 205.1017,
+          "intensity": 34194.3515625
+        },
+        {
+          "mz": 205.1018,
+          "intensity": 16692.947265625
+        },
+        {
+          "mz": 205.1018,
+          "intensity": 2079.93359375
+        },
+        {
+          "mz": 205.1018,
+          "intensity": 17976.220703125
+        },
+        {
+          "mz": 205.1018,
+          "intensity": 13440.06640625
+        },
+        {
+          "mz": 205.1018,
+          "intensity": 16627.193359375
+        },
+        {
+          "mz": 205.1018,
+          "intensity": 11276.345703125
+        },
+        {
+          "mz": 205.1021,
+          "intensity": 23399.955078125
+        },
+        {
+          "mz": 205.1023,
+          "intensity": 14161.7578125
+        },
+        {
+          "mz": 205.1023,
+          "intensity": 17218.82421875
+        },
+        {
+          "mz": 205.1023,
+          "intensity": 18327.814453125
+        },
+        {
+          "mz": 205.1024,
+          "intensity": 13147.6337890625
+        },
+        {
+          "mz": 205.1026,
+          "intensity": 19243.890625
+        },
+        {
+          "mz": 205.1026,
+          "intensity": 13381.4560546875
+        },
+        {
+          "mz": 205.1026,
+          "intensity": 14483.095703125
+        },
+        {
+          "mz": 205.1026,
+          "intensity": 13938.0712890625
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 1.2146568643700997,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.0,
+        "ClippedPeakIsNoiseScorer": 1.765707754953132,
+        "Mass Deviation": -0.051050890583032284,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 7,
+      "molecularFormula": "C16H10",
+      "ion": "[M + H]+",
+      "mz": 203.0857,
+      "relativeIntensity": 1.4569279046907067,
+      "recalibratedMass": 203.0853090787558,
+      "massDeviation": "0.85297935537092 ppm (1.7322790947105204E-4 m/z)",
+      "recalibratedMassDeviation": "-1.0719304892420343 ppm (-2.1769333471866048E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 203.0838,
+          "intensity": 4901.85107421875
+        },
+        {
+          "mz": 203.0839,
+          "intensity": 4786.775390625
+        },
+        {
+          "mz": 203.0841,
+          "intensity": 3034.582763671875
+        },
+        {
+          "mz": 203.0843,
+          "intensity": 4058.2734375
+        },
+        {
+          "mz": 203.0843,
+          "intensity": 5449.94921875
+        },
+        {
+          "mz": 203.085,
+          "intensity": 8302.8271484375
+        },
+        {
+          "mz": 203.0853,
+          "intensity": 6381.7578125
+        },
+        {
+          "mz": 203.0853,
+          "intensity": 5226.0517578125
+        },
+        {
+          "mz": 203.0853,
+          "intensity": 6095.06494140625
+        },
+        {
+          "mz": 203.0853,
+          "intensity": 6831.52880859375
+        },
+        {
+          "mz": 203.0854,
+          "intensity": 5693.0673828125
+        },
+        {
+          "mz": 203.0854,
+          "intensity": 7037.98193359375
+        },
+        {
+          "mz": 203.0854,
+          "intensity": 4921.10693359375
+        },
+        {
+          "mz": 203.0854,
+          "intensity": 2775.671142578125
+        },
+        {
+          "mz": 203.0854,
+          "intensity": 4257.43896484375
+        },
+        {
+          "mz": 203.0854,
+          "intensity": 2449.88720703125
+        },
+        {
+          "mz": 203.0854,
+          "intensity": 5583.8759765625
+        },
+        {
+          "mz": 203.0855,
+          "intensity": 8394.2548828125
+        },
+        {
+          "mz": 203.0855,
+          "intensity": 4785.72900390625
+        },
+        {
+          "mz": 203.0855,
+          "intensity": 2767.2353515625
+        },
+        {
+          "mz": 203.0856,
+          "intensity": 5289.14892578125
+        },
+        {
+          "mz": 203.0856,
+          "intensity": 5152.27783203125
+        },
+        {
+          "mz": 203.0857,
+          "intensity": 3122.94873046875
+        },
+        {
+          "mz": 203.0857,
+          "intensity": 10157.0107421875
+        },
+        {
+          "mz": 203.0858,
+          "intensity": 2856.31640625
+        },
+        {
+          "mz": 203.0859,
+          "intensity": 3601.257080078125
+        },
+        {
+          "mz": 203.0859,
+          "intensity": 3569.13037109375
+        },
+        {
+          "mz": 203.086,
+          "intensity": 3632.18212890625
+        },
+        {
+          "mz": 203.086,
+          "intensity": 4089.37109375
+        },
+        {
+          "mz": 203.086,
+          "intensity": 2845.496826171875
+        },
+        {
+          "mz": 203.0861,
+          "intensity": 3842.664794921875
+        },
+        {
+          "mz": 203.0861,
+          "intensity": 3561.752197265625
+        },
+        {
+          "mz": 203.0862,
+          "intensity": 8236.36328125
+        },
+        {
+          "mz": 203.0862,
+          "intensity": 5275.03466796875
+        },
+        {
+          "mz": 203.0863,
+          "intensity": 4453.47705078125
+        },
+        {
+          "mz": 203.0864,
+          "intensity": 3980.79443359375
+        },
+        {
+          "mz": 203.0864,
+          "intensity": 6210.76171875
+        },
+        {
+          "mz": 203.0865,
+          "intensity": 6105.7197265625
+        },
+        {
+          "mz": 203.0865,
+          "intensity": 4567.11669921875
+        },
+        {
+          "mz": 203.0865,
+          "intensity": 4835.63427734375
+        },
+        {
+          "mz": 203.0866,
+          "intensity": 4906.5078125
+        },
+        {
+          "mz": 203.0866,
+          "intensity": 3668.27001953125
+        },
+        {
+          "mz": 203.0867,
+          "intensity": 4250.9677734375
+        },
+        {
+          "mz": 203.0867,
+          "intensity": 7334.4013671875
+        },
+        {
+          "mz": 203.087,
+          "intensity": 5250.87109375
+        },
+        {
+          "mz": 203.087,
+          "intensity": 7377.404296875
+        },
+        {
+          "mz": 203.0871,
+          "intensity": 6402.51953125
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 0.5127944054201371,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.0,
+        "ClippedPeakIsNoiseScorer": 1.1020236985548582,
+        "Mass Deviation": -0.08922929313472103,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 8,
+      "molecularFormula": "C15H12",
+      "ion": "[M + H]+",
+      "mz": 193.1009,
+      "relativeIntensity": 1.225006191487,
+      "recalibratedMass": 193.10052999649412,
+      "massDeviation": "-1.4336343876956086 ppm (-2.7683609053497094E-4 m/z)",
+      "recalibratedMassDeviation": "-3.3497556760987277 ppm (-6.468395964134288E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 193.0994,
+          "intensity": 6888.9921875
+        },
+        {
+          "mz": 193.0995,
+          "intensity": 4957.291015625
+        },
+        {
+          "mz": 193.0996,
+          "intensity": 2449.345947265625
+        },
+        {
+          "mz": 193.0996,
+          "intensity": 4772.35302734375
+        },
+        {
+          "mz": 193.0997,
+          "intensity": 2515.8056640625
+        },
+        {
+          "mz": 193.0999,
+          "intensity": 4993.22216796875
+        },
+        {
+          "mz": 193.1001,
+          "intensity": 3810.57080078125
+        },
+        {
+          "mz": 193.1009,
+          "intensity": 4870.15625
+        },
+        {
+          "mz": 193.1009,
+          "intensity": 5332.56884765625
+        },
+        {
+          "mz": 193.1009,
+          "intensity": 9085.7587890625
+        },
+        {
+          "mz": 193.101,
+          "intensity": 4469.75634765625
+        },
+        {
+          "mz": 193.101,
+          "intensity": 4066.59130859375
+        },
+        {
+          "mz": 193.101,
+          "intensity": 5285.18798828125
+        },
+        {
+          "mz": 193.101,
+          "intensity": 3783.57373046875
+        },
+        {
+          "mz": 193.1011,
+          "intensity": 2664.321044921875
+        },
+        {
+          "mz": 193.1011,
+          "intensity": 2946.91650390625
+        },
+        {
+          "mz": 193.1011,
+          "intensity": 4446.595703125
+        },
+        {
+          "mz": 193.1011,
+          "intensity": 3843.793212890625
+        },
+        {
+          "mz": 193.1011,
+          "intensity": 6438.916015625
+        },
+        {
+          "mz": 193.1012,
+          "intensity": 4884.89697265625
+        },
+        {
+          "mz": 193.1013,
+          "intensity": 7877.34130859375
+        },
+        {
+          "mz": 193.1013,
+          "intensity": 3606.04296875
+        },
+        {
+          "mz": 193.1013,
+          "intensity": 5275.6025390625
+        },
+        {
+          "mz": 193.1014,
+          "intensity": 4232.15869140625
+        },
+        {
+          "mz": 193.1015,
+          "intensity": 2611.433349609375
+        },
+        {
+          "mz": 193.1015,
+          "intensity": 3984.277587890625
+        },
+        {
+          "mz": 193.1016,
+          "intensity": 2860.446533203125
+        },
+        {
+          "mz": 193.1016,
+          "intensity": 3797.816162109375
+        },
+        {
+          "mz": 193.1016,
+          "intensity": 4743.2587890625
+        },
+        {
+          "mz": 193.1016,
+          "intensity": 4669.5458984375
+        },
+        {
+          "mz": 193.1017,
+          "intensity": 2578.332763671875
+        },
+        {
+          "mz": 193.1017,
+          "intensity": 3351.1806640625
+        },
+        {
+          "mz": 193.1018,
+          "intensity": 3666.95947265625
+        },
+        {
+          "mz": 193.1019,
+          "intensity": 3859.064208984375
+        },
+        {
+          "mz": 193.102,
+          "intensity": 4297.2744140625
+        },
+        {
+          "mz": 193.102,
+          "intensity": 4059.945068359375
+        },
+        {
+          "mz": 193.1021,
+          "intensity": 2336.134521484375
+        },
+        {
+          "mz": 193.1022,
+          "intensity": 7840.6181640625
+        },
+        {
+          "mz": 193.1022,
+          "intensity": 5645.55712890625
+        },
+        {
+          "mz": 193.1022,
+          "intensity": 5860.64501953125
+        },
+        {
+          "mz": 193.1023,
+          "intensity": 5376.77490234375
+        },
+        {
+          "mz": 193.1023,
+          "intensity": 3518.2861328125
+        },
+        {
+          "mz": 193.1024,
+          "intensity": 2240.37646484375
+        },
+        {
+          "mz": 193.1026,
+          "intensity": 4989.251953125
+        },
+        {
+          "mz": 193.1026,
+          "intensity": 4589.84130859375
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 0.2958168655506238,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.06899100000000002,
+        "ClippedPeakIsNoiseScorer": 1.0193498575399338,
+        "Mass Deviation": -0.29252399198931,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 9,
+      "molecularFormula": "C15H11",
+      "ion": "[M + H]+",
+      "mz": 192.0944,
+      "relativeIntensity": 0.7475233656468394,
+      "recalibratedMass": 192.09403210506952,
+      "massDeviation": "5.456670832029122 ppm (0.001048195909476135 m/z)",
+      "recalibratedMassDeviation": "3.541499814074164 ppm (6.803009789848602E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 192.0907,
+          "intensity": 2262.906982421875
+        },
+        {
+          "mz": 192.0919,
+          "intensity": 3313.60888671875
+        },
+        {
+          "mz": 192.0919,
+          "intensity": 3869.1162109375
+        },
+        {
+          "mz": 192.092,
+          "intensity": 3751.103759765625
+        },
+        {
+          "mz": 192.092,
+          "intensity": 2324.564208984375
+        },
+        {
+          "mz": 192.092,
+          "intensity": 2705.789794921875
+        },
+        {
+          "mz": 192.092,
+          "intensity": 3498.5244140625
+        },
+        {
+          "mz": 192.0922,
+          "intensity": 1957.1593017578125
+        },
+        {
+          "mz": 192.0922,
+          "intensity": 1890.9053955078125
+        },
+        {
+          "mz": 192.0924,
+          "intensity": 1867.0738525390625
+        },
+        {
+          "mz": 192.0925,
+          "intensity": 3414.653564453125
+        },
+        {
+          "mz": 192.0925,
+          "intensity": 3599.7275390625
+        },
+        {
+          "mz": 192.0925,
+          "intensity": 3417.8134765625
+        },
+        {
+          "mz": 192.0925,
+          "intensity": 2120.007080078125
+        },
+        {
+          "mz": 192.0926,
+          "intensity": 1715.5623779296875
+        },
+        {
+          "mz": 192.0927,
+          "intensity": 3595.017822265625
+        },
+        {
+          "mz": 192.0928,
+          "intensity": 2118.5498046875
+        },
+        {
+          "mz": 192.0929,
+          "intensity": 3206.26708984375
+        },
+        {
+          "mz": 192.093,
+          "intensity": 4642.111328125
+        },
+        {
+          "mz": 192.093,
+          "intensity": 4617.85888671875
+        },
+        {
+          "mz": 192.093,
+          "intensity": 2218.359130859375
+        },
+        {
+          "mz": 192.0931,
+          "intensity": 2836.361572265625
+        },
+        {
+          "mz": 192.0931,
+          "intensity": 4765.03515625
+        },
+        {
+          "mz": 192.0931,
+          "intensity": 4210.2392578125
+        },
+        {
+          "mz": 192.0932,
+          "intensity": 2799.913330078125
+        },
+        {
+          "mz": 192.0933,
+          "intensity": 5238.5361328125
+        },
+        {
+          "mz": 192.0934,
+          "intensity": 3381.89794921875
+        },
+        {
+          "mz": 192.0935,
+          "intensity": 3181.6982421875
+        },
+        {
+          "mz": 192.0935,
+          "intensity": 3573.882080078125
+        },
+        {
+          "mz": 192.0936,
+          "intensity": 5065.52880859375
+        },
+        {
+          "mz": 192.0944,
+          "intensity": 3540.514404296875
+        },
+        {
+          "mz": 192.0944,
+          "intensity": 5324.458984375
+        },
+        {
+          "mz": 192.0944,
+          "intensity": 3974.436767578125
+        },
+        {
+          "mz": 192.0945,
+          "intensity": 2219.419677734375
+        },
+        {
+          "mz": 192.0945,
+          "intensity": 1792.9625244140625
+        },
+        {
+          "mz": 192.0946,
+          "intensity": 2300.643310546875
+        },
+        {
+          "mz": 192.0946,
+          "intensity": 2569.510498046875
+        },
+        {
+          "mz": 192.0955,
+          "intensity": 1836.8978271484375
+        },
+        {
+          "mz": 192.0955,
+          "intensity": 1554.0948486328125
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 0.06262325773586869,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.07905600000000002,
+        "ClippedPeakIsNoiseScorer": 0.7931634316425731,
+        "Mass Deviation": -0.3095961739067044,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 10,
+      "molecularFormula": "C15H10",
+      "ion": "[M + H]+",
+      "mz": 191.0858,
+      "relativeIntensity": 10.829374466315972,
+      "recalibratedMass": 191.08543421804433,
+      "massDeviation": "1.4298702963504963 ppm (2.732279094743717E-4 m/z)",
+      "recalibratedMassDeviation": "-0.4843595043423554 ppm (-9.255404620489571E-5 m/z)",
+      "peaks": [
+        {
+          "mz": 191.0843,
+          "intensity": 39922.91796875
+        },
+        {
+          "mz": 191.0843,
+          "intensity": 30052.314453125
+        },
+        {
+          "mz": 191.0843,
+          "intensity": 32132.634765625
+        },
+        {
+          "mz": 191.0844,
+          "intensity": 67471.234375
+        },
+        {
+          "mz": 191.0844,
+          "intensity": 40762.4453125
+        },
+        {
+          "mz": 191.0846,
+          "intensity": 43342.29296875
+        },
+        {
+          "mz": 191.0846,
+          "intensity": 38319.67578125
+        },
+        {
+          "mz": 191.0846,
+          "intensity": 19892.798828125
+        },
+        {
+          "mz": 191.0846,
+          "intensity": 20468.59765625
+        },
+        {
+          "mz": 191.0846,
+          "intensity": 58425.88671875
+        },
+        {
+          "mz": 191.0846,
+          "intensity": 30596.0625
+        },
+        {
+          "mz": 191.0847,
+          "intensity": 31448.201171875
+        },
+        {
+          "mz": 191.0847,
+          "intensity": 50434.07421875
+        },
+        {
+          "mz": 191.0848,
+          "intensity": 39293.19140625
+        },
+        {
+          "mz": 191.0848,
+          "intensity": 51984.59375
+        },
+        {
+          "mz": 191.0848,
+          "intensity": 33548.0078125
+        },
+        {
+          "mz": 191.0849,
+          "intensity": 43877.640625
+        },
+        {
+          "mz": 191.0849,
+          "intensity": 46743.83203125
+        },
+        {
+          "mz": 191.0854,
+          "intensity": 35988.34765625
+        },
+        {
+          "mz": 191.0855,
+          "intensity": 24167.544921875
+        },
+        {
+          "mz": 191.0856,
+          "intensity": 7005.55517578125
+        },
+        {
+          "mz": 191.0856,
+          "intensity": 16292.880859375
+        },
+        {
+          "mz": 191.0857,
+          "intensity": 34757.359375
+        },
+        {
+          "mz": 191.0857,
+          "intensity": 41372.41796875
+        },
+        {
+          "mz": 191.0858,
+          "intensity": 34852.9375
+        },
+        {
+          "mz": 191.0858,
+          "intensity": 40668.90234375
+        },
+        {
+          "mz": 191.0858,
+          "intensity": 74838.2734375
+        },
+        {
+          "mz": 191.0859,
+          "intensity": 55185.1953125
+        },
+        {
+          "mz": 191.0859,
+          "intensity": 37008.34765625
+        },
+        {
+          "mz": 191.0859,
+          "intensity": 42802.67578125
+        },
+        {
+          "mz": 191.0859,
+          "intensity": 30983.775390625
+        },
+        {
+          "mz": 191.0859,
+          "intensity": 22404.029296875
+        },
+        {
+          "mz": 191.0859,
+          "intensity": 32176.689453125
+        },
+        {
+          "mz": 191.086,
+          "intensity": 57910.2265625
+        },
+        {
+          "mz": 191.086,
+          "intensity": 38437.1875
+        },
+        {
+          "mz": 191.0861,
+          "intensity": 45247.74609375
+        },
+        {
+          "mz": 191.0863,
+          "intensity": 30515.818359375
+        },
+        {
+          "mz": 191.0863,
+          "intensity": 35668.203125
+        },
+        {
+          "mz": 191.0863,
+          "intensity": 31935.17578125
+        },
+        {
+          "mz": 191.0863,
+          "intensity": 27208.138671875
+        },
+        {
+          "mz": 191.0864,
+          "intensity": 36459.53515625
+        },
+        {
+          "mz": 191.0864,
+          "intensity": 40205.5625
+        },
+        {
+          "mz": 191.0864,
+          "intensity": 29093.939453125
+        },
+        {
+          "mz": 191.0865,
+          "intensity": 34029.8828125
+        },
+        {
+          "mz": 191.0866,
+          "intensity": 23987.19140625
+        },
+        {
+          "mz": 191.0867,
+          "intensity": 32785.08203125
+        },
+        {
+          "mz": 191.0867,
+          "intensity": 28305.23828125
+        },
+        {
+          "mz": 191.087,
+          "intensity": 30355.087890625
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 1.854178215637235,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.08914199999999983,
+        "ClippedPeakIsNoiseScorer": 2.3026451976306466,
+        "Mass Deviation": -0.0376089819934113,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 11,
+      "molecularFormula": "C15H9",
+      "ion": "[M + H]+",
+      "mz": 190.0765,
+      "relativeIntensity": 0.08149144082819068,
+      "recalibratedMass": 190.07689704452085,
+      "massDeviation": "-6.322402246054654 ppm (-0.0012017400905222075 m/z)",
+      "recalibratedMassDeviation": "-4.233526442172609 ppm (-8.046955696840996E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 190.0765,
+          "intensity": 2676.437255859375
+        },
+        {
+          "mz": 190.0775,
+          "intensity": 1773.1474609375
+        },
+        {
+          "mz": 190.0776,
+          "intensity": 1633.642578125
+        },
+        {
+          "mz": 190.0779,
+          "intensity": 1829.8438720703125
+        },
+        {
+          "mz": 190.0786,
+          "intensity": 1799.2603759765625
+        },
+        {
+          "mz": 190.0788,
+          "intensity": 1535.111328125
+        },
+        {
+          "mz": 190.0791,
+          "intensity": 2082.146484375
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": -0.7755630483921732,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.09923499999999996,
+        "ClippedPeakIsNoiseScorer": 0.0,
+        "Mass Deviation": -0.37479804839217307,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 12,
+      "molecularFormula": "C14H10",
+      "ion": "[M + H]+",
+      "mz": 179.0859,
+      "relativeIntensity": 2.715649747440108,
+      "recalibratedMass": 179.08643552027146,
+      "massDeviation": "2.084071998285132 ppm (3.7322790947769136E-4 m/z)",
+      "recalibratedMassDeviation": "5.074355175438466 ppm (9.087481809331166E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 179.0845,
+          "intensity": 7950.97705078125
+        },
+        {
+          "mz": 179.0849,
+          "intensity": 11725.79296875
+        },
+        {
+          "mz": 179.0849,
+          "intensity": 9893.033203125
+        },
+        {
+          "mz": 179.085,
+          "intensity": 7328.79248046875
+        },
+        {
+          "mz": 179.085,
+          "intensity": 5055.37939453125
+        },
+        {
+          "mz": 179.085,
+          "intensity": 6662.09765625
+        },
+        {
+          "mz": 179.085,
+          "intensity": 3825.412841796875
+        },
+        {
+          "mz": 179.0851,
+          "intensity": 7104.20263671875
+        },
+        {
+          "mz": 179.0851,
+          "intensity": 8094.30224609375
+        },
+        {
+          "mz": 179.0851,
+          "intensity": 10079.26171875
+        },
+        {
+          "mz": 179.0852,
+          "intensity": 5610.66845703125
+        },
+        {
+          "mz": 179.0852,
+          "intensity": 17388.916015625
+        },
+        {
+          "mz": 179.0852,
+          "intensity": 12685.0302734375
+        },
+        {
+          "mz": 179.0852,
+          "intensity": 11676.8779296875
+        },
+        {
+          "mz": 179.0853,
+          "intensity": 7251.2109375
+        },
+        {
+          "mz": 179.0853,
+          "intensity": 8982.6015625
+        },
+        {
+          "mz": 179.0853,
+          "intensity": 13125.599609375
+        },
+        {
+          "mz": 179.0854,
+          "intensity": 9973.5556640625
+        },
+        {
+          "mz": 179.0854,
+          "intensity": 10403.2060546875
+        },
+        {
+          "mz": 179.0854,
+          "intensity": 8413.919921875
+        },
+        {
+          "mz": 179.0854,
+          "intensity": 7190.9814453125
+        },
+        {
+          "mz": 179.0856,
+          "intensity": 8572.7060546875
+        },
+        {
+          "mz": 179.0856,
+          "intensity": 10302.1689453125
+        },
+        {
+          "mz": 179.0856,
+          "intensity": 11245.8740234375
+        },
+        {
+          "mz": 179.0858,
+          "intensity": 9377.365234375
+        },
+        {
+          "mz": 179.0858,
+          "intensity": 9490.158203125
+        },
+        {
+          "mz": 179.0858,
+          "intensity": 10483.58984375
+        },
+        {
+          "mz": 179.0859,
+          "intensity": 17899.37890625
+        },
+        {
+          "mz": 179.0859,
+          "intensity": 9283.9033203125
+        },
+        {
+          "mz": 179.086,
+          "intensity": 13913.0263671875
+        },
+        {
+          "mz": 179.0861,
+          "intensity": 7153.94140625
+        },
+        {
+          "mz": 179.0861,
+          "intensity": 6960.8544921875
+        },
+        {
+          "mz": 179.0861,
+          "intensity": 5353.06005859375
+        },
+        {
+          "mz": 179.0861,
+          "intensity": 10111.83203125
+        },
+        {
+          "mz": 179.0862,
+          "intensity": 9885.861328125
+        },
+        {
+          "mz": 179.0862,
+          "intensity": 8745.0546875
+        },
+        {
+          "mz": 179.0862,
+          "intensity": 7266.8095703125
+        },
+        {
+          "mz": 179.0863,
+          "intensity": 7712.72412109375
+        },
+        {
+          "mz": 179.0863,
+          "intensity": 10928.8388671875
+        },
+        {
+          "mz": 179.0863,
+          "intensity": 5088.27099609375
+        },
+        {
+          "mz": 179.0863,
+          "intensity": 13081.294921875
+        },
+        {
+          "mz": 179.0865,
+          "intensity": 12538.4287109375
+        },
+        {
+          "mz": 179.0865,
+          "intensity": 10849.8876953125
+        },
+        {
+          "mz": 179.0866,
+          "intensity": 7546.63232421875
+        },
+        {
+          "mz": 179.0866,
+          "intensity": 10496.041015625
+        },
+        {
+          "mz": 179.0866,
+          "intensity": 7484.90087890625
+        },
+        {
+          "mz": 179.0867,
+          "intensity": 12005.55078125
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 0.6949673216271423,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.2091409999999998,
+        "ClippedPeakIsNoiseScorer": 1.4172870096429928,
+        "Mass Deviation": -0.43146068801585036,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 13,
+      "molecularFormula": "C14H9",
+      "ion": "[M + H]+",
+      "mz": 178.0781,
+      "relativeIntensity": 2.4629088644159096,
+      "recalibratedMass": 178.0779326895427,
+      "massDeviation": "2.2364339549560754 ppm (3.9825990947406353E-4 m/z)",
+      "recalibratedMassDeviation": "1.2969010179188099 ppm (2.3094945217394525E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 178.0761,
+          "intensity": 8024.78466796875
+        },
+        {
+          "mz": 178.0762,
+          "intensity": 5225.95458984375
+        },
+        {
+          "mz": 178.0764,
+          "intensity": 5646.4169921875
+        },
+        {
+          "mz": 178.0766,
+          "intensity": 4607.265625
+        },
+        {
+          "mz": 178.0767,
+          "intensity": 13290.8271484375
+        },
+        {
+          "mz": 178.0767,
+          "intensity": 12925.142578125
+        },
+        {
+          "mz": 178.0768,
+          "intensity": 11048.4560546875
+        },
+        {
+          "mz": 178.0769,
+          "intensity": 11102.5068359375
+        },
+        {
+          "mz": 178.077,
+          "intensity": 12272.7470703125
+        },
+        {
+          "mz": 178.077,
+          "intensity": 8005.75341796875
+        },
+        {
+          "mz": 178.0771,
+          "intensity": 12400.498046875
+        },
+        {
+          "mz": 178.0771,
+          "intensity": 6781.552734375
+        },
+        {
+          "mz": 178.0771,
+          "intensity": 9248.0322265625
+        },
+        {
+          "mz": 178.0772,
+          "intensity": 10159.755859375
+        },
+        {
+          "mz": 178.0773,
+          "intensity": 7409.91015625
+        },
+        {
+          "mz": 178.0774,
+          "intensity": 7102.701171875
+        },
+        {
+          "mz": 178.0776,
+          "intensity": 7544.95751953125
+        },
+        {
+          "mz": 178.0776,
+          "intensity": 11119.150390625
+        },
+        {
+          "mz": 178.0777,
+          "intensity": 9692.3173828125
+        },
+        {
+          "mz": 178.0777,
+          "intensity": 5563.86328125
+        },
+        {
+          "mz": 178.0777,
+          "intensity": 8132.2724609375
+        },
+        {
+          "mz": 178.0777,
+          "intensity": 5423.98291015625
+        },
+        {
+          "mz": 178.0777,
+          "intensity": 9001.453125
+        },
+        {
+          "mz": 178.0777,
+          "intensity": 3547.744873046875
+        },
+        {
+          "mz": 178.0779,
+          "intensity": 6823.30078125
+        },
+        {
+          "mz": 178.0779,
+          "intensity": 1808.42919921875
+        },
+        {
+          "mz": 178.0779,
+          "intensity": 5015.7978515625
+        },
+        {
+          "mz": 178.0779,
+          "intensity": 6641.046875
+        },
+        {
+          "mz": 178.078,
+          "intensity": 8392.099609375
+        },
+        {
+          "mz": 178.078,
+          "intensity": 13516.255859375
+        },
+        {
+          "mz": 178.078,
+          "intensity": 7807.880859375
+        },
+        {
+          "mz": 178.078,
+          "intensity": 13336.1513671875
+        },
+        {
+          "mz": 178.078,
+          "intensity": 6280.10302734375
+        },
+        {
+          "mz": 178.0781,
+          "intensity": 10139.796875
+        },
+        {
+          "mz": 178.0781,
+          "intensity": 5199.490234375
+        },
+        {
+          "mz": 178.0781,
+          "intensity": 7029.3525390625
+        },
+        {
+          "mz": 178.0781,
+          "intensity": 14159.779296875
+        },
+        {
+          "mz": 178.0782,
+          "intensity": 8709.962890625
+        },
+        {
+          "mz": 178.0782,
+          "intensity": 8533.4951171875
+        },
+        {
+          "mz": 178.0784,
+          "intensity": 8773.9775390625
+        },
+        {
+          "mz": 178.0785,
+          "intensity": 6456.4453125
+        },
+        {
+          "mz": 178.0785,
+          "intensity": 14126.248046875
+        },
+        {
+          "mz": 178.0786,
+          "intensity": 10738.6689453125
+        },
+        {
+          "mz": 178.0787,
+          "intensity": 8009.14794921875
+        },
+        {
+          "mz": 178.0788,
+          "intensity": 5179.59716796875
+        },
+        {
+          "mz": 178.079,
+          "intensity": 3894.212158203125
+        },
+        {
+          "mz": 178.0792,
+          "intensity": 9966.3818359375
+        },
+        {
+          "mz": 178.0795,
+          "intensity": 7043.37353515625
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 0.9884060601619673,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.21921899999999983,
+        "ClippedPeakIsNoiseScorer": 1.3656221351007767,
+        "Mass Deviation": -0.09643507493880919,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 14,
+      "molecularFormula": "C14H6",
+      "ion": "[M + H]+",
+      "mz": 175.0558,
+      "relativeIntensity": 0.011025180542698208,
+      "recalibratedMass": 175.0554967115718,
+      "massDeviation": "8.98773939207541 ppm (0.0015733559094712746 m/z)",
+      "recalibratedMassDeviation": "7.25522765711619 ppm (0.001270067481272008 m/z)",
+      "peaks": [
+        {
+          "mz": 175.0558,
+          "intensity": 1803.3934326171875
+        }
+      ],
+      "collisionEnergies": [
+        "none"
+      ],
+      "score": -0.8941412023617248,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.24944199999999994,
+        "ClippedPeakIsNoiseScorer": 0.0,
+        "Mass Deviation": -0.6435832023617247,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 15,
+      "molecularFormula": "C12H10",
+      "ion": "[M + H]+",
+      "mz": 155.0858,
+      "relativeIntensity": 5.310281500743135,
+      "recalibratedMass": 155.08550963653835,
+      "massDeviation": "1.7617854727794013 ppm (2.732279094743717E-4 m/z)",
+      "recalibratedMassDeviation": "-0.11049099444853991 ppm (-1.713555218429974E-5 m/z)",
+      "peaks": [
+        {
+          "mz": 155.0846,
+          "intensity": 18510.994140625
+        },
+        {
+          "mz": 155.0847,
+          "intensity": 13734.7041015625
+        },
+        {
+          "mz": 155.0847,
+          "intensity": 12553.8408203125
+        },
+        {
+          "mz": 155.0848,
+          "intensity": 31001.3046875
+        },
+        {
+          "mz": 155.0848,
+          "intensity": 20077.001953125
+        },
+        {
+          "mz": 155.0848,
+          "intensity": 9689.087890625
+        },
+        {
+          "mz": 155.0848,
+          "intensity": 15374.384765625
+        },
+        {
+          "mz": 155.0849,
+          "intensity": 12964.5556640625
+        },
+        {
+          "mz": 155.0849,
+          "intensity": 28359.140625
+        },
+        {
+          "mz": 155.0849,
+          "intensity": 16257.0546875
+        },
+        {
+          "mz": 155.085,
+          "intensity": 17867.521484375
+        },
+        {
+          "mz": 155.085,
+          "intensity": 18596.876953125
+        },
+        {
+          "mz": 155.0851,
+          "intensity": 18685.619140625
+        },
+        {
+          "mz": 155.0851,
+          "intensity": 22416.4921875
+        },
+        {
+          "mz": 155.0852,
+          "intensity": 18136.986328125
+        },
+        {
+          "mz": 155.0852,
+          "intensity": 10209.8876953125
+        },
+        {
+          "mz": 155.0852,
+          "intensity": 27406.560546875
+        },
+        {
+          "mz": 155.0853,
+          "intensity": 24848.4921875
+        },
+        {
+          "mz": 155.0853,
+          "intensity": 25820.634765625
+        },
+        {
+          "mz": 155.0854,
+          "intensity": 12661.7392578125
+        },
+        {
+          "mz": 155.0856,
+          "intensity": 22368.083984375
+        },
+        {
+          "mz": 155.0856,
+          "intensity": 16866.853515625
+        },
+        {
+          "mz": 155.0857,
+          "intensity": 16297.0439453125
+        },
+        {
+          "mz": 155.0857,
+          "intensity": 18843.498046875
+        },
+        {
+          "mz": 155.0857,
+          "intensity": 16361.4462890625
+        },
+        {
+          "mz": 155.0857,
+          "intensity": 5868.30517578125
+        },
+        {
+          "mz": 155.0858,
+          "intensity": 28018.0859375
+        },
+        {
+          "mz": 155.0858,
+          "intensity": 16554.388671875
+        },
+        {
+          "mz": 155.0858,
+          "intensity": 42555.75390625
+        },
+        {
+          "mz": 155.0858,
+          "intensity": 18952.19921875
+        },
+        {
+          "mz": 155.0858,
+          "intensity": 28312.857421875
+        },
+        {
+          "mz": 155.0858,
+          "intensity": 17542.71875
+        },
+        {
+          "mz": 155.0859,
+          "intensity": 14716.7333984375
+        },
+        {
+          "mz": 155.0859,
+          "intensity": 2566.63818359375
+        },
+        {
+          "mz": 155.0859,
+          "intensity": 18566.958984375
+        },
+        {
+          "mz": 155.086,
+          "intensity": 12833.466796875
+        },
+        {
+          "mz": 155.086,
+          "intensity": 10145.6650390625
+        },
+        {
+          "mz": 155.086,
+          "intensity": 27617.96484375
+        },
+        {
+          "mz": 155.086,
+          "intensity": 15390.4873046875
+        },
+        {
+          "mz": 155.0862,
+          "intensity": 19349.998046875
+        },
+        {
+          "mz": 155.0862,
+          "intensity": 13529.7763671875
+        },
+        {
+          "mz": 155.0862,
+          "intensity": 12589.16015625
+        },
+        {
+          "mz": 155.0862,
+          "intensity": 14392.3544921875
+        },
+        {
+          "mz": 155.0863,
+          "intensity": 20084.396484375
+        },
+        {
+          "mz": 155.0863,
+          "intensity": 15308.8623046875
+        },
+        {
+          "mz": 155.0864,
+          "intensity": 17743.609375
+        },
+        {
+          "mz": 155.0864,
+          "intensity": 14821.298828125
+        },
+        {
+          "mz": 155.0866,
+          "intensity": 15233.5
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 1.7446826503199233,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.44914199999999993,
+        "ClippedPeakIsNoiseScorer": 1.8024001355172194,
+        "Mass Deviation": -0.00685948519729597,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 16,
+      "molecularFormula": "C12H8",
+      "ion": "[M + H]+",
+      "mz": 153.0703,
+      "relativeIntensity": 0.12271728507345889,
+      "recalibratedMass": 153.07001385892653,
+      "massDeviation": "2.76534317545883 ppm (4.232919094704357E-4 m/z)",
+      "recalibratedMassDeviation": "0.8960006766775203 ppm (1.3715083599663558E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 153.0688,
+          "intensity": 1533.2957763671875
+        },
+        {
+          "mz": 153.0695,
+          "intensity": 2629.203125
+        },
+        {
+          "mz": 153.0695,
+          "intensity": 1746.201904296875
+        },
+        {
+          "mz": 153.0696,
+          "intensity": 2054.513916015625
+        },
+        {
+          "mz": 153.0703,
+          "intensity": 3114.859375
+        },
+        {
+          "mz": 153.0703,
+          "intensity": 1957.730712890625
+        },
+        {
+          "mz": 153.0703,
+          "intensity": 1823.746337890625
+        },
+        {
+          "mz": 153.0704,
+          "intensity": 1925.292236328125
+        },
+        {
+          "mz": 153.0704,
+          "intensity": 1807.052734375
+        },
+        {
+          "mz": 153.0704,
+          "intensity": 1481.02197265625
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": -0.0435233789316881,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.4692970000000001,
+        "ClippedPeakIsNoiseScorer": 0.043403380363792335,
+        "Mass Deviation": -0.05622375929548051,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 17,
+      "molecularFormula": "C11H8",
+      "ion": "[M + H]+",
+      "mz": 141.0697,
+      "relativeIntensity": 0.8624649075436451,
+      "recalibratedMass": 141.0694389996815,
+      "massDeviation": "-1.252629661231721 ppm (-1.767080905210605E-4 m/z)",
+      "recalibratedMassDeviation": "-3.1027869121878626 ppm (-4.3770840903789576E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 141.0686,
+          "intensity": 3105.672119140625
+        },
+        {
+          "mz": 141.0688,
+          "intensity": 2965.600341796875
+        },
+        {
+          "mz": 141.0689,
+          "intensity": 4771.43212890625
+        },
+        {
+          "mz": 141.0689,
+          "intensity": 4705.89013671875
+        },
+        {
+          "mz": 141.069,
+          "intensity": 3314.970458984375
+        },
+        {
+          "mz": 141.069,
+          "intensity": 5005.9658203125
+        },
+        {
+          "mz": 141.069,
+          "intensity": 3146.1767578125
+        },
+        {
+          "mz": 141.0691,
+          "intensity": 3270.916259765625
+        },
+        {
+          "mz": 141.0691,
+          "intensity": 1962.1728515625
+        },
+        {
+          "mz": 141.0692,
+          "intensity": 4612.88330078125
+        },
+        {
+          "mz": 141.0692,
+          "intensity": 3592.952392578125
+        },
+        {
+          "mz": 141.0693,
+          "intensity": 2972.394287109375
+        },
+        {
+          "mz": 141.0693,
+          "intensity": 3609.772705078125
+        },
+        {
+          "mz": 141.0694,
+          "intensity": 3328.091552734375
+        },
+        {
+          "mz": 141.0697,
+          "intensity": 3902.040283203125
+        },
+        {
+          "mz": 141.0697,
+          "intensity": 2932.803955078125
+        },
+        {
+          "mz": 141.0697,
+          "intensity": 3618.7763671875
+        },
+        {
+          "mz": 141.0697,
+          "intensity": 6483.1103515625
+        },
+        {
+          "mz": 141.0697,
+          "intensity": 2315.01025390625
+        },
+        {
+          "mz": 141.0697,
+          "intensity": 4980.72412109375
+        },
+        {
+          "mz": 141.0698,
+          "intensity": 4385.11669921875
+        },
+        {
+          "mz": 141.0698,
+          "intensity": 3027.8505859375
+        },
+        {
+          "mz": 141.0698,
+          "intensity": 2345.93505859375
+        },
+        {
+          "mz": 141.0698,
+          "intensity": 1385.9908447265625
+        },
+        {
+          "mz": 141.0698,
+          "intensity": 5899.1640625
+        },
+        {
+          "mz": 141.0698,
+          "intensity": 1730.62255859375
+        },
+        {
+          "mz": 141.0698,
+          "intensity": 2030.0360107421875
+        },
+        {
+          "mz": 141.0698,
+          "intensity": 2052.716796875
+        },
+        {
+          "mz": 141.0698,
+          "intensity": 4246.994140625
+        },
+        {
+          "mz": 141.0699,
+          "intensity": 3454.287353515625
+        },
+        {
+          "mz": 141.07,
+          "intensity": 3623.760498046875
+        },
+        {
+          "mz": 141.07,
+          "intensity": 2190.832763671875
+        },
+        {
+          "mz": 141.0701,
+          "intensity": 2066.554443359375
+        },
+        {
+          "mz": 141.0702,
+          "intensity": 2746.795166015625
+        },
+        {
+          "mz": 141.0702,
+          "intensity": 3053.673095703125
+        },
+        {
+          "mz": 141.0702,
+          "intensity": 3404.337890625
+        },
+        {
+          "mz": 141.0703,
+          "intensity": 2853.7568359375
+        },
+        {
+          "mz": 141.0703,
+          "intensity": 3275.79638671875
+        },
+        {
+          "mz": 141.0704,
+          "intensity": 3096.429443359375
+        },
+        {
+          "mz": 141.0705,
+          "intensity": 2574.431640625
+        },
+        {
+          "mz": 141.0705,
+          "intensity": 2551.50244140625
+        },
+        {
+          "mz": 141.0706,
+          "intensity": 2123.43408203125
+        },
+        {
+          "mz": 141.0707,
+          "intensity": 2356.37353515625
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 0.7564445409293767,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.5893029999999999,
+        "ClippedPeakIsNoiseScorer": 0.8573779926822523,
+        "Mass Deviation": -0.19023645175287557,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 18,
+      "molecularFormula": "C10H8",
+      "ion": "[M + H]+",
+      "mz": 129.0695,
+      "relativeIntensity": 2.311844666131713,
+      "recalibratedMass": 129.07004629084622,
+      "massDeviation": "-2.918645307587771 ppm (-3.767080905276998E-4 m/z)",
+      "recalibratedMassDeviation": "1.3138815748662727 ppm (1.6958275568867975E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 129.069,
+          "intensity": 4078.308837890625
+        },
+        {
+          "mz": 129.0691,
+          "intensity": 6847.47265625
+        },
+        {
+          "mz": 129.0691,
+          "intensity": 5616.56787109375
+        },
+        {
+          "mz": 129.0692,
+          "intensity": 7735.38916015625
+        },
+        {
+          "mz": 129.0692,
+          "intensity": 6196.5791015625
+        },
+        {
+          "mz": 129.0692,
+          "intensity": 7897.3154296875
+        },
+        {
+          "mz": 129.0692,
+          "intensity": 5956.4482421875
+        },
+        {
+          "mz": 129.0693,
+          "intensity": 7411.88525390625
+        },
+        {
+          "mz": 129.0694,
+          "intensity": 7649.27783203125
+        },
+        {
+          "mz": 129.0694,
+          "intensity": 9203.7939453125
+        },
+        {
+          "mz": 129.0695,
+          "intensity": 16402.474609375
+        },
+        {
+          "mz": 129.0695,
+          "intensity": 7050.05615234375
+        },
+        {
+          "mz": 129.0695,
+          "intensity": 5578.60546875
+        },
+        {
+          "mz": 129.0695,
+          "intensity": 9973.310546875
+        },
+        {
+          "mz": 129.0695,
+          "intensity": 11636.6171875
+        },
+        {
+          "mz": 129.0695,
+          "intensity": 5311.57080078125
+        },
+        {
+          "mz": 129.0695,
+          "intensity": 5515.42138671875
+        },
+        {
+          "mz": 129.0696,
+          "intensity": 6529.47021484375
+        },
+        {
+          "mz": 129.0696,
+          "intensity": 4941.4765625
+        },
+        {
+          "mz": 129.0696,
+          "intensity": 9130.99609375
+        },
+        {
+          "mz": 129.0696,
+          "intensity": 13253.154296875
+        },
+        {
+          "mz": 129.0697,
+          "intensity": 4714.24755859375
+        },
+        {
+          "mz": 129.0697,
+          "intensity": 10563.2080078125
+        },
+        {
+          "mz": 129.0697,
+          "intensity": 8013.92529296875
+        },
+        {
+          "mz": 129.0698,
+          "intensity": 10625.80078125
+        },
+        {
+          "mz": 129.0698,
+          "intensity": 9931.7861328125
+        },
+        {
+          "mz": 129.0699,
+          "intensity": 10965.9111328125
+        },
+        {
+          "mz": 129.0701,
+          "intensity": 12081.65234375
+        },
+        {
+          "mz": 129.0701,
+          "intensity": 5994.3388671875
+        },
+        {
+          "mz": 129.0701,
+          "intensity": 5007.109375
+        },
+        {
+          "mz": 129.0701,
+          "intensity": 10839.2080078125
+        },
+        {
+          "mz": 129.0701,
+          "intensity": 6303.69091796875
+        },
+        {
+          "mz": 129.0701,
+          "intensity": 2526.45556640625
+        },
+        {
+          "mz": 129.0701,
+          "intensity": 11495.2568359375
+        },
+        {
+          "mz": 129.0702,
+          "intensity": 8669.5400390625
+        },
+        {
+          "mz": 129.0702,
+          "intensity": 14182.4599609375
+        },
+        {
+          "mz": 129.0702,
+          "intensity": 5940.541015625
+        },
+        {
+          "mz": 129.0702,
+          "intensity": 5289.00244140625
+        },
+        {
+          "mz": 129.0702,
+          "intensity": 5870.17919921875
+        },
+        {
+          "mz": 129.0703,
+          "intensity": 1752.6365966796875
+        },
+        {
+          "mz": 129.0703,
+          "intensity": 5879.6748046875
+        },
+        {
+          "mz": 129.0703,
+          "intensity": 9198.7021484375
+        },
+        {
+          "mz": 129.0703,
+          "intensity": 8189.87744140625
+        },
+        {
+          "mz": 129.0703,
+          "intensity": 6588.92431640625
+        },
+        {
+          "mz": 129.0704,
+          "intensity": 8173.69580078125
+        },
+        {
+          "mz": 129.0704,
+          "intensity": 4750.69482421875
+        },
+        {
+          "mz": 129.0705,
+          "intensity": 13983.015625
+        },
+        {
+          "mz": 129.0714,
+          "intensity": 6701.6806640625
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 1.4719717332710103,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.7093049999999999,
+        "ClippedPeakIsNoiseScorer": 1.3326308816465642,
+        "Mass Deviation": -0.06996414837555372,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 19,
+      "molecularFormula": "C9H8",
+      "ion": "[M + H]+",
+      "mz": 117.0702,
+      "relativeIntensity": 17.076121695290457,
+      "recalibratedMass": 117.06998927763001,
+      "massDeviation": "2.761521800313966 ppm (3.2329190946711606E-4 m/z)",
+      "recalibratedMassDeviation": "0.9615576133261031 ppm (1.125695394819104E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 117.0692,
+          "intensity": 43429.859375
+        },
+        {
+          "mz": 117.0692,
+          "intensity": 78299.8671875
+        },
+        {
+          "mz": 117.0693,
+          "intensity": 76014.0234375
+        },
+        {
+          "mz": 117.0693,
+          "intensity": 42840.94921875
+        },
+        {
+          "mz": 117.0694,
+          "intensity": 46486.27734375
+        },
+        {
+          "mz": 117.0694,
+          "intensity": 60644.21484375
+        },
+        {
+          "mz": 117.0694,
+          "intensity": 54586.23046875
+        },
+        {
+          "mz": 117.0695,
+          "intensity": 64248.8671875
+        },
+        {
+          "mz": 117.0695,
+          "intensity": 40752.09375
+        },
+        {
+          "mz": 117.0695,
+          "intensity": 59975.6328125
+        },
+        {
+          "mz": 117.0695,
+          "intensity": 59364.57421875
+        },
+        {
+          "mz": 117.0696,
+          "intensity": 46625.48828125
+        },
+        {
+          "mz": 117.0696,
+          "intensity": 62372.35546875
+        },
+        {
+          "mz": 117.0696,
+          "intensity": 39544.1796875
+        },
+        {
+          "mz": 117.0697,
+          "intensity": 101603.6484375
+        },
+        {
+          "mz": 117.0697,
+          "intensity": 65850.640625
+        },
+        {
+          "mz": 117.0697,
+          "intensity": 61341.0859375
+        },
+        {
+          "mz": 117.0697,
+          "intensity": 55007.39453125
+        },
+        {
+          "mz": 117.0698,
+          "intensity": 64838.68359375
+        },
+        {
+          "mz": 117.0698,
+          "intensity": 42099.79296875
+        },
+        {
+          "mz": 117.0698,
+          "intensity": 55762.765625
+        },
+        {
+          "mz": 117.0698,
+          "intensity": 94459.90625
+        },
+        {
+          "mz": 117.0698,
+          "intensity": 51809.69921875
+        },
+        {
+          "mz": 117.0698,
+          "intensity": 58018.8515625
+        },
+        {
+          "mz": 117.0699,
+          "intensity": 52369.12109375
+        },
+        {
+          "mz": 117.0699,
+          "intensity": 85256.0703125
+        },
+        {
+          "mz": 117.0699,
+          "intensity": 33172.31640625
+        },
+        {
+          "mz": 117.0699,
+          "intensity": 80805.4375
+        },
+        {
+          "mz": 117.0699,
+          "intensity": 35251.140625
+        },
+        {
+          "mz": 117.07,
+          "intensity": 65794.546875
+        },
+        {
+          "mz": 117.07,
+          "intensity": 69715.375
+        },
+        {
+          "mz": 117.07,
+          "intensity": 74390.890625
+        },
+        {
+          "mz": 117.0701,
+          "intensity": 59304.2890625
+        },
+        {
+          "mz": 117.0701,
+          "intensity": 38306.69921875
+        },
+        {
+          "mz": 117.0702,
+          "intensity": 46569.0703125
+        },
+        {
+          "mz": 117.0702,
+          "intensity": 66093.59375
+        },
+        {
+          "mz": 117.0702,
+          "intensity": 57088.91015625
+        },
+        {
+          "mz": 117.0702,
+          "intensity": 115593.7109375
+        },
+        {
+          "mz": 117.0702,
+          "intensity": 52760.5078125
+        },
+        {
+          "mz": 117.0703,
+          "intensity": 83736.65625
+        },
+        {
+          "mz": 117.0703,
+          "intensity": 63781.65625
+        },
+        {
+          "mz": 117.0703,
+          "intensity": 59628.44140625
+        },
+        {
+          "mz": 117.0703,
+          "intensity": 49650.703125
+        },
+        {
+          "mz": 117.0703,
+          "intensity": 37972.80078125
+        },
+        {
+          "mz": 117.0704,
+          "intensity": 11405.443359375
+        },
+        {
+          "mz": 117.0704,
+          "intensity": 48794.95703125
+        },
+        {
+          "mz": 117.0704,
+          "intensity": 21801.537109375
+        },
+        {
+          "mz": 117.0704,
+          "intensity": 57927.47265625
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 2.9997698197483844,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.8292980000000001,
+        "ClippedPeakIsNoiseScorer": 2.716395397340121,
+        "Mass Deviation": -0.04592357759173698,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 20,
+      "molecularFormula": "C9H6",
+      "ion": "[M + H]+",
+      "mz": 115.0542,
+      "relativeIntensity": 0.7923160717903707,
+      "recalibratedMass": 115.054015934285,
+      "massDeviation": "-0.23157859981823659 ppm (-2.6644090539207355E-5 m/z)",
+      "recalibratedMassDeviation": "-1.8313989635043584 ppm (-2.107098055290635E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 115.0535,
+          "intensity": 3036.5498046875
+        },
+        {
+          "mz": 115.0536,
+          "intensity": 3539.87890625
+        },
+        {
+          "mz": 115.0536,
+          "intensity": 2397.049560546875
+        },
+        {
+          "mz": 115.0536,
+          "intensity": 4165.15234375
+        },
+        {
+          "mz": 115.0536,
+          "intensity": 3332.917724609375
+        },
+        {
+          "mz": 115.0537,
+          "intensity": 2374.994873046875
+        },
+        {
+          "mz": 115.0537,
+          "intensity": 3956.532470703125
+        },
+        {
+          "mz": 115.0538,
+          "intensity": 3230.155029296875
+        },
+        {
+          "mz": 115.0538,
+          "intensity": 4637.2109375
+        },
+        {
+          "mz": 115.0539,
+          "intensity": 1953.2105712890625
+        },
+        {
+          "mz": 115.0539,
+          "intensity": 2508.103759765625
+        },
+        {
+          "mz": 115.0539,
+          "intensity": 4930.19384765625
+        },
+        {
+          "mz": 115.0541,
+          "intensity": 3986.0595703125
+        },
+        {
+          "mz": 115.0541,
+          "intensity": 3140.166748046875
+        },
+        {
+          "mz": 115.0541,
+          "intensity": 2739.95703125
+        },
+        {
+          "mz": 115.0541,
+          "intensity": 4374.74267578125
+        },
+        {
+          "mz": 115.0541,
+          "intensity": 5376.2578125
+        },
+        {
+          "mz": 115.0541,
+          "intensity": 2709.844482421875
+        },
+        {
+          "mz": 115.0541,
+          "intensity": 3211.7119140625
+        },
+        {
+          "mz": 115.0542,
+          "intensity": 2859.58642578125
+        },
+        {
+          "mz": 115.0542,
+          "intensity": 1800.2213134765625
+        },
+        {
+          "mz": 115.0542,
+          "intensity": 1755.683349609375
+        },
+        {
+          "mz": 115.0542,
+          "intensity": 5540.6748046875
+        },
+        {
+          "mz": 115.0542,
+          "intensity": 3433.27734375
+        },
+        {
+          "mz": 115.0543,
+          "intensity": 1395.570068359375
+        },
+        {
+          "mz": 115.0543,
+          "intensity": 3933.04833984375
+        },
+        {
+          "mz": 115.0544,
+          "intensity": 1944.5244140625
+        },
+        {
+          "mz": 115.0544,
+          "intensity": 2552.405517578125
+        },
+        {
+          "mz": 115.0544,
+          "intensity": 1522.3927001953125
+        },
+        {
+          "mz": 115.0545,
+          "intensity": 3167.55615234375
+        },
+        {
+          "mz": 115.0545,
+          "intensity": 3010.9130859375
+        },
+        {
+          "mz": 115.0545,
+          "intensity": 3012.462890625
+        },
+        {
+          "mz": 115.0545,
+          "intensity": 3612.607421875
+        },
+        {
+          "mz": 115.0545,
+          "intensity": 2357.818115234375
+        },
+        {
+          "mz": 115.0546,
+          "intensity": 3482.33544921875
+        },
+        {
+          "mz": 115.0546,
+          "intensity": 1560.9981689453125
+        },
+        {
+          "mz": 115.0547,
+          "intensity": 2284.8232421875
+        },
+        {
+          "mz": 115.0548,
+          "intensity": 3003.62890625
+        },
+        {
+          "mz": 115.0548,
+          "intensity": 3766.0556640625
+        },
+        {
+          "mz": 115.0548,
+          "intensity": 1944.741455078125
+        },
+        {
+          "mz": 115.0549,
+          "intensity": 3388.622314453125
+        },
+        {
+          "mz": 115.0549,
+          "intensity": 2668.8369140625
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 1.080996608960103,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.849458,
+        "ClippedPeakIsNoiseScorer": 0.8191746909734701,
+        "Mass Deviation": -0.08763608201336694,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 21,
+      "molecularFormula": "C8H8",
+      "ion": "[M + H]+",
+      "mz": 105.0698,
+      "relativeIntensity": 18.317089270704983,
+      "recalibratedMass": 105.06961441796602,
+      "massDeviation": "-0.7300679218191308 ppm (-7.670809053195171E-5 m/z)",
+      "recalibratedMassDeviation": "-2.496346122172034 ppm (-2.6229012451040035E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 105.0694,
+          "intensity": 108467.6171875
+        },
+        {
+          "mz": 105.0694,
+          "intensity": 97578.421875
+        },
+        {
+          "mz": 105.0694,
+          "intensity": 57996.1875
+        },
+        {
+          "mz": 105.0695,
+          "intensity": 54260.1640625
+        },
+        {
+          "mz": 105.0695,
+          "intensity": 62106.9375
+        },
+        {
+          "mz": 105.0695,
+          "intensity": 62493.7734375
+        },
+        {
+          "mz": 105.0695,
+          "intensity": 33689.48828125
+        },
+        {
+          "mz": 105.0695,
+          "intensity": 58048.16796875
+        },
+        {
+          "mz": 105.0696,
+          "intensity": 83566.5859375
+        },
+        {
+          "mz": 105.0696,
+          "intensity": 31804.384765625
+        },
+        {
+          "mz": 105.0697,
+          "intensity": 65665.4375
+        },
+        {
+          "mz": 105.0697,
+          "intensity": 75070.8984375
+        },
+        {
+          "mz": 105.0697,
+          "intensity": 63909.4296875
+        },
+        {
+          "mz": 105.0697,
+          "intensity": 40690.1015625
+        },
+        {
+          "mz": 105.0697,
+          "intensity": 85092.6796875
+        },
+        {
+          "mz": 105.0697,
+          "intensity": 88986.015625
+        },
+        {
+          "mz": 105.0698,
+          "intensity": 12046.951171875
+        },
+        {
+          "mz": 105.0698,
+          "intensity": 75096.40625
+        },
+        {
+          "mz": 105.0698,
+          "intensity": 57255.59765625
+        },
+        {
+          "mz": 105.0698,
+          "intensity": 131381.828125
+        },
+        {
+          "mz": 105.0698,
+          "intensity": 67070.484375
+        },
+        {
+          "mz": 105.0699,
+          "intensity": 92732.421875
+        },
+        {
+          "mz": 105.0699,
+          "intensity": 53100.40234375
+        },
+        {
+          "mz": 105.0699,
+          "intensity": 55426.3359375
+        },
+        {
+          "mz": 105.0699,
+          "intensity": 73305.28125
+        },
+        {
+          "mz": 105.0699,
+          "intensity": 58729.1640625
+        },
+        {
+          "mz": 105.0699,
+          "intensity": 38655.96875
+        },
+        {
+          "mz": 105.0699,
+          "intensity": 49731.33984375
+        },
+        {
+          "mz": 105.0699,
+          "intensity": 91166.5546875
+        },
+        {
+          "mz": 105.07,
+          "intensity": 45237.51953125
+        },
+        {
+          "mz": 105.07,
+          "intensity": 90927.4296875
+        },
+        {
+          "mz": 105.07,
+          "intensity": 24729.37890625
+        },
+        {
+          "mz": 105.07,
+          "intensity": 61118.34375
+        },
+        {
+          "mz": 105.0701,
+          "intensity": 44190.0625
+        },
+        {
+          "mz": 105.0701,
+          "intensity": 49289.3046875
+        },
+        {
+          "mz": 105.0701,
+          "intensity": 61062.5
+        },
+        {
+          "mz": 105.0701,
+          "intensity": 48275.80859375
+        },
+        {
+          "mz": 105.0702,
+          "intensity": 67961.03125
+        },
+        {
+          "mz": 105.0702,
+          "intensity": 60029.6484375
+        },
+        {
+          "mz": 105.0702,
+          "intensity": 67310.546875
+        },
+        {
+          "mz": 105.0702,
+          "intensity": 59788.3125
+        },
+        {
+          "mz": 105.0703,
+          "intensity": 50947.5859375
+        },
+        {
+          "mz": 105.0703,
+          "intensity": 44889.14453125
+        },
+        {
+          "mz": 105.0704,
+          "intensity": 47237.21875
+        },
+        {
+          "mz": 105.0704,
+          "intensity": 64138.3671875
+        },
+        {
+          "mz": 105.0704,
+          "intensity": 62987.46875
+        },
+        {
+          "mz": 105.0704,
+          "intensity": 58902.671875
+        },
+        {
+          "mz": 105.0705,
+          "intensity": 61986.6484375
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 4.032807775406919,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.9493020000000001,
+        "ClippedPeakIsNoiseScorer": 2.7911702616787326,
+        "Mass Deviation": -0.1101937832722128,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.9025292970003989,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 22,
+      "molecularFormula": "C8H6",
+      "ion": "[M + H]+",
+      "mz": 103.054,
+      "relativeIntensity": 0.21495739629466742,
+      "recalibratedMass": 103.05381864098268,
+      "massDeviation": "-2.1992750454289576 ppm (-2.266440905316358E-4 m/z)",
+      "recalibratedMassDeviation": "-3.9591265343748043 ppm (-4.0800310785016336E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 103.0533,
+          "intensity": 1868.654541015625
+        },
+        {
+          "mz": 103.0536,
+          "intensity": 2652.201416015625
+        },
+        {
+          "mz": 103.0536,
+          "intensity": 1941.6949462890625
+        },
+        {
+          "mz": 103.0538,
+          "intensity": 1805.2198486328125
+        },
+        {
+          "mz": 103.0539,
+          "intensity": 2263.32568359375
+        },
+        {
+          "mz": 103.054,
+          "intensity": 3529.122802734375
+        },
+        {
+          "mz": 103.054,
+          "intensity": 2253.48681640625
+        },
+        {
+          "mz": 103.054,
+          "intensity": 2928.73828125
+        },
+        {
+          "mz": 103.0541,
+          "intensity": 1420.21875
+        },
+        {
+          "mz": 103.0541,
+          "intensity": 1567.1943359375
+        },
+        {
+          "mz": 103.0542,
+          "intensity": 1699.392822265625
+        },
+        {
+          "mz": 103.0542,
+          "intensity": 2035.9649658203125
+        },
+        {
+          "mz": 103.0542,
+          "intensity": 1615.464599609375
+        },
+        {
+          "mz": 103.0544,
+          "intensity": 2195.8935546875
+        },
+        {
+          "mz": 103.0546,
+          "intensity": 1551.4439697265625
+        },
+        {
+          "mz": 103.0548,
+          "intensity": 2190.1298828125
+        },
+        {
+          "mz": 103.055,
+          "intensity": 1642.5247802734375
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 0.5595195784666965,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 0.96946,
+        "ClippedPeakIsNoiseScorer": 0.2663764579660065,
+        "Mass Deviation": -0.17631687949930996,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 23,
+      "molecularFormula": "C7H6",
+      "ion": "[M + H]+",
+      "mz": 91.0544,
+      "relativeIntensity": 22.882345376470575,
+      "recalibratedMass": 91.05424377964272,
+      "massDeviation": "1.903871855368131 ppm (1.7335590946743196E-4 m/z)",
+      "recalibratedMassDeviation": "0.1881905935737483 ppm (1.713555218429974E-5 m/z)",
+      "peaks": [
+        {
+          "mz": 91.0538,
+          "intensity": 56660.8828125
+        },
+        {
+          "mz": 91.0539,
+          "intensity": 80615.3125
+        },
+        {
+          "mz": 91.0539,
+          "intensity": 66156.953125
+        },
+        {
+          "mz": 91.0539,
+          "intensity": 74939.765625
+        },
+        {
+          "mz": 91.0539,
+          "intensity": 55387.60546875
+        },
+        {
+          "mz": 91.054,
+          "intensity": 81170.625
+        },
+        {
+          "mz": 91.054,
+          "intensity": 84578.5859375
+        },
+        {
+          "mz": 91.054,
+          "intensity": 71180.375
+        },
+        {
+          "mz": 91.0541,
+          "intensity": 138264.4375
+        },
+        {
+          "mz": 91.0541,
+          "intensity": 84078.9375
+        },
+        {
+          "mz": 91.0541,
+          "intensity": 57120.61328125
+        },
+        {
+          "mz": 91.0541,
+          "intensity": 73512.53125
+        },
+        {
+          "mz": 91.0541,
+          "intensity": 83111.4921875
+        },
+        {
+          "mz": 91.0541,
+          "intensity": 73811.0859375
+        },
+        {
+          "mz": 91.0541,
+          "intensity": 128818.6328125
+        },
+        {
+          "mz": 91.0541,
+          "intensity": 71537.3359375
+        },
+        {
+          "mz": 91.0541,
+          "intensity": 74243.078125
+        },
+        {
+          "mz": 91.0542,
+          "intensity": 102134.578125
+        },
+        {
+          "mz": 91.0542,
+          "intensity": 45027.375
+        },
+        {
+          "mz": 91.0542,
+          "intensity": 107990.796875
+        },
+        {
+          "mz": 91.0542,
+          "intensity": 44813.82421875
+        },
+        {
+          "mz": 91.0543,
+          "intensity": 77928.6953125
+        },
+        {
+          "mz": 91.0543,
+          "intensity": 95214.921875
+        },
+        {
+          "mz": 91.0543,
+          "intensity": 72422.2578125
+        },
+        {
+          "mz": 91.0543,
+          "intensity": 77348.296875
+        },
+        {
+          "mz": 91.0543,
+          "intensity": 50524.8515625
+        },
+        {
+          "mz": 91.0543,
+          "intensity": 83810.015625
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 121000.6953125
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 72638.3828125
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 15403.6015625
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 71598.890625
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 88794.171875
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 163570.421875
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 110022.40625
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 91735.6796875
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 69522.375
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 63927.80859375
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 33422.75
+        },
+        {
+          "mz": 91.0544,
+          "intensity": 112263.4140625
+        },
+        {
+          "mz": 91.0545,
+          "intensity": 48967.9453125
+        },
+        {
+          "mz": 91.0545,
+          "intensity": 50469.76171875
+        },
+        {
+          "mz": 91.0545,
+          "intensity": 107363.75
+        },
+        {
+          "mz": 91.0545,
+          "intensity": 80517.5234375
+        },
+        {
+          "mz": 91.0546,
+          "intensity": 51866.91796875
+        },
+        {
+          "mz": 91.0546,
+          "intensity": 85022.453125
+        },
+        {
+          "mz": 91.0546,
+          "intensity": 62906.74609375
+        },
+        {
+          "mz": 91.0546,
+          "intensity": 52774.375
+        },
+        {
+          "mz": 91.0547,
+          "intensity": 76680.953125
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 3.6406581847955497,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 1.089456,
+        "ClippedPeakIsNoiseScorer": 3.0580616699928456,
+        "Mass Deviation": -0.00685948519729597,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 0.0,
+        "isotopes": 0.0
+      }
+    },
+    {
+      "id": 24,
+      "molecularFormula": "C6H6",
+      "ion": "[M + H]+",
+      "mz": 79.0542,
+      "relativeIntensity": 0.31589372205845595,
+      "recalibratedMass": 79.05406891955968,
+      "massDeviation": "-0.3370357367376731 ppm (-2.6644090539207355E-5 m/z)",
+      "recalibratedMassDeviation": "-1.995147536448071 ppm (-1.5772453085105553E-4 m/z)",
+      "peaks": [
+        {
+          "mz": 79.0539,
+          "intensity": 1625.4422607421875
+        },
+        {
+          "mz": 79.054,
+          "intensity": 2092.3984375
+        },
+        {
+          "mz": 79.054,
+          "intensity": 1828.0653076171875
+        },
+        {
+          "mz": 79.0541,
+          "intensity": 1611.316162109375
+        },
+        {
+          "mz": 79.0541,
+          "intensity": 1487.077880859375
+        },
+        {
+          "mz": 79.0542,
+          "intensity": 2560.911865234375
+        },
+        {
+          "mz": 79.0542,
+          "intensity": 1477.8553466796875
+        },
+        {
+          "mz": 79.0542,
+          "intensity": 3578.44580078125
+        },
+        {
+          "mz": 79.0542,
+          "intensity": 2170.69970703125
+        },
+        {
+          "mz": 79.0542,
+          "intensity": 2204.462646484375
+        },
+        {
+          "mz": 79.0542,
+          "intensity": 1914.7255859375
+        },
+        {
+          "mz": 79.0543,
+          "intensity": 1527.38232421875
+        },
+        {
+          "mz": 79.0543,
+          "intensity": 1942.4183349609375
+        },
+        {
+          "mz": 79.0543,
+          "intensity": 1570.036865234375
+        },
+        {
+          "mz": 79.0543,
+          "intensity": 2358.101806640625
+        },
+        {
+          "mz": 79.0543,
+          "intensity": 1555.3751220703125
+        },
+        {
+          "mz": 79.0544,
+          "intensity": 1556.026611328125
+        },
+        {
+          "mz": 79.0545,
+          "intensity": 1695.27001953125
+        },
+        {
+          "mz": 79.0545,
+          "intensity": 1760.2144775390625
+        },
+        {
+          "mz": 79.0545,
+          "intensity": 3135.57080078125
+        },
+        {
+          "mz": 79.0546,
+          "intensity": 1598.9716796875
+        },
+        {
+          "mz": 79.0547,
+          "intensity": 1552.5999755859375
+        },
+        {
+          "mz": 79.0547,
+          "intensity": 1637.8089599609375
+        },
+        {
+          "mz": 79.0547,
+          "intensity": 2077.927978515625
+        },
+        {
+          "mz": 79.0547,
+          "intensity": 1613.42529296875
+        },
+        {
+          "mz": 79.0549,
+          "intensity": 2097.39697265625
+        },
+        {
+          "mz": 79.0549,
+          "intensity": 1440.941162109375
+        }
+      ],
+      "collisionEnergies": [
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none",
+        "none"
+      ],
+      "score": 3.2278403108237095,
+      "scores": {
+        "TreeSizeScorer": -0.5,
+        "FragmentSizeScorer": 1.2094580000000001,
+        "ClippedPeakIsNoiseScorer": 0.42382036633467846,
+        "Mass Deviation": -0.06492027127059041,
+        "PhosphorScorer": 0.0,
+        "StrangeElementSmallFragmentScorer": 0.0,
+        "StrangeElementFragmentScorer": 0.0,
+        "Common Fragments": 2.1594822157596214,
+        "isotopes": 0.0
+      }
+    }
+  ],
+  "losses": [
+    {
+      "source": "C20H23N",
+      "target": "C18H16",
+      "molecularFormula": "C2H7N",
+      "score": -1.090138536826925,
+      "scores": {
+        "LossSizeScorer": 1.0914237600671495,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": -2.193188839052895
+      }
+    },
+    {
+      "source": "C18H16",
+      "target": "C18H14",
+      "molecularFormula": "H2",
+      "score": -0.5905497647683955,
+      "scores": {
+        "LossSizeScorer": -13.380910109697922,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 12.778733802770706
+      }
+    },
+    {
+      "source": "C18H16",
+      "target": "C17H13",
+      "molecularFormula": "CH3",
+      "score": 0.9583778269633718,
+      "scores": {
+        "LossSizeScorer": -0.4948228405008237,
+        "Free Radical": -0.09373397349900595,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 1.5469346409632014
+      }
+    },
+    {
+      "source": "C18H16",
+      "target": "C17H12",
+      "molecularFormula": "CH4",
+      "score": 0.30907698860375554,
+      "scores": {
+        "LossSizeScorer": -0.2935567213594634,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.5910071678043987
+      }
+    },
+    {
+      "source": "C18H16",
+      "target": "C16H14",
+      "molecularFormula": "C2H2",
+      "score": 0.9974539468571667,
+      "scores": {
+        "LossSizeScorer": 0.7808121875575234,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    },
+    {
+      "source": "C18H14",
+      "target": "C16H12",
+      "molecularFormula": "C2H2",
+      "score": 0.9973984265105106,
+      "scores": {
+        "LossSizeScorer": 0.7807566672108672,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    },
+    {
+      "source": "C17H13",
+      "target": "C16H10",
+      "molecularFormula": "CH3",
+      "score": 0.9584843800847558,
+      "scores": {
+        "LossSizeScorer": -0.49471628737943973,
+        "Free Radical": -0.09373397349900595,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 1.5469346409632014
+      }
+    },
+    {
+      "source": "C18H16",
+      "target": "C15H12",
+      "molecularFormula": "C3H4",
+      "score": -1.5770931452100452,
+      "scores": {
+        "LossSizeScorer": 1.1060849385675695,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": -2.694804625936435
+      }
+    },
+    {
+      "source": "C17H13",
+      "target": "C15H11",
+      "molecularFormula": "C2H2",
+      "score": 0.9973762164503303,
+      "scores": {
+        "LossSizeScorer": 0.7807344571506869,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    },
+    {
+      "source": "C17H12",
+      "target": "C15H10",
+      "molecularFormula": "C2H2",
+      "score": 0.9973811285604409,
+      "scores": {
+        "LossSizeScorer": 0.7807393692607976,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    },
+    {
+      "source": "C16H12",
+      "target": "C15H9",
+      "molecularFormula": "CH3",
+      "score": 0.9585353709955908,
+      "scores": {
+        "LossSizeScorer": -0.4946652964686047,
+        "Free Radical": -0.09373397349900595,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 1.5469346409632014
+      }
+    },
+    {
+      "source": "C16H12",
+      "target": "C14H10",
+      "molecularFormula": "C2H2",
+      "score": 0.99734422288457,
+      "scores": {
+        "LossSizeScorer": 0.7807024635849267,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    },
+    {
+      "source": "C15H12",
+      "target": "C14H9",
+      "molecularFormula": "CH3",
+      "score": 0.9581495191524689,
+      "scores": {
+        "LossSizeScorer": -0.4950511483117266,
+        "Free Radical": -0.09373397349900595,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 1.5469346409632014
+      }
+    },
+    {
+      "source": "C15H9",
+      "target": "C14H6",
+      "molecularFormula": "CH3",
+      "score": 0.957894370801357,
+      "scores": {
+        "LossSizeScorer": -0.49530629666283854,
+        "Free Radical": -0.09373397349900595,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 1.5469346409632014
+      }
+    },
+    {
+      "source": "C16H14",
+      "target": "C12H10",
+      "molecularFormula": "C4H4",
+      "score": -0.0026048533357052595,
+      "scores": {
+        "LossSizeScorer": 1.0132108098116737,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": -1.0274422053061993
+      }
+    },
+    {
+      "source": "C14H10",
+      "target": "C12H8",
+      "molecularFormula": "C2H2",
+      "score": 0.9974304162163895,
+      "scores": {
+        "LossSizeScorer": 0.7807886569167461,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    },
+    {
+      "source": "C15H12",
+      "target": "C11H8",
+      "molecularFormula": "C4H4",
+      "score": -0.002609314744790092,
+      "scores": {
+        "LossSizeScorer": 1.0132063484025888,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": -1.0274422053061993
+      }
+    },
+    {
+      "source": "C12H10",
+      "target": "C10H8",
+      "molecularFormula": "C2H2",
+      "score": 0.9973772074374084,
+      "scores": {
+        "LossSizeScorer": 0.7807354481377651,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    },
+    {
+      "source": "C15H10",
+      "target": "C9H8",
+      "molecularFormula": "C6H2",
+      "score": -2.1414334886006543,
+      "scores": {
+        "LossSizeScorer": 0.5417445951769606,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": -2.694804625936435
+      }
+    },
+    {
+      "source": "C11H8",
+      "target": "C9H6",
+      "molecularFormula": "C2H2",
+      "score": 0.9973749708073255,
+      "scores": {
+        "LossSizeScorer": 0.7807332115076822,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    },
+    {
+      "source": "C12H10",
+      "target": "C8H8",
+      "molecularFormula": "C4H2",
+      "score": -1.641903652480276,
+      "scores": {
+        "LossSizeScorer": 1.0412744312973388,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": -2.694804625936435
+      }
+    },
+    {
+      "source": "C10H8",
+      "target": "C8H6",
+      "molecularFormula": "C2H2",
+      "score": 0.997419644581378,
+      "scores": {
+        "LossSizeScorer": 0.7807778852817346,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    },
+    {
+      "source": "C9H8",
+      "target": "C7H6",
+      "molecularFormula": "C2H2",
+      "score": 0.9973928740984063,
+      "scores": {
+        "LossSizeScorer": 0.7807511147987629,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    },
+    {
+      "source": "C8H8",
+      "target": "C6H6",
+      "molecularFormula": "C2H2",
+      "score": 0.9973817690683197,
+      "scores": {
+        "LossSizeScorer": 0.7807400097686763,
+        "Free Radical": 0.011626542158820332,
+        "Loss RDBE": 0.0,
+        "PhosphorScorer": 0.0,
+        "PureCarbonNitrogenLossScorer": 0.0,
+        "StrangeElementLossScorer": 0.0,
+        "CommonLossEdgeScorer": 0.20501521714082305
+      }
+    }
+  ]
+}
