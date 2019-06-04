@@ -9,10 +9,12 @@
 from unittest import TestCase, main
 import os
 import pandas as pd
+import qiime2
 from biom import load_table
 
 from q2_qemistree._collate_fingerprint import collate_fingerprint
 from q2_qemistree._match import match_tables
+from q2_qemistree import CSIDirFmt
 from q2_qemistree._transformer import _read_dataframe
 
 
@@ -31,8 +33,9 @@ class TestMatch(TestCase):
         self.wrongfdata = _read_dataframe(wrongfdata)
         missingfdata = os.path.join(THIS_DIR, 'data/fdata1_missing.txt')
         self.missingfdata = _read_dataframe(missingfdata)
-        goodcsi = os.path.join(THIS_DIR, 'data/goodcsi1')
-        self.tablefp = collate_fingerprint(goodcsi)
+        goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
+                                                    'data/goodcsi1.qza'))
+        self.tablefp = collate_fingerprint(goodcsi.view(CSIDirFmt))
 
     def test_missingFdata(self):
         msg = "Feature data does not contain 'row m/z'"
