@@ -12,17 +12,18 @@ from scipy.spatial.distance import squareform, pdist
 from scipy.cluster.hierarchy import linkage
 from skbio import TreeNode
 import numpy as np
-from itertools import combinations_with_replacement
 from q2_feature_table import merge
 
 from ._collate_fingerprint import collate_fingerprint
 from ._match import match_tables
 from ._semantics import CSIDirFmt
 
-def pdist_union(u,v):
+
+def pdist_union(u, v):
     b = np.double(np.bitwise_or(u, v).sum())
 
     return b
+
 
 def pairwise_jaccard_modified(merged_fps: pd.DataFrame,
                               merged_fdata: pd.DataFrame,
@@ -34,11 +35,12 @@ def pairwise_jaccard_modified(merged_fps: pd.DataFrame,
     union = pdist(X=merged_fps != 0, metric=pdist_union)
     mz_diff = pdist(X=merged_fdata['row m/z'].values.reshape(-1, 1),
                     metric='cityblock')
-    mz_diff =  (mz_diff <= mz_tolerance).astype(np.int32)
+    mz_diff = (mz_diff <= mz_tolerance).astype(np.int32)
     intersection = jsim * union
     jmod = 1 - ((intersection+mz_diff)/(union+1))
 
     return jmod
+
 
 def build_tree(merged_fps: pd.DataFrame,
                merged_fdata: pd.DataFrame,
@@ -56,7 +58,7 @@ def build_tree(merged_fps: pd.DataFrame,
     return tree
 
 
-def merge_relabel(fps :pd.DataFrame, fts: pd.DataFrame, fdata: pd.DataFrame):
+def merge_relabel(fps: pd.DataFrame, fts: pd.DataFrame, fdata: pd.DataFrame):
     '''
     This function merges fingerprints, feature table and feature data from
     multiple feature tables.
@@ -84,7 +86,7 @@ def merge_relabel(fps :pd.DataFrame, fts: pd.DataFrame, fdata: pd.DataFrame):
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
                    feature_data: pd.DataFrame,
-                   mz_tolerance: float,
+                   mz_tolerance: float = 0.01,
                    qc_properties: bool = False) -> (TreeNode, biom.Table,
                                                     pd.DataFrame):
     '''
@@ -145,4 +147,4 @@ def make_hierarchy(csi_results: CSIDirFmt,
     merged_fps, merged_ftable, merged_fdata = merge_relabel(fps, fts, fds)
     tree = build_tree(merged_fps, merged_fdata, mz_tolerance)
 
-    return tree, merged_fts, merged_fdata
+    return tree, merged_ftable, merged_fdata
