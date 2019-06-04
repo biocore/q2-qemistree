@@ -23,11 +23,11 @@ class FingerprintTests(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         self.featureTable = os.path.join(THIS_DIR,
-                                         'data/features_formated.biom')
+                                         'data/feature_table1.biom')
         self.emptycsi = os.path.join(os.path.join(THIS_DIR,
                                                   'data/emptycsi'))
         self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
-                                                         'data/csiFolder.qza'))
+                                                         'data/goodcsi1.qza'))
         properties_path = os.path.join(data, 'molecular_properties.csv')
         self.properties = pd.read_table(properties_path, dtype=str)
         self.properties.set_index('absoluteIndex', inplace=True)
