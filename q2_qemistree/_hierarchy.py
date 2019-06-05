@@ -69,7 +69,7 @@ def merge_relabel(fps: pd.DataFrame, fts: pd.DataFrame, fdata: pd.DataFrame):
         fps[i].index = ['table' + n + '_' + fid for fid in fps[i].index]
         fts[i].index = ['table' + n + '_' + fid for fid in fts[i].index]
         ft_biom = biom.table.Table(
-            data=npfeatures = fts[i].values,
+            data=fts[i].values,
             observation_ids=fts[i].index.astype(str),
             sample_ids=fts[i].columns.astype(str))
         fts[i] = ft_biom
