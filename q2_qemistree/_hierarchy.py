@@ -31,7 +31,7 @@ def _pdist_union(u, v):
     Returns
     -------
     float:
-        Numbere od overlapping elements
+        Number of overlapping elements
     '''
 
     return np.double(np.bitwise_or(u, v).sum())
@@ -75,7 +75,7 @@ def pairwise_jaccard_modified(merged_fps: pd.DataFrame,
     ndarray:
         Pairwise distances between 'N' vectors in `merged_fps`
     '''
-    
+
     # sort these elements to be in the same order
     merged_fdata['row m/z'] = pd.to_numeric(merged_fdata['row m/z'])
     merged_fdata = merged_fdata.sort_index()
