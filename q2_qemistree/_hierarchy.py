@@ -20,14 +20,63 @@ from ._semantics import CSIDirFmt
 
 
 def _pdist_union(u, v):
-    b = np.double(np.bitwise_or(u, v).sum())
+    '''Compute the number of overlapping elements in two vectors
 
-    return b
+    Parameters
+    ----------
+    u, v: array-like
+        Binary vectors of molecular fingeprints, assumed to be of the
+        same length.
+
+    Returns
+    -------
+    float:
+        Numbere od overlapping elements
+    '''
+
+    return np.double(np.bitwise_or(u, v).sum())
 
 
 def pairwise_jaccard_modified(merged_fps: pd.DataFrame,
                               merged_fdata: pd.DataFrame,
                               mz_tolerance: float):
+    '''
+    """Jaccard distance with a real-valued attribute comparisons
+    Compute the pairwise Jaccard distance between each pair of molecular
+    fingerprints in `merged_fps` if the difference between m/z of molecules
+    is smaller than `mz_tolerance` we add one more `True` element to both
+    fingerprint vectors.
+    In order to perform these computations in an efficient way, we first
+    compute a Jaccard distance matrix of the boolean elements in `merged_fps`.
+    Then we transform this distance matrix into a similarity matrix
+    (subtracting 1). We then use this matrix as a baseline for the rest of our
+    calculation. In order to do this we calculate to additional matrices, one
+    with the pairwise unions of `merged_fps`, and one with the identity of the
+    elements in `merged_fdata`. With these two matrices we can then add a small
+    value to the Jaccard distance matrix to account for pairwise-element
+    identity.
+    We opt to perform the computations in this fashion as the operations can
+    all be easily vectorized, as opposed to creating a "custom Jaccard
+    distance" for `pdist`.
+    Parameters
+    ----------
+    merged_fps: pd.DataFrame
+        Dataframe of `N` vectors with only zeros and ones.
+    merged_fdata: pd.DataFrame
+        Dataframe of `N` elements with floating point values for 'row m/z'
+        (should have a one-to-one correspondance to the elements
+        in `merged_fps`).
+    mz_tolerance: float
+        Tolerance to allow for differences between two elements in
+        merged_fdata['row m/z'].
+
+    Returns
+    -------
+    ndarray:
+        Pairwise distances between 'N' vectors in `merged_fps`
+    '''
+    
+    # sort these elements to be in the same order
     merged_fdata['row m/z'] = pd.to_numeric(merged_fdata['row m/z'])
     merged_fdata = merged_fdata.sort_index()
     merged_fps = merged_fps.sort_index()
