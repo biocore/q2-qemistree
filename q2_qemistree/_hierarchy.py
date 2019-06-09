@@ -58,6 +58,7 @@ def pairwise_jaccard_modified(merged_fps: pd.DataFrame,
     We opt to perform the computations in this fashion as the operations can
     all be easily vectorized, as opposed to creating a "custom Jaccard
     distance" for `pdist`.
+
     Parameters
     ----------
     merged_fps: pd.DataFrame
@@ -112,6 +113,7 @@ def merge_relabel(fps: pd.DataFrame, fts: pd.DataFrame, fdata: pd.DataFrame):
     This function merges fingerprints, feature table and feature data from
     multiple feature tables.
     '''
+    
     for i, data in enumerate(fdata):
         n = str(i+1)
         fdata[i].index = ['table' + n + '_' + fid for fid in fdata[i].index]
