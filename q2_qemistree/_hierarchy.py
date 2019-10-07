@@ -24,12 +24,14 @@ def build_tree(relabeled_fingerprints: pd.DataFrame) -> TreeNode:
     This function makes a tree of relatedness between mass-spectrometry
     features using molecular substructure fingerprints.
     '''
+    leaves_ids = relabeled_fingerprints.index.tolist()
+    relabeled_fingerprints = relabeled_fingerprints.values
     distmat = pairwise_distances(X=relabeled_fingerprints,
                                  Y=None, metric='jaccard')
     distsq = squareform(distmat, checks=False)
     linkage_matrix = linkage(distsq, method='average')
     tree = TreeNode.from_linkage_matrix(linkage_matrix,
-                                        relabeled_fingerprints.index.tolist())
+                                        leaves_ids)
     return tree
 
 
