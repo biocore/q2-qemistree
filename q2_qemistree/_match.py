@@ -11,27 +11,27 @@ import hashlib
 import pandas as pd
 
 
-def match_label(collated_fingerprints: pd.DataFrame,
-                feature_table: biom.Table):
+def get_matched_tables(collated_fingerprints: pd.DataFrame,
+                       smiles: pd.DataFrame,
+                       feature_table: biom.Table):
     '''
     This function filters the feature table to retain only features with
     fingerprints. It also relabels features with MD5 hash of its
     binary fingerprint vector.
-
     Parameters
     ----------
     collated_fingerprints : pd.DataFrame
         table containing mass-spec molecular substructures (columns) for each
         mass-spec feature (index)
+    smiles: pd.DataFrame
+        table containing smiles for each mass-spec feature (index)
     feature_table : biom.Table
         feature tables with mass-spec feature intensity per sample.
-
     Raises
     ------
     ValueError
         If features in collated fingerprint table are not a subset of
         features in ``feature_table``
-
     Returns
     -------
     pd.DataFrame
@@ -45,7 +45,6 @@ def match_label(collated_fingerprints: pd.DataFrame,
         table that maps MD5 hash of a feature to the original feature ID in
         the input feature table
     '''
-
     fps = collated_fingerprints.copy()
     allfps = list(fps.index)
     if fps.empty:
@@ -58,16 +57,16 @@ def match_label(collated_fingerprints: pd.DataFrame,
                          'found in the feature table:\n' +
                          ', '.join([str(i) for i in extra_tips]))
     filtered_table = table.reindex(allfps)
-    fps = (fps > 0.5).astype(int)
     list_md5 = []
     for fid in allfps:
         md5 = str(hashlib.md5(fps.loc[fid].values.tobytes()).hexdigest())
         list_md5.append(md5)
     fps['label'] = list_md5
     filtered_table['label'] = list_md5
-    feature_data = pd.DataFrame(columns=['label', '#featureID'])
+    feature_data = pd.DataFrame(columns=['label', '#featureID', 'smiles'])
     feature_data['label'] = list_md5
     feature_data['#featureID'] = allfps
+    feature_data['smiles'] = list(smiles.loc[allfps, 'smiles'])
     feature_data.set_index('label', inplace=True)
     relabel_fps = fps.groupby('label').first()
     matched_table = filtered_table.groupby('label').sum()
