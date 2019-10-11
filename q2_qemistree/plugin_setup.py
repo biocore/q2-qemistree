@@ -160,6 +160,7 @@ plugin.methods.register_function(
                                              'retain PUBCHEM fingerprints'},
     outputs=[('tree', Phylogeny[Rooted]),
              ('merged_feature_table', FeatureTable[Frequency]),
+             ('merged_fingerprints', FeatureData[Molecules]),
              ('merged_feature_data', FeatureData[Molecules])],
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
@@ -168,6 +169,11 @@ plugin.methods.register_function(
                                                  'that contains only the '
                                                  'features present in '
                                                  'the tree',
+                         'merged_fingerprints': 'table of molecular '
+                                                'fingerprints indexed by the '
+                                                'MD5 hash of the fingerprint '
+                                                'vectors predicted '
+                                                'by CSI:FingerID',
                          'merged_feature_data': 'mapping of unique feature '
                                                 'identifiers in input '
                                                 'feature tables to MD5 hash '
