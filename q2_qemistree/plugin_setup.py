@@ -188,8 +188,8 @@ plugin.methods.register_function(
     inputs={'feature_data': FeatureData[Molecules]},
     parameters={'classyfire_levels': List[Str]},
     input_descriptions={'feature_data': 'table that maps MD5 hash of '
-                                         'mass-spec features to their '
-                                         'structural annotations (smiles)'},
+                                        'mass-spec features to their '
+                                        'structural annotations (smiles)'},
     parameter_descriptions={'classyfire_levels': 'list of chemical taxonomic '
                                                  'levels to obtain from '
                                                  'Classyfire'},
