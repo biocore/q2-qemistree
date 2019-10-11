@@ -50,11 +50,11 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame,
     for idx in feature_data.index:
         smiles = feature_data.loc[idx, 'smiles']
         if pd.notna(smiles):
-            url = 'https://gnps-structure.ucsd.edu/inchikey?smiles=' + smiles
-            inchikey = requests.get(url).text
-            url = 'https://gnps-classyfire.ucsd.edu/entities/' + str(inchikey) + '.json'
-            response = requests.get(url)
-            if response.status_code !=  404:
+            url_smiles = 'https://gnps-structure.ucsd.edu/inchikey?smiles='
+            inchikey = requests.get(url_smiles+smiles).text
+            url_inchi = 'https://gnps-classyfire.ucsd.edu/entities/'
+            response = requests.get(url_inchi+str(inchikey)+'.json')
+            if response.status_code != 404:
                 response = response.json()
                 taxonomy = [response[level]['name']
                             if bool(response) and response[level] is not None
@@ -68,5 +68,5 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame,
     classyfire = pd.DataFrame.from_dict(classyfire).T
     classyfire.columns = classyfire_levels
     classified_feature_data = pd.concat([feature_data, classyfire],
-                                        sort='False', axis =1)
+                                        sort='False', axis=1)
     return classified_feature_data
