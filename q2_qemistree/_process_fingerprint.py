@@ -43,8 +43,9 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool):
     collated_fps.columns = substructrs.loc[collated_fps.columns,
                                            'absoluteIndex']
     if qc_properties is True:
-        properties = pd.read_csv(os.path.join(data,'molecular_properties.csv'),
-        index_col='absoluteIndex', sep='\t')
+        properties = os.path.join(data, 'molecular_properties.csv')
+        properties = pd.read_csv(properties, index_col='absoluteIndex',
+                                 sep='\t')
         pubchem_indx = list(properties.loc[properties.type == 'PUBCHEM'].index)
         pubchem_indx = list(map(str, pubchem_indx))
         collated_fps = collated_fps[pubchem_indx]
@@ -57,9 +58,9 @@ def get_feature_smiles(csi_result: CSIDirFmt, fingerids: pd.DataFrame):
     '''
     if isinstance(csi_result, CSIDirFmt):
         csi_result = str(csi_result.get_path())
-    csi_summary = pd.read_csv(os.path.join(csi_result,
-        'summary_csi_fingerid.csv'),
-                              dtype=str, sep='\t').set_index('experimentName')
+    csi_summary = os.path.join(csi_result, 'summary_csi_fingerid.csv')
+    csi_summary = pd.read_csv(csi_summary, dtype=str,
+                              sep='\t').set_index('experimentName')
     smiles = pd.DataFrame(index=fingerids.index)
     smiles['smiles'] = [csi_summary.loc[idx, 'smiles'] for idx in smiles.index]
     return smiles
