@@ -10,6 +10,7 @@ from ._fingerprint import (compute_fragmentation_trees,
                            rerank_molecular_formulas,
                            predict_fingerprints)
 from ._hierarchy import make_hierarchy
+from ._classyfire import get_classyfire_taxonomy
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          SiriusFolder, SiriusDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
@@ -178,6 +179,24 @@ plugin.methods.register_function(
                                                 'identifiers in input '
                                                 'feature tables to MD5 hash '
                                                 'of feature fingerprints'}
+)
+
+plugin.methods.register_function(
+    function=get_classyfire_taxonomy,
+    name='Generate Classyfire annotations',
+    description='Predicts chemical taxonomy based on molecule structures',
+    inputs={'feature_data': FeatureData[Molecules]},
+    parameters={'classyfire_levels': List[Str]},
+    input_descriptions={'feature_data': 'table that maps MD5 hash of '
+                                         'mass-spec features to their '
+                                         'structural annotations (smiles)'},
+    parameter_descriptions={'classyfire_levels': 'list of chemical taxonomic '
+                                                 'levels to obtain from '
+                                                 'Classyfire'},
+    outputs=[('classified_feature_data', FeatureData[Molecules])],
+    output_descriptions={'classified_feature_data': 'feature data table that '
+                                                    'contains Classyfire '
+                                                    'annotations per molecule'}
 )
 
 importlib.import_module('q2_qemistree._transformer')
