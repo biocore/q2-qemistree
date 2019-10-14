@@ -65,7 +65,7 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame,
                 classyfire[idx] = 'unclassified'
         else:
             classyfire[idx] = 'unclassified'
-    classyfire = pd.DataFrame.from_dict(classyfire).T
+    classyfire = pd.DataFrame(classyfire).T
     classyfire.columns = classyfire_levels
     classified_feature_data = pd.concat([feature_data, classyfire],
                                         sort='False', axis=1)
