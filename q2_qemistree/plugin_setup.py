@@ -186,17 +186,16 @@ plugin.methods.register_function(
     name='Generate Classyfire annotations',
     description='Predicts chemical taxonomy based on molecule structures',
     inputs={'feature_data': FeatureData[Molecules]},
-    parameters={'classyfire_levels': List[Str]},
-    input_descriptions={'feature_data': 'table that maps MD5 hash of '
-                                        'mass-spec features to their '
-                                        'structural annotations (smiles)'},
-    parameter_descriptions={'classyfire_levels': 'list of chemical taxonomic '
-                                                 'levels to obtain from '
-                                                 'Classyfire'},
+    parameters={},
+    input_descriptions={'feature_data': 'Feature data table that maps MD5 '
+                                        'hash of mass-spec features to their '
+                                        'structural annotations (SMILES)'},
+    parameter_descriptions={},
     outputs=[('classified_feature_data', FeatureData[Molecules])],
-    output_descriptions={'classified_feature_data': 'feature data table that '
+    output_descriptions={'classified_feature_data': 'Feature data table that '
                                                     'contains Classyfire '
-                                                    'annotations per molecule'}
+                                                    'annotations per mass-'
+                                                    'spec feature'}
 )
 
 importlib.import_module('q2_qemistree._transformer')
