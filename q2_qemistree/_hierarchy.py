@@ -58,18 +58,15 @@ def merge_feature_data(fdata: pd.DataFrame) -> pd.DataFrame:
 
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
-<<<<<<< HEAD
                    qc_properties: bool = False) -> (TreeNode,
                                                     biom.Table, pd.DataFrame,
-=======
-                   qc_properties: bool = False) -> (TreeNode, biom.Table,
->>>>>>> 8d98ec9e1f08c375abd66e97995776041a676c9c
                                                     pd.DataFrame):
     '''
     This function generates a hierarchy of mass-spec features based on
     predicted chemical fingerprints. It filters the feature table to
     retain only the features with fingerprints and relables each feature with
     a hash (MD5) of its binary fingerprint vector.
+
     Parameters
     ----------
     csi_results : CSIDirFmt
@@ -78,6 +75,7 @@ def make_hierarchy(csi_results: CSIDirFmt,
         one or more feature tables with mass-spec feature intensity per sample
     qc_properties : bool, default False
         flag to filter molecular properties to keep only PUBCHEM fingerprints
+
     Raises
     ------
     ValueError
@@ -86,6 +84,7 @@ def make_hierarchy(csi_results: CSIDirFmt,
     UserWarning
         If features in collated fingerprint table are not a subset of
         features in ``feature_table``
+
     Returns
     -------
     skbio.TreeNode
