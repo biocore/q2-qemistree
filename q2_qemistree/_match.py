@@ -18,6 +18,7 @@ def get_matched_tables(collated_fingerprints: pd.DataFrame,
     This function filters the feature table to retain only features with
     fingerprints. It also relabels features with MD5 hash of its
     binary fingerprint vector.
+
     Parameters
     ----------
     collated_fingerprints : pd.DataFrame
@@ -27,11 +28,13 @@ def get_matched_tables(collated_fingerprints: pd.DataFrame,
         table containing smiles for each mass-spec feature (index)
     feature_table : biom.Table
         feature tables with mass-spec feature intensity per sample.
+
     Raises
     ------
     ValueError
         If features in collated fingerprint table are not a subset of
         features in ``feature_table``
+
     Returns
     -------
     pd.DataFrame
