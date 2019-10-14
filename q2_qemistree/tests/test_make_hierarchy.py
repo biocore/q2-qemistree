@@ -30,12 +30,8 @@ class TestHierarchy(TestCase):
         self.features2 = load_table(goodtable)
         self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                                          'data/csiFolder.qza'))
-        # goodcsi = self.goodcsi.view(CSIDirFmt)
-        # self.collated = collate_fingerprint(goodcsi)
         self.goodcsi2 = qiime2.Artifact.load(os.path.join(
                                             THIS_DIR, 'data/csiFolder2.qza'))
-        # goodcsi = self.goodcsi2.view(CSIDirFmt)
-        # self.collated2 = collate_fingerprint(goodcsi)
 
     def test_unequal_inputs(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
