@@ -15,7 +15,7 @@ from biom import load_table
 from q2_qemistree import make_hierarchy
 from q2_qemistree import CSIDirFmt
 
-from q2_qemistree._collate_fingerprint import collate_fingerprint
+from q2_qemistree._process_fingerprint import collate_fingerprint
 from q2_qemistree._hierarchy import merge_feature_data
 
 
@@ -30,12 +30,12 @@ class TestHierarchy(TestCase):
         self.features2 = load_table(goodtable)
         self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                                          'data/csiFolder.qza'))
-        goodcsi = self.goodcsi.view(CSIDirFmt)
-        self.collated = collate_fingerprint(goodcsi)
+        # goodcsi = self.goodcsi.view(CSIDirFmt)
+        # self.collated = collate_fingerprint(goodcsi)
         self.goodcsi2 = qiime2.Artifact.load(os.path.join(
                                             THIS_DIR, 'data/csiFolder2.qza'))
-        goodcsi = self.goodcsi2.view(CSIDirFmt)
-        self.collated2 = collate_fingerprint(goodcsi)
+        # goodcsi = self.goodcsi2.view(CSIDirFmt)
+        # self.collated2 = collate_fingerprint(goodcsi)
 
     def test_unequal_inputs(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
@@ -46,7 +46,7 @@ class TestHierarchy(TestCase):
 
     def test_mergeFeatureDataSingle(self):
         goodcsi1 = self.goodcsi.view(CSIDirFmt)
-        treeout, merged_fts, merged_fdata = make_hierarchy(
+        treeout, merged_fts, merged_fps, merged_fdata = make_hierarchy(
             [goodcsi1], [self.features])
         featrs = sorted(list(merged_fts.ids(axis='observation')))
         fdata_featrs = sorted(list(merged_fdata.index))
@@ -56,7 +56,7 @@ class TestHierarchy(TestCase):
     def test_mergeFeatureDataMultiple(self):
         goodcsi1 = self.goodcsi.view(CSIDirFmt)
         goodcsi2 = self.goodcsi2.view(CSIDirFmt)
-        treeout, merged_fts, merged_fdata = make_hierarchy(
+        treeout, merged_fts, merged_fps, merged_fdata = make_hierarchy(
             [goodcsi1, goodcsi2], [self.features, self.features2])
         featrs = sorted(list(merged_fts.ids(axis='observation')))
         fdata_featrs = sorted(list(merged_fdata.index))
@@ -85,15 +85,15 @@ class TestHierarchy(TestCase):
 
     def test_tipMatchSingle(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
-        treeout, feature_table, merged_fdata = make_hierarchy(
+        treeout, merged_fts, merged_fps, merged_fdata = make_hierarchy(
             [goodcsi], [self.features])
         tip_names = {node.name for node in treeout.tips()}
-        self.assertEqual(tip_names, set(feature_table._observation_ids))
+        self.assertEqual(tip_names, set(merged_fts._observation_ids))
 
     def test_Pipeline(self):
         goodcsi1 = self.goodcsi.view(CSIDirFmt)
         goodcsi2 = self.goodcsi2.view(CSIDirFmt)
-        treeout, merged_fts, merged_fdata = make_hierarchy(
+        treeout, merged_fts, merged_fps, merged_fdata = make_hierarchy(
             [goodcsi1, goodcsi2], [self.features, self.features2])
         tip_names = {node.name for node in treeout.tips()}
         self.assertEqual(tip_names, set(merged_fts._observation_ids))
