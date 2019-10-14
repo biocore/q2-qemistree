@@ -16,7 +16,7 @@ from ._semantics import CSIDirFmt
 data = pkg_resources.resource_filename('q2_qemistree', 'data')
 
 
-def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = True):
+def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False):
     '''
     This function collates predicted chemical fingerprints for mass-spec
     features in an experiment.

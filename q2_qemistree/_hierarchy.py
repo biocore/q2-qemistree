@@ -58,8 +58,8 @@ def merge_feature_data(fdata: pd.DataFrame):
 
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
-                   qc_properties: bool = True) -> (TreeNode, biom.Table,
-                                                   pd.DataFrame):
+                   qc_properties: bool = False) -> (TreeNode, biom.Table,
+                                                    pd.DataFrame):
     '''
     This function generates a hierarchy of mass-spec features based on
     predicted chemical fingerprints. It filters the feature table to
@@ -72,7 +72,7 @@ def make_hierarchy(csi_results: CSIDirFmt,
         one or more CSI:FingerID output folder
     feature_table : biom.Table
         one or more feature tables with mass-spec feature intensity per sample
-    qc_properties : bool, default True
+    qc_properties : bool, default False
         flag to filter molecular properties to keep only PUBCHEM fingerprints
 
     Raises
