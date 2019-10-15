@@ -67,6 +67,5 @@ class FingerprintTests(TestCase):
         self.assertEqual(set(tablefp.columns) == set(indx), True)
 
 
-
 if __name__ == '__main__':
     main()
