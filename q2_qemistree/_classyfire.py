@@ -19,8 +19,8 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
     Parameters
     ----------
     feature_data : pd.DataFrame
-        table that maps MD5 hash of mass-spec features to their structural
-        annotations (smiles)
+        a table that maps MD5 hash of mass-spec features to their structural
+        annotations (SMILES)
 
     Raises
     ------
@@ -64,7 +64,7 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
             classyfire[idx] = 'unclassified'
     if bool(unexpected):
         warnings.warn('The following structures (keys) produced unexpected '
-                      'server response codes (values):\n'+
+                      'server response codes (values):\n' +
                       unexpected + '\n' + 'More information about '
                       'response status codes can be found here:\n' +
                       'https://www.ietf.org/assignments/http-status-codes/'
