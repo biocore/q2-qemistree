@@ -15,7 +15,6 @@ from biom import load_table
 from q2_qemistree import make_hierarchy
 from q2_qemistree import CSIDirFmt
 
-from q2_qemistree._process_fingerprint import collate_fingerprint
 from q2_qemistree._hierarchy import merge_feature_data
 
 
