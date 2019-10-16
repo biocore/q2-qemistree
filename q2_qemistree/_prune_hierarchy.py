@@ -1,21 +1,29 @@
+# ----------------------------------------------------------------------------
+# Copyright (c) 2016-2018, QIIME 2 development team.
+#
+# Distributed under the terms of the Modified BSD License.
+#
+# The full license is in the file LICENSE, distributed with this software.
+# ----------------------------------------------------------------------------
+
 import pandas as pd
 import numpy as np
-from skbio import TreeNode
+import skbio
 
 def prune_hierarchy(feature_data: pd.DataFrame,
-                    feature_fingerprints: pd.DataFrame,
+                    tree: skbio.TreeNode,
                     prune_type: str = 'classyfire',
-                    classyfire_level: str = 'class') -> TreeNode:
+                    classyfire_level: str = 'class'):
     '''This function prunes the tree for visualization. It retains only
-    the features that have been annotated for a user-specified `prune_column`
-    name.
+    the features that have been annotated for a user-specified `prune_type`
 
     Paramters
     ---------
     feature_data : pd.DataFrame
-        Feature data table with Classyfire annotations and/or SMILES
-    feature_fingerprints : pd.DataFrame
-        Table of fingerprints returned by make_hierarchy()
+        Feature data table with Classyfire annotations and/or SMILES. Output
+        of make_hierarchy() or get_classyfire_taxonomy()
+    tree : skbio.TreeNode
+        Tree of relatedness of molecules. Output of make_hierarchy()
     prune_type : str, default 'classyfire'
         Metadata category for tree pruning ('smiles' or 'classyfire')
     classyfire_level : str, default 'class'
@@ -27,12 +35,12 @@ def prune_hierarchy(feature_data: pd.DataFrame,
     ValueError
         If user-specified `classyfire_level` is not in `feature_data.columns`
         If `smiles` not in `feature_data.columns` when `prune_type` = 'smiles'
-        If there are less than 2 annotated features for a given level
+        If there are less than 2 annotated features for a given `prune_column`
 
     Returns
     -------
     skbio.TreeNode
-        a tree of relatedness of molecules with Classyfire annotations
+        Pruned tree of molecules with annotated tips
     '''
     if prune_type == 'classyfire':
         if classyfire_level not in feature_data.columns:
@@ -43,33 +51,23 @@ def prune_hierarchy(feature_data: pd.DataFrame,
     if prune_type == 'smiles':
         if 'smiles' not in feature_data.columns:
             raise ValueError("Feature data does not contain the column "
-                             "'smiles'. Molecular hierarchy could not be "
-                             "pruned.")
+                             "'smiles'. Molecular hierarchy could not "
+                             "be pruned.")
         prune_column = 'smiles'
     values = feature_data[[prune_column]]
     values = values.fillna(-1)
     annotated_features = [v
                           for v in values.index
                           if values.loc[v, prune_column]
-                          not in [-1, 'unclassified', 'SMILE parse error',
-                          'unexpected server response']
-                          ]
-    feature_overlap = set(annotated_features).intersection(
-        feature_fingerprints.index)
-    extra_annotations = set(annotated_features) - feature_overlap
-    extra_fps = set(feature_fingerprints.index) - feature_overlap
-    if len(extra_annotations) > 0:
-        warnings.warn('The following annotated features did not have'
-                      ' fingerprints:\n' +
-                      ', '.join([str(i) for i in extra_annotations])
-                      %len(extra_annotations))
-    if len(extra_fps) > 0:
-        warnings.warn('The following fingerprints did not have'
-                      ' annotations:\n' +
-                      ', '.join([str(i) for i in extra_fps]))
-    if len(feature_overlap) < 2:
-        raise ValueError('Less than two annotated features in '
-                         '`feature_fingerprints` table. Unable '
-                         'to prune hierarchy.')
-    classified_fps = feature_fingerprints.loc[feature_overlap]
-    return build_tree(classified_fps)
+                          not in [-1, 'unclassified',
+                             'unexpected server response',
+                             'SMILE parse error']
+                         ]
+    tips = {tip.name for tip in tree.tips()}
+    overlap = set(annotated_features).intersection(tips)
+    if len(overlap) < 2:
+        raise ValueError('Tree pruning aborted! There are less than two '
+                         'tree tips with annotations. Please check if '
+                         'correct feature data table was provided.')
+    pruned_tree = tree.shear(overlap)
+    return pruned_tree
