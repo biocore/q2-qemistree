@@ -84,7 +84,7 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
                       'More information about response status codes can be '
                       'found here:\n' +
                       'https://www.ietf.org/assignments/http-status-codes/'
-                      'http-status-codes.txt')
+                      'http-status-codes.txt', UserWarning)
     classyfire = pd.DataFrame(classyfire, index=classyfire_levels).T
     classified_feature_data = pd.concat([feature_data, classyfire],
                                         sort=False, axis=1)
