@@ -7,9 +7,7 @@
 # ----------------------------------------------------------------------------
 import pandas as pd
 import seaborn as sns
-import numpy as np
 import click
-import qiime2
 from qiime2 import Artifact
 
 
@@ -21,10 +19,11 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
     annotations = classified_feature_data[classyfire_level].unique()
     colors = sns.color_palette("colorblind",
                                n_colors=len(annotations)
-                              ).as_hex()
-    for i,value in enumerate(annotations):
+                               ).as_hex()
+    for i, value in enumerate(annotations):
         color_map[value] = colors[i]
     return color_map
+
 
 @click.command()
 @click.option('--classified-feature-data', required=True, type=str,
@@ -50,15 +49,15 @@ def get_itol_visualization(classified_feature_data: str,
                  'DATA\n')
         for idx in fdata.index:
             color = color_map[fdata.loc[idx, classyfire_level]]
-            fh.write(idx +'\t'+'clade\t'+
-                     color +'\t'+ 'normal\t' + '4\n')
+            fh.write(idx + '\t' + 'clade\t' +
+                     color + '\t' + 'normal\t' + '4\n')
     with open(label_file_path, 'w+') as fh:
         fh.write('LABELS\n' +
                  'SEPARATOR TAB\n' +
                  'DATA\n')
         for idx in fdata.index:
             label = fdata.loc[idx, classyfire_level]
-            fh.write(idx +'\t'+ label+ '\n')
+            fh.write(idx + '\t' + label + '\n')
 
 
 if __name__ == '__main__':
