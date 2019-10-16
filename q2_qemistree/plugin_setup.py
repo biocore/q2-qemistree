@@ -10,6 +10,7 @@ from ._fingerprint import (compute_fragmentation_trees,
                            rerank_molecular_formulas,
                            predict_fingerprints)
 from ._hierarchy import make_hierarchy
+from ._prune_hierarchy import prune_hierarchy
 from ._classyfire import get_classyfire_taxonomy
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          SiriusFolder, SiriusDirFmt,
@@ -196,6 +197,29 @@ plugin.methods.register_function(
                                                     'contains Classyfire '
                                                     'annotations per mass-'
                                                     'spec feature'}
+)
+
+plugin.methods.register_function(
+    function=prune_hierarchy,
+    name='Prune hierarchy of molecules',
+    description='Removes non-annotated tree tips based on feature data',
+    inputs={'feature_data': FeatureData[Molecules],
+            'tree': Phylogeny[Rooted]},
+    parameters={'prune_type': Str % Choices(['classyfire', 'smiles']),
+                'classyfire_level': Str % Choices(['kingdom', 'superclass',
+                                                   'class','subclass',
+                                                   'direct_parent'])},
+    input_descriptions={'feature_data': 'Feature data table with Classyfire '
+                                        'annotations and/or SMILES. '
+                                        'Output of make_hierarchy() or '
+                                        'get_classyfire_taxonomy()',
+                        'tree': 'Tree of relatedness of molecules. Output '
+                                'of make_hierarchy()'},
+    parameter_descriptions={'prune_type': 'Metadata category for tree pruning',
+                            'classyfire_level': 'Classyfire taxonomy level'},
+    outputs=[('pruned_tree', Phylogeny[Rooted])],
+    output_descriptions={'pruned_tree': 'Pruned tree of molecules with '
+                                        'tips that are in feature data'}
 )
 
 importlib.import_module('q2_qemistree._transformer')
