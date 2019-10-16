@@ -8,16 +8,13 @@
 
 from unittest import TestCase, main
 import pandas as pd
-import os
 import numpy as np
-from io import StringIO
 from skbio import TreeNode
 from q2_qemistree import prune_hierarchy
 
 
 class TestPruning(TestCase):
     def setUp(self):
-        THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         self.tree = TreeNode.read(["((A, B)C, D)root;"])
         self.no_column = pd.DataFrame(index=['A', 'B', 'D'],
                                       data=[np.nan, np.nan, np.nan])
@@ -26,8 +23,8 @@ class TestPruning(TestCase):
                                                 'unclassified'],
                                           columns=['class'])
         self.one_annotation = pd.DataFrame(index=['A', 'B', 'D'],
-                                           data=['unclassified', 'unclassified',
-                                                 'foo'],
+                                           data=['foo', 'unclassified',
+                                                 'unclassified'],
                                            columns=['class'])
         self.no_overlap = pd.DataFrame(index=['X', 'Y', 'Z'],
                                        data=['foo', 'bar', 'unclassified'],
