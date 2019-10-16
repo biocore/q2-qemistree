@@ -8,50 +8,73 @@
 
 from unittest import TestCase, main
 import pandas as pd
+import os
+import numpy as np
+from io import StringIO
+from skbio import TreeNode
 from q2_qemistree import prune_hierarchy
 
 
 class TestPruning(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-        no_smiles = os.path.join(THIS_DIR, 'data/feature_data_no_smiles.txt')
-        self.no_smiles = pd.read_csv(no_smiles, sep='\t')
-        self.no_smiles.set_index('label')
-        # MAKE UP DATA
-
-        # smiles = os.path.join(THIS_DIR, 'data/feature_data_smiles.txt')
-        # self.smiles = pd.read_csv(smiles, sep='\t')
-        # self.smiles.set_index('label')
-        # self.nan_smiles = pd.DataFrame(index=['a', 'b', 'c'],
-        #                                data=[np.nan, np.nan, np.nan],
-        #                                columns=['smiles'])
-        # self.mal_smiles = pd.DataFrame(index=['a', 'b', 'c'],
-        #                                data=[np.nan, 'foo', 'bar'],
-        #                                columns=['smiles'])
-        # self.levels = set(['kingdom', 'superclass', 'class', 'subclass',
-        #                   'direct_parent'])
+        self.tree = TreeNode.read(["((A, B)C, D)root;"])
+        self.no_column = pd.DataFrame(index=['A', 'B', 'D'],
+                                      data=[np.nan, np.nan, np.nan])
+        self.no_annotation = pd.DataFrame(index=['A', 'B', 'D'],
+                                          data=['unclassified', 'unclassified',
+                                                'unclassified'],
+                                          columns=['class'])
+        self.one_annotation = pd.DataFrame(index=['A', 'B', 'D'],
+                                           data=['unclassified', 'unclassified',
+                                                 'foo'],
+                                           columns=['class'])
+        self.no_overlap = pd.DataFrame(index=['X', 'Y', 'Z'],
+                                       data=['foo', 'bar', 'unclassified'],
+                                       columns=['class'])
+        self.one_overlap = pd.DataFrame(index=['A', 'Y', 'Z'],
+                                        data=['foo', 'bar', 'unclassified'],
+                                        columns=['class'])
 
     def test_no_smiles(self):
-        # merged fps from make_hierarchy
-        # load with feature data no smiles
-        pass
+        msg = "Feature data does not contain the column 'smiles'. Molecular "
+        "hierarchy could not be pruned."
+        with self.assertRaisesRegex(ValueError, msg):
+            prune_hierarchy(self.no_column, self.tree, prune_type='smiles')
 
     def test_no_classyfire(self):
-        # run make_hierarchy
-        # don't run classyfire
-        pass
+        msg = 'Classyfire level = class not present in feature data. '
+        'Molecular hierarchy could not be pruned.'
+        with self.assertRaisesRegex(ValueError, msg):
+            prune_hierarchy(self.no_column, self.tree, prune_type='classyfire')
 
-    def test_more_fingerprints(self):
-        pass
+    def test_no_annotation(self):
+        msg = 'Tree pruning aborted! There are less than two tree tips with '
+        'annotations. Please check if correct feature data table was provided.'
+        with self.assertRaisesRegex(ValueError, msg):
+            prune_hierarchy(self.no_annotation, self.tree,
+                            prune_type='classyfire')
 
-    def test_more_feature_data(self):
-        pass
+    def test_one_annotation(self):
+        msg = 'Tree pruning aborted! There are less than two tree tips with '
+        'annotations. Please check if correct feature data table was provided.'
+        with self.assertRaisesRegex(ValueError, msg):
+            prune_hierarchy(self.one_annotation, self.tree,
+                            prune_type='classyfire')
+
+    def test_no_overlap(self):
+        msg = 'Tree pruning aborted! There are less than two tree tips with '
+        'annotations. Please check if correct feature data table was provided.'
+        with self.assertRaisesRegex(ValueError, msg):
+            prune_hierarchy(self.no_overlap, self.tree,
+                            prune_type='classyfire')
 
     def test_one_overlap(self):
-        pass
-
-    def no_overlap(self)
-        pass
+        msg = 'Tree pruning aborted! There are less than two tree tips with '
+        'annotations. Please check if correct feature data table was provided.'
+        with self.assertRaisesRegex(ValueError, msg):
+            prune_hierarchy(self.one_overlap, self.tree,
+                            prune_type='classyfire')
 
 
 if __name__ == '__main__':
