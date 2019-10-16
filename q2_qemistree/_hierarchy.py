@@ -81,9 +81,6 @@ def make_hierarchy(csi_results: CSIDirFmt,
     ValueError
         If ``feature_table`` in empty
         If collated fingerprint table is empty
-    UserWarning
-        If features in collated fingerprint table are not a subset of
-        features in ``feature_table``
 
     Returns
     -------
