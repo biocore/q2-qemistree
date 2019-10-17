@@ -42,7 +42,7 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False):
     collated_fps.index.name = '#featureID'
     collated_fps.columns = substructrs.loc[collated_fps.columns,
                                            'absoluteIndex']
-    if qc_properties is True:
+    if qc_properties:
         properties = os.path.join(data, 'molecular_properties.csv')
         properties = pd.read_csv(properties, index_col='absoluteIndex',
                                  sep='\t')
