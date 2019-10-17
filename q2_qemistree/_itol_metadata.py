@@ -12,14 +12,13 @@ from qiime2 import Artifact
 
 
 def classyfire_to_colors(classified_feature_data: pd.DataFrame,
-                         classyfire_level: str):
+                         classyfire_level: str, color_palette: str):
     '''This function generates a color map (dict) for unique Classyfire
     annotations in a user-specified Classyfire level.'''
     color_map = {}
     annotations = classified_feature_data[classyfire_level].unique()
-    colors = sns.color_palette("colorblind",
-                               n_colors=len(annotations)
-                               ).as_hex()
+    colors = sns.color_palette(color_palette,
+                               n_colors=len(annotations)).as_hex()
     for i, value in enumerate(annotations):
         color_map[value] = colors[i]
     return color_map
@@ -35,14 +34,18 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
               help='Path to file with colors specifications for tree clades')
 @click.option('--label-file-path', default='./itol_labels.txt', type=str,
               help='Path to file with label specifications for tree tips')
+@click.option('--color-palette', default='bright', type=str,
+              help='Color palette for tree clades. One of the options'
+              'allowed by seaborn.color_palette()')
 def get_itol_visualization(classified_feature_data: str,
                            classyfire_level: str = 'class',
                            color_file_path: str = './itol_colors.txt',
-                           label_file_path: str = './itol_labels.txt'):
+                           label_file_path: str = './itol_labels.txt')
+                           color_palette: str = 'bright'):
     '''This function creates iTOL metadata files to specify clade colors and
     tip labels based on Classyfire annotations.'''
     fdata = Artifact.load(classified_feature_data).view(pd.DataFrame)
-    color_map = classyfire_to_colors(fdata, classyfire_level)
+    color_map = classyfire_to_colors(fdata, classyfire_level, color_palette)
     with open(color_file_path, 'w+') as fh:
         fh.write('TREE_COLORS\n' +
                  'SEPARATOR TAB\n' +
