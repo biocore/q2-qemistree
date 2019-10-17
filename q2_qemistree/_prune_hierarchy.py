@@ -7,8 +7,8 @@
 # ----------------------------------------------------------------------------
 
 import pandas as pd
-import numpy as np
 from skbio import TreeNode
+
 
 def prune_hierarchy(feature_data: pd.DataFrame,
                     tree: TreeNode,
@@ -46,7 +46,7 @@ def prune_hierarchy(feature_data: pd.DataFrame,
         if classyfire_level not in feature_data.columns:
             raise ValueError('Classyfire level = %s not present in feature '
                              'data. Molecular hierarchy could not be pruned.'
-                             %classyfire_level)
+                             % classyfire_level)
         prune_column = classyfire_level
     if prune_type == 'smiles':
         if 'smiles' not in feature_data.columns:
@@ -60,9 +60,9 @@ def prune_hierarchy(feature_data: pd.DataFrame,
                           for v in values.index
                           if values.loc[v, prune_column]
                           not in [-1, 'unclassified',
-                             'unexpected server response',
-                             'SMILE parse error']
-                         ]
+                                  'unexpected server response',
+                                  'SMILE parse error']
+                          ]
     tips = {tip.name for tip in tree.tips()}
     overlap = set(annotated_features).intersection(tips)
     if len(overlap) < 2:
