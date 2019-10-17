@@ -207,7 +207,7 @@ plugin.methods.register_function(
             'tree': Phylogeny[Rooted]},
     parameters={'prune_type': Str % Choices(['classyfire', 'smiles']),
                 'classyfire_level': Str % Choices(['kingdom', 'superclass',
-                                                   'class','subclass',
+                                                   'class', 'subclass',
                                                    'direct_parent'])},
     input_descriptions={'feature_data': 'Feature data table with Classyfire '
                                         'annotations and/or SMILES. '
