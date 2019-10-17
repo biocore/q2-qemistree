@@ -8,12 +8,12 @@
 
 import pandas as pd
 import numpy as np
-import skbio
+from skbio import TreeNode
 
 def prune_hierarchy(feature_data: pd.DataFrame,
                     tree: skbio.TreeNode,
                     prune_type: str = 'classyfire',
-                    classyfire_level: str = 'class'):
+                    classyfire_level: str = 'class') -> TreeNode:
     '''This function prunes the tree for visualization. It retains only
     the features that have been annotated for a user-specified `prune_type`
 
