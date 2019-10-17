@@ -11,7 +11,7 @@ import numpy as np
 from skbio import TreeNode
 
 def prune_hierarchy(feature_data: pd.DataFrame,
-                    tree: skbio.TreeNode,
+                    tree: TreeNode,
                     prune_type: str = 'classyfire',
                     classyfire_level: str = 'class') -> TreeNode:
     '''This function prunes the tree for visualization. It retains only
