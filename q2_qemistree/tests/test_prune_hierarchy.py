@@ -34,41 +34,45 @@ class TestPruning(TestCase):
                                         columns=['class'])
 
     def test_no_smiles(self):
-        msg = "Feature data does not contain the column 'smiles'. Molecular "
-        "hierarchy could not be pruned."
+        msg = ("Feature data does not contain the column 'smiles'. Molecular "
+               "hierarchy could not be pruned.")
         with self.assertRaisesRegex(ValueError, msg):
             prune_hierarchy(self.no_column, self.tree, prune_type='smiles')
 
     def test_no_classyfire(self):
-        msg = 'Classyfire level = class not present in feature data. '
-        'Molecular hierarchy could not be pruned.'
+        msg = ('Classyfire level = class not present in feature data. '
+               'Molecular hierarchy could not be pruned.')
         with self.assertRaisesRegex(ValueError, msg):
             prune_hierarchy(self.no_column, self.tree, prune_type='classyfire')
 
     def test_no_annotation(self):
-        msg = 'Tree pruning aborted! There are less than two tree tips with '
-        'annotations. Please check if correct feature data table was provided.'
+        msg = ('Tree pruning aborted! There are less than two tree tips with '
+               'annotations. Please check if correct feature data table was '
+               'provided.')
         with self.assertRaisesRegex(ValueError, msg):
             prune_hierarchy(self.no_annotation, self.tree,
                             prune_type='classyfire')
 
     def test_one_annotation(self):
-        msg = 'Tree pruning aborted! There are less than two tree tips with '
-        'annotations. Please check if correct feature data table was provided.'
+        msg = ('Tree pruning aborted! There are less than two tree tips with '
+               'annotations. Please check if correct feature data table was'
+               ' provided.')
         with self.assertRaisesRegex(ValueError, msg):
             prune_hierarchy(self.one_annotation, self.tree,
                             prune_type='classyfire')
 
     def test_no_overlap(self):
-        msg = 'Tree pruning aborted! There are less than two tree tips with '
-        'annotations. Please check if correct feature data table was provided.'
+        msg = ('Tree pruning aborted! There are less than two tree tips with '
+               'annotations. Please check if correct feature data table was '
+               'provided.')
         with self.assertRaisesRegex(ValueError, msg):
             prune_hierarchy(self.no_overlap, self.tree,
                             prune_type='classyfire')
 
     def test_one_overlap(self):
-        msg = 'Tree pruning aborted! There are less than two tree tips with '
-        'annotations. Please check if correct feature data table was provided.'
+        msg = ('Tree pruning aborted! There are less than two tree tips with '
+               'annotations. Please check if correct feature data table was '
+               'provided.')
         with self.assertRaisesRegex(ValueError, msg):
             prune_hierarchy(self.one_overlap, self.tree,
                             prune_type='classyfire')
