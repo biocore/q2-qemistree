@@ -210,11 +210,8 @@ plugin.methods.register_function(
                                                    'class', 'subclass',
                                                    'direct_parent'])},
     input_descriptions={'feature_data': 'Feature data table with Classyfire '
-                                        'annotations and/or SMILES. '
-                                        'Output of make_hierarchy() or '
-                                        'get_classyfire_taxonomy()',
-                        'tree': 'Tree of relatedness of molecules. Output '
-                                'of make_hierarchy()'},
+                                        'annotations and/or SMILES.',
+                        'tree': 'Tree of relatedness of molecules.'},
     parameter_descriptions={'prune_type': 'Metadata category for tree pruning',
                             'classyfire_level': 'Classyfire taxonomy level'},
     outputs=[('pruned_tree', Phylogeny[Rooted])],
