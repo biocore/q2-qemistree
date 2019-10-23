@@ -205,15 +205,14 @@ plugin.methods.register_function(
     description='Removes non-annotated tree tips based on feature data',
     inputs={'feature_data': FeatureData[Molecules],
             'tree': Phylogeny[Rooted]},
-    parameters={'prune_type': Str % Choices(['classyfire', 'smiles']),
-                'classyfire_level': Str % Choices(['kingdom', 'superclass',
-                                                   'class', 'subclass',
-                                                   'direct_parent'])},
+    parameters={'column': Str % Choices(['smiles', 'kingdom', 'superclass',
+                                         'class', 'subclass',
+                                         'direct_parent'])},
     input_descriptions={'feature_data': 'Feature data table with Classyfire '
                                         'annotations and/or SMILES.',
                         'tree': 'Tree of relatedness of molecules.'},
-    parameter_descriptions={'prune_type': 'Metadata category for tree pruning',
-                            'classyfire_level': 'Classyfire taxonomy level'},
+    parameter_descriptions={'column': 'Features with missing values in this '
+                                      'column will be removed from the tree'},
     outputs=[('pruned_tree', Phylogeny[Rooted])],
     output_descriptions={'pruned_tree': 'Pruned tree of molecules with '
                                         'tips that are in feature data'}

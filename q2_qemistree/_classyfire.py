@@ -74,13 +74,13 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
         else:
             classyfire[idx] = 'unclassified'
     if bool(no_inchikey):
-        warnings.warn('The following structures (id, SMILES) could not '
-                      'be parsed to generate InChIKey for Classyfire:\n' +
-                      str(no_inchikey), UserWarning)
+        warnings.warn('The following structures (id, SMILES) could not be used'
+                      ' to retrieve an InChIKey from Classyfire:\n' +
+                      ', '.join(str(i) for i in no_inchikey), UserWarning)
     if bool(unexpected):
         warnings.warn('The following features produced unexpected '
-                      'server response codes (id, SMILES, response code):\n' +
-                      str(unexpected) + '\n' +
+                      'server response codes (id, SMILES, response code):\n'
+                      ', '.join(str(i) for i in unexpected) + '\n'
                       'More information about response status codes can be '
                       'found here:\n' +
                       'https://www.ietf.org/assignments/http-status-codes/'

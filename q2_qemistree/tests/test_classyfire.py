@@ -44,6 +44,7 @@ class TestHierarchy(TestCase):
             get_classyfire_taxonomy(self.nan_smiles)
 
     def test_malformed_smiles(self):
+        # TODO: assertwarnsregex
         with self.assertWarns(UserWarning):
             get_classyfire_taxonomy(self.mal_smiles)
 

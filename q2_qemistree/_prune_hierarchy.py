@@ -10,31 +10,27 @@ import pandas as pd
 from skbio import TreeNode
 
 
-def prune_hierarchy(feature_data: pd.DataFrame,
-                    tree: TreeNode,
-                    prune_type: str = 'classyfire',
-                    classyfire_level: str = 'class') -> TreeNode:
-    '''This function prunes the tree for visualization. It retains only
-    the features that have been annotated for a user-specified `prune_type`
+def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
+                    column: str) -> TreeNode:
+    '''Prunes the tips of the tree to remove unannotated entries
 
-    Paramters
-    ---------
+    Parameters
+    ----------
     feature_data : pd.DataFrame
         Feature data table with Classyfire annotations and/or SMILES. Output
         of make_hierarchy() or get_classyfire_taxonomy()
     tree : skbio.TreeNode
         Tree of relatedness of molecules. Output of make_hierarchy()
-    prune_type : str, default 'classyfire'
-        Metadata category for tree pruning ('smiles' or 'classyfire')
-    classyfire_level : str, default 'class'
-        One of the Classyfire levels in ['kingdom', 'superclass', 'class',
-        'subclass', 'direct_parent']
+    column : str
+        The column used to prune the phylogeny. All elements with no data in
+        this column will be removed from the phylogeny. The choices are one of:
+        `'kingdom'`, `'superclass'`, `'class'`, `'subclass'`, `'direct_parent'`
+        and `'smiles'`.
 
     Raises
     ------
     ValueError
-        If user-specified `classyfire_level` is not in `feature_data.columns`
-        If `smiles` not in `feature_data.columns` when `prune_type` = 'smiles'
+        If th
         If there are less than 2 annotated features for a given `prune_column`
 
     Returns
@@ -42,32 +38,34 @@ def prune_hierarchy(feature_data: pd.DataFrame,
     skbio.TreeNode
         Pruned tree of molecules with annotated tips
     '''
-    if prune_type == 'classyfire':
-        if classyfire_level not in feature_data.columns:
-            raise ValueError('Classyfire level = %s not present in feature '
-                             'data. Molecular hierarchy could not be pruned.'
-                             % classyfire_level)
-        prune_column = classyfire_level
-    if prune_type == 'smiles':
-        if 'smiles' not in feature_data.columns:
-            raise ValueError("Feature data does not contain the column "
-                             "'smiles'. Molecular hierarchy could not "
-                             "be pruned.")
-        prune_column = 'smiles'
-    values = feature_data[[prune_column]]
-    values = values.fillna(-1)
-    annotated_features = [v
-                          for v in values.index
-                          if values.loc[v, prune_column]
-                          not in [-1, 'unclassified',
-                                  'unexpected server response',
-                                  'SMILE parse error']
-                          ]
+
+    known = ['kingdom', 'superclass', 'class', 'subclass', 'direct_parent',
+             'smiles']
+
+    if column not in feature_data.columns:
+        raise ValueError("The feature data does not contain the column '%s'" %
+                         column)
+
+    if column not in known:
+        raise ValueError('Pruning cannot be applied on column "%s". The only '
+                         'options are: %s. If your feature data does not '
+                         'include this information, consider using '
+                         'get_classyfire_taxonomy.' % (column,
+                                                       ', '.join(known)))
+
+    failed_values = {'unclassified', 'unexpected server response',
+                     'SMILE parse error'}
+
+    # remove all NA values or missing values
+    feature_data = feature_data[~(feature_data[column].isin(failed_values) |
+                                  feature_data[column].isna())]
+
     tips = {tip.name for tip in tree.tips()}
-    overlap = set(annotated_features).intersection(tips)
+    overlap = feature_data.index.intersection(tips)
+
     if len(overlap) < 2:
-        raise ValueError('Tree pruning aborted! There are less than two '
-                         'tree tips with annotations. Please check if '
-                         'correct feature data table was provided.')
+        raise ValueError('Tree pruning aborted! There are less than two tree '
+                         'tips with annotations. Please check if the correct '
+                         'feature data table was provided.')
     pruned_tree = tree.shear(overlap)
     return pruned_tree
