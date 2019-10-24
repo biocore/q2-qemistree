@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # ----------------------------------------------------------------------------
 # Copyright (c) 2016-2018, QIIME 2 development team.
 #
@@ -5,6 +6,8 @@
 #
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
+import warnings
+
 import pandas as pd
 import seaborn as sns
 import click
@@ -19,6 +22,13 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
     annotations = classified_feature_data[classyfire_level].unique()
     colors = sns.color_palette(color_palette,
                                n_colors=len(annotations)).as_hex()
+
+    # give a heads up to the user
+    if set(colors) < len(annotations):
+        warnings.warn(UserWarning, "The mapping between colors and annotations"
+warnings.warn("The mapping between colors and annotations"
+              " is not unique, some colors have been repeated", UserWarning)
+
     for i, value in enumerate(annotations):
         color_map[value] = colors[i]
     return color_map
@@ -40,23 +50,23 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
 def get_itol_visualization(classified_feature_data: str,
                            classyfire_level: str = 'class',
                            color_file_path: str = './itol_colors.txt',
-                           label_file_path: str = './itol_labels.txt')
-                           color_palette: str = 'bright'):
+                           label_file_path: str = './itol_labels.txt',
+                           color_palette: str = 'husl'):
     '''This function creates iTOL metadata files to specify clade colors and
     tip labels based on Classyfire annotations.'''
     fdata = Artifact.load(classified_feature_data).view(pd.DataFrame)
     color_map = classyfire_to_colors(fdata, classyfire_level, color_palette)
     with open(color_file_path, 'w+') as fh:
-        fh.write('TREE_COLORS\n' +
-                 'SEPARATOR TAB\n' +
+        fh.write('TREE_COLORS\n'
+                 'SEPARATOR TAB\n'
                  'DATA\n')
         for idx in fdata.index:
             color = color_map[fdata.loc[idx, classyfire_level]]
             fh.write(idx + '\t' + 'clade\t' +
-                     color + '\t' + 'normal\t' + '4\n')
+                     color + '\tnormal\t4\n')
     with open(label_file_path, 'w+') as fh:
-        fh.write('LABELS\n' +
-                 'SEPARATOR TAB\n' +
+        fh.write('LABELS\n'
+                 'SEPARATOR TAB\n'
                  'DATA\n')
         for idx in fdata.index:
             label = fdata.loc[idx, classyfire_level]
