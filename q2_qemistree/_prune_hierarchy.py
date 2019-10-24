@@ -30,8 +30,8 @@ def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
     Raises
     ------
     ValueError
-        If th
-        If there are less than 2 annotated features for a given `prune_column`
+        If the column value is not valid, or not contained in the feature data.
+        If there are less than 2 annotated features for a given `column`.
 
     Returns
     -------
