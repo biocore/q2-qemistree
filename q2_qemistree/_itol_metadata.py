@@ -26,7 +26,8 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
     # give a heads up to the user
     if set(colors) < len(annotations):
         warnings.warn(UserWarning, "The mapping between colors and annotations"
-                      " is not unique, some colors have been repeated")
+warnings.warn("The mapping between colors and annotations"
+              " is not unique, some colors have been repeated", UserWarning)
 
     for i, value in enumerate(annotations):
         color_map[value] = colors[i]
