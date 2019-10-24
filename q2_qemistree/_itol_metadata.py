@@ -7,7 +7,6 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 import warnings
-
 import pandas as pd
 import seaborn as sns
 import click
@@ -22,13 +21,11 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
     annotations = classified_feature_data[classyfire_level].unique()
     colors = sns.color_palette(color_palette,
                                n_colors=len(annotations)).as_hex()
-
     # give a heads up to the user
     if set(colors) < len(annotations):
         warnings.warn(UserWarning, "The mapping between colors and annotations"
 warnings.warn("The mapping between colors and annotations"
               " is not unique, some colors have been repeated", UserWarning)
-
     for i, value in enumerate(annotations):
         color_map[value] = colors[i]
     return color_map
