@@ -32,6 +32,8 @@ qiime qemistree compute-fragmentation-trees
 qiime qemistree rerank-molecular-formulas
 qiime qemistree predict-fingerprints
 qiime qemistree make-hierarchy
+qiime qemistree get-classyfire-taxonomy
+qiime qemistree prune-hierarchy
 ```
 
 To generate a tree that relates the MS1 features in your experiment, we need to pre-process mass-spectrometry data (.mzXML files) using [MZmine2](http://mzmine.github.io) and produce the following inputs:
@@ -105,8 +107,8 @@ Now, we use these predicted molecular substructures to generate a hierarchy of m
 qiime qemistree make-hierarchy \
   --i-csi-results fingerprints.qza \
   --i-feature-tables feature-table.qza \
-  --o-tree demo-qemistree.qza \
-  --o-merged-feature-table filtered-feature-table.qza
+  --o-tree qemistree.qza \
+  --o-merged-feature-table feature-table-hashed.qza \
   --o-merged-feature-data feature-data.qza
 ```
 
@@ -114,22 +116,55 @@ To support meta-analyses, this method is capable of handling one or more dataset
 
 ```bash
 qiime qemistree make-hierarchy \
-  --i-csi-results fingerprints.qza \
-  --i-csi-results fingerprints2.qza \
-  --i-feature-tables feature-table.qza \
-  --i-feature-tables feature-table2.qza \
-  --o-tree merged-qemistree.qza \
-  --o-merged-feature-table merged-feature-table.qza \
-  --o-merged-feature-data merged-feature-data.qza
+--i-csi-results fingerprints.qza \
+--i-csi-results fingerprints2.qza \
+--i-feature-tables feature-table.qza \
+--i-feature-tables feature-table2.biom.qza \
+--o-tree merged-qemistree.qza \
+--o-merged-feature-table merged-feature-table-hashed.qza \
+--o-merged-feature-data merged-feature-data.qza
 ```
 
-**Note:** The input CSI results and feature tables should have a one-to-one correspondance i.e csi results and feature tables from all datasets should be provided in the same order.
+**Note:** The input CSI results and feature tables should have a one-to-one correspondence i.e csi results and feature tables from all datasets should be provided in the same order.
 
 This method generates the following:
 1. A combined feature table by merging all the input feature tables; MS1 features without fingerprints are filtered out of this feature table. This is done because SIRIUS predicts molecular substructures for a subset of features (typically for 70-90% of all MS1 features) in an experiment (based on factors such as sample type, the quality MS2 spectra, and user-defined tolerances such as `--p-ppm-max`, `--p-zodiac-threshold`). This output is of type `FeatureTable[Frequency]`.
 2. A tree relating the MS1 features in these data based on molecular substructures predicted for MS1 features. This is of type `Phylogeny[Rooted]`. By default, we retain all fingerprint positions i.e. 2936 molecular properties). Adding `--p-qc-properties` filters these properties to keep only PubChem fingerprint positions (489 molecular properties) in the contingency table.
 **Note**: The latest release of [SIRIUS](https://www.nature.com/articles/s41592-019-0344-8) uses PubChem version downloaded on 13 August 2017.
-3. A combined feature data file that contains unique identifiers of each feature, their corresponding original feature identifier, and feature tables that each feature was detected in. This is of type `FeatureData[Molecules]`. (The renaming of features needs to be done to avoid overlapping, non-unique feature identifiers in the original feature table)
+3. A combined feature data file that contains unique identifiers of each feature, their corresponding original feature identifier (row ID in Mzmine2), CSI:FingerID structure predictions (SMILES), and the table(s) that each feature was detected in. This is of type `FeatureData[Molecules]`. (The renaming of features needs to be done to avoid overlapping, non-unique feature identifiers in the original feature table)
 
+These can be used as inputs to perform chemical phylogeny-based [alpha-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/beta-phylogenetic/) analyses.
 
-Thus, using these steps, we can generate a tree relating MS1 features in a mass-spectrometry dataset along with a matched feature table. These can be used as inputs to perform chemical phylogeny-based [alpha-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/beta-phylogenetic/) analyses.
+Furthermore, Qemistree supports categorization of molecules into chemical taxonomy using [Classyfire](https://jcheminf.biomedcentral.com/articles/10.1186/s13321-016-0174-y) as follows:
+
+```bash
+qiime qemistree get-classyfire-taxonomy \
+  --i-feature-data merged-feature-data.qza
+  --o-classified-feature-data classified-merged-feature-data.qza
+```
+
+The resulting table is also of the type `FeatureData[Molecules]` includes categorization of molecules in the Classyfire levels 'kingdom', 'superclass', 'class', 'subclass', and 'direct_parent'.  
+Lastly, we include some utility functions in Qemistree that are most useful for visualizing the molecular hierarchy generated above.
+
+1. Prune molecular hierarchy to keep only the molecules with annotations.
+
+```bash
+qiime qemistree prune-hierarchy \
+  --i-feature-data classified-merged-feature-data.qza
+  --p-column subclass
+  --o-tree merged-qemistree.qza
+```
+
+Users can choose one of the following data columns (`--p-column`) for pruning: 'kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny.
+
+2. Generate supporting files to visualize hierarchy using the web-based service [iTOL](https://itol.embl.de/).
+
+```bash
+python ../_itol_metadata.py \
+  --classified-feature-data classified-merged-feature-data.qza \
+  --classyfire-level 'subclass'
+  --color-file-path /path/to/clade/colors/file
+  --label-file-path /path/to/tip/labels/file
+```
+
+When `--color-file-path` and `--label-file-path` is not given by the user, this command generates the following two files by default: itol_colors.txt and itol_labels.txt. Once the tree generated above is uploaded in iTOL, these two files can be dragged-and-dropped to 1) color clades based on the specified classyfire level (subclass here) 2) label molecules by the Classyfire category they belong to. This enables the users to visualize the chemical clades present in their samples and better understand the underlying chemistry. 
