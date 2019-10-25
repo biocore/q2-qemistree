@@ -23,7 +23,7 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
     colors = sns.color_palette(color_palette,
                                n_colors=len(annotations)).as_hex()
     # give a heads up to the user
-    if set(colors) < len(annotations):
+    if len(set(colors)) < len(annotations):
         warnings.warn("The mapping between colors and annotations"
                       " is not unique, some colors have been repeated",
                       UserWarning)
@@ -44,7 +44,7 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
               help='Path to file with label specifications for tree tips')
 @click.option('--color-palette', default='bright', type=str,
               help='Color palette for tree clades. One of the options'
-              'allowed by seaborn.color_palette()')
+              ' allowed by seaborn.color_palette()')
 def get_itol_visualization(classified_feature_data: str,
                            classyfire_level: str = 'class',
                            color_file_path: str = './itol_colors.txt',
