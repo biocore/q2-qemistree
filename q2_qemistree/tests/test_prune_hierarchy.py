@@ -34,7 +34,6 @@ class TestPruning(TestCase):
         self.one_overlap = pd.DataFrame(index=['A', 'Y', 'Z'],
                                         data=['foo', 'bar', 'unclassified'],
                                         columns=['class'])
-
         self.feature_data = pd.DataFrame(index=['A', 'B', 'C', 'D'],
                                          data=[['foo', ':)'],
                                                ['bleep', ':)'],
