@@ -112,7 +112,15 @@ qiime qemistree make-hierarchy \
   --o-merged-feature-data feature-data.qza
 ```
 
-To support meta-analyses, this method is capable of handling one or more datasets i.e pairs of CSI results and feature tables. Below is an example for two datasets:
+To support meta-analyses, this method is capable of handling one or more datasets i.e pairs of CSI results and feature tables. You will need to download a new feature table and csi fingerprint result from another experiment to test this functionality as follows:
+
+```bash
+wget https://raw.githubusercontent.com/biocore/q2-qemistree/master/q2_qemistree/demo/feature-table2.biom.qza
+wget https://raw.githubusercontent.com/biocore/q2-qemistree/master/q2_qemistree/demo/fingerprints2.qza
+```
+
+Below is the q2_qemistree command to co-analyze the datasets together:
+
 
 ```bash
 qiime qemistree make-hierarchy \
@@ -167,4 +175,4 @@ python ../_itol_metadata.py \
   --label-file-path /path/to/tip/labels/file
 ```
 
-When `--color-file-path` and `--label-file-path` is not given by the user, this command generates the following two files by default: itol_colors.txt and itol_labels.txt. Once the tree generated above is uploaded in iTOL, these two files can be dragged-and-dropped to 1) color clades based on the specified classyfire level (subclass here) 2) label molecules by the Classyfire category they belong to. This enables the users to visualize the chemical clades present in their samples and better understand the underlying chemistry. 
+When `--color-file-path` and `--label-file-path` is not given by the user, this command generates the following two files by default: itol_colors.txt and itol_labels.txt. Once the tree generated above is uploaded in iTOL, these two files can be dragged-and-dropped to 1) color clades based on the specified classyfire level (subclass here) 2) label molecules by the Classyfire category they belong to. This enables the users to visualize the chemical clades present in their samples and better understand the underlying chemistry.
