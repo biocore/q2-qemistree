@@ -168,11 +168,12 @@ Users can choose one of the following data columns (`--p-column`) for pruning: '
 2. Generate supporting files to visualize hierarchy using the web-based service [iTOL](https://itol.embl.de/).
 
 ```bash
-python ../_itol_metadata.py \
+python _itol_metadata.py \
   --classified-feature-data classified-merged-feature-data.qza \
   --classyfire-level 'subclass'
   --color-file-path /path/to/clade/colors/file
   --label-file-path /path/to/tip/labels/file
 ```
 
-When `--color-file-path` and `--label-file-path` is not given by the user, this command generates the following two files by default: itol_colors.txt and itol_labels.txt. Once the tree generated above is uploaded in iTOL, these two files can be dragged-and-dropped to 1) color clades based on the specified classyfire level (subclass here) 2) label molecules by the Classyfire category they belong to. This enables the users to visualize the chemical clades present in their samples and better understand the underlying chemistry.
+**Note:** The above command assumes that users are located in `q2-qemistree/q2_qemistree` foder. You will have to provide the full path to the file `_itol_metadata.py` if you are operating from another location on disk.
+When `--color-file-path` and `--label-file-path` is not given by the user, this command generates the following two files by default: itol_colors.txt and itol_labels.txt. Once the tree generated above is uploaded in iTOL, these two files can be dragged-and-dropped to 1) color clades based on the specified Classyfire level (subclass here) 2) label molecules by the Classyfire category they belong to. This enables the users to visualize the chemical clades present in their samples and better understand the underlying chemistry.
