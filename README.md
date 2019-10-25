@@ -147,7 +147,7 @@ Furthermore, Qemistree supports categorization of molecules into chemical taxono
 
 ```bash
 qiime qemistree get-classyfire-taxonomy \
-  --i-feature-data merged-feature-data.qza
+  --i-feature-data merged-feature-data.qza \
   --o-classified-feature-data classified-merged-feature-data.qza
 ```
 
@@ -158,8 +158,8 @@ Lastly, we include some utility functions in Qemistree that are most useful for 
 
 ```bash
 qiime qemistree prune-hierarchy \
-  --i-feature-data classified-merged-feature-data.qza
-  --p-column subclass
+  --i-feature-data classified-merged-feature-data.qza \
+  --p-column subclass \
   --o-tree merged-qemistree.qza
 ```
 
@@ -170,8 +170,8 @@ Users can choose one of the following data columns (`--p-column`) for pruning: '
 ```bash
 python _itol_metadata.py \
   --classified-feature-data classified-merged-feature-data.qza \
-  --classyfire-level 'subclass'
-  --color-file-path /path/to/clade/colors/file
+  --classyfire-level 'subclass' \
+  --color-file-path /path/to/clade/colors/file \
   --label-file-path /path/to/tip/labels/file
 ```
 
