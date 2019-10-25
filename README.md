@@ -3,11 +3,11 @@
 
 [![Build Status](https://travis-ci.org/biocore/q2-qemistree.svg?branch=master)](https://travis-ci.org/biocore/q2-qemistree) [![Coverage Status](https://coveralls.io/repos/github/biocore/q2-qemistree/badge.svg?branch=master)](https://coveralls.io/github/biocore/q2-qemistree?branch=master)
 
-A tool to build a tree of MS1 features to compare chemical composition of samples in metabolomics experiments.
+A tool to build a tree of mass-spectrometry (LC-MS/MS) features to perform chemically-informed comparison of untargeted metabolomic profiles.
 
 ## Installation
 
-Once QIIME 2 is [installed](https://docs.qiime2.org/2019.1/install/), activate your QIIME 2 environment and install q2-qemistree following the steps below:
+Once QIIME 2 is [installed](https://docs.qiime2.org/2019.7/install/), activate your QIIME 2 environment and install q2-qemistree following the steps below:
 
 ```bash
 git clone https://github.com/biocore/q2-qemistree.git
@@ -16,7 +16,9 @@ pip install .
 qiime dev refresh-cache
 ```
 
-q2-qemistree uses [SIRIUS](https://www.nature.com/articles/s41592-019-0344-8), a software-framework developed for de-novo identification of metabolites. We use molecular substructures predicted by SIRIUS to build a hierarchy of the MS1 features in a dataset. For this demo, please download and unzip the latest version of SIRIUS from [here](https://bio.informatik.uni-jena.de/sirius/). Below, we download SIRIUS for macOS as follows (for linux the only thing that changes is the URL from which the binary is downloaded):
+q2-qemistree uses [SIRIUS](https://www.nature.com/articles/s41592-019-0344-8), a software-framework developed for de-novo identification of metabolites. We use molecular substructures predicted by SIRIUS to build a hierarchy of the MS1 features in a dataset. For this demo, please download and unzip the latest version of SIRIUS from [here](https://bio.informatik.uni-jena.de/sirius/).
+
+Below, we download SIRIUS for macOS as follows (for linux the only thing that changes is the URL from which the binary is downloaded):
 
 ```bash
 wget https://bio.informatik.uni-jena.de/repository/dist-release-local/de/unijena/bioinf/ms/sirius/4.0.1/sirius-4.0.1-osx64-headless.zip
@@ -36,7 +38,7 @@ qiime qemistree get-classyfire-taxonomy
 qiime qemistree prune-hierarchy
 ```
 
-To generate a tree that relates the MS1 features in your experiment, we need to pre-process mass-spectrometry data (.mzXML files) using [MZmine2](http://mzmine.github.io) and produce the following inputs:
+To generate a tree that relates the MS1 features in your experiment, we need to pre-process mass-spectrometry data (.mzXML, .mzML or .mzDATA files) using [MZmine2](http://mzmine.github.io) and produce the following inputs:
 
 1. An MGF file with both MS1 and MS2 information. This file will be imported into QIIME 2 as a `MassSpectrometryFeatures` artifact.
 2. A feature table with peak areas of MS1 ions per sample. This table will be imported from a CSV file into the [BIOM](http://biom-format.org/documentation/biom_conversion.html) format, and then into QIIME 2 as a `FeatureTable[Frequency]` artifact.
@@ -75,9 +77,9 @@ qiime qemistree compute-fragmentation-trees --p-sirius-path 'sirius-osx64-4.0.1/
   --p-java-flags "-Djava.io.tmpdir=/path-to-some-dir/ -Xms16G -Xmx64G" \
   --o-fragmentation-trees fragmentation_trees.qza
 ```
+**Note**: `/path-to-some-dir/` should be a directory where you have write permissions and sufficient storage space. We use -Xms16G and -Xmx64G as the minimum and maximum heap size for Java virtual machine (JVM). If left blank, q2-qemistree will use default JVM flags.
 
 This generates a QIIME 2 artifact of type `SiriusFolder`. This contains fragmentation trees with candidate molecular formulas for each MS1 feature detected in your experiment.
-**Note**: `/path-to-some-dir/` should be a directory where you have write permissions and sufficient storage space. We use -Xms16G and -Xmx64G as the minimum and maximum heap size for Java virtual machine (JVM). If left blank, q2-qemistree will use default JVM flags.
 
 Next, we select top scoring molecular formula as follows:
 
@@ -143,7 +145,7 @@ This method generates the following:
 
 These can be used as inputs to perform chemical phylogeny-based [alpha-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/beta-phylogenetic/) analyses.
 
-Furthermore, Qemistree supports categorization of molecules into chemical taxonomy using [Classyfire](https://jcheminf.biomedcentral.com/articles/10.1186/s13321-016-0174-y) as follows:
+Furthermore, Qemistree supports classification of molecules into chemical taxonomy using [Classyfire](https://jcheminf.biomedcentral.com/articles/10.1186/s13321-016-0174-y). We generate a feature data table (also of the type `FeatureData[Molecules]`) which includes classification of molecules into chemical 'kingdom', 'superclass', 'class', 'subclass', and 'direct_parent'. We can run Classyfire using Qemistree as follows:
 
 ```bash
 qiime qemistree get-classyfire-taxonomy \
@@ -151,8 +153,7 @@ qiime qemistree get-classyfire-taxonomy \
   --o-classified-feature-data classified-merged-feature-data.qza
 ```
 
-The resulting table is also of the type `FeatureData[Molecules]` includes categorization of molecules in the Classyfire levels 'kingdom', 'superclass', 'class', 'subclass', and 'direct_parent'.  
-Lastly, we include some utility functions in Qemistree that are most useful for visualizing the molecular hierarchy generated above.
+Lastly, Qemistree includes some utility functions that are most useful if users would like to visualize the molecular hierarchy generated above.
 
 1. Prune molecular hierarchy to keep only the molecules with annotations.
 
@@ -160,20 +161,22 @@ Lastly, we include some utility functions in Qemistree that are most useful for 
 qiime qemistree prune-hierarchy \
   --i-feature-data classified-merged-feature-data.qza \
   --p-column subclass \
-  --o-tree merged-qemistree.qza
+  --i-tree merged-qemistree.qza
+  --o-pruned-tree merged-qemistree-subclass.qza
 ```
 
 Users can choose one of the following data columns (`--p-column`) for pruning: 'kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny.
 
-2. Generate supporting files to visualize hierarchy using the web-based service [iTOL](https://itol.embl.de/).
+2. Generate supporting files to visualize hierarchy using [iTOL](https://itol.embl.de/).
 
 ```bash
 python _itol_metadata.py \
   --classified-feature-data classified-merged-feature-data.qza \
-  --classyfire-level 'subclass' \
-  --color-file-path /path/to/clade/colors/file \
-  --label-file-path /path/to/tip/labels/file
+  --classyfire-level subclass \
+  --color-file-path /path-to-clade-colors-file/ \
+  --label-file-path /path-to-tip-label-files/
 ```
 
-**Note:** The above command assumes that users are located in `q2-qemistree/q2_qemistree` foder. You will have to provide the full path to the file `_itol_metadata.py` if you are operating from another location on disk.
-When `--color-file-path` and `--label-file-path` is not given by the user, this command generates the following two files by default: itol_colors.txt and itol_labels.txt. Once the tree generated above is uploaded in iTOL, these two files can be dragged-and-dropped to 1) color clades based on the specified Classyfire level (subclass here) 2) label molecules by the Classyfire category they belong to. This enables the users to visualize the chemical clades present in their samples and better understand the underlying chemistry.
+**Note:** The above command assumes that users are located in `q2-qemistree/q2_qemistree` folder. You will have to provide the full path to the file `_itol_metadata.py` if you are operating from another location on disk.
+
+When `--color-file-path` and `--label-file-path` is not specified by the user, this command generates two files: 'itol_colors.txt' and 'itol_labels.txt' in place. One can upload the tree generated above in [iTOL](https://itol.embl.de/), and drag & drop these two files to 1) color tree clades based on the specified Classyfire level ('subclass' here) 2) label tree tips by the Classyfire category they belong to. This enables the users to visualize the chemical diversity in their samples and better understand the underlying chemistry.
