@@ -10,6 +10,8 @@ from ._fingerprint import (compute_fragmentation_trees,
                            rerank_molecular_formulas,
                            predict_fingerprints)
 from ._hierarchy import make_hierarchy
+from ._prune_hierarchy import prune_hierarchy
+from ._classyfire import get_classyfire_taxonomy
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          SiriusFolder, SiriusDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
@@ -172,6 +174,42 @@ plugin.methods.register_function(
                                                 'identifiers in input '
                                                 'feature tables to MD5 hash '
                                                 'of feature fingerprints'}
+)
+
+plugin.methods.register_function(
+    function=get_classyfire_taxonomy,
+    name='Generate Classyfire annotations',
+    description='Predicts chemical taxonomy based on molecule structures',
+    inputs={'feature_data': FeatureData[Molecules]},
+    parameters={},
+    input_descriptions={'feature_data': 'Feature data table that maps MD5 '
+                                        'hash of mass-spec features to their '
+                                        'structural annotations (SMILES)'},
+    parameter_descriptions={},
+    outputs=[('classified_feature_data', FeatureData[Molecules])],
+    output_descriptions={'classified_feature_data': 'Feature data table that '
+                                                    'contains Classyfire '
+                                                    'annotations per mass-'
+                                                    'spec feature'}
+)
+
+plugin.methods.register_function(
+    function=prune_hierarchy,
+    name='Prune hierarchy of molecules',
+    description='Removes non-annotated tree tips based on feature data',
+    inputs={'feature_data': FeatureData[Molecules],
+            'tree': Phylogeny[Rooted]},
+    parameters={'column': Str % Choices(['smiles', 'kingdom', 'superclass',
+                                         'class', 'subclass',
+                                         'direct_parent'])},
+    input_descriptions={'feature_data': 'Feature data table with Classyfire '
+                                        'annotations and/or SMILES.',
+                        'tree': 'Tree of relatedness of molecules.'},
+    parameter_descriptions={'column': 'Features with missing values in this '
+                                      'column will be removed from the tree'},
+    outputs=[('pruned_tree', Phylogeny[Rooted])],
+    output_descriptions={'pruned_tree': 'Pruned tree of molecules with '
+                                        'tips that are in feature data'}
 )
 
 importlib.import_module('q2_qemistree._transformer')

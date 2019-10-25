@@ -1,0 +1,4 @@
+#featureID	smiles
+3	
+7	CC(=N)C1=CN(C)C=N1
+2	
