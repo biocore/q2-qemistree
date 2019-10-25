@@ -11,8 +11,8 @@ import os
 import pandas as pd
 from biom import load_table
 
-from q2_qemistree._collate_fingerprint import collate_fingerprint
-from q2_qemistree._match import match_label
+from q2_qemistree._process_fingerprint import collate_fingerprint
+from q2_qemistree._match import get_matched_tables
 
 
 class TestMatch(TestCase):
@@ -24,29 +24,32 @@ class TestMatch(TestCase):
         self.wrongtips = table
         goodtable = os.path.join(THIS_DIR, 'data/features_formated.biom')
         self.features = load_table(goodtable)
+        goodsmiles = os.path.join(THIS_DIR, 'data/features_smiles.txt')
+        self.smiles = pd.read_csv(goodsmiles, dtype=str, sep='\t')
+        self.smiles = self.smiles.set_index('#featureID')
         goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
         self.tablefp = collate_fingerprint(goodcsi)
 
     def test_emptyTable(self):
         msg = "Cannot have empty fingerprint table"
         with self.assertRaisesRegex(ValueError, msg):
-            match_label(self.emptyfps, self.features)
+            get_matched_tables(self.emptyfps, self.smiles, self.features)
 
     def test_tipMismatch(self):
         msg = "^The following tips were not found in the feature table:"
         with self.assertRaisesRegex(ValueError, msg):
-            match_label(self.wrongtips, self.features)
+            get_matched_tables(self.wrongtips, self.smiles, self.features)
 
     def test_matchFdata(self):
-        relabeled_fps, matched_ft, matched_fdata = match_label(self.tablefp,
-                                                               self.features)
+        relabeled_fps, matched_ft, matched_fdata = get_matched_tables(
+            self.tablefp, self.smiles, self.features)
         fdata_featrs = sorted(list(matched_fdata.index))
         featrs = sorted(list(matched_ft.ids(axis='observation')))
         self.assertEqual(fdata_featrs, featrs)
 
     def test_matchFps(self):
-        relabeled_fps, matched_ft, matched_fdata = match_label(self.tablefp,
-                                                               self.features)
+        relabeled_fps, matched_ft, matched_fdata = get_matched_tables(
+            self.tablefp, self.smiles, self.features)
         featrs = sorted(list(matched_ft.ids(axis='observation')))
         fps = sorted(list(relabeled_fps.index))
         self.assertEqual(fps, featrs)

@@ -22,8 +22,6 @@ MGFDirFmt = model.SingleFileDirectoryFormat('MGFFile', 'features.mgf', MGFFile)
 MassSpectrometryFeatures = SemanticType('MassSpectrometryFeatures')
 
 
-# TODO: define this class
-# TSVMoleculesFormat (mimic MGFFile)
 class TSVMolecules(model.TextFileFormat):
     def sniff(self):
         return True
