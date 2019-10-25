@@ -41,7 +41,7 @@ class TestHierarchy(TestCase):
 
     def test_mergeFeatureDataSingle(self):
         goodcsi1 = self.goodcsi.view(CSIDirFmt)
-        treeout, merged_fts, merged_fps, merged_fdata = make_hierarchy(
+        treeout, merged_fts, merged_fdata = make_hierarchy(
             [goodcsi1], [self.features])
         featrs = sorted(list(merged_fts.ids(axis='observation')))
         fdata_featrs = sorted(list(merged_fdata.index))
@@ -51,7 +51,7 @@ class TestHierarchy(TestCase):
     def test_mergeFeatureDataMultiple(self):
         goodcsi1 = self.goodcsi.view(CSIDirFmt)
         goodcsi2 = self.goodcsi2.view(CSIDirFmt)
-        treeout, merged_fts, merged_fps, merged_fdata = make_hierarchy(
+        treeout, merged_fts, merged_fdata = make_hierarchy(
             [goodcsi1, goodcsi2], [self.features, self.features2])
         featrs = sorted(list(merged_fts.ids(axis='observation')))
         fdata_featrs = sorted(list(merged_fdata.index))
@@ -80,7 +80,7 @@ class TestHierarchy(TestCase):
 
     def test_tipMatchSingle(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
-        treeout, merged_fts, merged_fps, merged_fdata = make_hierarchy(
+        treeout, merged_fts, merged_fdata = make_hierarchy(
             [goodcsi], [self.features])
         tip_names = {node.name for node in treeout.tips()}
         self.assertEqual(tip_names, set(merged_fts._observation_ids))
@@ -88,7 +88,7 @@ class TestHierarchy(TestCase):
     def test_Pipeline(self):
         goodcsi1 = self.goodcsi.view(CSIDirFmt)
         goodcsi2 = self.goodcsi2.view(CSIDirFmt)
-        treeout, merged_fts, merged_fps, merged_fdata = make_hierarchy(
+        treeout, merged_fts, merged_fdata = make_hierarchy(
             [goodcsi1, goodcsi2], [self.features, self.features2])
         tip_names = {node.name for node in treeout.tips()}
         self.assertEqual(tip_names, set(merged_fts._observation_ids))
