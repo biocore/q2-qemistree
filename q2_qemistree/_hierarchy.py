@@ -90,9 +90,6 @@ def make_hierarchy(csi_results: CSIDirFmt,
         features present in the tree; indexed by the MD5 hash of
         fingerprint vectors of mass-spec features
     pd.DataFrame
-        table of molecular fingerprints; indexed by the MD5 hash of
-        the fingerprint vectors of mass-spec features
-    pd.DataFrame
         merged feature data; indexed by the MD5 hash of the fingerprint
         vectors of mass-spec features
     '''
