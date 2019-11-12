@@ -151,29 +151,32 @@ plugin.methods.register_function(
     name='Create a molecular tree',
     description='Build a phylogeny based on molecular substructures',
     inputs={'csi_results': List[CSIFolder],
-            'feature_tables': List[FeatureTable[Frequency]]},
+            'feature_tables': List[FeatureTable[Frequency]],
+            'ms2_matches': List[FeatureData[Molecules]]},
     parameters={'qc_properties': Bool},
     input_descriptions={'csi_results': 'one or more CSI:FingerID '
                                        'output folders',
                         'feature_tables': 'one or more feature tables with '
                                           'mass-spec feature intensity '
-                                          'per sample'},
+                                          'per sample',
+                        'ms2_matches:' 'one or more tables with MS/MS library '
+                                       'match for mass-spec features'},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints'},
     outputs=[('tree', Phylogeny[Rooted]),
-             ('merged_feature_table', FeatureTable[Frequency]),
-             ('merged_feature_data', FeatureData[Molecules])],
+             ('feature_table', FeatureTable[Frequency]),
+             ('feature_data', FeatureData[Molecules])],
     output_descriptions={'tree': 'Tree of relatedness between mass '
                                  'spectrometry features based on the chemical '
                                  'substructures within those features',
-                         'merged_feature_table': 'filtered feature table '
-                                                 'that contains only the '
-                                                 'features present in '
-                                                 'the tree',
-                         'merged_feature_data': 'mapping of unique feature '
-                                                'identifiers in input '
-                                                'feature tables to MD5 hash '
-                                                'of feature fingerprints'}
+                         'feature_table': 'filtered feature table '
+                                          'that contains only the '
+                                          'features present in '
+                                          'the tree',
+                         'feature_data': 'mapping of unique feature '
+                                         'identifiers in input '
+                                         'feature tables to MD5 hash '
+                                         'of feature fingerprints'}
 )
 
 plugin.methods.register_function(
