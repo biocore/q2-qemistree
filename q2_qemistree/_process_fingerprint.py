@@ -8,6 +8,7 @@
 
 import os
 import pandas as pd
+import numpy as np
 import pkg_resources
 
 from ._semantics import CSIDirFmt
@@ -65,14 +66,16 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
     smiles = pd.DataFrame(index=collated_fps.index)
     smiles['csi_smiles'] = [csi_summary.loc[idx, 'smiles']
                             for idx in smiles.index]
-    for idx in ms2_match.index:
-        smiles.loc[idx, 'ms2_smiles'] = ms2_match.loc[idx, 'Smiles']
+    smiles['ms2_smiles'] = np.nan
+    if ms2_match is not None:
+        for idx in ms2_match.index:
+            smiles.loc[idx, 'ms2_smiles'] = ms2_match.loc[idx, 'Smiles']
     return smiles
 
 
 def process_csi_results(csi_result: CSIDirFmt, qc_properties: bool,
-                        ms2_match: pd.DataFrame) -> (pd.DataFrame,
-                                                     pd.DataFrame):
+                        ms2_match: pd.DataFrame = None) -> (pd.DataFrame,
+                                                            pd.DataFrame):
     '''This function parses CSI:FingerID result to generate tables
     of collated molecular fingerprints and SMILES for mass-spec features
     '''
