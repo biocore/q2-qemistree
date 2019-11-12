@@ -98,13 +98,18 @@ def make_hierarchy(csi_results: CSIDirFmt,
     if len(feature_tables) != len(csi_results):
         raise ValueError("The feature tables and CSI results should have a "
                          "one-to-one correspondance.")
-    for feature_table, csi_result, ms2_match in zip(feature_tables,
-                                                    csi_results,
-                                                    ms2_matches):
+    for n, dataset in enumerate(zip(feature_tables, csi_results)):
+        feature_table = dataset[0]
+        csi_result = dataset[1]
         if feature_table.is_empty():
             raise ValueError("Cannot have empty feature table")
-        collated_fps, smiles = process_csi_results(csi_result, ms2_match,
-                                                   qc_properties)
+        if ms2_matches:
+            collated_fps, smiles = process_csi_results(csi_result,
+                                                       qc_properties,
+                                                       ms2_matches[n])
+        else:
+            collated_fps, smiles = process_csi_results(csi_result,
+                                                       qc_properties)
         relabeled_fp, matched_ft, feature_data = get_matched_tables(
             collated_fps, smiles, feature_table)
         fps.append(relabeled_fp)
