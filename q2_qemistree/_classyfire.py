@@ -37,13 +37,23 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
     '''
     classyfire_levels = ['kingdom', 'superclass', 'class', 'subclass',
                          'direct_parent']
-    if 'smiles' not in feature_data.columns:
-        raise ValueError('Feature data table must contain the column `smiles` '
+    smiles = {'csi_smiles', 'ms2_smiles'}
+    if not smiles.issubset(feature_data.columns):
+        raise ValueError('Feature data table must contain the columns '
+                         '`csi_smiles` and `ms2_smiles` '
                          'to run Classyfire')
+    for idx in feature_data.index:
+        ms2_smiles = feature_data.loc[idx, 'ms2_smiles']
+        csi_smiles = feature_data.loc[idx, 'csi_smiles']
+        if pd.notna(ms2_smiles):
+            feature_data.loc[idx, 'smiles'] = ms2_smiles
+            feature_data.loc[idx, 'annotation_type'] = 'MS2'
+        if pd.isna(ms2_smiles) and pd.notna(csi_smiles):
+            feature_data.loc[idx, 'smiles'] = csi_smiles
+            feature_data.loc[idx, 'annotation_type'] = 'CSIFingerID'
     if feature_data['smiles'].notna().sum() == 0:
-        raise ValueError("The column 'smiles' in feature data table "
-                         "should have at least one structural annotation "
-                         "to run Classyfire")
+        raise ValueError("The feature data table should have at least "
+                         "one structural annotation to run Classyfire")
     classyfire = {}
     no_inchikey = []
     unexpected = []
