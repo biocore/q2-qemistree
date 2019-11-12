@@ -8,6 +8,7 @@
 
 import requests
 import pandas as pd
+import numpy as np
 import warnings
 
 
@@ -48,9 +49,12 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
         if pd.notna(ms2_smiles):
             feature_data.loc[idx, 'smiles'] = ms2_smiles
             feature_data.loc[idx, 'annotation_type'] = 'MS2'
-        if pd.isna(ms2_smiles) and pd.notna(csi_smiles):
+        elif pd.notna(csi_smiles):
             feature_data.loc[idx, 'smiles'] = csi_smiles
             feature_data.loc[idx, 'annotation_type'] = 'CSIFingerID'
+        else:
+            feature_data.loc[idx, 'smiles'] = np.nan
+            feature_data.loc[idx, 'annotation_type'] = np.nan
     if feature_data['smiles'].notna().sum() == 0:
         raise ValueError("The feature data table should have at least "
                          "one structural annotation to run Classyfire")
