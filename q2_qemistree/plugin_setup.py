@@ -159,7 +159,7 @@ plugin.methods.register_function(
                         'feature_tables': 'one or more feature tables with '
                                           'mass-spec feature intensity '
                                           'per sample',
-                        'ms2_matches:' 'one or more tables with MS/MS library '
+                        'ms2_matches': 'one or more tables with MS/MS library '
                                        'match for mass-spec features'},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints'},
