@@ -52,7 +52,8 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False):
     return collated_fps
 
 
-def get_feature_smiles(csi_result: CSIDirFmt, fingerids: pd.DataFrame):
+def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
+                       ms2_match: pd.DataFrame):
     '''This function gets the SMILES of mass-spec features from
     CSI:FingerID result
     '''
@@ -61,16 +62,20 @@ def get_feature_smiles(csi_result: CSIDirFmt, fingerids: pd.DataFrame):
     csi_summary = os.path.join(csi_result, 'summary_csi_fingerid.csv')
     csi_summary = pd.read_csv(csi_summary, dtype=str,
                               sep='\t').set_index('experimentName')
-    smiles = pd.DataFrame(index=fingerids.index)
-    smiles['smiles'] = [csi_summary.loc[idx, 'smiles'] for idx in smiles.index]
+    smiles = pd.DataFrame(index=collated_fps.index)
+    smiles['csi_smiles'] = [csi_summary.loc[idx, 'smiles']
+                            for idx in smiles.index]
+    for idx in ms2_match.index:
+        smiles.loc[idx, 'ms2_smiles'] = ms2_match.loc[idx, 'Smiles']
     return smiles
 
 
-def process_csi_results(csi_result: CSIDirFmt,
-                        qc_properties: bool) -> (pd.DataFrame, pd.DataFrame):
+def process_csi_results(csi_result: CSIDirFmt, qc_properties: bool,
+                        ms2_match: pd.DataFrame) -> (pd.DataFrame,
+                                                     pd.DataFrame):
     '''This function parses CSI:FingerID result to generate tables
     of collated molecular fingerprints and SMILES for mass-spec features
     '''
     collated_fps = collate_fingerprint(csi_result, qc_properties)
-    feature_smiles = get_feature_smiles(csi_result, collated_fps)
+    feature_smiles = get_feature_smiles(csi_result, collated_fps, ms2_match)
     return collated_fps, feature_smiles
