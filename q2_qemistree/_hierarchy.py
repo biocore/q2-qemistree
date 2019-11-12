@@ -58,6 +58,7 @@ def merge_feature_data(fdata: pd.DataFrame) -> pd.DataFrame:
 
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
+                   ms2_match: pd.DataFrame = None,
                    qc_properties: bool = False) -> (TreeNode,
                                                     biom.Table, pd.DataFrame):
     '''
@@ -100,9 +101,10 @@ def make_hierarchy(csi_results: CSIDirFmt,
     for feature_table, csi_result in zip(feature_tables, csi_results):
         if feature_table.is_empty():
             raise ValueError("Cannot have empty feature table")
-        fingerprints, smiles = process_csi_results(csi_result, qc_properties)
+        collated_fps, smiles = process_csi_results(csi_result, ms2_match,
+                                                   qc_properties)
         relabeled_fp, matched_ft, feature_data = get_matched_tables(
-            fingerprints, smiles, feature_table)
+            collated_fps, smiles, feature_table)
         fps.append(relabeled_fp)
         fts.append(matched_ft)
         fdata.append(feature_data)
