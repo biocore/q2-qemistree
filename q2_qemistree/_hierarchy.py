@@ -73,6 +73,8 @@ def make_hierarchy(csi_results: CSIDirFmt,
         one or more CSI:FingerID output folder
     feature_table : biom.Table
         one or more feature tables with mass-spec feature intensity per sample
+    ms2_matches: pd.DataFrame
+        one or more tables with MS/MS library match for mass-spec features
     qc_properties : bool, default False
         flag to filter molecular properties to keep only PUBCHEM fingerprints
 
@@ -98,6 +100,9 @@ def make_hierarchy(csi_results: CSIDirFmt,
     if len(feature_tables) != len(csi_results):
         raise ValueError("The feature tables and CSI results should have a "
                          "one-to-one correspondance.")
+    if ms2_matches and len(ms2_matches) != len(feature_tables):
+        raise ValueError("The MS2 match tables should have a one-to-one "
+                         "correspondance with feature tables and CSI results.")
     for n, dataset in enumerate(zip(feature_tables, csi_results)):
         feature_table = dataset[0]
         csi_result = dataset[1]
