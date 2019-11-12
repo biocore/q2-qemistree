@@ -58,9 +58,9 @@ def merge_feature_data(fdata: pd.DataFrame) -> pd.DataFrame:
 
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
-                   ms2_match: pd.DataFrame = None,
-                   qc_properties: bool = False) -> (TreeNode,
-                                                    biom.Table, pd.DataFrame):
+                   ms2_matches: pd.DataFrame = None,
+                   qc_properties: bool = False) -> (TreeNode, biom.Table,
+                                                    pd.DataFrame):
     '''
     This function generates a hierarchy of mass-spec features based on
     predicted chemical fingerprints. It filters the feature table to
@@ -98,7 +98,9 @@ def make_hierarchy(csi_results: CSIDirFmt,
     if len(feature_tables) != len(csi_results):
         raise ValueError("The feature tables and CSI results should have a "
                          "one-to-one correspondance.")
-    for feature_table, csi_result in zip(feature_tables, csi_results):
+    for feature_table, csi_result, ms2_match in zip(feature_tables,
+                                                    csi_results,
+                                                    ms2_matches):
         if feature_table.is_empty():
             raise ValueError("Cannot have empty feature table")
         collated_fps, smiles = process_csi_results(csi_result, ms2_match,
