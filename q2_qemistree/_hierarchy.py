@@ -109,9 +109,13 @@ def make_hierarchy(csi_results: CSIDirFmt,
         if feature_table.is_empty():
             raise ValueError("Cannot have empty feature table")
         if ms2_matches:
+            ms2_match = ms2_matches[n]
+            if 'Smiles' not in ms2_match.columns:
+                raise ValueError("MS2 match tables must contain the "
+                                 "column `Smiles`")
             collated_fps, smiles = process_csi_results(csi_result,
                                                        qc_properties,
-                                                       ms2_matches[n])
+                                                       ms2_match)
         else:
             collated_fps, smiles = process_csi_results(csi_result,
                                                        qc_properties)
