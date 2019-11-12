@@ -32,14 +32,14 @@ class TestHierarchy(TestCase):
                           'direct_parent'])
 
     def test_no_smiles(self):
-        msg = ('Feature data table must contain the column `smiles` '
-               'to run Classyfire')
+        msg = ('Feature data table must contain the columns `csi_smiles` '
+               'and `ms2_smiles` to run Classyfire')
         with self.assertRaisesRegex(ValueError, msg):
             get_classyfire_taxonomy(self.no_smiles)
 
     def test_nan_smiles(self):
-        msg = ("The column 'smiles' in feature data table should have at least"
-               " one structural annotation to run Classyfire")
+        msg = ("The feature data table should have at least one structural "
+               "annotation to run Classyfire")
         with self.assertRaisesRegex(ValueError, msg):
             get_classyfire_taxonomy(self.nan_smiles)
 
