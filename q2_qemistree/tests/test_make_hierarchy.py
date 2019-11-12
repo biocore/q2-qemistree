@@ -31,13 +31,25 @@ class TestHierarchy(TestCase):
                                                          'data/csiFolder.qza'))
         self.goodcsi2 = qiime2.Artifact.load(os.path.join(
                                             THIS_DIR, 'data/csiFolder2.qza'))
+        self.ms2_match1 = pd.DataFrame(index=['2', '4'], columns=['Smiles'])
+        self.ms2_match2 = pd.DataFrame(index=['10', '12'], columns=['Smiles'])
 
-    def test_unequal_inputs(self):
+    def test_unequal_ftables_csi_results(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
         msg = ("The feature tables and CSI results should have a one-to-one"
                " correspondance.")
         with self.assertRaisesRegex(ValueError, msg):
             make_hierarchy([goodcsi], [self.features, self.features2])
+
+    def test_unequal_ms2_match_ftables(self):
+        goodcsi = self.goodcsi.view(CSIDirFmt)
+        goodcsi2 = self.goodcsi2.view(CSIDirFmt)
+        msg = ("The MS2 match tables should have a one-to-one "
+               "correspondance with feature tables and CSI results.")
+        with self.assertRaisesRegex(ValueError, msg):
+            make_hierarchy([goodcsi, goodcsi2],
+                           [self.features, self.features2],
+                           [self.ms2_match1])
 
     def test_mergeFeatureDataSingle(self):
         goodcsi1 = self.goodcsi.view(CSIDirFmt)
