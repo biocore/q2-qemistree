@@ -103,15 +103,15 @@ qiime qemistree predict-fingerprints --p-sirius-path 'sirius-osx64-4.0.1/bin' \
   ```
 
 This gives us a QIIME 2 artifact of type `CSIFolder` that contains probabilities of molecular substructures (total 2936 molecular properties) within in each feature.
-Now, we use these predicted molecular substructures to generate a hierarchy of molecules as follows:
+We use these predicted molecular substructures to generate a hierarchy of molecules as follows:
 
 ```bash
 qiime qemistree make-hierarchy \
   --i-csi-results fingerprints.qza \
   --i-feature-tables feature-table.qza \
   --o-tree qemistree.qza \
-  --o-merged-feature-table feature-table-hashed.qza \
-  --o-merged-feature-data feature-data.qza
+  --o-feature-table feature-table-hashed.qza \
+  --o-feature-data feature-data.qza
 ```
 
 To support meta-analyses, this method is capable of handling one or more datasets i.e pairs of CSI results and feature tables. You will need to download a new feature table and csi fingerprint result from another experiment to test this functionality as follows:
@@ -134,14 +134,32 @@ qiime qemistree make-hierarchy \
 --o-merged-feature-table merged-feature-table-hashed.qza \
 --o-merged-feature-data merged-feature-data.qza
 ```
+Additionally, Qemistree also supports the inclusion of structural annotations made using MS/MS spectral library matches for downstream analysis using the optional input `--i-ms2-matches` as follows:
 
-**Note:** The input CSI results and feature tables should have a one-to-one correspondence i.e csi results and feature tables from all datasets should be provided in the same order.
+```bash
+qiime qemistree make-hierarchy \
+  --i-csi-results fingerprints.qza \
+  --i-feature-tables feature-table.qza \
+  --i-ms2_matches /path-to-MS2-spectral-matches.qza/ \
+  --o-tree qemistree.qza \
+  --o-feature-table feature-table-hashed.qza \
+  --o-feature-data feature-data.qza
+```
+
+**Note:**
+1. The input to `--i-ms2-matches` can be obtained using [Feature-based molecular networking or FBMN](https://gnps.ucsd.edu/ProteoSAFe/index.jsp?params=%7B%22workflow%22:%22FEATURE-BASED-MOLECULAR-NETWORKING%22,%22library_on_server%22:%22d.speclibs;%22%7D) workflow supported in the web-based mass-spectrometry data analysis platform, [GNPS](https://gnps.ucsd.edu/). To use MS2 matches in Qemistree, please download the results of FBMN workflow and import the tsv file in the folder `DB_result` as a QIIME2 artifact of type `FeatureData[Molecules]` as follows:
+
+```bash
+qiime tools import --input-path /path-to-MS2-spectral-matches.tsv/ --output-path /path-to-MS2-spectral-matches.qza/ --type FeatureData[Molecules]
+```
+
+2. The input CSI results, feature tables and ms2 match tables should have a one-to-one correspondence i.e CSI results, feature tables and MS2 match tables from all datasets should be provided in the same order.
 
 This method generates the following:
 1. A combined feature table by merging all the input feature tables; MS1 features without fingerprints are filtered out of this feature table. This is done because SIRIUS predicts molecular substructures for a subset of features (typically for 70-90% of all MS1 features) in an experiment (based on factors such as sample type, the quality MS2 spectra, and user-defined tolerances such as `--p-ppm-max`, `--p-zodiac-threshold`). This output is of type `FeatureTable[Frequency]`.
 2. A tree relating the MS1 features in these data based on molecular substructures predicted for MS1 features. This is of type `Phylogeny[Rooted]`. By default, we retain all fingerprint positions i.e. 2936 molecular properties). Adding `--p-qc-properties` filters these properties to keep only PubChem fingerprint positions (489 molecular properties) in the contingency table.
 **Note**: The latest release of [SIRIUS](https://www.nature.com/articles/s41592-019-0344-8) uses PubChem version downloaded on 13 August 2017.
-3. A combined feature data file that contains unique identifiers of each feature, their corresponding original feature identifier (row ID in Mzmine2), CSI:FingerID structure predictions (SMILES), and the table(s) that each feature was detected in. This is of type `FeatureData[Molecules]`. (The renaming of features needs to be done to avoid overlapping, non-unique feature identifiers in the original feature table)
+3. A combined feature data file that contains unique identifiers of each feature, their corresponding original feature identifier (row ID from Mzmine2), CSI:FingerID structure predictions (`csi_smiles`), MS2 match structure predictions (`ms2_smiles`; when ms2 match table provided), and the table(s) (`table_number`) that each feature was detected in. This is of type `FeatureData[Molecules]`. (The renaming of features needs to be done to avoid overlapping, non-unique feature identifiers in the original feature table)
 
 These can be used as inputs to perform chemical phylogeny-based [alpha-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/beta-phylogenetic/) analyses.
 
@@ -152,7 +170,7 @@ qiime qemistree get-classyfire-taxonomy \
   --i-feature-data merged-feature-data.qza \
   --o-classified-feature-data classified-merged-feature-data.qza
 ```
-
+By default, Qemistree will use `ms2_smiles` to make chemical taxonomy assignments. When MS2 matches are not available, `csi_smiles` will be used. the column `annotation_type` in `classified-merged-feature-data.qza` specifies if the taxonomic assignment was done using CSI:FingerID predictions or MS/MS library matches.
 Lastly, Qemistree includes some utility functions that are most useful if users would like to visualize the molecular hierarchy generated above.
 
 1. Prune molecular hierarchy to keep only the molecules with annotations.
