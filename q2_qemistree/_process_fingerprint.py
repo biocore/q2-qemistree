@@ -54,7 +54,7 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False):
 
 
 def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
-                       ms2_match: pd.DataFrame):
+                       ms2_match: pd.DataFrame = None):
     '''This function gets the SMILES of mass-spec features from
     CSI:FingerID result
     '''
