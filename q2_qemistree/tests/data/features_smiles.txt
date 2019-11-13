@@ -1,4 +1,4 @@
-#featureID	smiles
-3	
-7	CC(=N)C1=CN(C)C=N1
-2	
+#featureID	csi_smiles	ms2_smiles
+3		
+7	CC(=N)C1=CN(C)C=N1	
+2		
