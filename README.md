@@ -153,7 +153,7 @@ qiime qemistree make-hierarchy \
 qiime tools import --input-path path-to-MS2-spectral-matches.tsv --output-path path-to-MS2-spectral-matches.qza --type FeatureData[Molecules]
 ```
 
-2. The input CSI results, feature tables and ms2 match tables should have a one-to-one correspondence i.e CSI results, feature tables and MS2 match tables from all datasets should be provided in the same order.
+2. The input CSI results, feature tables and MS2 match tables should have a one-to-one correspondence i.e CSI results, feature tables and MS2 match tables from all datasets should be provided in the same order.
 
 This method generates the following:
 1. A combined feature table by merging all the input feature tables; MS1 features without fingerprints are filtered out of this feature table. This is done because SIRIUS predicts molecular substructures for a subset of features (typically for 70-90% of all MS1 features) in an experiment (based on factors such as sample type, the quality MS2 spectra, and user-defined tolerances such as `--p-ppm-max`, `--p-zodiac-threshold`). This output is of type `FeatureTable[Frequency]`.
