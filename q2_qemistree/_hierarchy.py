@@ -103,9 +103,8 @@ def make_hierarchy(csi_results: CSIDirFmt,
     if ms2_matches and len(ms2_matches) != len(feature_tables):
         raise ValueError("The MS2 match tables should have a one-to-one "
                          "correspondance with feature tables and CSI results.")
-    for n, dataset in enumerate(zip(feature_tables, csi_results)):
-        feature_table = dataset[0]
-        csi_result = dataset[1]
+    for n, (feature_table, csi_result) in enumerate(zip(feature_tables,
+                                                        csi_results)):
         if feature_table.is_empty():
             raise ValueError("Cannot have empty feature table")
         if ms2_matches:
