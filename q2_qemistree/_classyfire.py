@@ -26,7 +26,8 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
     Raises
     ------
     ValueError
-        If feature data does not contain the column 'smiles'
+        If feature data does not contain the column 'csi_smiles' and
+        'ms2_smiles'
         If all SMILES are NaNs
 
     Returns
