@@ -150,10 +150,10 @@ qiime qemistree make-hierarchy \
 1. The input to `--i-ms2-matches` can be obtained using [Feature-based molecular networking or FBMN](https://gnps.ucsd.edu/ProteoSAFe/index.jsp?params=%7B%22workflow%22:%22FEATURE-BASED-MOLECULAR-NETWORKING%22,%22library_on_server%22:%22d.speclibs;%22%7D) workflow supported in the web-based mass-spectrometry data analysis platform, [GNPS](https://gnps.ucsd.edu/). To use MS2 matches in Qemistree, please download the results of FBMN workflow and import the tsv file in the folder `DB_result` as a QIIME2 artifact of type `FeatureData[Molecules]` as follows:
 
 ```bash
-qiime tools import --input-path /path-to-MS2-spectral-matches.tsv/ --output-path /path-to-MS2-spectral-matches.qza/ --type FeatureData[Molecules]
+qiime tools import --input-path path-to-MS2-spectral-matches.tsv --output-path path-to-MS2-spectral-matches.qza --type FeatureData[Molecules]
 ```
 
-2. The input CSI results, feature tables and ms2 match tables should have a one-to-one correspondence i.e CSI results, feature tables and MS2 match tables from all datasets should be provided in the same order.
+2. The input CSI results, feature tables and MS2 match tables should have a one-to-one correspondence i.e CSI results, feature tables and MS2 match tables from all datasets should be provided in the same order.
 
 This method generates the following:
 1. A combined feature table by merging all the input feature tables; MS1 features without fingerprints are filtered out of this feature table. This is done because SIRIUS predicts molecular substructures for a subset of features (typically for 70-90% of all MS1 features) in an experiment (based on factors such as sample type, the quality MS2 spectra, and user-defined tolerances such as `--p-ppm-max`, `--p-zodiac-threshold`). This output is of type `FeatureTable[Frequency]`.
