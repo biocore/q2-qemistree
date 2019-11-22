@@ -56,7 +56,7 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False):
 def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
                        ms2_match: pd.DataFrame = None):
     '''This function gets the SMILES of mass-spec features from
-    CSI:FingerID result
+    CSI:FingerID and optionally, MS/MS library match results
     '''
     if isinstance(csi_result, CSIDirFmt):
         csi_result = str(csi_result.get_path())
@@ -64,13 +64,11 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
     csi_summary = pd.read_csv(csi_summary, dtype=str,
                               sep='\t').set_index('experimentName')
     smiles = pd.DataFrame(index=collated_fps.index)
-    smiles['csi_smiles'] = [csi_summary.loc[idx, 'smiles']
-                            for idx in smiles.index]
+    smiles['csi_smiles'] = csi_summary.loc[smiles.index, 'smiles']
     smiles['ms2_smiles'] = np.nan
     if ms2_match is not None:
         ms2_ids = ms2_match.index.intersection(smiles.index)
-        for idx in ms2_ids:
-            smiles.loc[idx, 'ms2_smiles'] = ms2_match.loc[idx, 'Smiles']
+        smiles.loc[idx, 'ms2_smiles'] = ms2_match.loc[ms2_ids, 'Smiles']
     return smiles
 
 
