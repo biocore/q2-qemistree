@@ -64,7 +64,7 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
     csi_summary = pd.read_csv(csi_summary, dtype=str,
                               sep='\t').set_index('experimentName')
     smiles = pd.DataFrame(index=collated_fps.index)
-    smiles['csi_smiles'] = [csi_summary.loc[idx, 'smiles']
+    smiles['csi_smiles'] = csi_summary.loc[smiles.index, 'smiles']
                             for idx in smiles.index]
     smiles['ms2_smiles'] = np.nan
     if ms2_match is not None:
