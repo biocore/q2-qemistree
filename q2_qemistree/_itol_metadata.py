@@ -60,8 +60,12 @@ def get_itol_visualization(classified_feature_data: str,
                  'DATA\n')
         for idx in fdata.index:
             color = color_map[fdata.loc[idx, classyfire_level]]
-            fh.write(idx + '\t' + 'clade\t' +
-                     color + '\tnormal\t4\n')
+            if fdata.loc[idx, 'annotation_type'] == 'MS2':
+                fh.write(idx + '\t' + 'clade\t' +
+                         color + '\tnormal\t6\n')
+            if fdata.loc[idx, 'annotation_type'] == 'CSIFingerID':
+                fh.write(idx + '\t' + 'clade\t' +
+                         color + '\tdashed\t4\n')
     with open(label_file_path, 'w+') as fh:
         fh.write('LABELS\n'
                  'SEPARATOR TAB\n'

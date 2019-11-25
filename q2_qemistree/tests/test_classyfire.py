@@ -13,7 +13,7 @@ import numpy as np
 from q2_qemistree import get_classyfire_taxonomy
 
 
-class TestHierarchy(TestCase):
+class TestClassyfire(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         no_smiles = os.path.join(THIS_DIR, 'data/feature_data_no_smiles.txt')
@@ -23,23 +23,26 @@ class TestHierarchy(TestCase):
         self.smiles = pd.read_csv(smiles, sep='\t')
         self.smiles.set_index('label')
         self.nan_smiles = pd.DataFrame(index=['a', 'b', 'c'],
-                                       data=[np.nan, np.nan, np.nan],
-                                       columns=['smiles'])
-        self.mal_smiles = pd.DataFrame(index=['a', 'b', 'c'],
-                                       data=[np.nan, 'foo', 'bar'],
-                                       columns=['smiles'])
+                                       data=[[np.nan, np.nan],
+                                             [np.nan, np.nan],
+                                             [np.nan, np.nan]],
+                                       columns=['csi_smiles', 'ms2_smiles'])
+        self.mal_smiles = pd.DataFrame(index=['a', 'b'],
+                                       data=[[np.nan, 'foo'],
+                                             ['bar', np.nan]],
+                                       columns=['csi_smiles', 'ms2_smiles'])
         self.levels = set(['kingdom', 'superclass', 'class', 'subclass',
-                          'direct_parent'])
+                          'direct_parent', 'annotation_type'])
 
     def test_no_smiles(self):
-        msg = ('Feature data table must contain the column `smiles` '
-               'to run Classyfire')
+        msg = ('Feature data table must contain the columns `csi_smiles` '
+               'and `ms2_smiles` to run Classyfire')
         with self.assertRaisesRegex(ValueError, msg):
             get_classyfire_taxonomy(self.no_smiles)
 
     def test_nan_smiles(self):
-        msg = ("The column 'smiles' in feature data table should have at least"
-               " one structural annotation to run Classyfire")
+        msg = ("The feature data table should have at least one structural "
+               "annotation to run Classyfire")
         with self.assertRaisesRegex(ValueError, msg):
             get_classyfire_taxonomy(self.nan_smiles)
 

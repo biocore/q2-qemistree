@@ -58,8 +58,9 @@ def merge_feature_data(fdata: pd.DataFrame) -> pd.DataFrame:
 
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
-                   qc_properties: bool = False) -> (TreeNode,
-                                                    biom.Table, pd.DataFrame):
+                   ms2_matches: pd.DataFrame = None,
+                   qc_properties: bool = False) -> (TreeNode, biom.Table,
+                                                    pd.DataFrame):
     '''
     This function generates a hierarchy of mass-spec features based on
     predicted chemical fingerprints. It filters the feature table to
@@ -72,6 +73,8 @@ def make_hierarchy(csi_results: CSIDirFmt,
         one or more CSI:FingerID output folder
     feature_table : biom.Table
         one or more feature tables with mass-spec feature intensity per sample
+    ms2_matches: pd.DataFrame
+        one or more tables with MS/MS library match for mass-spec features
     qc_properties : bool, default False
         flag to filter molecular properties to keep only PUBCHEM fingerprints
 
@@ -97,12 +100,26 @@ def make_hierarchy(csi_results: CSIDirFmt,
     if len(feature_tables) != len(csi_results):
         raise ValueError("The feature tables and CSI results should have a "
                          "one-to-one correspondance.")
-    for feature_table, csi_result in zip(feature_tables, csi_results):
+    if ms2_matches and len(ms2_matches) != len(feature_tables):
+        raise ValueError("The MS2 match tables should have a one-to-one "
+                         "correspondance with feature tables and CSI results.")
+    for n, (feature_table, csi_result) in enumerate(zip(feature_tables,
+                                                        csi_results)):
         if feature_table.is_empty():
             raise ValueError("Cannot have empty feature table")
-        fingerprints, smiles = process_csi_results(csi_result, qc_properties)
+        if ms2_matches:
+            ms2_match = ms2_matches[n]
+            if 'Smiles' not in ms2_match.columns:
+                raise ValueError("MS2 match tables must contain the "
+                                 "column `Smiles`")
+            collated_fps, smiles = process_csi_results(csi_result,
+                                                       qc_properties,
+                                                       ms2_match)
+        else:
+            collated_fps, smiles = process_csi_results(csi_result,
+                                                       qc_properties)
         relabeled_fp, matched_ft, feature_data = get_matched_tables(
-            fingerprints, smiles, feature_table)
+            collated_fps, smiles, feature_table)
         fps.append(relabeled_fp)
         fts.append(matched_ft)
         fdata.append(feature_data)

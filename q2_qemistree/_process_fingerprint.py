@@ -8,6 +8,7 @@
 
 import os
 import pandas as pd
+import numpy as np
 import pkg_resources
 
 from ._semantics import CSIDirFmt
@@ -52,25 +53,31 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False):
     return collated_fps
 
 
-def get_feature_smiles(csi_result: CSIDirFmt, fingerids: pd.DataFrame):
+def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
+                       ms2_match: pd.DataFrame = None):
     '''This function gets the SMILES of mass-spec features from
-    CSI:FingerID result
+    CSI:FingerID and optionally, MS/MS library match results
     '''
     if isinstance(csi_result, CSIDirFmt):
         csi_result = str(csi_result.get_path())
     csi_summary = os.path.join(csi_result, 'summary_csi_fingerid.csv')
     csi_summary = pd.read_csv(csi_summary, dtype=str,
                               sep='\t').set_index('experimentName')
-    smiles = pd.DataFrame(index=fingerids.index)
-    smiles['smiles'] = [csi_summary.loc[idx, 'smiles'] for idx in smiles.index]
+    smiles = pd.DataFrame(index=collated_fps.index)
+    smiles['csi_smiles'] = csi_summary.loc[smiles.index, 'smiles']
+    smiles['ms2_smiles'] = np.nan
+    if ms2_match is not None:
+        ms2_ids = ms2_match.index.intersection(smiles.index)
+        smiles.loc['ms2_smiles'] = ms2_match.loc[ms2_ids, 'Smiles']
     return smiles
 
 
-def process_csi_results(csi_result: CSIDirFmt,
-                        qc_properties: bool) -> (pd.DataFrame, pd.DataFrame):
+def process_csi_results(csi_result: CSIDirFmt, qc_properties: bool,
+                        ms2_match: pd.DataFrame = None) -> (pd.DataFrame,
+                                                            pd.DataFrame):
     '''This function parses CSI:FingerID result to generate tables
     of collated molecular fingerprints and SMILES for mass-spec features
     '''
     collated_fps = collate_fingerprint(csi_result, qc_properties)
-    feature_smiles = get_feature_smiles(csi_result, collated_fps)
+    feature_smiles = get_feature_smiles(csi_result, collated_fps, ms2_match)
     return collated_fps, feature_smiles

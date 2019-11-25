@@ -66,10 +66,12 @@ def get_matched_tables(collated_fingerprints: pd.DataFrame,
         list_md5.append(md5)
     fps['label'] = list_md5
     filtered_table['label'] = list_md5
-    feature_data = pd.DataFrame(columns=['label', '#featureID', 'smiles'])
+    feature_data = pd.DataFrame(columns=['label', '#featureID',
+                                         'csi_smiles', 'ms2_smiles'])
     feature_data['label'] = list_md5
     feature_data['#featureID'] = allfps
-    feature_data['smiles'] = list(smiles.loc[allfps, 'smiles'])
+    feature_data['csi_smiles'] = list(smiles.loc[allfps, 'csi_smiles'])
+    feature_data['ms2_smiles'] = list(smiles.loc[allfps, 'ms2_smiles'])
     feature_data.set_index('label', inplace=True)
     relabel_fps = fps.groupby('label').first()
     matched_table = filtered_table.groupby('label').sum()

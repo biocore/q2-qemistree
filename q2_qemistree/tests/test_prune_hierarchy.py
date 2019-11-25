@@ -42,9 +42,9 @@ class TestPruning(TestCase):
                                          columns=['class', 'faces'])
 
     def test_no_smiles(self):
-        msg = "The feature data does not contain the column 'smiles'"
+        msg = "The feature data does not contain the column 'csi_smiles'"
         with self.assertRaisesRegex(ValueError, msg):
-            prune_hierarchy(self.no_column, self.tree, 'smiles')
+            prune_hierarchy(self.no_column, self.tree, 'csi_smiles')
 
     def test_no_annotation(self):
         msg = ('Tree pruning aborted! There are less than two tree tips with '
@@ -56,8 +56,8 @@ class TestPruning(TestCase):
     def test_invalid_column(self):
         msg = ('Pruning cannot be applied on column "faces". The only options '
                'are: kingdom, superclass, class, subclass, direct_parent, '
-               'smiles. If your feature data does not include this '
-               'information, consider using get_classyfire_taxonomy.')
+               'csi_smiles, ms2_smiles. If your feature data does not include '
+               'this information, consider using get_classyfire_taxonomy.')
 
         with self.assertRaisesRegex(ValueError, msg):
             prune_hierarchy(self.invalid_column, self.tree, 'faces')
