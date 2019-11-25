@@ -26,25 +26,50 @@ class TestHierarchy(TestCase):
         goodtable = os.path.join(THIS_DIR, 'data/features_formated.biom')
         self.features = load_table(goodtable)
         goodtable = os.path.join(THIS_DIR, 'data/features2_formated.biom')
+        ms2_match = os.path.join(THIS_DIR, 'data/ms2_match.txt')
+        self.ms2_match = pd.read_csv(ms2_match, sep='\t', index_col=0)
         self.features2 = load_table(goodtable)
         self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                                          'data/csiFolder.qza'))
         self.goodcsi2 = qiime2.Artifact.load(os.path.join(
-                                            THIS_DIR, 'data/csiFolder2.qza'))
+                                             THIS_DIR, 'data/csiFolder2.qza'))
 
-    def test_unequal_inputs(self):
+    def test_unequalFtablesCSI(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)
         msg = ("The feature tables and CSI results should have a one-to-one"
                " correspondance.")
         with self.assertRaisesRegex(ValueError, msg):
             make_hierarchy([goodcsi], [self.features, self.features2])
 
+    def test_unequalMS2MatchesFtables(self):
+        goodcsi = self.goodcsi.view(CSIDirFmt)
+        goodcsi2 = self.goodcsi2.view(CSIDirFmt)
+        ms2_match1 = pd.DataFrame(index=['2', '4'], columns=['Smiles'])
+        msg = ("The MS2 match tables should have a one-to-one "
+               "correspondance with feature tables and CSI results.")
+        with self.assertRaisesRegex(ValueError, msg):
+            make_hierarchy([goodcsi, goodcsi2],
+                           [self.features, self.features2], [ms2_match1])
+
+    def test_MS2NoSmiles(self):
+        goodcsi = self.goodcsi.view(CSIDirFmt)
+        goodcsi2 = self.goodcsi2.view(CSIDirFmt)
+        ms2_match1 = pd.DataFrame(index=['2', '4'], columns=[])
+        ms2_match2 = pd.DataFrame(index=['10', '12'], columns=['Smiles'])
+        msg = "MS2 match tables must contain the column `Smiles`"
+        with self.assertRaisesRegex(ValueError, msg):
+            make_hierarchy([goodcsi, goodcsi2],
+                           [self.features, self.features2],
+                           [ms2_match1, ms2_match2])
+
     def test_mergeFeatureDataSingle(self):
         goodcsi1 = self.goodcsi.view(CSIDirFmt)
         treeout, merged_fts, merged_fdata = make_hierarchy(
-            [goodcsi1], [self.features])
+            [goodcsi1], [self.features], [self.ms2_match])
         featrs = sorted(list(merged_fts.ids(axis='observation')))
         fdata_featrs = sorted(list(merged_fdata.index))
+        self.assertEqual('csi_smiles' in merged_fdata.columns, True)
+        self.assertEqual('ms2_smiles' in merged_fdata.columns, True)
         self.assertEqual(len(featrs) == 3, True)
         self.assertEqual(fdata_featrs, featrs)
 

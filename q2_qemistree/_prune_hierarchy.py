@@ -24,8 +24,8 @@ def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
     column : str
         The column used to prune the phylogeny. All elements with no data in
         this column will be removed from the phylogeny. The choices are one of:
-        `'kingdom'`, `'superclass'`, `'class'`, `'subclass'`, `'direct_parent'`
-        and `'smiles'`.
+        `'kingdom'`, `'superclass'`, `'class'`, `'subclass'`,
+        `'direct_parent'`, `'csi_smiles'` and `'ms2-smiles'`.
 
     Raises
     ------
@@ -40,7 +40,7 @@ def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
     '''
 
     known = ['kingdom', 'superclass', 'class', 'subclass', 'direct_parent',
-             'smiles']
+             'csi_smiles', 'ms2_smiles']
 
     if column not in feature_data.columns:
         raise ValueError("The feature data does not contain the column '%s'" %
