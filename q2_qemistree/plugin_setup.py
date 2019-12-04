@@ -202,7 +202,8 @@ plugin.methods.register_function(
     description='Removes non-annotated tree tips based on feature data',
     inputs={'feature_data': FeatureData[Molecules],
             'tree': Phylogeny[Rooted]},
-    parameters={'column': Str % Choices(['smiles', 'kingdom', 'superclass',
+    parameters={'column': Str % Choices(['ms2_smiles', 'csi_smiles',
+                                         'kingdom', 'superclass',
                                          'class', 'subclass',
                                          'direct_parent'])},
     input_descriptions={'feature_data': 'Feature data table with Classyfire '
