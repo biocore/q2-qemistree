@@ -67,8 +67,9 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
     smiles['csi_smiles'] = csi_summary.loc[smiles.index, 'smiles']
     smiles['ms2_smiles'] = np.nan
     if ms2_match is not None:
+        ms2_match.index = [str(idx) for idx in ms2_match.index]
         ms2_ids = ms2_match.index.intersection(smiles.index)
-        smiles.loc['ms2_smiles'] = ms2_match.loc[ms2_ids, 'Smiles']
+        smiles['ms2_smiles'] = ms2_match.loc[ms2_ids, 'Smiles']
     return smiles
 
 
