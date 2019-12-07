@@ -70,6 +70,8 @@ class TestHierarchy(TestCase):
         fdata_featrs = sorted(list(merged_fdata.index))
         self.assertEqual('csi_smiles' in merged_fdata.columns, True)
         self.assertEqual('ms2_smiles' in merged_fdata.columns, True)
+        self.assertEqual(len(merged_fdata[pd.notna(
+            merged_fdata.ms2_smiles)]), 1)
         self.assertEqual(len(featrs) == 3, True)
         self.assertEqual(fdata_featrs, featrs)
 
