@@ -19,13 +19,14 @@ from ._match import get_matched_tables
 from ._semantics import CSIDirFmt
 
 
-def build_tree(relabeled_fingerprints: pd.DataFrame) -> TreeNode:
+def build_tree(relabeled_fingerprints: pd.DataFrame,
+               fingerprint_cluster: str = 'euclidean') -> TreeNode:
     '''
     This function makes a tree of relatedness between mass-spectrometry
     features using molecular substructure fingerprints.
     '''
     distmat = pairwise_distances(X=relabeled_fingerprints.values,
-                                 Y=None, metric='euclidean')
+                                 Y=None, metric=fingerprint_cluster)
     distsq = squareform(distmat, checks=False)
     linkage_matrix = linkage(distsq, method='average')
     tree = TreeNode.from_linkage_matrix(linkage_matrix,
@@ -59,8 +60,10 @@ def merge_feature_data(fdata: pd.DataFrame) -> pd.DataFrame:
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
                    ms2_matches: pd.DataFrame = None,
-                   qc_properties: bool = False) -> (TreeNode, biom.Table,
-                                                    pd.DataFrame):
+                   qc_properties: bool = False,
+                   fingerprint_cluster: str = 'euclidean') -> (TreeNode,
+                                                               biom.Table,
+                                                               pd.DataFrame):
     '''
     This function generates a hierarchy of mass-spec features based on
     predicted chemical fingerprints. It filters the feature table to
@@ -77,6 +80,8 @@ def make_hierarchy(csi_results: CSIDirFmt,
         one or more tables with MS/MS library match for mass-spec features
     qc_properties : bool, default False
         flag to filter molecular properties to keep only PUBCHEM fingerprints
+    fingerprint_cluster : str, default `euclidean`
+        metric for hierarchical clustering of fingerprints
 
     Raises
     ------
@@ -127,5 +132,5 @@ def make_hierarchy(csi_results: CSIDirFmt,
     merged_fps = pd.concat(fps)
     merged_fps = merged_fps[~merged_fps.index.duplicated(keep='first')]
     merged_fts = merge(fts, overlap_method='error_on_overlapping_sample')
-    tree = build_tree(merged_fps)
+    tree = build_tree(merged_fps, fingerprint_cluster)
     return tree, merged_fts, merged_fdata
