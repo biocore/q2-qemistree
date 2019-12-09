@@ -153,7 +153,7 @@ plugin.methods.register_function(
     inputs={'csi_results': List[CSIFolder],
             'feature_tables': List[FeatureTable[Frequency]],
             'ms2_matches': List[FeatureData[Molecules]]},
-    parameters={'qc_properties': Bool},
+    parameters={'qc_properties': Bool, 'fingerprint_cluster': Str},
     input_descriptions={'csi_results': 'one or more CSI:FingerID '
                                        'output folders',
                         'feature_tables': 'one or more feature tables with '
@@ -162,7 +162,10 @@ plugin.methods.register_function(
                         'ms2_matches': 'one or more tables with MS/MS library '
                                        'match for mass-spec features'},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
-                                             'retain PUBCHEM fingerprints'},
+                                             'retain PUBCHEM fingerprints',
+                            'fingerprint_cluster' : 'metric for hierarchical '
+                                                    'clustering of '
+                                                    'fingerprints'},
     outputs=[('tree', Phylogeny[Rooted]),
              ('feature_table', FeatureTable[Frequency]),
              ('feature_data', FeatureData[Molecules])],
