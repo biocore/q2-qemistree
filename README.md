@@ -140,7 +140,7 @@ Additionally, Qemistree also supports the inclusion of structural annotations ma
 qiime qemistree make-hierarchy \
   --i-csi-results fingerprints.qza \
   --i-feature-tables feature-table.qza \
-  --i-ms2_matches /path-to-MS2-spectral-matches.qza/ \
+  --i-ms2-matches /path-to-MS2-spectral-matches.qza/ \
   --o-tree qemistree.qza \
   --o-feature-table feature-table-hashed.qza \
   --o-feature-data feature-data.qza
