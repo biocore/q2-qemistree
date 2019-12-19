@@ -179,7 +179,7 @@ Lastly, Qemistree includes some utility functions that are most useful if users 
 qiime qemistree prune-hierarchy \
   --i-feature-data classified-merged-feature-data.qza \
   --p-column subclass \
-  --i-tree merged-qemistree.qza
+  --i-tree merged-qemistree.qza \
   --o-pruned-tree merged-qemistree-subclass.qza
 ```
 
