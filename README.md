@@ -191,8 +191,8 @@ Users can choose one of the following data columns (`--p-column`) for pruning: '
 python _itol_metadata.py \
   --classified-feature-data classified-merged-feature-data.qza \
   --classyfire-level subclass \
-  --color-file-path /path-to-clade-colors-file/ \
-  --label-file-path /path-to-tip-label-files/
+  --color-file-path /path-to-clade-colors-file.txt \
+  --label-file-path /path-to-tip-label-files.txt
 ```
 
 **Note:** The above command assumes that users are located in `q2-qemistree/q2_qemistree` folder. You will have to provide the full path to the file `_itol_metadata.py` if you are operating from another location on disk.
