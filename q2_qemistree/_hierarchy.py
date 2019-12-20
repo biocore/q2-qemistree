@@ -20,7 +20,7 @@ from ._semantics import CSIDirFmt
 
 
 def build_tree(relabeled_fingerprints: pd.DataFrame,
-               fingerprint_cluster: str = 'euclidean') -> TreeNode:
+               metric: str = 'euclidean') -> TreeNode:
     '''
     This function makes a tree of relatedness between mass-spectrometry
     features using molecular substructure fingerprints.
@@ -116,14 +116,12 @@ def make_hierarchy(csi_results: CSIDirFmt,
             if 'Smiles' not in ms2_match.columns:
                 raise ValueError("MS2 match tables must contain the "
                                  "column `Smiles`")
-            collated_fps, smiles = process_csi_results(csi_result,
+            collated_fps, smiles = process_csi_results(csi_result, ms2_match,
                                                        qc_properties,
-                                                       ms2_match,
-                                                       metric)
+                                                       metric=metric)
         else:
             collated_fps, smiles = process_csi_results(csi_result,
-                                                       qc_properties,
-                                                       metric)
+                qc_properties=qc_properties, metric=metric)
         relabeled_fp, matched_ft, feature_data = get_matched_tables(
             collated_fps, smiles, feature_table)
         fps.append(relabeled_fp)
