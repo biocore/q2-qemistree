@@ -120,8 +120,8 @@ def make_hierarchy(csi_results: CSIDirFmt,
                                                        qc_properties,
                                                        metric=metric)
         else:
-            collated_fps, smiles = process_csi_results(csi_result,
-                qc_properties=qc_properties, metric=metric)
+            collated_fps, smiles = process_csi_results(csi_result, None,
+                                                       qc_properties, metric)
         relabeled_fp, matched_ft, feature_data = get_matched_tables(
             collated_fps, smiles, feature_table)
         fps.append(relabeled_fp)
