@@ -76,8 +76,8 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
     return smiles
 
 
-def process_csi_results(csi_result: CSIDirFmt, qc_properties: bool,
-                        ms2_match: pd.DataFrame = None,
+def process_csi_results(csi_result: CSIDirFmt, ms2_match: pd.DataFrame = None,
+                        qc_properties: bool = False,
                         metric: str = 'euclidean') -> (pd.DataFrame,
                                                        pd.DataFrame):
     '''This function parses CSI:FingerID result to generate tables
