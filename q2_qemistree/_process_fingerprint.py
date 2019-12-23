@@ -73,6 +73,8 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
         ms2_match.index = ms2_match.index.astype(str)
         ms2_ids = ms2_match.index.intersection(smiles.index)
         smiles['ms2_smiles'] = ms2_match.loc[ms2_ids, 'Smiles']
+        smiles.loc['ms2_compound'] = ms2_match.loc[ms2_ids, 'Compound_Name']
+        smiles.loc['ms2_adduct'] = ms2_match.loc[ms2_ids, 'Adduct']
     return smiles
 
 
