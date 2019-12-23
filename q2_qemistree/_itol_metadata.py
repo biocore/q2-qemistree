@@ -36,8 +36,9 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
 @click.option('--classified-feature-data', required=True, type=str,
               help='Path to feature data with Classyfire taxonomy.')
 @click.option('--feature-data-column', default='class', type=str,
-              help="One of the Classyfire levels in ['kingdom', "
-              "'superclass', 'class', 'subclass', 'direct_parent']")
+              help='One of the columns in feature data table')
+@click.option('--ms2-label', default=True, type=bool,
+              help='Option to label tree tips with MS/MS library match')
 @click.option('--color-file-path', default='./itol_colors.txt', type=str,
               help='Path to file with colors specifications for tree clades')
 @click.option('--label-file-path', default='./itol_labels.txt', type=str,
