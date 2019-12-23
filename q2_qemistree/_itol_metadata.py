@@ -47,6 +47,7 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
               ' allowed by seaborn.color_palette()')
 def get_itol_visualization(classified_feature_data: str,
                            feature_data_column: str = 'class',
+                           ms2_label: bool = True,
                            color_file_path: str = './itol_colors.txt',
                            label_file_path: str = './itol_labels.txt',
                            color_palette: str = 'husl'):
@@ -70,9 +71,18 @@ def get_itol_visualization(classified_feature_data: str,
         fh.write('LABELS\n'
                  'SEPARATOR TAB\n'
                  'DATA\n')
-        for idx in fdata.index:
-            label = fdata.loc[idx, feature_data_column]
-            fh.write(idx + '\t' + label + '\n')
+        if ms2_label:
+            for idx in fdata.index:
+                ms2_compound = fdata.loc[idx, 'ms2_compound']
+                if pd.notna(ms2_compound) and not ms2_compound.isspace():
+                    label = ms2_compound
+                else:
+                    label = fdata.loc[idx, feature_data_column]
+                    fh.write(idx + '\t' + label + '\n')
+        else:
+            for idx in fdata.index:
+                label = fdata.loc[idx, feature_data_column]
+                fh.write(idx + '\t' + label + '\n')
 
 
 if __name__ == '__main__':
