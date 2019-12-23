@@ -72,6 +72,8 @@ def get_matched_tables(collated_fingerprints: pd.DataFrame,
     feature_data['#featureID'] = allfps
     feature_data['csi_smiles'] = list(smiles.loc[allfps, 'csi_smiles'])
     feature_data['ms2_smiles'] = list(smiles.loc[allfps, 'ms2_smiles'])
+    feature_data['ms2_compound'] = list(smiles.loc[allfps, 'ms2_compound'])
+    feature_data['ms2_adduct'] = list(smiles.loc[allfps, 'ms2_adduct'])
     feature_data.set_index('label', inplace=True)
     relabel_fps = fps.groupby('label').first()
     matched_table = filtered_table.groupby('label').sum()
