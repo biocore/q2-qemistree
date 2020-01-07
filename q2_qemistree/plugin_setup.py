@@ -165,7 +165,10 @@ plugin.methods.register_function(
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints',
                             'metric' : 'metric for hierarchical clustering of '
-                                       'fingerprints'},
+                                       'fingerprints. If the Jaccard metric is'
+                                       ' selected, molecular fingerprints are '
+                                       'first binarized (probabilities above '
+                                       '0.5 are True, and False otherwise).'},
     outputs=[('tree', Phylogeny[Rooted]),
              ('feature_table', FeatureTable[Frequency]),
              ('feature_data', FeatureData[Molecules])],
