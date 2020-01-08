@@ -153,7 +153,8 @@ plugin.methods.register_function(
     inputs={'csi_results': List[CSIFolder],
             'feature_tables': List[FeatureTable[Frequency]],
             'ms2_matches': List[FeatureData[Molecules]]},
-    parameters={'qc_properties': Bool},
+    parameters={'qc_properties': Bool,
+                'metric': Str % Choices(['euclidean', 'jaccard'])},
     input_descriptions={'csi_results': 'one or more CSI:FingerID '
                                        'output folders',
                         'feature_tables': 'one or more feature tables with '
@@ -162,7 +163,12 @@ plugin.methods.register_function(
                         'ms2_matches': 'one or more tables with MS/MS library '
                                        'match for mass-spec features'},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
-                                             'retain PUBCHEM fingerprints'},
+                                             'retain PUBCHEM fingerprints',
+                            'metric' : 'metric for hierarchical clustering of '
+                                       'fingerprints. If the Jaccard metric is'
+                                       ' selected, molecular fingerprints are '
+                                       'first binarized (probabilities above '
+                                       '0.5 are True, and False otherwise).'},
     outputs=[('tree', Phylogeny[Rooted]),
              ('feature_table', FeatureTable[Frequency]),
              ('feature_data', FeatureData[Molecules])],
@@ -202,7 +208,8 @@ plugin.methods.register_function(
     description='Removes non-annotated tree tips based on feature data',
     inputs={'feature_data': FeatureData[Molecules],
             'tree': Phylogeny[Rooted]},
-    parameters={'column': Str % Choices(['smiles', 'kingdom', 'superclass',
+    parameters={'column': Str % Choices(['ms2_smiles', 'csi_smiles',
+                                         'kingdom', 'superclass',
                                          'class', 'subclass',
                                          'direct_parent'])},
     input_descriptions={'feature_data': 'Feature data table with Classyfire '

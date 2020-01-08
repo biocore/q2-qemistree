@@ -44,9 +44,13 @@ class TestMatch(TestCase):
         relabeled_fps, matched_ft, matched_fdata = get_matched_tables(
             self.tablefp, self.smiles, self.features)
         fdata_featrs = sorted(list(matched_fdata.index))
+        fdata_cols = sorted(list(matched_fdata.columns))
         featrs = sorted(list(matched_ft.ids(axis='observation')))
         self.assertEqual(fdata_featrs, featrs)
-
+        self.assertEqual(fdata_cols, sorted(['#featureID', 'csi_smiles',
+                                             'ms2_smiles', 'ms2_compound',
+                                             'ms2_adduct']))
+        
     def test_matchFps(self):
         relabeled_fps, matched_ft, matched_fdata = get_matched_tables(
             self.tablefp, self.smiles, self.features)

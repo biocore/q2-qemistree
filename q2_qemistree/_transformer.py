@@ -1,6 +1,7 @@
 from .plugin_setup import plugin
 from ._semantics import TSVMolecules
 import pandas as pd
+import qiime2
 
 
 def _read_dataframe(fh):
@@ -25,3 +26,13 @@ def _2(ff: TSVMolecules) -> pd.DataFrame:
     with ff.open() as fh:
         df = _read_dataframe(fh)
         return df
+
+# define a transformer from TSVMolecules -> qiime2.Metadata
+# Based on the other transformers in this file, as well as the
+# TaxonomyFormat -> qiime2.Metadata transformer in q2-types --
+# https://github.com/qiime2/q2-types/blob/dc75cdeeb5e5535bc3c8bc703d06ef0adc1b58f9/q2_types/feature_data/_transformer.py#L170
+@plugin.register_transformer
+def _3(ff: TSVMolecules) -> qiime2.Metadata:
+    with ff.open() as fh:
+        df = _read_dataframe(fh)
+        return qiime2.Metadata(df)
