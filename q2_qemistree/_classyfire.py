@@ -10,6 +10,7 @@ import requests
 import pandas as pd
 import numpy as np
 import warnings
+import urllib
 
 
 def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
@@ -65,15 +66,16 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
     for idx in feature_data.index:
         smiles = feature_data.loc[idx, 'smiles']
         if pd.notna(smiles):
-            url_smiles = 'https://gnps-structure.ucsd.edu/inchikey?smiles='
-            response = requests.get(url_smiles+smiles)
+            to_inchikey = 'https://gnps-structure.ucsd.edu/inchikey?smiles='
+            urlencoded_smiles = urllib.parse.quote(smiles)
+            response = requests.get(to_inchikey+urlencoded_smiles)
             if response.status_code != 200:
                 classyfire[idx] = 'SMILE parse error'
                 no_inchikey.append((idx, smiles))
                 continue
             inchikey = response.text
-            url_inchi = 'https://gnps-classyfire.ucsd.edu/entities/'
-            response = requests.get(url_inchi+str(inchikey)+'.json')
+            to_classyfire = 'https://gnps-classyfire.ucsd.edu/entities/'
+            response = requests.get(to_classyfire+str(inchikey)+'.json')
             if response.status_code == 200:
                 response = response.json()
                 taxonomy = [response[level]['name']
