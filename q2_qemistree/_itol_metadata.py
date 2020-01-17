@@ -16,11 +16,11 @@ from qiime2 import Artifact, Metadata
 
 
 def classyfire_to_colors(classified_feature_data: pd.DataFrame,
-                         classyfire_level: str, color_palette: str):
+                         feature_data_column: str, color_palette: str):
     '''This function generates a color map (dict) for unique Classyfire
     annotations in a user-specified Classyfire level.'''
     color_map = {}
-    annotations = classified_feature_data[classyfire_level].unique()
+    annotations = classified_feature_data[feature_data_column].unique()
     colors = sns.color_palette(color_palette,
                                n_colors=len(annotations)).as_hex()
     # give a heads up to the user
