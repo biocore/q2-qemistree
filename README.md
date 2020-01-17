@@ -140,7 +140,7 @@ Additionally, Qemistree also supports the inclusion of structural annotations ma
 qiime qemistree make-hierarchy \
   --i-csi-results fingerprints.qza \
   --i-feature-tables feature-table.qza \
-  --i-ms2_matches /path-to-MS2-spectral-matches.qza/ \
+  --i-ms2-matches /path-to-MS2-spectral-matches.qza/ \
   --o-tree qemistree.qza \
   --o-feature-table feature-table-hashed.qza \
   --o-feature-data feature-data.qza
@@ -179,7 +179,7 @@ Lastly, Qemistree includes some utility functions that are most useful if users 
 qiime qemistree prune-hierarchy \
   --i-feature-data classified-merged-feature-data.qza \
   --p-column subclass \
-  --i-tree merged-qemistree.qza
+  --i-tree merged-qemistree.qza \
   --o-pruned-tree merged-qemistree-subclass.qza
 ```
 
@@ -191,8 +191,8 @@ Users can choose one of the following data columns (`--p-column`) for pruning: '
 python _itol_metadata.py \
   --classified-feature-data classified-merged-feature-data.qza \
   --classyfire-level subclass \
-  --color-file-path /path-to-clade-colors-file/ \
-  --label-file-path /path-to-tip-label-files/
+  --color-file-path /path-to-clade-colors-file.txt \
+  --label-file-path /path-to-tip-label-files.txt
 ```
 
 **Note:** The above command assumes that users are located in `q2-qemistree/q2_qemistree` folder. You will have to provide the full path to the file `_itol_metadata.py` if you are operating from another location on disk.
