@@ -53,8 +53,10 @@ class TestClassyfire(TestCase):
 
     def test_classyfire_output(self):
         classified = get_classyfire_taxonomy(self.smiles)
-        self.assertTrue(len(classified[
-            classified['kingdom'] != 'unclassified']) == 1)
+        classified_mols = classified[classified['kingdom'] != 'unclassified']
+        self.assertTrue(len(classified_mols) == 1)
+        self.assertTrue(classified_mols.loc[1,
+                        'kingdom'] == 'Organic compounds')
         self.assertTrue((self.levels.issubset(set(classified.columns))))
 
 
