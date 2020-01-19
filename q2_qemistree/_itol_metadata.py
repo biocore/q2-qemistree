@@ -66,7 +66,9 @@ def get_itol_visualization(classified_feature_data: str,
                            sample_metadata_column: str = None,
                            barchart_file_path: str = './itol_bars.qza'):
     '''This function creates iTOL metadata files to specify clade colors and
-    tip labels based on Classyfire annotations.'''
+    tip labels based on Classyfire annotations. It also adds bar plots of the
+    abundance of features stratified by user-specified sample metadata column.
+    '''
     fdata = Artifact.load(classified_feature_data).view(pd.DataFrame)
     color_map = classyfire_to_colors(fdata, feature_data_column, color_palette)
     with open(color_file_path, 'w+') as fh:
