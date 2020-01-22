@@ -78,16 +78,17 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
             response = requests.get(to_classyfire+str(inchikey)+'.json')
             if response.status_code == 200:
                 response = response.json()
-                classyfire_levels_sub = [level for level in classyfire_levels
-                                         if level in response.keys()]
-                if len(classyfire_levels_sub) == 0:
+                sublevels = [level for level in classyfire_levels
+                             if level in response.keys()]
+                if len(sublevels) == 0:
                     taxonomy = ['unclassified'
-                                for level in classyfire_levels_sub]
+                                for level in classyfire_levels]
                     continue
                 taxonomy = [response[level]['name']
-                            if bool(response) and response[level] is not None
+                            if (level in sublevels and bool(response) and
+                            response[level] is not None)
                             else 'unclassified'
-                            for level in classyfire_levels_sub]
+                            for level in classyfire_levels]
                 classyfire[idx] = taxonomy
             elif response.status_code == 404:
                 classyfire[idx] = 'unclassified'
