@@ -77,12 +77,12 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
             to_classyfire = 'https://gnps-classyfire.ucsd.edu/entities/'
             response = requests.get(to_classyfire+str(inchikey)+'.json')
             if response.status_code == 200:
+                print(smiles)
                 response = response.json()
                 sublevels = [level for level in classyfire_levels
                              if level in response.keys()]
                 if len(sublevels) == 0:
-                    taxonomy = ['unclassified'
-                                for level in classyfire_levels]
+                    classyfire[idx] = 'unclassified'
                     continue
                 taxonomy = [response[level]['name']
                             if (level in sublevels and bool(response) and
