@@ -38,71 +38,73 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
               help='Path to feature data with Classyfire taxonomy.')
 @click.option('--feature-data-column', default='class', type=str,
               help='One of the columns in feature data table')
-@click.option('--ms2-label', default=True, type=bool,
-              help='Option to label tree tips with MS/MS library match')
-@click.option('--color-file-path', default='./itol_colors.txt', type=str,
-              help='Path to file with colors specifications for tree clades')
-@click.option('--label-file-path', default='./itol_labels.txt', type=str,
-              help='Path to file with label specifications for tree tips')
 @click.option('--color-palette', default='bright', type=str,
               help='Color palette for tree clades. One of the options'
               ' allowed by seaborn.color_palette()')
-@click.option('--sample-feature-table', type=str,
+@click.option('--ms2-label', default=True, type=bool,
+              help='Option to label tree tips with MS/MS library match')
+@click.option('--color-file-path', default=None, type=str,
+              help='Path to file with colors specifications for tree clades')
+@click.option('--label-file-path', default=None, type=str,
+              help='Path to file with label specifications for tree tips')
+@click.option('--feature-table', default=None, type=str,
               help='Path to sample feature table.')
-@click.option('--sample-metadata', type=str,
+@click.option('--sample-metadata', default=None, type=str,
               help='Path to sample metadata.')
-@click.option('--sample-metadata-column', type=str,
+@click.option('--sample-metadata-column', default=None, type=str,
               help='Categorical sample metadata column.')
-@click.option('--barchart-file-path', default='./itol_bars.txt', type=str,
+@click.option('--barchart-file-path', default=None, type=str,
               help='Path to file with values for multi-value bar chart')
 def get_itol_visualization(classified_feature_data: str,
                            feature_data_column: str = 'class',
                            ms2_label: bool = True,
-                           color_file_path: str = './itol_colors.txt',
-                           label_file_path: str = './itol_labels.txt',
+                           color_file_path: str = None,
+                           label_file_path: str = None,
                            color_palette: str = 'husl',
-                           sample_feature_table: str = None,
+                           feature_table: str = None,
                            sample_metadata: str = None,
                            sample_metadata_column: str = None,
-                           barchart_file_path: str = './itol_bars.qza'):
+                           barchart_file_path: str = None):
     '''This function creates iTOL metadata files to specify clade colors and
     tip labels based on Classyfire annotations. It also adds bar plots of the
     abundance of features stratified by user-specified sample metadata column.
     '''
     fdata = Artifact.load(classified_feature_data).view(pd.DataFrame)
     color_map = classyfire_to_colors(fdata, feature_data_column, color_palette)
-    with open(color_file_path, 'w+') as fh:
-        fh.write('TREE_COLORS\n'
-                 'SEPARATOR TAB\n'
-                 'DATA\n')
-        for idx in fdata.index:
-            color = color_map[fdata.loc[idx, feature_data_column]]
-            if fdata.loc[idx, 'annotation_type'] == 'MS2':
-                fh.write(idx + '\t' + 'clade\t' +
-                         color + '\tnormal\t6\n')
-            if fdata.loc[idx, 'annotation_type'] == 'CSIFingerID':
-                fh.write(idx + '\t' + 'clade\t' +
-                         color + '\tdashed\t4\n')
-    with open(label_file_path, 'w+') as fh:
-        fh.write('LABELS\n'
-                 'SEPARATOR TAB\n'
-                 'DATA\n')
-        if ms2_label:
+    if color_file_path:
+        with open(color_file_path, 'w+') as fh:
+            fh.write('TREE_COLORS\n'
+                     'SEPARATOR TAB\n'
+                     'DATA\n')
             for idx in fdata.index:
-                ms2_compound = fdata.loc[idx, 'ms2_compound']
-                if pd.notna(ms2_compound) and not ms2_compound.isspace():
-                    label = ms2_compound
-                else:
+                color = color_map[fdata.loc[idx, feature_data_column]]
+                if fdata.loc[idx, 'annotation_type'] == 'MS2':
+                    fh.write(idx + '\t' + 'clade\t' +
+                             color + '\tnormal\t6\n')
+                if fdata.loc[idx, 'annotation_type'] == 'CSIFingerID':
+                    fh.write(idx + '\t' + 'clade\t' +
+                             color + '\tdashed\t4\n')
+    if label_file_path:
+        with open(label_file_path, 'w+') as fh:
+            fh.write('LABELS\n'
+                     'SEPARATOR TAB\n'
+                     'DATA\n')
+            if ms2_label:
+                for idx in fdata.index:
+                    ms2_compound = fdata.loc[idx, 'ms2_compound']
+                    if pd.notna(ms2_compound) and not ms2_compound.isspace():
+                        label = ms2_compound
+                    else:
+                        label = fdata.loc[idx, feature_data_column]
+                    fh.write(idx + '\t' + label + '\n')
+            else:
+                for idx in fdata.index:
                     label = fdata.loc[idx, feature_data_column]
-                fh.write(idx + '\t' + label + '\n')
-        else:
-            for idx in fdata.index:
-                label = fdata.loc[idx, feature_data_column]
-                fh.write(idx + '\t' + label + '\n')
+                    fh.write(idx + '\t' + label + '\n')
 
     # generate bar chart
     if barchart_file_path:
-        get_itol_barchart(fdata, sample_feature_table, sample_metadata,
+        get_itol_barchart(fdata, feature_table, sample_metadata,
                           sample_metadata_column, barchart_file_path)
 
 
