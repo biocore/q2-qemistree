@@ -5,6 +5,7 @@
 #
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
+import q2_qemistree
 import importlib
 from ._fingerprint import (compute_fragmentation_trees,
                            rerank_molecular_formulas,
@@ -24,7 +25,7 @@ from q2_types.tree import Phylogeny, Rooted
 
 plugin = Plugin(
     name='qemistree',
-    version='0.0.0',
+    version=q2_qemistree.__version__,
     website='https://github.com/biocore/q2-qemistree',
     package='q2_qemistree',
     description='Hierarchical orderings for mass spectrometry data',
