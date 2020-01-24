@@ -81,7 +81,7 @@ def get_itol_visualization(classified_feature_data: str,
                 if fdata.loc[idx, 'annotation_type'] == 'MS2':
                     fh.write(idx + '\t' + 'clade\t' +
                              color + '\tnormal\t6\n')
-                if fdata.loc[idx, 'annotation_type'] == 'CSIFingerID':
+                else:
                     fh.write(idx + '\t' + 'clade\t' +
                              color + '\tdashed\t4\n')
     if label_file_path:
