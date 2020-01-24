@@ -83,11 +83,13 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
                 if len(sublevels) == 0:
                     classyfire[idx] = 'unclassified'
                     continue
-                taxonomy = [response[level]['name']
-                            if (level in sublevels and bool(response) and
-                            response[level] is not None)
-                            else 'unclassified'
-                            for level in classyfire_levels]
+                taxonomy = []
+                for level in classyfire_levels:
+                    if (response and level in sublevels and
+                            response[level] is not None):
+                        taxonomy.append(response[level]['name'])
+                    else:
+                        taxonomy.append('unclassified')
                 classyfire[idx] = taxonomy
             elif response.status_code == 404:
                 classyfire[idx] = 'unclassified'
