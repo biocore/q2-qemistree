@@ -79,7 +79,7 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
             if response.status_code == 200:
                 response = response.json()
                 sublevels = [level for level in classyfire_levels
-                             if level in response.keys()]
+                             if level in response]
                 if len(sublevels) == 0:
                     classyfire[idx] = 'unclassified'
                     continue
