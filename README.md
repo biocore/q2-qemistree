@@ -190,11 +190,29 @@ Users can choose one of the following data columns (`--p-column`) for pruning: '
 ```bash
 python _itol_metadata.py \
   --classified-feature-data classified-merged-feature-data.qza \
-  --classyfire-level subclass \
-  --color-file-path /path-to-clade-colors-file.txt \
-  --label-file-path /path-to-tip-label-files.txt
+  --feature-data-column subclass \
+  --ms2-label False \
+  --color-file-path path-to-clade-colors-file.txt \
+  --label-file-path path-to-tip-label-files.txt
 ```
 
 **Note:** The above command assumes that users are located in `q2-qemistree/q2_qemistree` folder. You will have to provide the full path to the file `_itol_metadata.py` if you are operating from another location on disk.
 
-When `--color-file-path` and `--label-file-path` is not specified by the user, this command generates two files: 'itol_colors.txt' and 'itol_labels.txt' in place. One can upload the tree generated above in [iTOL](https://itol.embl.de/), and drag & drop these two files to 1) color tree clades based on the specified Classyfire level ('subclass' here) 2) label tree tips by the Classyfire category they belong to. This enables the users to visualize the chemical diversity in their samples and better understand the underlying chemistry.
+When `--color-file-path` and `--label-file-path` is not specified by the user, this command generates two files: 'itol_colors.txt' and 'itol_labels.txt' in place. One can upload the tree generated above in [iTOL](https://itol.embl.de/), and drag & drop these two files to 1) color tree clades based on the specified Classyfire level ('subclass' here) 2) label tree tips by the Classyfire category they belong to. For easier interpretativity, setting the `--ms2-label` as False labels all the tree tips based on the CSI:FingerID prediction, and not the MS/MS library matches. This enables the users to visualize the chemical diversity in their samples and better understand the underlying chemistry.
+
+If the user has groups and/or conditions by which they want to visually compare the features, the following additional lines can be added to the run to generate barcharts at the tips of the tree specifying which group/condition the feature is from.  
+
+```bash
+python _itol_metadata.py \
+  --classified-feature-data classified-merged-feature-data.qza \
+  --feature-data-column subclass \
+  --ms2-label False \
+  --color-file-path path-to-clade-colors-file.txt \
+  --label-file-path path-to-tip-label-files.txt \
+  --feature-table feature-table-hashed.qza \
+  --sample-metadata metadata.tsv \
+  --sample-metadata-column groups \
+  --barchart-file-path path-to-barchart-subclass-file
+```
+
+The `path-to-barchart-subclass-file.qza` file generated can also be dragged & dropped in [iTOL](https://itol.embl.de/). 
