@@ -215,4 +215,4 @@ python _itol_metadata.py \
   --barchart-file-path path-to-barchart-subclass-file
 ```
 
-The `path-to-barchart-subclass-file.qza` file generated can also be dragged & dropped in [iTOL](https://itol.embl.de/). 
+The `path-to-barchart-subclass-file.qza` file generated can also be dragged & dropped into [iTOL](https://itol.embl.de/). 
