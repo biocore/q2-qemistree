@@ -140,7 +140,7 @@ Additionally, Qemistree also supports the inclusion of structural annotations ma
 qiime qemistree make-hierarchy \
   --i-csi-results fingerprints.qza \
   --i-feature-tables feature-table.qza \
-  --i-ms2-matches path-to-MS2-spectral-matches.qza/ \
+  --i-ms2-matches /path-to-MS2-spectral-matches.qza/ \
   --o-tree qemistree.qza \
   --o-feature-table feature-table-hashed.qza \
   --o-feature-data feature-data.qza
@@ -195,8 +195,8 @@ python _itol_metadata.py \
   --classified-feature-data classified-merged-feature-data.qza \
   --feature-data-column subclass \
   --ms2-label False \
-  --color-file-path path-to-clade-colors-file.txt \
-  --label-file-path path-to-tip-label-files.txt
+  --color-file-path /path-to-clade-colors-file.txt/ \
+  --label-file-path /path-to-tip-label-files.txt/
 ```
 
 **Note:** The above command assumes that users are located in `q2-qemistree/q2_qemistree` folder. You will have to provide the full path to the file `_itol_metadata.py` if you are operating from another location on disk.
@@ -212,7 +212,7 @@ python _itol_metadata.py \
   --feature-table feature-table-hashed.qza \
   --sample-metadata metadata.tsv \
   --sample-metadata-column groups \
-  --barchart-file-path path-to-barchart-subclass-file
+  --barchart-file-path /path-to-barchart-subclass-file.qza/
 ```
 
 The `path-to-barchart-subclass-file.qza` file generated can also be dragged & dropped into [iTOL](https://itol.embl.de/). 
