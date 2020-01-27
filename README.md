@@ -140,7 +140,7 @@ Additionally, Qemistree also supports the inclusion of structural annotations ma
 qiime qemistree make-hierarchy \
   --i-csi-results fingerprints.qza \
   --i-feature-tables feature-table.qza \
-  --i-ms2-matches /path-to-MS2-spectral-matches.qza/ \
+  --i-ms2-matches path-to-MS2-spectral-matches.qza/ \
   --o-tree qemistree.qza \
   --o-feature-table feature-table-hashed.qza \
   --o-feature-data feature-data.qza
@@ -150,7 +150,10 @@ qiime qemistree make-hierarchy \
 1. The input to `--i-ms2-matches` can be obtained using [Feature-based molecular networking or FBMN](https://gnps.ucsd.edu/ProteoSAFe/index.jsp?params=%7B%22workflow%22:%22FEATURE-BASED-MOLECULAR-NETWORKING%22,%22library_on_server%22:%22d.speclibs;%22%7D) workflow supported in the web-based mass-spectrometry data analysis platform, [GNPS](https://gnps.ucsd.edu/). To use MS2 matches in Qemistree, please download the results of FBMN workflow and import the tsv file in the folder `DB_result` as a QIIME2 artifact of type `FeatureData[Molecules]` as follows:
 
 ```bash
-qiime tools import --input-path path-to-MS2-spectral-matches.tsv --output-path path-to-MS2-spectral-matches.qza --type FeatureData[Molecules]
+qiime tools import \
+  --input-path path-to-MS2-spectral-matches.tsv \
+  --output-path path-to-MS2-spectral-matches.qza \
+  --type FeatureData[Molecules]
 ```
 
 2. The input CSI results, feature tables and MS2 match tables should have a one-to-one correspondence i.e CSI results, feature tables and MS2 match tables from all datasets should be provided in the same order.
@@ -198,17 +201,14 @@ python _itol_metadata.py \
 
 **Note:** The above command assumes that users are located in `q2-qemistree/q2_qemistree` folder. You will have to provide the full path to the file `_itol_metadata.py` if you are operating from another location on disk.
 
-When `--color-file-path` and `--label-file-path` is not specified by the user, this command generates two files: 'itol_colors.txt' and 'itol_labels.txt' in place. One can upload the tree generated above in [iTOL](https://itol.embl.de/), and drag & drop these two files to 1) color tree clades based on the specified Classyfire level ('subclass' here) 2) label tree tips by the Classyfire category they belong to. For easier interpretativity, setting the `--ms2-label` as False labels all the tree tips based on the CSI:FingerID prediction, and not the MS/MS library matches. This enables the users to visualize the chemical diversity in their samples and better understand the underlying chemistry.
+One can upload the tree generated above in [iTOL](https://itol.embl.de/), and drag & drop the `path-to-clade-colors-file.txt` and `path-to-tip-label-files.txt` files to 1) color tree clades based on the specified Classyfire level ('subclass' here) 2) label tree tips by the Classyfire category they belong to. For easier interpretativity, setting the `--ms2-label` as False labels all the tree tips based on the CSI:FingerID prediction, and not the MS/MS library matches. This enables the users to visualize the chemical diversity in their samples and better understand the underlying chemistry.
 
-If the user has groups and/or conditions by which they want to visually compare the features, the following additional lines can be added to the run to generate barcharts at the tips of the tree specifying which group/condition the feature is from.  
+If the user has groups and/or conditions by which they want to visually compare the features, the following command can be used to generate barcharts at the tips of the tree specifying which paticular group/condition the feature is from.  
 
 ```bash
 python _itol_metadata.py \
   --classified-feature-data classified-merged-feature-data.qza \
   --feature-data-column subclass \
-  --ms2-label False \
-  --color-file-path path-to-clade-colors-file.txt \
-  --label-file-path path-to-tip-label-files.txt \
   --feature-table feature-table-hashed.qza \
   --sample-metadata metadata.tsv \
   --sample-metadata-column groups \
