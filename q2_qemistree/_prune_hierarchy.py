@@ -45,7 +45,7 @@ def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
                   'SMILE parse error'}
         # remove all NA values or missing values
         feature_data = feature_data[~(feature_data[column].isin(failed) |
-              feature_data[column].isna())]
+                                    feature_data[column].isna())]
     tips = {tip.name for tip in tree.tips()}
     overlap = feature_data.index.intersection(tips)
 
