@@ -101,13 +101,13 @@ def get_itol_visualization(classified_feature_data: str,
                         label = ms2_compound
                     else:
                         label = fdata.loc[idx, feature_data_column]
-                    if parent_mz_column and label=='unclassified':
+                    if parent_mz_column and label == 'unclassified':
                         label = fdata.loc[idx, parent_mz_column]
                     fh.write(idx + '\t' + label + '\n')
             else:
                 for idx in fdata.index:
                     label = fdata.loc[idx, feature_data_column]
-                    if parent_mz_column and label=='unclassified':
+                    if parent_mz_column and label == 'unclassified':
                         label = fdata.loc[idx, parent_mz_column]
                     fh.write(idx + '\t' + label + '\n')
 
