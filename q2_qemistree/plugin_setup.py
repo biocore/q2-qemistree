@@ -213,8 +213,12 @@ plugin.methods.register_function(
     input_descriptions={'feature_data': 'Feature data table with '
                                         'molecules to keep',
                         'tree': 'Tree of relatedness of molecules.'},
-    parameter_descriptions={'column': 'Features with missing values in this '
-                                      'column will be removed from the tree'},
+    parameter_descriptions={'column': 'A column in feature data table. ' 
+                                      'Features with missing values in this '
+                                      'column will be removed from the tree. '
+                                      'If no column name is specified then '
+                                      'the tree will be pruned to only '
+                                      'contain features in the feature data.'},
     outputs=[('pruned_tree', Phylogeny[Rooted])],
     output_descriptions={'pruned_tree': 'Pruned tree of molecules with '
                                         'tips that are in feature data'}
