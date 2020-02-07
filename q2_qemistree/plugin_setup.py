@@ -206,7 +206,7 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=prune_hierarchy,
     name='Prune hierarchy of molecules',
-    description='Removes the tips of the tree to keep molecules of interest',
+    description='Removes the tips of the tree based on feature data',
     inputs={'feature_data': FeatureData[Molecules],
             'tree': Phylogeny[Rooted]},
     parameters={'column': Str},
