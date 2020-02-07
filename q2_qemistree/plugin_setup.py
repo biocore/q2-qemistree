@@ -206,15 +206,12 @@ plugin.methods.register_function(
 plugin.methods.register_function(
     function=prune_hierarchy,
     name='Prune hierarchy of molecules',
-    description='Removes non-annotated tree tips based on feature data',
+    description='Removes the tips of the tree to keep molecules of interest',
     inputs={'feature_data': FeatureData[Molecules],
             'tree': Phylogeny[Rooted]},
-    parameters={'column': Str % Choices(['ms2_smiles', 'csi_smiles',
-                                         'kingdom', 'superclass',
-                                         'class', 'subclass',
-                                         'direct_parent'])},
-    input_descriptions={'feature_data': 'Feature data table with Classyfire '
-                                        'annotations and/or SMILES.',
+    parameters={'column': Str},
+    input_descriptions={'feature_data': 'Feature data table with '
+                                        'molecules to keep',
                         'tree': 'Tree of relatedness of molecules.'},
     parameter_descriptions={'column': 'Features with missing values in this '
                                       'column will be removed from the tree'},
