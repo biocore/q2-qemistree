@@ -12,7 +12,7 @@ from skbio import TreeNode
 
 def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
                     column: str = None) -> TreeNode:
-    '''Prunes the tips of the tree to keep feature of interest
+    '''Prunes the tips of the tree to keep features of interest
 
     Parameters
     ----------
@@ -40,7 +40,6 @@ def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
     if column and column not in feature_data.columns:
         raise ValueError("The feature data does not contain the column '%s'" %
                          column)
-    if column:
         failed = {'unclassified', 'unexpected server response',
                   'SMILE parse error'}
         # remove all NA values or missing values
