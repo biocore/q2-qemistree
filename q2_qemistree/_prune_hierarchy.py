@@ -40,6 +40,7 @@ def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
     if column and column not in feature_data.columns:
         raise ValueError("The feature data does not contain the column '%s'" %
                          column)
+    if column:
         failed = {'unclassified', 'unexpected server response',
                   'SMILE parse error'}
         # remove all NA values or missing values
@@ -50,7 +51,7 @@ def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
 
     if len(overlap) < 2:
         raise ValueError('Tree pruning aborted! There are less than two tree '
-                         'tips with annotations. Please check if the correct '
+                         'tips after pruning. Please check if the correct '
                          'feature data table was provided.')
     pruned_tree = tree.shear(overlap)
     return pruned_tree
