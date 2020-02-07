@@ -16,7 +16,8 @@ from qiime2 import Artifact, Metadata
 
 
 def classyfire_to_colors(classified_feature_data: pd.DataFrame,
-                         feature_data_column: str, color_palette: str):
+                         feature_data_column: str,
+                         color_palette: str):
     '''This function generates a color map (dict) for unique Classyfire
     annotations in a user-specified Classyfire level.'''
     color_map = {}
@@ -43,6 +44,9 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
               ' allowed by seaborn.color_palette()')
 @click.option('--ms2-label', default=True, type=bool,
               help='Option to label tree tips with MS/MS library match')
+@click.option('--parent-mz-column', default=None, type=str,
+              help='Name of the column with parent mz of features. Labels tips'
+              ' by parent mz when feature is unclassified')
 @click.option('--color-file-path', default=None, type=str,
               help='Path to file with colors specifications for tree clades')
 @click.option('--label-file-path', default=None, type=str,
@@ -58,6 +62,7 @@ def classyfire_to_colors(classified_feature_data: pd.DataFrame,
 def get_itol_visualization(classified_feature_data: str,
                            feature_data_column: str = 'class',
                            ms2_label: bool = True,
+                           parent_mz_column: str = None,
                            color_file_path: str = None,
                            label_file_path: str = None,
                            color_palette: str = 'husl',
@@ -96,10 +101,14 @@ def get_itol_visualization(classified_feature_data: str,
                         label = ms2_compound
                     else:
                         label = fdata.loc[idx, feature_data_column]
+                    if parent_mz_column and label == 'unclassified':
+                        label = fdata.loc[idx, parent_mz_column]
                     fh.write(idx + '\t' + label + '\n')
             else:
                 for idx in fdata.index:
                     label = fdata.loc[idx, feature_data_column]
+                    if parent_mz_column and label == 'unclassified':
+                        label = fdata.loc[idx, parent_mz_column]
                     fh.write(idx + '\t' + label + '\n')
 
     # generate bar chart

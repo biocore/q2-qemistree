@@ -23,11 +23,11 @@ class TestPruning(TestCase):
                                           data=['unclassified', 'unclassified',
                                                 'unclassified'],
                                           columns=['class'])
-        self.invalid_column = pd.DataFrame(index=['A', 'B', 'D'],
-                                           data=[['foo', ':)'],
-                                                 ['unclassified', ':)'],
-                                                 ['unclassified', ':D']],
-                                           columns=['class', 'faces'])
+        self.index_filter = pd.DataFrame(index=['A', 'B', 'D'],
+                                         data=[['foo', ':)'],
+                                               ['unclassified', ':)'],
+                                               ['unclassified', ':D']],
+                                         columns=['class', 'faces'])
         self.no_overlap = pd.DataFrame(index=['X', 'Y', 'Z'],
                                        data=['foo', 'bar', 'unclassified'],
                                        columns=['class'])
@@ -47,32 +47,27 @@ class TestPruning(TestCase):
             prune_hierarchy(self.no_column, self.tree, 'csi_smiles')
 
     def test_no_annotation(self):
-        msg = ('Tree pruning aborted! There are less than two tree tips with '
-               'annotations. Please check if the correct feature data table '
-               'was provided.')
+        msg = ('Tree pruning aborted! There are less than two tree '
+               'tips after pruning. Please check if the correct '
+               'feature data table was provided.')
         with self.assertRaisesRegex(ValueError, msg):
             prune_hierarchy(self.no_annotation, self.tree, 'class')
 
-    def test_invalid_column(self):
-        msg = ('Pruning cannot be applied on column "faces". The only options '
-               'are: kingdom, superclass, class, subclass, direct_parent, '
-               'csi_smiles, ms2_smiles. If your feature data does not include '
-               'this information, consider using get_classyfire_taxonomy.')
-
-        with self.assertRaisesRegex(ValueError, msg):
-            prune_hierarchy(self.invalid_column, self.tree, 'faces')
+    def test_index_filter(self):
+        tree = prune_hierarchy(self.index_filter, self.tree)
+        self.assertEqual({t.name for t in tree.tips()}, {'A', 'B', 'D'})
 
     def test_no_overlap(self):
-        msg = ('Tree pruning aborted! There are less than two tree tips with '
-               'annotations. Please check if the correct feature data table '
-               'was provided.')
+        msg = ('Tree pruning aborted! There are less than two tree '
+               'tips after pruning. Please check if the correct '
+               'feature data table was provided.')
         with self.assertRaisesRegex(ValueError, msg):
             prune_hierarchy(self.no_overlap, self.tree, 'class')
 
     def test_one_overlap(self):
-        msg = ('Tree pruning aborted! There are less than two tree tips with '
-               'annotations. Please check if the correct feature data table '
-               'was provided.')
+        msg = ('Tree pruning aborted! There are less than two tree '
+               'tips after pruning. Please check if the correct '
+               'feature data table was provided.')
         with self.assertRaisesRegex(ValueError, msg):
             prune_hierarchy(self.one_overlap, self.tree, 'class')
 
