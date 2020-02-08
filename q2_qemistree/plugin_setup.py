@@ -18,10 +18,10 @@ from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
                          CSIFolder, CSIDirFmt,
                          FeatureData, TSVMoleculesFormat, Molecules)
-from ._itol import get_itol_barchart
+from ._itol import plot
 
 from qiime2.plugin import (Plugin, Str, Range, Choices, Float, Int, Bool, List,
-                           MetadataColumn, Categorical)
+                           Metadata)
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
 
@@ -215,7 +215,7 @@ plugin.methods.register_function(
     input_descriptions={'feature_data': 'Feature data table with '
                                         'molecules to keep',
                         'tree': 'Tree of relatedness of molecules.'},
-    parameter_descriptions={'column': 'A column in feature data table. ' 
+    parameter_descriptions={'column': 'A column in feature data table. '
                                       'Features with missing values in this '
                                       'column will be removed from the tree. '
                                       'If no column name is specified then '
@@ -226,19 +226,41 @@ plugin.methods.register_function(
                                         'tips that are in feature data'}
 )
 
-plugin.methods.register_function(
-    function=get_itol_barchart,
+plugin.visualizers.register_function(
+    function=plot,
     name='Generate an iTOL bar chart annotation file',
     description=('Calculate mean frequency per category per sample and render '
                  'as bar height.'),
-    inputs={'table': FeatureTable[Frequency]},
-    parameters={'metadata': MetadataColumn[Categorical]},
-    input_descriptions={'table': 'Table of feature frequencies by sample.'},
-    parameter_descriptions={'metadata': 'Categorical sample metadata column.'},
-    outputs=[('barchart', FeatureTable[Frequency])],
-    output_descriptions={'barchart': 'Table of mean feature frequencies per '
-                                     'category per sample, which can be '
-                                     'parsed by iTOL and yield a bar chart.'}
+    inputs={'table': FeatureTable[Frequency],
+            'tree': Phylogeny[Rooted],
+            'feature_metadata': FeatureData[Molecules]
+            },
+    parameters={
+        'coloring_category': Str,
+        'parent_mz': Str,
+        'color_palette': Str % Choices(['Pastel1', 'Pastel2', 'Paired',
+                                        'Accent', 'Dark2', 'Set1', 'Set2',
+                                        'Set3', 'tab10', 'tab20', 'tab20b',
+                                        'tab20c', 'Greys', 'Purples', 'Blues',
+                                        'Greens', 'Oranges', 'Reds', 'YlOrBr',
+                                        'YlOrRd', 'OrRd', 'PuRd', 'RdPu',
+                                        'BuPu', 'GnBu', 'PuBu', 'YlGnBu',
+                                        'PuBuGn', 'BuGn', 'YlGn']),
+        'ms2_label': Bool,
+                },
+    input_descriptions={'table': 'Table of feature sample categories',
+                        'tree': 'Phenetic tree',
+                        'feature_metadata': 'Feature metadata'
+                        },
+    parameter_descriptions={
+        'coloring_category': 'The feature data column used to color the tips',
+        'color_palette': 'The color palette to use for coloring tips. '
+                         'For examples, see: https://matplotlib.org/'
+                         'tutorials/colors/colormaps.html',
+        'ms2_label': 'Whether to label the tips with the MS2 value',
+        'parent_mz': 'If the feature is unclassified, label the tips using '
+                     'this column\'s value'
+    }
 )
 
 importlib.import_module('q2_qemistree._transformer')
