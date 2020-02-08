@@ -18,8 +18,10 @@ from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
                          CSIFolder, CSIDirFmt,
                          FeatureData, TSVMoleculesFormat, Molecules)
+from ._itol import get_itol_barchart
 
-from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool, List
+from qiime2.plugin import (Plugin, Str, Range, Choices, Float, Int, Bool, List,
+                           MetadataColumn, Categorical)
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
 
@@ -165,11 +167,11 @@ plugin.methods.register_function(
                                        'match for mass-spec features'},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints',
-                            'metric' : 'metric for hierarchical clustering of '
-                                       'fingerprints. If the Jaccard metric is'
-                                       ' selected, molecular fingerprints are '
-                                       'first binarized (probabilities above '
-                                       '0.5 are True, and False otherwise).'},
+                            'metric': 'metric for hierarchical clustering of '
+                                      'fingerprints. If the Jaccard metric is'
+                                      ' selected, molecular fingerprints are '
+                                      'first binarized (probabilities above '
+                                      '0.5 are True, and False otherwise).'},
     outputs=[('tree', Phylogeny[Rooted]),
              ('feature_table', FeatureTable[Frequency]),
              ('feature_data', FeatureData[Molecules])],
@@ -222,6 +224,21 @@ plugin.methods.register_function(
     outputs=[('pruned_tree', Phylogeny[Rooted])],
     output_descriptions={'pruned_tree': 'Pruned tree of molecules with '
                                         'tips that are in feature data'}
+)
+
+plugin.methods.register_function(
+    function=get_itol_barchart,
+    name='Generate an iTOL bar chart annotation file',
+    description=('Calculate mean frequency per category per sample and render '
+                 'as bar height.'),
+    inputs={'table': FeatureTable[Frequency]},
+    parameters={'metadata': MetadataColumn[Categorical]},
+    input_descriptions={'table': 'Table of feature frequencies by sample.'},
+    parameter_descriptions={'metadata': 'Categorical sample metadata column.'},
+    outputs=[('barchart', FeatureTable[Frequency])],
+    output_descriptions={'barchart': 'Table of mean feature frequencies per '
+                                     'category per sample, which can be '
+                                     'parsed by iTOL and yield a bar chart.'}
 )
 
 importlib.import_module('q2_qemistree._transformer')
