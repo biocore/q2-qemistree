@@ -21,9 +21,12 @@ from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
 from ._itol import plot
 
 from qiime2.plugin import (Plugin, Str, Range, Choices, Float, Int, Bool, List,
-                           Metadata)
+                           Citations)
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
+
+
+citations = Citations.load('citations.bib', package='q2_qemistree')
 
 plugin = Plugin(
     name='qemistree',
@@ -32,6 +35,7 @@ plugin = Plugin(
     package='q2_qemistree',
     description='Hierarchical orderings for mass spectrometry data',
     short_description='Plugin for exploring chemical diversity.',
+    citations=citations,
 )
 
 # type registration
@@ -260,7 +264,7 @@ plugin.visualizers.register_function(
         'ms2_label': 'Whether to label the tips with the MS2 value',
         'parent_mz': 'If the feature is unclassified, label the tips using '
                      'this column\'s value'
-    }
-)
+    },
+    citations=[citations['letunic2019itol']])
 
 importlib.import_module('q2_qemistree._transformer')
