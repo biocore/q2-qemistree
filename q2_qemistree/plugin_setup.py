@@ -18,7 +18,7 @@ from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
                          CSIFolder, CSIDirFmt,
                          FeatureData, TSVMoleculesFormat, Molecules)
-from ._itol import plot
+from ._plot import plot
 
 from qiime2.plugin import (Plugin, Str, Range, Choices, Float, Int, Bool, List,
                            Citations)
