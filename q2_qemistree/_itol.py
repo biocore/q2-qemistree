@@ -11,6 +11,7 @@ import biom
 import warnings
 import seaborn as sns
 import pandas as pd
+import numpy as np
 import q2templates
 import pkg_resources
 
@@ -41,31 +42,34 @@ def classyfire_to_colors(coloring_category: str,
 
 
 def plot(output_dir: str, table: biom.Table, tree: NewickFormat,
-         feature_metadata: pd.DataFrame, coloring_category: str,
+         feature_metadata: pd.DataFrame, category: str,
          color_palette: str = 'Dark2', ms2_label: bool = False,
          parent_mz: str = None) -> None:
 
-    if coloring_category not in feature_metadata.columns:
+    missing_values = {'unclassified', 'unexpected server response',
+                      'SMILE parse error', np.nan}
+
+    if category not in feature_metadata.columns:
         raise ValueError('Could not find %s in the feature data')
 
-    color_map = classyfire_to_colors(feature_metadata[coloring_category],
+    color_map = classyfire_to_colors(feature_metadata[category],
                                      color_palette)
 
     color_fp = join(output_dir, 'colors.tsv')
-    with open(color_fp, 'w+') as fh:
+    with open(color_fp, 'w') as fh:
         fh.write('TREE_COLORS\n'
                  'SEPARATOR TAB\n'
                  'DATA\n')
 
         for idx in feature_metadata.index:
-            color = color_map[feature_metadata.loc[idx, coloring_category]]
+            color = color_map[feature_metadata.loc[idx, category]]
             if feature_metadata.loc[idx, 'annotation_type'] == 'MS2':
                 fh.write(idx + '\t' + 'clade\t' + color + '\tnormal\t6\n')
             else:
                 fh.write(idx + '\t' + 'clade\t' + color + '\tdashed\t4\n')
 
     label_fp = join(output_dir, 'labels.tsv')
-    with open(label_fp, 'w+') as fh:
+    with open(label_fp, 'w') as fh:
         fh.write('LABELS\n'
                  'SEPARATOR TAB\n'
                  'DATA\n')
@@ -76,14 +80,14 @@ def plot(output_dir: str, table: biom.Table, tree: NewickFormat,
                 if pd.notna(ms2_compound) and not ms2_compound.isspace():
                     label = ms2_compound
                 else:
-                    label = feature_metadata.loc[idx, coloring_category]
-                if parent_mz and label == 'unclassified':
+                    label = feature_metadata.loc[idx, category]
+                if parent_mz and label in missing_values:
                     label = feature_metadata.loc[idx, parent_mz]
                 fh.write(str(idx) + '\t' + str(label) + '\n')
         else:
             for idx in feature_metadata.index:
-                label = feature_metadata.loc[idx, coloring_category]
-                if parent_mz and label == 'unclassified':
+                label = feature_metadata.loc[idx, category]
+                if parent_mz and label in missing_values:
                     label = feature_metadata.loc[idx, parent_mz]
                 fh.write(idx + '\t' + label + '\n')
 

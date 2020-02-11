@@ -115,7 +115,8 @@ plugin.methods.register_function(
     outputs=[('fragmentation_trees', SiriusFolder)],
     output_descriptions={'fragmentation_trees': 'fragmentation trees '
                                                 'computed per feature '
-                                                'by Sirius'}
+                                                'by Sirius'},
+    citations=[citations['duhrkop2015sirius']]
 )
 
 keys = ['sirius_path', 'zodiac_threshold', 'n_jobs', 'java_flags']
@@ -133,7 +134,8 @@ plugin.methods.register_function(
     outputs=[('molecular_formulas', ZodiacFolder)],
     output_descriptions={'molecular_formulas': 'Top scored molecular formula '
                                                'per feature after reranking'
-                                               'using Zodiac'}
+                                               'using Zodiac'},
+    citations=[citations['duhrkop2015sirius']]
 )
 
 keys = ['sirius_path', 'ppm_max', 'n_jobs', 'fingerid_db', 'java_flags']
@@ -150,7 +152,8 @@ plugin.methods.register_function(
     outputs=[('predicted_fingerprints', CSIFolder)],
     output_descriptions={'predicted_fingerprints': 'Predicted substructures '
                                                    'per feature using '
-                                                   'CSI:FingerID'}
+                                                   'CSI:FingerID'},
+    citations=[citations['duhrkop2015sirius']]
 )
 
 plugin.methods.register_function(
@@ -206,7 +209,8 @@ plugin.methods.register_function(
     output_descriptions={'classified_feature_data': 'Feature data table that '
                                                     'contains Classyfire '
                                                     'annotations per mass-'
-                                                    'spec feature'}
+                                                    'spec feature'},
+    citations=[citations['djoumbou2016classyfire']]
 )
 
 plugin.methods.register_function(
@@ -240,7 +244,7 @@ plugin.visualizers.register_function(
             'feature_metadata': FeatureData[Molecules]
             },
     parameters={
-        'coloring_category': Str,
+        'category': Str,
         'parent_mz': Str,
         'color_palette': Str % Choices(['Pastel1', 'Pastel2', 'Paired',
                                         'Accent', 'Dark2', 'Set1', 'Set2',
@@ -257,7 +261,7 @@ plugin.visualizers.register_function(
                         'feature_metadata': 'Feature metadata'
                         },
     parameter_descriptions={
-        'coloring_category': 'The feature data column used to color the tips',
+        'category': 'The feature data column used to color and label the tips',
         'color_palette': 'The color palette to use for coloring tips. '
                          'For examples, see: https://matplotlib.org/'
                          'tutorials/colors/colormaps.html',
