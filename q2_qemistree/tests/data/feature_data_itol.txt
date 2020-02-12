@@ -1,0 +1,12 @@
+label	#featureID	csi_smiles	ms2_smiles	table_number	important	not_so_important	annotation_type
+featurehash1	3			1	a	x	CSIFingerID
+featurehash2	7	CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)O		1	a	x	MS2
+featurehash3	2			1	b	x	MS2
+featurehash4	5	CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O		1	c	x	MS2
+featurehash5	6	CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O		1	d	x	MS2
+featurehash7	7	CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O		1	e	y	
+featurehash8	8	CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O		1	f	y	CSIFingerID
+featurehash10	10	CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O		1	g	y	CSIFingerID
+featurehash22	22	CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O		1	h	y	
+featurehash42	23	CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O		1	i	y	CSIFingerID
+featurehash43	24	CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O		1	j	y	

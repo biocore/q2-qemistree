@@ -23,8 +23,7 @@ from itolapi import Itol
 TEMPLATES = pkg_resources.resource_filename('q2_qemistree', 'assets')
 
 
-def classyfire_to_colors(coloring_category: str,
-                         color_palette: str):
+def values_to_colors(coloring_category: str, color_palette: str):
     '''This function generates a color map (dict) for unique Classyfire
     annotations in a user-specified Classyfire level.'''
     color_map = {}
@@ -41,55 +40,77 @@ def classyfire_to_colors(coloring_category: str,
     return color_map
 
 
+def format_colors(feature_metadata, category, color_palette):
+    colors = []
+
+    color_map = values_to_colors(feature_metadata[category], color_palette)
+
+    colors.append('TREE_COLORS')
+    colors.append('SEPARATOR TAB')
+    colors.append('DATA')
+
+    for idx in feature_metadata.index:
+        color = color_map[feature_metadata.loc[idx, category]]
+        if feature_metadata.loc[idx, 'annotation_type'] == 'MS2':
+            colors.append('%s\tclade\t%s\tnormal\t6' % (idx, color))
+        else:
+            colors.append('%s\tclade\t%s\tdashed\t4' % (idx, color))
+
+    return '\n'.join(colors)
+
+
+def format_labels(feature_metadata, category, ms2_label, parent_mz):
+    labels = []
+
+    missing_values = {'unclassified', 'unexpected server response',
+                      'SMILE parse error', np.nan}
+
+    labels.append('LABELS')
+    labels.append('SEPARATOR TAB')
+    labels.append('DATA')
+
+    if ms2_label:
+        for idx in feature_metadata.index:
+            ms2_compound = feature_metadata.loc[idx, 'ms2_compound']
+            if pd.notna(ms2_compound) and not ms2_compound.isspace():
+                label = ms2_compound
+            else:
+                label = feature_metadata.loc[idx, category]
+
+            if parent_mz and label in missing_values:
+                label = feature_metadata.loc[idx, parent_mz]
+
+            labels.append('%s\t%s' % (idx, label))
+    else:
+        for idx in feature_metadata.index:
+            label = feature_metadata.loc[idx, category]
+
+            if parent_mz and label in missing_values:
+                label = feature_metadata.loc[idx, parent_mz]
+
+            labels.append('%s\t%s' % (idx, label))
+
+    return '\n'.join(labels)
+
+
 def plot(output_dir: str, table: biom.Table, tree: NewickFormat,
          feature_metadata: pd.DataFrame, category: str,
          color_palette: str = 'Dark2', ms2_label: bool = False,
          parent_mz: str = None) -> None:
 
-    missing_values = {'unclassified', 'unexpected server response',
-                      'SMILE parse error', np.nan}
-
     if category not in feature_metadata.columns:
-        raise ValueError('Could not find %s in the feature data')
-
-    color_map = classyfire_to_colors(feature_metadata[category],
-                                     color_palette)
+        raise ValueError('Could not find %s in the feature data, the available'
+                         ' columns are: %s.' %
+                         ', '.join(feature_metadata.columns.astype()))
 
     color_fp = join(output_dir, 'colors.tsv')
     with open(color_fp, 'w') as fh:
-        fh.write('TREE_COLORS\n'
-                 'SEPARATOR TAB\n'
-                 'DATA\n')
-
-        for idx in feature_metadata.index:
-            color = color_map[feature_metadata.loc[idx, category]]
-            if feature_metadata.loc[idx, 'annotation_type'] == 'MS2':
-                fh.write(idx + '\t' + 'clade\t' + color + '\tnormal\t6\n')
-            else:
-                fh.write(idx + '\t' + 'clade\t' + color + '\tdashed\t4\n')
+        fh.write(format_colors(feature_metadata, category, color_palette))
 
     label_fp = join(output_dir, 'labels.tsv')
     with open(label_fp, 'w') as fh:
-        fh.write('LABELS\n'
-                 'SEPARATOR TAB\n'
-                 'DATA\n')
-
-        if ms2_label:
-            for idx in feature_metadata.index:
-                ms2_compound = feature_metadata.loc[idx, 'ms2_compound']
-                if pd.notna(ms2_compound) and not ms2_compound.isspace():
-                    label = ms2_compound
-                else:
-                    label = feature_metadata.loc[idx, category]
-                if parent_mz and label in missing_values:
-                    label = feature_metadata.loc[idx, parent_mz]
-                fh.write(str(idx) + '\t' + str(label) + '\n')
-        else:
-            for idx in feature_metadata.index:
-                label = feature_metadata.loc[idx, category]
-                if parent_mz and label in missing_values:
-                    label = feature_metadata.loc[idx, parent_mz]
-                fh.write(idx + '\t' + label + '\n')
+        fh.write(format_labels(feature_metadata, category, ms2_label,
+                               parent_mz))
 
     # itol won't accept a file unless it has a .tree or .txt extension
     target = join(output_dir, 'qemistree.tree')
