@@ -51,10 +51,13 @@ def format_colors(feature_metadata, category, color_palette):
 
     for idx in feature_metadata.index:
         color = color_map[feature_metadata.loc[idx, category]]
+
         if feature_metadata.loc[idx, 'annotation_type'] == 'MS2':
-            colors.append('%s\tclade\t%s\tnormal\t6' % (idx, color))
+            style, width = 'normal', 6
         else:
-            colors.append('%s\tclade\t%s\tdashed\t4' % (idx, color))
+            style, width = 'dashed', 4
+
+        colors.append('%s\tclade\t%s\t%s\t%s' % (idx, color, style, width))
 
     return '\n'.join(colors)
 
