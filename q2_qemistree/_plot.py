@@ -24,8 +24,8 @@ TEMPLATES = pkg_resources.resource_filename('q2_qemistree', 'assets')
 
 
 def values_to_colors(coloring_category: str, color_palette: str):
-    '''This function generates a color map (dict) for unique Classyfire
-    annotations in a user-specified Classyfire level.'''
+    '''This function generates a color map (dict) for unique values in a
+    user-specified feature metadata column.'''
     color_map = {}
     annotations = coloring_category.unique()
     colors = sns.color_palette(color_palette,
