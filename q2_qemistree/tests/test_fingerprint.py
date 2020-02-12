@@ -50,9 +50,9 @@ class FingerprintTests(TestCase):
                                              features=ions,
                                              ppm_max=15, profile='orbitrap')
         contents = os.listdir(result.get_path())
-        print('test fragmentation trees')
-        print(contents)
         self.assertTrue(('version.txt' in contents))
+
+        contents = os.listdir(result.path)
         self.assertTrue(('stderr.txt' in contents))
         self.assertTrue(('stdout.txt' in contents))
 
@@ -63,9 +63,9 @@ class FingerprintTests(TestCase):
                                              ppm_max=15, profile='orbitrap',
                                              ionization_mode='negative')
         contents = os.listdir(result.get_path())
-        print('test fragmentation trees negative')
-        print(contents)
         self.assertTrue(('version.txt' in contents))
+
+        contents = os.listdir(result.path)
         self.assertTrue(('stderr.txt' in contents))
         self.assertTrue(('stdout.txt' in contents))
 
@@ -86,8 +86,8 @@ class FingerprintTests(TestCase):
                                            features=ions)
         contents = os.listdir(result.get_path())
         self.assertTrue(('zodiac_summary.csv' in contents))
-        print('test reranking')
-        print(contents)
+
+        contents = os.listdir(result.path)
         self.assertTrue(('stderr.txt' in contents))
         self.assertTrue(('stdout.txt' in contents))
 
@@ -96,9 +96,9 @@ class FingerprintTests(TestCase):
         result = predict_fingerprints(sirius_path=self.goodsirpath,
                                       molecular_formulas=zodout, ppm_max=15)
         contents = os.listdir(result.get_path())
-        print('test csi')
-        print(contents)
         self.assertTrue(('summary_csi_fingerid.csv' in contents))
+
+        contents = os.listdir(result.path)
         self.assertTrue(('stderr.txt' in contents))
         self.assertTrue(('stdout.txt' in contents))
 
