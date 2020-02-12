@@ -51,6 +51,8 @@ class FingerprintTests(TestCase):
                                              ppm_max=15, profile='orbitrap')
         contents = os.listdir(result.get_path())
         self.assertTrue(('version.txt' in contents))
+        self.assertTrue(('stderr.txt' in contents))
+        self.assertTrue(('stdout.txt' in contents))
 
     def test_fragmentation_trees_negative_ionization(self):
         ions = self.ions.view(MGFDirFmt)
@@ -60,6 +62,8 @@ class FingerprintTests(TestCase):
                                              ionization_mode='negative')
         contents = os.listdir(result.get_path())
         self.assertTrue(('version.txt' in contents))
+        self.assertTrue(('stderr.txt' in contents))
+        self.assertTrue(('stdout.txt' in contents))
 
     def test_fragmentation_trees_exception(self):
         ions = self.ions.view(MGFDirFmt)
@@ -78,6 +82,8 @@ class FingerprintTests(TestCase):
                                            features=ions)
         contents = os.listdir(result.get_path())
         self.assertTrue(('zodiac_summary.csv' in contents))
+        self.assertTrue(('stderr.txt' in contents))
+        self.assertTrue(('stdout.txt' in contents))
 
     def test_fingerid(self):
         zodout = self.zodout.view(ZodiacDirFmt)
@@ -85,6 +91,8 @@ class FingerprintTests(TestCase):
                                       molecular_formulas=zodout, ppm_max=15)
         contents = os.listdir(result.get_path())
         self.assertTrue(('summary_csi_fingerid.csv' in contents))
+        self.assertTrue(('stderr.txt' in contents))
+        self.assertTrue(('stdout.txt' in contents))
 
 
 if __name__ == '__main__':
