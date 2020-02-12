@@ -18,10 +18,15 @@ from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
                          CSIFolder, CSIDirFmt,
                          FeatureData, TSVMoleculesFormat, Molecules)
+from ._plot import plot
 
-from qiime2.plugin import Plugin, Str, Range, Choices, Float, Int, Bool, List
+from qiime2.plugin import (Plugin, Str, Range, Choices, Float, Int, Bool, List,
+                           Citations)
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
+
+
+citations = Citations.load('citations.bib', package='q2_qemistree')
 
 plugin = Plugin(
     name='qemistree',
@@ -30,6 +35,7 @@ plugin = Plugin(
     package='q2_qemistree',
     description='Hierarchical orderings for mass spectrometry data',
     short_description='Plugin for exploring chemical diversity.',
+    citations=citations,
 )
 
 # type registration
@@ -109,7 +115,8 @@ plugin.methods.register_function(
     outputs=[('fragmentation_trees', SiriusFolder)],
     output_descriptions={'fragmentation_trees': 'fragmentation trees '
                                                 'computed per feature '
-                                                'by Sirius'}
+                                                'by Sirius'},
+    citations=[citations['duhrkop2015sirius']]
 )
 
 keys = ['sirius_path', 'zodiac_threshold', 'n_jobs', 'java_flags']
@@ -127,7 +134,8 @@ plugin.methods.register_function(
     outputs=[('molecular_formulas', ZodiacFolder)],
     output_descriptions={'molecular_formulas': 'Top scored molecular formula '
                                                'per feature after reranking'
-                                               'using Zodiac'}
+                                               'using Zodiac'},
+    citations=[citations['duhrkop2015sirius']]
 )
 
 keys = ['sirius_path', 'ppm_max', 'n_jobs', 'fingerid_db', 'java_flags']
@@ -144,7 +152,8 @@ plugin.methods.register_function(
     outputs=[('predicted_fingerprints', CSIFolder)],
     output_descriptions={'predicted_fingerprints': 'Predicted substructures '
                                                    'per feature using '
-                                                   'CSI:FingerID'}
+                                                   'CSI:FingerID'},
+    citations=[citations['duhrkop2015sirius']]
 )
 
 plugin.methods.register_function(
@@ -165,11 +174,11 @@ plugin.methods.register_function(
                                        'match for mass-spec features'},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints',
-                            'metric' : 'metric for hierarchical clustering of '
-                                       'fingerprints. If the Jaccard metric is'
-                                       ' selected, molecular fingerprints are '
-                                       'first binarized (probabilities above '
-                                       '0.5 are True, and False otherwise).'},
+                            'metric': 'metric for hierarchical clustering of '
+                                      'fingerprints. If the Jaccard metric is'
+                                      ' selected, molecular fingerprints are '
+                                      'first binarized (probabilities above '
+                                      '0.5 are True, and False otherwise).'},
     outputs=[('tree', Phylogeny[Rooted]),
              ('feature_table', FeatureTable[Frequency]),
              ('feature_data', FeatureData[Molecules])],
@@ -200,7 +209,8 @@ plugin.methods.register_function(
     output_descriptions={'classified_feature_data': 'Feature data table that '
                                                     'contains Classyfire '
                                                     'annotations per mass-'
-                                                    'spec feature'}
+                                                    'spec feature'},
+    citations=[citations['djoumbou2016classyfire']]
 )
 
 plugin.methods.register_function(
@@ -213,7 +223,7 @@ plugin.methods.register_function(
     input_descriptions={'feature_data': 'Feature data table with '
                                         'molecules to keep',
                         'tree': 'Tree of relatedness of molecules.'},
-    parameter_descriptions={'column': 'A column in feature data table. ' 
+    parameter_descriptions={'column': 'A column in feature data table. '
                                       'Features with missing values in this '
                                       'column will be removed from the tree. '
                                       'If no column name is specified then '
@@ -223,5 +233,42 @@ plugin.methods.register_function(
     output_descriptions={'pruned_tree': 'Pruned tree of molecules with '
                                         'tips that are in feature data'}
 )
+
+plugin.visualizers.register_function(
+    function=plot,
+    name='Generate an iTOL bar chart annotation file',
+    description=('Calculate mean frequency per category per sample and render '
+                 'as bar height.'),
+    inputs={'table': FeatureTable[Frequency],
+            'tree': Phylogeny[Rooted],
+            'feature_metadata': FeatureData[Molecules]
+            },
+    parameters={
+        'category': Str,
+        'parent_mz': Str,
+        'color_palette': Str % Choices(['Pastel1', 'Pastel2', 'Paired',
+                                        'Accent', 'Dark2', 'Set1', 'Set2',
+                                        'Set3', 'tab10', 'tab20', 'tab20b',
+                                        'tab20c', 'Greys', 'Purples', 'Blues',
+                                        'Greens', 'Oranges', 'Reds', 'YlOrBr',
+                                        'YlOrRd', 'OrRd', 'PuRd', 'RdPu',
+                                        'BuPu', 'GnBu', 'PuBu', 'YlGnBu',
+                                        'PuBuGn', 'BuGn', 'YlGn']),
+        'ms2_label': Bool,
+                },
+    input_descriptions={'table': 'Table of feature sample categories',
+                        'tree': 'Phenetic tree',
+                        'feature_metadata': 'Feature metadata'
+                        },
+    parameter_descriptions={
+        'category': 'The feature data column used to color and label the tips',
+        'color_palette': 'The color palette to use for coloring tips. '
+                         'For examples, see: https://matplotlib.org/'
+                         'tutorials/colors/colormaps.html',
+        'ms2_label': 'Whether to label the tips with the MS2 value',
+        'parent_mz': 'If the feature is unclassified, label the tips using '
+                     'this column\'s value'
+    },
+    citations=[citations['letunic2019itol']])
 
 importlib.import_module('q2_qemistree._transformer')
