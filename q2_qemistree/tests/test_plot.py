@@ -28,7 +28,37 @@ DATA
 9	clade	#d95f02	dashed	4
 10	clade	#d95f02	dashed	4"""
 
-EXP_LABELS = """LABELS
+EXP_LABELS_A = """LABELS
+SEPARATOR TAB
+DATA
+0	Spectral Match to Bleepbloop
+1	Caffeine
+2	Fakeiine
+3	x
+4	x
+5	Spectral Match to Glu-Val from NIST14
+6	Spectral Match to Glu-Val from NIST14
+7	y
+8	y
+9	y
+10	y"""
+
+EXP_LABELS_B = """LABELS
+SEPARATOR TAB
+DATA
+0	Spectral Match to Bleepbloop
+1	Caffeine
+2	Fakeiine
+3	5
+4	6
+5	Spectral Match to Glu-Val from NIST14
+6	Spectral Match to Glu-Val from NIST14
+7	10
+8	22
+9	23
+10	24"""
+
+EXP_LABELS_C = """LABELS
 SEPARATOR TAB
 DATA
 0	x
@@ -76,10 +106,20 @@ class TestPlot(TestCase):
         res = format_colors(self.feature_data, 'not_so_important', 'Dark2')
         self.assertEqual(res, EXP_COLORS)
 
+    def test_format_labels(self):
+        res = format_labels(self.feature_data, 'not_so_important', True,
+                            None)
+        self.assertEqual(res, EXP_LABELS_A)
+
+    def test_format_labels_parent_mz(self):
+        res = format_labels(self.feature_data, 'ms2_compound', True,
+                            '#featureID')
+        self.assertEqual(res, EXP_LABELS_B)
+
     def test_format_labels_no_ms2(self):
         res = format_labels(self.feature_data, 'not_so_important', False,
                             None)
-        self.assertEqual(res, EXP_LABELS)
+        self.assertEqual(res, EXP_LABELS_C)
 
 
 if __name__ == '__main__':
