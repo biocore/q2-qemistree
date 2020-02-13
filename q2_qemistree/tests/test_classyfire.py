@@ -32,7 +32,7 @@ class TestClassyfire(TestCase):
                                              ['bar', np.nan]],
                                        columns=['csi_smiles', 'ms2_smiles'])
         self.levels = set(['kingdom', 'superclass', 'class', 'subclass',
-                          'direct_parent', 'annotation_type'])
+                          'direct_parent', 'structure_source'])
 
     def test_no_smiles(self):
         msg = ('Feature data table must contain the columns `csi_smiles` '
