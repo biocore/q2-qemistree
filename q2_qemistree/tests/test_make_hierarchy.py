@@ -56,7 +56,8 @@ class TestHierarchy(TestCase):
         goodcsi2 = self.goodcsi2.view(CSIDirFmt)
         ms2_match1 = pd.DataFrame(index=['2', '4'], columns=[])
         ms2_match2 = pd.DataFrame(index=['10', '12'], columns=['Smiles'])
-        msg = "MS2 match tables must contain the column `Smiles`"
+        msg = ("MS2 match tables must contain the column `Smiles`. Please "
+               "check if you have the correct input file for this command.")
         with self.assertRaisesRegex(ValueError, msg):
             make_hierarchy([goodcsi, goodcsi2],
                            [self.features, self.features2],

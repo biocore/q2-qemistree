@@ -112,7 +112,7 @@ class TestPlot(TestCase):
         self.assertEqual(res, EXP_LABELS_A)
 
     def test_format_labels_parent_mz(self):
-        res = format_labels(self.feature_data, 'ms2_compound', True,
+        res = format_labels(self.feature_data, 'ms2_library_match', True,
                             '#featureID')
         self.assertEqual(res, EXP_LABELS_B)
 
