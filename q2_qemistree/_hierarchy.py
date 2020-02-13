@@ -115,7 +115,8 @@ def make_hierarchy(csi_results: CSIDirFmt,
             ms2_match = ms2_matches[n]
             if 'Smiles' not in ms2_match.columns:
                 raise ValueError("MS2 match tables must contain the "
-                                 "column `Smiles`")
+                                 "column `Smiles`. Please check if you have "
+                                 "the correct input file for this command.")
             collated_fps, smiles = process_csi_results(csi_result, ms2_match,
                                                        qc_properties,
                                                        metric=metric)
