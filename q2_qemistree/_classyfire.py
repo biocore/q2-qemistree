@@ -50,13 +50,13 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
         csi_smiles = feature_data.loc[idx, 'csi_smiles']
         if pd.notna(ms2_smiles) and not ms2_smiles.isspace():
             feature_data.loc[idx, 'smiles'] = ms2_smiles
-            feature_data.loc[idx, 'annotation_type'] = 'MS2'
+            feature_data.loc[idx, 'structure_source'] = 'MS2'
         elif pd.notna(csi_smiles):
             feature_data.loc[idx, 'smiles'] = csi_smiles
-            feature_data.loc[idx, 'annotation_type'] = 'CSIFingerID'
+            feature_data.loc[idx, 'structure_source'] = 'CSIFingerID'
         else:
             feature_data.loc[idx, 'smiles'] = np.nan
-            feature_data.loc[idx, 'annotation_type'] = np.nan
+            feature_data.loc[idx, 'structure_source'] = np.nan
     if feature_data['smiles'].notna().sum() == 0:
         raise ValueError("The feature data table should have at least "
                          "one structural annotation to run Classyfire")

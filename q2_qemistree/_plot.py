@@ -52,7 +52,7 @@ def format_colors(feature_metadata, category, color_palette):
     for idx in feature_metadata.index:
         color = color_map[feature_metadata.loc[idx, category]]
 
-        if feature_metadata.loc[idx, 'annotation_type'] == 'MS2':
+        if feature_metadata.loc[idx, 'structure_source'] == 'MS2':
             style, width = 'normal', 6
         else:
             style, width = 'dashed', 4
@@ -74,7 +74,7 @@ def format_labels(feature_metadata, category, ms2_label, parent_mz):
 
     if ms2_label:
         for idx in feature_metadata.index:
-            ms2_compound = feature_metadata.loc[idx, 'ms2_compound']
+            ms2_compound = feature_metadata.loc[idx, 'ms2_library_match']
             if pd.notna(ms2_compound) and not ms2_compound.isspace():
                 label = ms2_compound
             else:
