@@ -1,4 +1,4 @@
-#featureID	csi_smiles	ms2_smiles	ms2_compound	ms2_adduct
+#featureID	csi_smiles	ms2_smiles	ms2_library_match	ms2_adduct
 3				
 7	CC(=N)C1=CN(C)C=N1			
 2				

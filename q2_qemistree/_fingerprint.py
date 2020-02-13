@@ -12,7 +12,7 @@ import os
 from ._semantics import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, CSIDirFmt
 
 
-def run_command(cmd, output_fp, verbose=True):
+def run_command(cmd, output_fp, error_fp, verbose=True):
     if verbose:
         print("Running external command line application. This may print "
               "messages to stdout and/or stderr.")
@@ -22,8 +22,8 @@ def run_command(cmd, output_fp, verbose=True):
         print("\nCommand:", end=' ')
         print(" ".join(cmd), end='\n\n')
 
-    with open(output_fp, 'w') as output_f:
-        subprocess.run(cmd, stdout=output_f, check=True)
+    with open(output_fp, 'w') as output_f, open(error_fp, 'w') as error_f:
+        subprocess.run(cmd, stdout=output_f, stderr=error_f, check=True)
 
 
 def artifactory(sirius_path: str, parameters: list, java_flags: str = None,
@@ -38,7 +38,11 @@ def artifactory(sirius_path: str, parameters: list, java_flags: str = None,
         # append the flags to any existing options
         os.environ['_JAVA_OPTIONS'] = initial_flags + ' ' + java_flags
     cmdsir = ([sirius, '-o', artifact.get_path()] + parameters)
-    run_command(cmdsir, os.path.join(str(artifact.path), 'stdout.txt'))
+
+    stdout = os.path.join(str(artifact.path), 'stdout.txt')
+    stderr = os.path.join(str(artifact.path), 'stderr.txt')
+
+    run_command(cmdsir, stdout, stderr)
 
     if java_flags is not None:
         os.environ['_JAVA_OPTIONS'] = initial_flags

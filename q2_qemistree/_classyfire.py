@@ -50,13 +50,13 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
         csi_smiles = feature_data.loc[idx, 'csi_smiles']
         if pd.notna(ms2_smiles) and not ms2_smiles.isspace():
             feature_data.loc[idx, 'smiles'] = ms2_smiles
-            feature_data.loc[idx, 'annotation_type'] = 'MS2'
+            feature_data.loc[idx, 'structure_source'] = 'MS2'
         elif pd.notna(csi_smiles):
             feature_data.loc[idx, 'smiles'] = csi_smiles
-            feature_data.loc[idx, 'annotation_type'] = 'CSIFingerID'
+            feature_data.loc[idx, 'structure_source'] = 'CSIFingerID'
         else:
             feature_data.loc[idx, 'smiles'] = np.nan
-            feature_data.loc[idx, 'annotation_type'] = np.nan
+            feature_data.loc[idx, 'structure_source'] = np.nan
     if feature_data['smiles'].notna().sum() == 0:
         raise ValueError("The feature data table should have at least "
                          "one structural annotation to run Classyfire")
@@ -78,14 +78,18 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
             response = requests.get(to_classyfire+str(inchikey)+'.json')
             if response.status_code == 200:
                 response = response.json()
-                classyfire_levels_sub = [level for level in classyfire_levels
-                                         if level in response.keys()]
-                if len(classyfire_levels_sub) == 0:
+                sublevels = [level for level in classyfire_levels
+                             if level in response]
+                if len(sublevels) == 0:
+                    classyfire[idx] = 'unclassified'
                     continue
-                taxonomy = [response[level]['name']
-                            if bool(response) and response[level] is not None
-                            else 'unclassified'
-                            for level in classyfire_levels_sub]
+                taxonomy = []
+                for level in classyfire_levels:
+                    if (response and level in sublevels and
+                            response[level] is not None):
+                        taxonomy.append(response[level]['name'])
+                    else:
+                        taxonomy.append('unclassified')
                 classyfire[idx] = taxonomy
             elif response.status_code == 404:
                 classyfire[idx] = 'unclassified'

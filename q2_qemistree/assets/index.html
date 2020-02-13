@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}q2-qemistree{% endblock %}
+
+{% block head %}
+
+<style media="screen">
+    body {
+        overflow: hidden; /* hide rounding error in viewport calc */
+    }
+
+    iframe {
+        height: 100vh;
+        width: 100%;
+        border: none;
+    }
+
+    #q2templatesheader ~ .row > iframe {
+	height: calc(100vh - 85px);
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<h1>
+  View this tree using iTol (<a href="{{url}}" target="_blank">click here</a>)
+</h1>
+
+<div class='row'>
+  <div class='col-md-4'>
+    <a href='./qemistree.tree' target="_blank" rel="noopener noreferrer" class='btn btn-default'>
+      Tree
+    </a>
+  </div>
+  <div class='col-md-4'>
+    <a href='./labels.tsv' target="_blank" rel="noopener noreferrer" class='btn btn-default'>
+      Labels
+    </a>
+  </div>
+  <div class='col-md-4'>
+    <a href='./colors.tsv' target="_blank" rel="noopener noreferrer" class='btn btn-default'>
+      Colors
+    </a>
+  </div>
+</div>
+
+{% endblock %}
+
