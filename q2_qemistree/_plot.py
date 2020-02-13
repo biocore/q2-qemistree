@@ -104,7 +104,8 @@ def plot(output_dir: str, table: biom.Table, tree: NewickFormat,
     if category not in feature_metadata.columns:
         raise ValueError('Could not find %s in the feature data, the available'
                          ' columns are: %s.' %
-                         ', '.join(feature_metadata.columns.astype()))
+                         (category,
+                          ', '.join(feature_metadata.columns.astype())))
 
     color_fp = join(output_dir, 'colors.tsv')
     with open(color_fp, 'w') as fh:
