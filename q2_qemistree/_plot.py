@@ -117,6 +117,7 @@ def format_barplots(table: biom.Table):
     barplots.append('LEGEND_SHAPES\t'+'\t'.join(['1']*len(field_colors)))
     barplots.append('LEGEND_COLORS\t'+('\t').join(field_colors))
     barplots.append('LEGEND_LABELS\t'+('\t').join(field_labels))
+    barplots.append('WIDTH\t100')
 
     barplots.append('DATA')
     table = table.reset_index()
