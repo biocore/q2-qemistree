@@ -239,7 +239,7 @@ plugin.visualizers.register_function(
     name='Generate an iTOL bar chart annotation file',
     description=('Calculate mean frequency per category per sample and render '
                  'as bar height.'),
-    inputs={'table': FeatureTable[Frequency],
+    inputs={'grouped_table': FeatureTable[Frequency],
             'tree': Phylogeny[Rooted],
             'feature_metadata': FeatureData[Molecules]
             },
@@ -256,7 +256,8 @@ plugin.visualizers.register_function(
                                         'PuBuGn', 'BuGn', 'YlGn']),
         'ms2_label': Bool,
                 },
-    input_descriptions={'table': 'Table of feature sample categories',
+    input_descriptions={'grouped_table': 'Feature table of samples '
+                                        'grouped by categories',
                         'tree': 'Phenetic tree',
                         'feature_metadata': 'Feature metadata'
                         },
