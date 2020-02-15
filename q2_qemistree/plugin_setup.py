@@ -257,7 +257,7 @@ plugin.visualizers.register_function(
         'ms2_label': Bool,
                 },
     input_descriptions={'grouped_table': 'Feature table of samples '
-                                        'grouped by categories',
+                                         'grouped by categories',
                         'tree': 'Phenetic tree',
                         'feature_metadata': 'Feature metadata'
                         },
