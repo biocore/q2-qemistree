@@ -9,8 +9,10 @@
 from unittest import TestCase, main
 import os
 import pandas as pd
+import biom
 
-from q2_qemistree._plot import values_to_colors, format_colors, format_labels
+from q2_qemistree._plot import (values_to_colors, format_colors,
+                                format_labels, format_barplots)
 
 
 EXP_COLORS = """TREE_COLORS
@@ -73,14 +75,29 @@ DATA
 9	y
 10	y"""
 
+EXP_BARS = """DATASET_MULTIBAR
+SEPARATOR TAB
+DATASET_LABEL	Relative Abundance
+FIELD_COLORS	#f77189	#36ada4
+FIELD_LABELS	group dogs	group cats
+LEGEND_TITLE	Relative Abundance
+LEGEND_SHAPES	1	1
+LEGEND_COLORS	#f77189	#36ada4
+LEGEND_LABELS	group dogs	group cats
+WIDTH	100
+DATA
+57135347ed549fa52376d5cca207d57c	0.25	0.75
+a443a84cf2c49a6b758208e113ad1fd3	0.3125	0.6875
+6b527eb72120dda52f9b3952d20fc128	0.35	0.65"""
 
 class TestPlot(TestCase):
     def setUp(self):
         data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                                 'data')
         fp = os.path.join(data_dir, 'feature_data_itol.txt')
-
         self.feature_data = pd.read_csv(fp, sep='\t')
+        fp = os.path.join(data_dir, 'grouped_feature_table.biom')
+        self.grouped_table = biom.load_table(fp)
 
     def test_values_to_colors_repeated(self):
         with self.assertWarns(UserWarning):
@@ -120,6 +137,10 @@ class TestPlot(TestCase):
         res = format_labels(self.feature_data, 'not_so_important', False,
                             None)
         self.assertEqual(res, EXP_LABELS_C)
+
+    def test_format_barplots(self):
+        res = format_barplots(self.grouped_table)
+        self.assertEqual(res, EXP_BARS)
 
 
 if __name__ == '__main__':
