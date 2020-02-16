@@ -109,13 +109,13 @@ def format_barplots(table: biom.Table):
     field_labels = list(table.columns)
     field_colors = values_to_colors(field_labels, 'husl').values()
 
-    barplots.append('FIELD_COLORS\t'+('\t').join(field_colors))
-    barplots.append('FIELD_LABELS\t'+('\t').join(field_labels))
+    barplots.append('FIELD_COLORS\t'+'\t'.join(field_colors))
+    barplots.append('FIELD_LABELS\t'+'\t'.join(field_labels))
 
     barplots.append('LEGEND_TITLE\tRelative Abundance')
     barplots.append('LEGEND_SHAPES\t'+'\t'.join(['1']*len(field_colors)))
-    barplots.append('LEGEND_COLORS\t'+('\t').join(field_colors))
-    barplots.append('LEGEND_LABELS\t'+('\t').join(field_labels))
+    barplots.append('LEGEND_COLORS\t'+'\t'.join(field_colors))
+    barplots.append('LEGEND_LABELS\t'+'\t'.join(field_labels))
     barplots.append('WIDTH\t100')
 
     barplots.append('DATA')
@@ -130,15 +130,39 @@ def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
          category: str = 'class', ms2_label: bool = False,
          color_palette: str = 'Dark2', parent_mz: str = None,
          grouped_table: biom.Table = None) -> None:
-    '''This function does bleh blah blooh
+    '''This function plots the phenetic tree in iTOL with clade colors,
+    feature labels and relative abundance per sample group.
+
     Parameters
     ----------
+    tree : NewickFormat
+        Phenetic tree
+    feature_metadata : pd.DataFrame
+        Feature metadata
+    grouped_table : biom.Table, optional
+        Feature table of samples grouped by categories
+    category : str, optional
+        The feature data column used to color and label the tips.
+        Default 'class'
+    color_palette : str, optional
+        The color palette to use for coloring tips
+    ms2_label : bool, optional
+        Whether to label the tips with the MS2 value
+    parent_mz : str, optional
+        If the feature is unclassified, label the tips using this
+        column's value
 
     Raises
     ------
+    ValueError
+        If `category` is not a column in `feature_metadata`
+    UserWarning
+        If the number of unique values in `category` is greater than the number
+        of unique colors in `color_palette`
 
     Returns
     -------
+    None
     '''
 
     if category not in feature_metadata.columns:
