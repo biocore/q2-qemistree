@@ -236,9 +236,9 @@ plugin.methods.register_function(
 
 plugin.visualizers.register_function(
     function=plot,
-    name='Generate an iTOL bar chart annotation file',
-    description=('Calculate mean frequency per category per sample and render '
-                 'as bar height.'),
+    name='Generate an annotated qemistree plot in iTOL',
+    description=('Plots the phenetic tree in iTOL with clade colors, '
+                 'feature labels and relative abundance per sample group'),
     inputs={'grouped_table': FeatureTable[Frequency],
             'tree': Phylogeny[Rooted],
             'feature_metadata': FeatureData[Molecules]
