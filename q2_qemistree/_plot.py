@@ -101,7 +101,6 @@ def format_barplots(table: biom.Table):
     barplots.append('DATASET_MULTIBAR')
     barplots.append('SEPARATOR TAB')
     barplots.append('DATASET_LABEL\tRelative Abundance')
-    barplots.append('COLOR\t#ff0000')
 
     table = table.norm(axis='observation', inplace=False)
     table = pd.DataFrame(table.matrix_data.toarray(), table.ids('observation'),
