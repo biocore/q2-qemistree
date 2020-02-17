@@ -107,7 +107,6 @@ venv.bak/
 *.swp
 
 #test data
-q2_qemistree/tests/data/emptycsi
 q2_qemistree/tests/data/features_formated.biom.qza
 q2_qemistree/tests/data/features2_formated.biom.qza
 q2_qemistree/tests/data/goodcsi2
