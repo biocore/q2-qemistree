@@ -257,7 +257,13 @@ plugin.visualizers.register_function(
         'ms2_label': Bool,
                 },
     input_descriptions={'grouped_table': 'Feature table of samples '
-                                         'grouped by categories',
+                                         'grouped by categories. We recommend '
+                                         'collapsing feature table by a '
+                                         'sample metadata category using '
+                                         '`qiime feature-table group`. '
+                                         'We can then plot the prevalence '
+                                         'of these categories for '
+                                         'each molecule on the tree',
                         'tree': 'Phenetic tree',
                         'feature_metadata': 'Feature metadata'
                         },
