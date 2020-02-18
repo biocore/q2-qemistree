@@ -24,7 +24,7 @@ from itolapi import Itol
 TEMPLATES = pkg_resources.resource_filename('q2_qemistree', 'assets')
 
 
-def values_to_colors(categories: str, color_palette: str):
+def values_to_colors(categories, color_palette: str):
     '''This function generates a color map (dict) for unique values in a
     user-specified feature metadata column.'''
     color_map = {}
@@ -103,8 +103,7 @@ def format_barplots(table: biom.Table):
     barplots.append('DATASET_LABEL\tRelative Abundance')
 
     table = table.norm(axis='observation', inplace=False)
-    table = pd.DataFrame(table.matrix_data.toarray(), table.ids('observation'),
-                         table.ids('sample'))
+    table = table.to_dataframe(dense=True)
 
     field_labels = list(table.columns)
     field_colors = values_to_colors(field_labels, 'husl').values()
@@ -127,7 +126,7 @@ def format_barplots(table: biom.Table):
 
 
 def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
-         category: str = 'class', ms2_label: bool = False,
+         category: str = 'class', ms2_label: bool = True,
          color_palette: str = 'Dark2', parent_mz: str = None,
          grouped_table: biom.Table = None) -> None:
     '''This function plots the phenetic tree in iTOL with clade colors,
@@ -189,7 +188,7 @@ def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
     itol_uploader.add_file(target)
     itol_uploader.add_file(label_fp)
     itol_uploader.add_file(color_fp)
-    if grouped_table:
+    if grouped_table is not None:
         barplot_fp = join(output_dir, 'barplots.tsv')
         with open(barplot_fp, 'w') as fh:
             fh.write(format_barplots(grouped_table))
