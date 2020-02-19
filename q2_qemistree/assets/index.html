@@ -29,22 +29,28 @@
 </h1>
 
 <div class='row'>
-  <div class='col-md-4'>
+  <div class='col-md-3'>
     <a href='./qemistree.tree' target="_blank" rel="noopener noreferrer" class='btn btn-default'>
-      Tree
+      Qemistree
     </a>
   </div>
-  <div class='col-md-4'>
+  <div class='col-md-3'>
     <a href='./labels.tsv' target="_blank" rel="noopener noreferrer" class='btn btn-default'>
       Labels
     </a>
   </div>
-  <div class='col-md-4'>
+  <div class='col-md-3'>
     <a href='./colors.tsv' target="_blank" rel="noopener noreferrer" class='btn btn-default'>
       Colors
     </a>
   </div>
+  {% if has_barplots %}
+    <div class='col-md-3'>
+      <a href='./barplots.tsv' target="_blank" rel="noopener noreferrer" class='btn btn-default'>
+        Abundance
+      </a>
+    </div>
+  {% endif %}
 </div>
 
 {% endblock %}
-

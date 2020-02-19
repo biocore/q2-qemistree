@@ -236,10 +236,10 @@ plugin.methods.register_function(
 
 plugin.visualizers.register_function(
     function=plot,
-    name='Generate an iTOL bar chart annotation file',
-    description=('Calculate mean frequency per category per sample and render '
-                 'as bar height.'),
-    inputs={'table': FeatureTable[Frequency],
+    name='Generate an annotated qemistree plot in iTOL',
+    description=('Plots the phenetic tree in iTOL with clade colors, '
+                 'feature labels and relative abundance per sample group'),
+    inputs={'grouped_table': FeatureTable[Frequency],
             'tree': Phylogeny[Rooted],
             'feature_metadata': FeatureData[Molecules]
             },
@@ -256,7 +256,14 @@ plugin.visualizers.register_function(
                                         'PuBuGn', 'BuGn', 'YlGn']),
         'ms2_label': Bool,
                 },
-    input_descriptions={'table': 'Table of feature sample categories',
+    input_descriptions={'grouped_table': 'Feature table of samples '
+                                         'grouped by categories. We recommend '
+                                         'collapsing feature table by a '
+                                         'sample metadata category using '
+                                         '`qiime feature-table group`. '
+                                         'We can then plot the prevalence '
+                                         'of these categories for '
+                                         'each molecule on the tree',
                         'tree': 'Phenetic tree',
                         'feature_metadata': 'Feature metadata'
                         },
