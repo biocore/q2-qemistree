@@ -45,9 +45,11 @@
     </a>
   </div>
   <div class='col-md-3'>
-    <a href='./barplots.tsv' target="_blank" rel="noopener noreferrer" class='btn btn-default'>
-      Abundance
-    </a>
+    {% if has_barplots %}
+      <a href='./barplots.tsv' target="_blank" rel="noopener noreferrer" class='btn btn-default'>
+        Abundance
+    {% endif %}
+      </a>
   </div>
 </div>
 

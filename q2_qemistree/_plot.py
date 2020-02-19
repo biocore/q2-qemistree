@@ -14,7 +14,6 @@ import pandas as pd
 import numpy as np
 import q2templates
 import pkg_resources
-import pandas as pd
 
 from shutil import copyfile
 from os.path import join
@@ -203,4 +202,6 @@ def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
     print(url)
 
     index_path = join(TEMPLATES, 'index.html')
-    q2templates.render(index_path, output_dir, context={'url': url})
+    q2templates.render(index_path, output_dir,
+                       context={'url': url,
+                                'has_barplots': grouped_table is not None})
