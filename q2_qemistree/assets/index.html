@@ -44,13 +44,13 @@
       Colors
     </a>
   </div>
-  <div class='col-md-3'>
-    {% if has_barplots %}
+  {% if has_barplots %}
+    <div class='col-md-3'>
       <a href='./barplots.tsv' target="_blank" rel="noopener noreferrer" class='btn btn-default'>
         Abundance
-    {% endif %}
       </a>
-  </div>
+    </div>
+  {% endif %}
 </div>
 
 {% endblock %}
