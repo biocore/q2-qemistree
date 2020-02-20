@@ -77,6 +77,7 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
         smiles['ms2_smiles'] = ms2_match.loc[ms2_ids, 'Smiles']
         smiles['ms2_library_match'] = ms2_match.loc[ms2_ids, 'Compound_Name']
         smiles['ms2_adduct'] = ms2_match.loc[ms2_ids, 'Adduct']
+    smiles = smiles.fillna('NA').apply(lambda x : x.replace(' ', 'NA'))
     return smiles
 
 
