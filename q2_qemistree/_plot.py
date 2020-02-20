@@ -169,11 +169,11 @@ def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
                          (category,
                           ', '.join(feature_metadata.columns.astype())))
 
-    color_fp = join(output_dir, 'colors.tsv')
+    color_fp = join(output_dir, 'colors.txt')
     with open(color_fp, 'w') as fh:
         fh.write(format_colors(feature_metadata, category, color_palette))
 
-    label_fp = join(output_dir, 'labels.tsv')
+    label_fp = join(output_dir, 'labels.txt')
     with open(label_fp, 'w') as fh:
         fh.write(format_labels(feature_metadata, category, ms2_label,
                                parent_mz))
@@ -188,7 +188,7 @@ def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
     itol_uploader.add_file(label_fp)
     itol_uploader.add_file(color_fp)
     if grouped_table is not None:
-        barplot_fp = join(output_dir, 'barplots.tsv')
+        barplot_fp = join(output_dir, 'barplots.txt')
         with open(barplot_fp, 'w') as fh:
             fh.write(format_barplots(grouped_table))
         itol_uploader.add_file(barplot_fp)
