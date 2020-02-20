@@ -65,7 +65,7 @@ def format_labels(feature_metadata, category, ms2_label, parent_mz):
     labels = []
 
     missing_values = {'unclassified', 'unexpected server response',
-                      'SMILE parse error', np.nan}
+                      'SMILE parse error', np.nan, 'NA', 'missing'}
 
     labels.append('LABELS')
     labels.append('SEPARATOR TAB')
@@ -74,7 +74,7 @@ def format_labels(feature_metadata, category, ms2_label, parent_mz):
     if ms2_label:
         for idx in feature_metadata.index:
             ms2_compound = feature_metadata.loc[idx, 'ms2_library_match']
-            if pd.notna(ms2_compound) and not ms2_compound.isspace():
+            if ms2_compound not in missing_values:
                 label = ms2_compound
             else:
                 label = feature_metadata.loc[idx, category]
