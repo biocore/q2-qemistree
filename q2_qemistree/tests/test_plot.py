@@ -124,6 +124,7 @@ class TestPlot(TestCase):
         self.assertEqual(res, EXP_COLORS)
 
     def test_format_labels(self):
+        print(self.feature_data)
         res = format_labels(self.feature_data, 'not_so_important', True,
                             None)
         self.assertEqual(res, EXP_LABELS_A)
