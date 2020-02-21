@@ -46,8 +46,8 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
                          '`csi_smiles` and `ms2_smiles` '
                          'to run Classyfire')
     for idx in feature_data.index:
-        ms2_smiles = str(feature_data.loc[idx, 'ms2_smiles'])
-        csi_smiles = str(feature_data.loc[idx, 'csi_smiles'])
+        ms2_smiles = feature_data.loc[idx, 'ms2_smiles']
+        csi_smiles = feature_data.loc[idx, 'csi_smiles']
         if ms2_smiles != 'missing':
             feature_data.loc[idx, 'smiles'] = ms2_smiles
             feature_data.loc[idx, 'structure_source'] = 'MS2'
