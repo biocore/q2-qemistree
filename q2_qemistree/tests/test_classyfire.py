@@ -17,18 +17,18 @@ class TestClassyfire(TestCase):
         self.no_smiles = pd.DataFrame(index=['a', 'b', 'c'], data=[1, 2, 3],
                                       columns=['#featureID'])
         self.smiles = pd.DataFrame(index=['a', 'b', 'c'], data=[
-            ['NA', 'NA'],
-            ['CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)O', 'NA'],
-            ['NA', 'CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O']],
+            ['missing', 'missing'],
+            [' O=C(O)[C@@H](N)Cc1ccccc1', 'missing'],
+            ['missing', 'CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O']],
             columns=['csi_smiles', 'ms2_smiles'])
         self.nan_smiles = pd.DataFrame(index=['a', 'b', 'c'],
-                                       data=[['NA', 'NA'],
-                                             ['NA', 'NA'],
-                                             ['NA', 'NA']],
+                                       data=[['missing', 'missing'],
+                                             ['missing', 'missing'],
+                                             ['missing', 'missing']],
                                        columns=['csi_smiles', 'ms2_smiles'])
         self.mal_smiles = pd.DataFrame(index=['a', 'b'],
-                                       data=[['NA', 'foo'],
-                                             ['bar', 'NA']],
+                                       data=[['missing', 'foo'],
+                                             ['bar', 'missing']],
                                        columns=['csi_smiles', 'ms2_smiles'])
         self.levels = set(['kingdom', 'superclass', 'class', 'subclass',
                            'direct_parent', 'structure_source'])

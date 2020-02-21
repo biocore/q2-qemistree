@@ -46,12 +46,12 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
                          '`csi_smiles` and `ms2_smiles` '
                          'to run Classyfire')
     for idx in feature_data.index:
-        ms2_smiles = feature_data.loc[idx, 'ms2_smiles']
-        csi_smiles = feature_data.loc[idx, 'csi_smiles']
-        if ms2_smiles != 'NA':
+        ms2_smiles = str(feature_data.loc[idx, 'ms2_smiles'])
+        csi_smiles = str(feature_data.loc[idx, 'csi_smiles'])
+        if ms2_smiles != 'missing':
             feature_data.loc[idx, 'smiles'] = ms2_smiles
             feature_data.loc[idx, 'structure_source'] = 'MS2'
-        elif csi_smiles != 'NA':
+        elif csi_smiles != 'missing':
             feature_data.loc[idx, 'smiles'] = csi_smiles
             feature_data.loc[idx, 'structure_source'] = 'CSIFingerID'
         else:
@@ -60,13 +60,14 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
     if feature_data['smiles'].notna().sum() == 0:
         raise ValueError("The feature data table should have at least "
                          "one structural annotation to run Classyfire")
-    feature_data = feature_data.fillna('NA')
+    feature_data = feature_data.fillna('missing')
+
     classyfire = {}
     no_inchikey = []
     unexpected = []
     for idx in feature_data.index:
         smiles = feature_data.loc[idx, 'smiles']
-        if smiles != 'NA':
+        if smiles != 'missing':
             to_inchikey = 'https://gnps-structure.ucsd.edu/inchikey?smiles='
             urlencoded_smiles = urllib.parse.quote(smiles)
             response = requests.get(to_inchikey+urlencoded_smiles)
