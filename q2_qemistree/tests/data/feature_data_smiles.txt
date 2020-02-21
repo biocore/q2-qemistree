@@ -1,5 +1,0 @@
-label	#featureID	csi_smiles	ms2_smiles	table_number
-featurehash1	3			1
-featurehash2	7	CCCCCCCCCCCCCCCC(=O)OCC(COP(=O)([O-])OCC[N+](C)(C)C)O		1
-featurehash3	2			1
-featurehash4	5	CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O		1

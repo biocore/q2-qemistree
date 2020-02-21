@@ -42,7 +42,7 @@ def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
                          column)
     if column:
         failed = {'unclassified', 'unexpected server response',
-                  'SMILE parse error'}
+                  'SMILE parse error', 'missing'}
         # remove all NA values or missing values
         feature_data = feature_data[~(feature_data[column].isin(failed) |
                                     feature_data[column].isna())]
