@@ -75,8 +75,8 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
         ms2_match.index = ms2_match.index.astype(str)
         ms2_ids = ms2_match.index.intersection(smiles.index)
         smiles['ms2_smiles'] = ms2_match.loc[ms2_ids, 'Smiles'].str.strip()
-        smiles['ms2_library_match'] = ms2_match.loc[
-            ms2_ids, 'Compound_Name']
+        smiles['ms2_library_match'] = ms2_match.loc[ms2_ids, 'LibraryID']
+        smiles['parent_mass'] = ms2_match.loc[ms2_ids, 'parent mass']
         smiles['ms2_adduct'] = ms2_match.loc[ms2_ids, 'Adduct']
     smiles = smiles.fillna('missing').apply(
         lambda x: x.replace({' ': 'missing', '': 'missing'}))
