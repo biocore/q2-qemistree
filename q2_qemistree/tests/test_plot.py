@@ -51,14 +51,14 @@ DATA
 0	Spectral Match to Bleepbloop
 1	Caffeine
 2	Fakeiine
-3	5
-4	6
+3	196.2
+4	197.2
 5	Spectral Match to Glu-Val from NIST14
 6	Spectral Match to Glu-Val from NIST14
-7	10
-8	22
-9	23
-10	24"""
+7	200.2
+8	201.2
+9	202.2
+10	203.2"""
 
 EXP_LABELS_C = """LABELS
 SEPARATOR TAB
@@ -125,12 +125,12 @@ class TestPlot(TestCase):
 
     def test_format_labels(self):
         res = format_labels(self.feature_data, 'not_so_important', True,
-                            None)
+                            False)
         self.assertEqual(res, EXP_LABELS_A)
 
     def test_format_labels_parent_mz(self):
         res = format_labels(self.feature_data, 'ms2_library_match', True,
-                            '#featureID')
+                            True)
         self.assertEqual(res, EXP_LABELS_B)
 
     def test_format_labels_no_ms2(self):

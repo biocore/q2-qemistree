@@ -49,7 +49,7 @@ class TestMatch(TestCase):
         self.assertEqual(fdata_featrs, featrs)
         self.assertEqual(fdata_cols, sorted(['#featureID', 'csi_smiles',
                                              'ms2_smiles', 'ms2_library_match',
-                                             'ms2_adduct', 'parent_mass']))
+                                             'parent_mass', 'retention_time']))
 
     def test_matchFps(self):
         relabeled_fps, matched_ft, matched_fdata = get_matched_tables(
