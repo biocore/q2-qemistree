@@ -65,7 +65,7 @@ def format_labels(feature_metadata, category, ms2_label, parent_mz):
     labels = []
 
     missing_values = {'unclassified', 'unexpected server response',
-                      'SMILE parse error', np.nan}
+                      'SMILE parse error', np.nan, 'NA', 'missing'}
 
     labels.append('LABELS')
     labels.append('SEPARATOR TAB')
@@ -74,7 +74,7 @@ def format_labels(feature_metadata, category, ms2_label, parent_mz):
     if ms2_label:
         for idx in feature_metadata.index:
             ms2_compound = feature_metadata.loc[idx, 'ms2_library_match']
-            if pd.notna(ms2_compound) and not ms2_compound.isspace():
+            if ms2_compound not in missing_values:
                 label = ms2_compound
             else:
                 label = feature_metadata.loc[idx, category]
@@ -169,16 +169,16 @@ def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
                          (category,
                           ', '.join(feature_metadata.columns.astype())))
 
-    color_fp = join(output_dir, 'colors.txt')
+    color_fp = join(output_dir, 'colors')
     with open(color_fp, 'w') as fh:
         fh.write(format_colors(feature_metadata, category, color_palette))
 
-    label_fp = join(output_dir, 'labels.txt')
+    label_fp = join(output_dir, 'labels')
     with open(label_fp, 'w') as fh:
         fh.write(format_labels(feature_metadata, category, ms2_label,
                                parent_mz))
 
-    # itol won't accept a file unless it has a .tree or .txt extension
+    # itol won't accept a tree file unless it has a .tree or .txt extension
     target = join(output_dir, 'qemistree.tree')
     copyfile(str(tree), target)
 
@@ -188,7 +188,7 @@ def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
     itol_uploader.add_file(label_fp)
     itol_uploader.add_file(color_fp)
     if grouped_table is not None:
-        barplot_fp = join(output_dir, 'barplots.txt')
+        barplot_fp = join(output_dir, 'barplots')
         with open(barplot_fp, 'w') as fh:
             fh.write(format_barplots(grouped_table))
         itol_uploader.add_file(barplot_fp)
