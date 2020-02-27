@@ -187,7 +187,7 @@ qiime qemistree prune-hierarchy \
   --o-pruned-tree merged-qemistree-featureID.qza
 ```
 
-Users can choose any of the data columns (`--p-column`) that are in the `classified-merged-feature-data.qza` file for pruning. For e.g. '#FeatureID','kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny.**Note:** pruning by '#FeatureID' in this case will technically not remove any of the features as all they all should have this form of annotation. The use of this columns becomes useful for representing unclassified features on the tree as well.
+Users can choose any of the data columns (`--p-column`) that are in the `classified-merged-feature-data.qza` file for pruning. For e.g. '#FeatureID','kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny. **Note:** pruning by '#FeatureID' in this case will technically not remove any of the features as all they all should have this form of annotation. The use of this columns becomes useful for representing unclassified features on the tree as well.
 
 2. Generate an annotated qemistree tree in [iTOL](https://itol.embl.de/).
 
