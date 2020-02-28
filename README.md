@@ -182,19 +182,33 @@ Lastly, Qemistree includes some utility functions that are most useful if users 
 ```bash
 qiime qemistree prune-hierarchy \
   --i-feature-data classified-merged-feature-data.qza \
-  --p-column '#featureID' \
+  --p-column smiles \
   --i-tree merged-qemistree.qza \
-  --o-pruned-tree merged-qemistree-featureID.qza
+  --o-pruned-tree merged-qemistree-smiles.qza
 ```
 
-Users can choose any of the data columns (`--p-column`) that are in the `classified-merged-feature-data.qza` file for pruning. For e.g. '#FeatureID','kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny. **Note:** pruning by '#FeatureID' in this case will technically not remove any of the features as they all should have this form of annotation. The use of this columns becomes useful for representing unclassified features on the tree as well.
+Users can choose any of the data columns (`--p-column`) that are in the `classified-merged-feature-data.qza` file for pruning. For e.g. '#FeatureID','kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny. **Note:** pruning by '#FeatureID' will not remove any of the features as they all should have this form of annotation. The use of this columns becomes useful for representing unclassified features on the tree.
 
 2. Generate an annotated qemistree tree in [iTOL](https://itol.embl.de/).
 
+If the user has groups and/or conditions by which they want to visually compare the features, a grouped table file can be inputted to the iTOL tree that contains all the summarize information for each feature stratified by the group/condition. This will generate normalized barcharts at the tips of the tree specifying the relative abundance of the feature in each particular group/condition the feature is found in. 
+
+To generate the grouped table file, the `feature-table-hashed.qza` file can be run through the `feature-table group` module in Qiime2 like so:
+
+```bash
+qiime feature-table group \
+  --i-table feature-table-hashed.qza \
+  --p-axis 'sample'
+  --m-metadata-file metadata.tsv \
+  --m-metadata-column groups \
+  --o-grouped-table /path-to-grouped-feature-table.qza/
+```
+With the grouped table in hand, the following module can be run to create an annotated iTOL tree. 
+
 ```bash
 qiime qemistree plot \
-  --i-grouped-table feature-table-hashed-grouped.qza \
-  --i-tree merged-qemistree-featureID.qza \
+  --i-grouped-table path-to-grouped-feature-table.qza \
+  --i-tree merged-qemistree-smiles.qza \
   --i-feature-metadata classified-merged-feature-data.qza \
   --p-category direct_parent \
   --p-color-palette Set3 \
@@ -203,12 +217,6 @@ qiime qemistree plot \
   --o-visualization /path-to-qemistree-plot.qzv/
 ```
 
-This creates an iTOL tree from the `merged-qemistree-featureID.qza` file that 1) colors the tree clades and 2) labels the tree tips based on the specified Classyfire level they belong to ('direct_parent' here). The color scheme for the tree clades is specified by `--p-color-palette` and tree tips without a Classyfire classification can be labelled with their m/z mass by specifying the column in the feature metadata file with that information (`--p-parent-mz`). For easier interpretativity, using the `--p-no-ms2-label` setting labels all the tree tips based on the CSI:FingerID prediction, and not the MS/MS library matches. This enables the users to visualize the chemical diversity in their samples and better understand the underlying chemistry.
-
-If the user has groups and/or conditions by which they want to visually compare the features, a grouped table file can be inputted that contains all the summarize information for each feature stratified by the group/condition. This will generate normalized barcharts at the tips of the tree specifying the relative abundance of the feature in each particular group/condition the feature is found in. To generate the grouped table file, the `feature-table-hashed.qza` file can be run through the XXX plugin in Qiime2 like so:
-
-```bash
-#need plugin information
-```
+This creates an iTOL tree from the `merged-qemistree-smiles.qza` file that 1) colors the tree clades and 2) labels the tree tips based on the specified Classyfire level they belong to ('direct_parent' here). The color scheme for the tree clades is specified by `--p-color-palette` and tree tips without a Classyfire classification can be labelled with their m/z mass by specifying the column in the feature metadata file with that information (`--p-parent-mz`). For easier interpretativity, using the `--p-no-ms2-label` setting labels all the tree tips based on the CSI:FingerID prediction, and not the MS/MS library matches. This enables the users to visualize the chemical diversity in their samples and better understand the underlying chemistry.
 
 One can upload the `path-to-qemistree-plot.qzv` file generated to the [Qiime2 Viewer](https://view.qiime2.org) which will open up [iTOL](https://itol.embl.de/). Further visual modifications to the tree can be made there. 
