@@ -59,7 +59,7 @@ def merge_feature_data(fdata: pd.DataFrame) -> pd.DataFrame:
 
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
-                   ms2_matches: pd.DataFrame = None,
+                   library_matches: pd.DataFrame = None,
                    qc_properties: bool = False,
                    metric: str = 'euclidean') -> (TreeNode, biom.Table,
                                                   pd.DataFrame):
@@ -75,7 +75,7 @@ def make_hierarchy(csi_results: CSIDirFmt,
         one or more CSI:FingerID output folder
     feature_table : biom.Table
         one or more feature tables with mass-spec feature intensity per sample
-    ms2_matches: pd.DataFrame
+    library_matches: pd.DataFrame
         one or more tables with MS/MS library match for mass-spec features
     qc_properties : bool, default False
         flag to filter molecular properties to keep only PUBCHEM fingerprints
@@ -104,20 +104,21 @@ def make_hierarchy(csi_results: CSIDirFmt,
     if len(feature_tables) != len(csi_results):
         raise ValueError("The feature tables and CSI results should have a "
                          "one-to-one correspondance.")
-    if ms2_matches and len(ms2_matches) != len(feature_tables):
+    if library_matches and len(library_matches) != len(feature_tables):
         raise ValueError("The MS2 match tables should have a one-to-one "
                          "correspondance with feature tables and CSI results.")
     for n, (feature_table, csi_result) in enumerate(zip(feature_tables,
                                                         csi_results)):
         if feature_table.is_empty():
             raise ValueError("Cannot have empty feature table")
-        if ms2_matches:
-            ms2_match = ms2_matches[n]
-            if 'Smiles' not in ms2_match.columns:
+        if library_matches:
+            library_match = library_matches[n]
+            if 'Smiles' not in library_match.columns:
                 raise ValueError("MS2 match tables must contain the "
                                  "column `Smiles`. Please check if you have "
                                  "the correct input file for this command.")
-            collated_fps, smiles = process_csi_results(csi_result, ms2_match,
+            collated_fps, smiles = process_csi_results(csi_result,
+                                                       library_match,
                                                        qc_properties,
                                                        metric=metric)
         else:

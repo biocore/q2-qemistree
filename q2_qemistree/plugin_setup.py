@@ -162,7 +162,7 @@ plugin.methods.register_function(
     description='Build a phylogeny based on molecular substructures',
     inputs={'csi_results': List[CSIFolder],
             'feature_tables': List[FeatureTable[Frequency]],
-            'ms2_matches': List[FeatureData[Molecules]]},
+            'library_matches': List[FeatureData[Molecules]]},
     parameters={'qc_properties': Bool,
                 'metric': Str % Choices(['euclidean', 'jaccard'])},
     input_descriptions={'csi_results': 'one or more CSI:FingerID '
@@ -170,13 +170,14 @@ plugin.methods.register_function(
                         'feature_tables': 'one or more feature tables with '
                                           'mass-spec feature intensity '
                                           'per sample',
-                        'ms2_matches': 'one or more tables with MS/MS library '
-                                       'match for mass-spec features'},
+                        'library_matches': 'one or more tables with MS/MS '
+                                           'library match for mass-spec '
+                                           'features'},
     parameter_descriptions={'qc_properties': 'filters molecular properties to '
                                              'retain PUBCHEM fingerprints',
                             'metric': 'metric for hierarchical clustering of '
-                                      'fingerprints. If the Jaccard metric is'
-                                      ' selected, molecular fingerprints are '
+                                      'fingerprints. If the Jaccard metric is '
+                                      'selected, molecular fingerprints are '
                                       'first binarized (probabilities above '
                                       '0.5 are True, and False otherwise).'},
     outputs=[('tree', Phylogeny[Rooted]),
@@ -245,7 +246,6 @@ plugin.visualizers.register_function(
             },
     parameters={
         'category': Str,
-        'parent_mz': Str,
         'color_palette': Str % Choices(['Pastel1', 'Pastel2', 'Paired',
                                         'Accent', 'Dark2', 'Set1', 'Set2',
                                         'Set3', 'tab10', 'tab20', 'tab20b',
@@ -255,6 +255,7 @@ plugin.visualizers.register_function(
                                         'BuPu', 'GnBu', 'PuBu', 'YlGnBu',
                                         'PuBuGn', 'BuGn', 'YlGn']),
         'ms2_label': Bool,
+        'parent_mz': Bool
                 },
     input_descriptions={'grouped_table': 'Feature table of samples '
                                          'grouped by categories. We recommend '
@@ -274,7 +275,7 @@ plugin.visualizers.register_function(
                          'tutorials/colors/colormaps.html',
         'ms2_label': 'Whether to label the tips with the MS2 value',
         'parent_mz': 'If the feature is unclassified, label the tips using '
-                     'this column\'s value'
+                     'this parent mass of the molecule'
     },
     citations=[citations['letunic2019itol']])
 

@@ -80,7 +80,7 @@ def format_labels(feature_metadata, category, ms2_label, parent_mz):
                 label = feature_metadata.loc[idx, category]
 
             if parent_mz and label in missing_values:
-                label = feature_metadata.loc[idx, parent_mz]
+                label = feature_metadata.loc[idx, 'parent_mass']
 
             labels.append('%s\t%s' % (idx, label))
     else:
@@ -88,7 +88,7 @@ def format_labels(feature_metadata, category, ms2_label, parent_mz):
             label = feature_metadata.loc[idx, category]
 
             if parent_mz and label in missing_values:
-                label = feature_metadata.loc[idx, parent_mz]
+                label = feature_metadata.loc[idx, 'parent_mass']
 
             labels.append('%s\t%s' % (idx, label))
 
@@ -125,8 +125,8 @@ def format_barplots(table: biom.Table):
 
 
 def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
-         category: str = 'class', ms2_label: bool = True,
-         color_palette: str = 'Dark2', parent_mz: str = None,
+         category: str = 'class', ms2_label: bool = False,
+         color_palette: str = 'Dark2', parent_mz: bool = True,
          grouped_table: biom.Table = None) -> None:
     '''This function plots the phenetic tree in iTOL with clade colors,
     feature labels and relative abundance per sample group.
@@ -146,9 +146,9 @@ def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
         The color palette to use for coloring tips
     ms2_label : bool, optional
         Whether to label the tips with the MS2 value
-    parent_mz : str, optional
-        If the feature is unclassified, label the tips using this
-        column's value
+    parent_mz : bool, optional
+        If the feature is unclassified, label the tips using parent mass of
+        compound
 
     Raises
     ------

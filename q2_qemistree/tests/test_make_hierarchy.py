@@ -27,7 +27,8 @@ class TestHierarchy(TestCase):
         self.features = load_table(goodtable)
         goodtable = os.path.join(THIS_DIR, 'data/features2_formated.biom')
         ms2_match = os.path.join(THIS_DIR, 'data/ms2_match.txt')
-        self.ms2_match = pd.read_csv(ms2_match, sep='\t', index_col=0)
+        self.ms2_match = pd.read_csv(ms2_match, sep='\t',
+                                     index_col='cluster index')
         self.features2 = load_table(goodtable)
         self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                                          'data/csiFolder.qza'))
