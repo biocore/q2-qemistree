@@ -75,7 +75,7 @@ DATA
 9	y
 10	y"""
 
-EXP_BARS = """DATASET_MULTIBAR
+EXP_BARS_NORM = """DATASET_MULTIBAR
 SEPARATOR TAB
 DATASET_LABEL	Relative Abundance
 FIELD_COLORS	#f77189	#36ada4
@@ -89,6 +89,21 @@ DATA
 57135347ed549fa52376d5cca207d57c	0.25	0.75
 a443a84cf2c49a6b758208e113ad1fd3	0.3125	0.6875
 6b527eb72120dda52f9b3952d20fc128	0.35	0.65"""
+
+EXP_BARS = """DATASET_MULTIBAR
+SEPARATOR TAB
+DATASET_LABEL	Relative Abundance
+FIELD_COLORS	#f77189	#36ada4
+FIELD_LABELS	group dogs	group cats
+LEGEND_TITLE	Relative Abundance
+LEGEND_SHAPES	1	1
+LEGEND_COLORS	#f77189	#36ada4
+LEGEND_LABELS	group dogs	group cats
+WIDTH	100
+DATA
+57135347ed549fa52376d5cca207d57c	1.5	4.5
+a443a84cf2c49a6b758208e113ad1fd3	2.5	5.5
+6b527eb72120dda52f9b3952d20fc128	3.5	6.5"""
 
 class TestPlot(TestCase):
     def setUp(self):
@@ -138,8 +153,12 @@ class TestPlot(TestCase):
                             None)
         self.assertEqual(res, EXP_LABELS_C)
 
+    def test_format_barplots_norm(self):
+        res = format_barplots(self.grouped_table, True)
+        self.assertEqual(res, EXP_BARS_NORM)
+
     def test_format_barplots(self):
-        res = format_barplots(self.grouped_table)
+        res = format_barplots(self.grouped_table, False)
         self.assertEqual(res, EXP_BARS)
 
 

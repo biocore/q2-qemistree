@@ -95,13 +95,13 @@ def format_labels(feature_metadata, category, ms2_label, parent_mz):
     return '\n'.join(labels)
 
 
-def format_barplots(table: biom.Table):
+def format_barplots(table: biom.Table, normalize: bool):
     barplots = []
     barplots.append('DATASET_MULTIBAR')
     barplots.append('SEPARATOR TAB')
     barplots.append('DATASET_LABEL\tRelative Abundance')
-
-    table = table.norm(axis='observation', inplace=False)
+    if normalize:
+        table = table.norm(axis='observation', inplace=False)
     table = table.to_dataframe(dense=True)
 
     field_labels = list(table.columns)
@@ -127,7 +127,8 @@ def format_barplots(table: biom.Table):
 def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
          category: str = 'class', ms2_label: bool = False,
          color_palette: str = 'Dark2', parent_mz: bool = True,
-         grouped_table: biom.Table = None) -> None:
+         grouped_table: biom.Table = None,
+         normalize_features: bool = True) -> None:
     '''This function plots the phenetic tree in iTOL with clade colors,
     feature labels and relative abundance per sample group.
 
@@ -190,7 +191,7 @@ def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
     if grouped_table is not None:
         barplot_fp = join(output_dir, 'barplots')
         with open(barplot_fp, 'w') as fh:
-            fh.write(format_barplots(grouped_table))
+            fh.write(format_barplots(grouped_table, normalize_features))
         itol_uploader.add_file(barplot_fp)
 
     status = itol_uploader.upload()
