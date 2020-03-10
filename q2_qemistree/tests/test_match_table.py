@@ -36,8 +36,8 @@ class TestMatch(TestCase):
             get_matched_tables(self.emptyfps, self.smiles, self.features)
 
     def test_tipMismatch(self):
-        msg = "^The following tips were not found in the feature table:"
-        with self.assertRaisesRegex(ValueError, msg):
+        msg = "^The following fingerprints were not found"
+        with self.assertWarnsRegex(UserWarning, msg):
             get_matched_tables(self.wrongtips, self.smiles, self.features)
 
     def test_matchFdata(self):

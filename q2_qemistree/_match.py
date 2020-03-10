@@ -9,6 +9,7 @@
 import biom
 import hashlib
 import pandas as pd
+import warnings
 
 
 def get_matched_tables(collated_fingerprints: pd.DataFrame,
@@ -31,7 +32,7 @@ def get_matched_tables(collated_fingerprints: pd.DataFrame,
 
     Raises
     ------
-    ValueError
+    UserWarning
         If features in collated fingerprint table are not a subset of
         features in ``feature_table``
 
@@ -54,31 +55,34 @@ def get_matched_tables(collated_fingerprints: pd.DataFrame,
         raise ValueError("Cannot have empty fingerprint table")
     table = feature_table.to_dataframe(dense=True)
     allfeatrs = set(table.index)
+    overlap = list(set(allfps).intersection(allfeatrs))
     if not set(allfps).issubset(allfeatrs):
-        extra_tips = set(allfps) - set(allfps).intersection(allfeatrs)
-        raise ValueError('The following tips were not '
-                         'found in the feature table:\n' +
-                         ', '.join([str(i) for i in extra_tips]))
-    filtered_table = table.reindex(allfps)
+        extra_tips = set(allfps) - set(overlap)
+        warnings.warn('The following fingerprints were not '
+                      'found in the feature table; removed from qemistree:\n' +
+                      ', '.join([str(i) for i in extra_tips]), UserWarning)
+    filtered_table = table.reindex(overlap)
+    filtered_fps = fps.reindex(overlap)
     list_md5 = []
-    for fid in allfps:
+    for fid in overlap:
         md5 = str(hashlib.md5(fps.loc[fid].values.tobytes()).hexdigest())
         list_md5.append(md5)
-    fps['label'] = list_md5
+    filtered_fps['label'] = list_md5
     filtered_table['label'] = list_md5
     feature_data = pd.DataFrame(columns=['label', '#featureID','csi_smiles',
                                          'ms2_smiles','ms2_library_match',
                                          'parent_mass', 'retention_time'])
     feature_data['label'] = list_md5
-    feature_data['#featureID'] = allfps
-    feature_data['csi_smiles'] = list(smiles.loc[allfps, 'csi_smiles'])
-    feature_data['ms2_smiles'] = list(smiles.loc[allfps, 'ms2_smiles'])
+    feature_data['#featureID'] = overlap
+    feature_data['csi_smiles'] = list(smiles.loc[overlap, 'csi_smiles'])
+    feature_data['ms2_smiles'] = list(smiles.loc[overlap, 'ms2_smiles'])
     feature_data['ms2_library_match'] = list(
-        smiles.loc[allfps, 'ms2_library_match'])
-    feature_data['parent_mass'] = list(smiles.loc[allfps, 'parent_mass'])
-    feature_data['retention_time'] = list(smiles.loc[allfps, 'retention_time'])
+        smiles.loc[overlap, 'ms2_library_match'])
+    feature_data['parent_mass'] = list(smiles.loc[overlap, 'parent_mass'])
+    feature_data['retention_time'] = list(smiles.loc[overlap,
+                                                     'retention_time'])
     feature_data.set_index('label', inplace=True)
-    relabel_fps = fps.groupby('label').first()
+    relabel_fps = filtered_fps.groupby('label').first()
     matched_table = filtered_table.groupby('label').sum()
     # biom requires that ids be strings
     npfeatures = matched_table.values
