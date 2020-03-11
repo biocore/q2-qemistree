@@ -150,6 +150,9 @@ def plot(output_dir: str, tree: NewickFormat, feature_metadata: pd.DataFrame,
     parent_mz : bool, optional
         If the feature is unclassified, label the tips using parent mass of
         compound
+    normalize_features : bool, optional
+        If True (default), the feature abundances are normalized to 
+        a constant sum i.e converted to relative abundances
 
     Raises
     ------
