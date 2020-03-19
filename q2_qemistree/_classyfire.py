@@ -14,7 +14,7 @@ import urllib
 
 
 def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
-    '''This function uses structural predictions of molecules (SMILES)
+    '''This function uses structural annotations of molecules (SMILES)
     to run Classyfire and obtain chemical taxonomy for each mass-spec feature.
     It appends chemical taxonomy of features to feature data table.
 
@@ -29,7 +29,11 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
     ValueError
         If feature data does not contain the column 'csi_smiles' and
         'ms2_smiles'
-        If all SMILES are NaNs
+        If all SMILES are missing
+    UserWarning
+        If SMILES could not be converted to InChIKey
+        If ClassyFire server returns an unexpected response i.e anything except
+        200 or 404
 
     Returns
     -------
