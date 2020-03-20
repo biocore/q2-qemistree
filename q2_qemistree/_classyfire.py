@@ -29,7 +29,7 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
     ValueError
         If feature data does not contain the column 'csi_smiles' and
         'ms2_smiles'
-        If all SMILES are missing
+        If all SMILES are 'missing'
     UserWarning
         If SMILES could not be converted to InChIKey
         If ClassyFire server returns an unexpected response i.e anything except
