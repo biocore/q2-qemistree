@@ -277,7 +277,7 @@ plugin.visualizers.register_function(
         'ms2_label': 'Whether to label the tips with the MS2 value',
         'parent_mz': 'If the feature is unclassified, label the tips using '
                      'this parent mass of the molecule',
-        'normalize_features': 'Whether to normalized feature abundance to'
+        'normalize_features': 'Whether to normalize feature abundance to '
                               'a constant sum i.e convert to '
                               'relative abundance'
     },
