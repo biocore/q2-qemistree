@@ -36,6 +36,7 @@ qiime qemistree predict-fingerprints
 qiime qemistree make-hierarchy
 qiime qemistree get-classyfire-taxonomy
 qiime qemistree prune-hierarchy
+qiime qemistree plot
 ```
 
 To generate a tree that relates the MS1 features in your experiment, we need to pre-process mass-spectrometry data (.mzXML, .mzML or .mzDATA files) using [MZmine2](http://mzmine.github.io) and produce the following inputs:
@@ -173,7 +174,7 @@ qiime qemistree get-classyfire-taxonomy \
   --i-feature-data merged-feature-data.qza \
   --o-classified-feature-data classified-merged-feature-data.qza
 ```
-By default, Qemistree will use `ms2_smiles` to make chemical taxonomy assignments. When MS2 matches are not available, `csi_smiles` will be used. the column `annotation_type` in `classified-merged-feature-data.qza` specifies if the taxonomic assignment was done using CSI:FingerID predictions or MS/MS library matches.
+By default, Qemistree will use `ms2_smiles` to make chemical taxonomy assignments. When MS2 matches are not available, `csi_smiles` will be used. The column `structure_source` in `classified-merged-feature-data.qza` specifies if the taxonomic assignment was done using CSI:FingerID predictions or MS/MS library matches.
 Lastly, Qemistree includes some utility functions that are most useful if users would like to visualize the molecular hierarchy generated above.
 
 1. Prune molecular hierarchy to keep only the molecules with annotations.
@@ -181,38 +182,41 @@ Lastly, Qemistree includes some utility functions that are most useful if users 
 ```bash
 qiime qemistree prune-hierarchy \
   --i-feature-data classified-merged-feature-data.qza \
-  --p-column subclass \
+  --p-column smiles \
   --i-tree merged-qemistree.qza \
-  --o-pruned-tree merged-qemistree-subclass.qza
+  --o-pruned-tree merged-qemistree-smiles.qza
 ```
 
-Users can choose one of the following data columns (`--p-column`) for pruning: 'kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny.
+Users can choose any of the data columns (`--p-column`) that are in the `classified-merged-feature-data.qza` file for pruning. For e.g. '#FeatureID','kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny. **Note:** pruning by '#FeatureID' will not remove any of the features as they all should have this form of annotation. The use of this columns becomes useful for representing unclassified features on the tree.
 
-2. Generate supporting files to visualize hierarchy using [iTOL](https://itol.embl.de/).
+2. Generate an annotated qemistree tree in [iTOL](https://itol.embl.de/).
+
+If the user has groups and/or conditions by which they want to visually compare the features, a grouped table file can be inputted to the iTOL tree that contains all the summarize information for each feature stratified by the group/condition. This will generate normalized barcharts at the tips of the tree specifying the relative abundance of the feature in each particular group/condition the feature is found in. 
+
+To generate the grouped table file, the `feature-table-hashed.qza` file can be run through the `feature-table group` module in Qiime2 like so:
 
 ```bash
-python _itol_metadata.py \
-  --classified-feature-data classified-merged-feature-data.qza \
-  --feature-data-column subclass \
-  --ms2-label False \
-  --color-file-path /path-to-clade-colors-file.txt/ \
-  --label-file-path /path-to-tip-label-files.txt/
+qiime feature-table group \
+  --i-table feature-table-hashed.qza \
+  --p-axis 'sample'
+  --m-metadata-file metadata.tsv \
+  --m-metadata-column groups \
+  --o-grouped-table /path-to-grouped-feature-table.qza/
 ```
-
-**Note:** The above command assumes that users are located in `q2-qemistree/q2_qemistree` folder. You will have to provide the full path to the file `_itol_metadata.py` if you are operating from another location on disk.
-
-One can upload the tree generated above in [iTOL](https://itol.embl.de/), and drag & drop the `path-to-clade-colors-file.txt` and `path-to-tip-label-files.txt` files to 1) color tree clades based on the specified Classyfire level ('subclass' here) 2) label tree tips by the Classyfire category they belong to. For easier interpretativity, setting the `--ms2-label` as False labels all the tree tips based on the CSI:FingerID prediction, and not the MS/MS library matches. This enables the users to visualize the chemical diversity in their samples and better understand the underlying chemistry.
-
-If the user has groups and/or conditions by which they want to visually compare the features, the following command can be used to generate barcharts at the tips of the tree specifying which paticular group/condition the feature is from.  
+With the grouped table in hand, the following module can be run to create an annotated iTOL tree. 
 
 ```bash
-python _itol_metadata.py \
-  --classified-feature-data classified-merged-feature-data.qza \
-  --feature-data-column subclass \
-  --feature-table feature-table-hashed.qza \
-  --sample-metadata metadata.tsv \
-  --sample-metadata-column groups \
-  --barchart-file-path /path-to-barchart-subclass-file.qza/
+qiime qemistree plot \
+  --i-grouped-table path-to-grouped-feature-table.qza \
+  --i-tree merged-qemistree-smiles.qza \
+  --i-feature-metadata classified-merged-feature-data.qza \
+  --p-category direct_parent \
+  --p-color-palette Set3 \
+  --p-no-ms2-label \
+  --p-parent-mz parent_mass \
+  --o-visualization /path-to-qemistree-plot.qzv/
 ```
 
-The `path-to-barchart-subclass-file.qza` file generated can also be dragged & dropped into [iTOL](https://itol.embl.de/). 
+This creates an iTOL tree from the `merged-qemistree-smiles.qza` file that 1) colors the tree clades and 2) labels the tree tips based on the specified Classyfire level they belong to ('direct_parent' here). The color scheme for the tree clades is specified by `--p-color-palette` and tree tips without a Classyfire classification can be labelled with their m/z mass by specifying the column in the feature metadata file with that information (`--p-parent-mz`). For easier interpretativity, using the `--p-no-ms2-label` setting labels all the tree tips based on the CSI:FingerID prediction, and not the MS/MS library matches. This enables the users to visualize the chemical diversity in their samples and better understand the underlying chemistry.
+
+One can upload the `path-to-qemistree-plot.qzv` file generated to the [Qiime2 Viewer](https://view.qiime2.org) which will open up [iTOL](https://itol.embl.de/). Further visual modifications to the tree can be made there. 
