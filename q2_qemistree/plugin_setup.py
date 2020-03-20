@@ -255,7 +255,8 @@ plugin.visualizers.register_function(
                                         'BuPu', 'GnBu', 'PuBu', 'YlGnBu',
                                         'PuBuGn', 'BuGn', 'YlGn']),
         'ms2_label': Bool,
-        'parent_mz': Bool
+        'parent_mz': Bool,
+        'normalize_features': Bool
                 },
     input_descriptions={'grouped_table': 'Feature table of samples '
                                          'grouped by categories. We recommend '
@@ -275,7 +276,10 @@ plugin.visualizers.register_function(
                          'tutorials/colors/colormaps.html',
         'ms2_label': 'Whether to label the tips with the MS2 value',
         'parent_mz': 'If the feature is unclassified, label the tips using '
-                     'this parent mass of the molecule'
+                     'this parent mass of the molecule',
+        'normalize_features': 'Whether to normalize feature abundance to '
+                              'a constant sum i.e convert to '
+                              'relative abundance'
     },
     citations=[citations['letunic2019itol']])
 
