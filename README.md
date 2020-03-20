@@ -152,8 +152,8 @@ qiime qemistree make-hierarchy \
 
 ```bash
 qiime tools import \
-  --input-path /path-to-MS2-spectral-matches.tsv/ \
-  --output-path /path-to-MS2-spectral-matches.qza/ \
+  --input-path path-to-MS2-spectral-matches.tsv \
+  --output-path path-to-MS2-spectral-matches.qza \
   --type FeatureData[Molecules]
 ```
 
@@ -196,23 +196,28 @@ qiime qemistree plot \
   --i-tree merged-qemistree-class.qza \
   --i-feature-metadata classified-merged-feature-data.qza \
   --p-category class \
-  --o-visualization /path-to-qemistree-plot.qzv/
+  --o-visualization path-to-qemistree-plot.qzv
 ```
-This QZV can be visualized in [iTOL](https://itol.embl.de/) using [Qiime2 Viewer](https://view.qiime2.org); iTOL interface can be used to interact and make visual modifications.
+
+The above command colors and labels the tree tips based on the columns specified by `--p-category` ('class' here). By default, the tree tips without a Classyfire classification would be labelled with their parent m/z.
+
+The output QZV can be visualized in [iTOL](https://itol.embl.de/) using [Qiime2 Viewer](https://view.qiime2.org); iTOL interface can be used to interact and make visual modifications.
+
+**Note:** The QZV file provides a link to the tree uploaded to the iTOL. This view is temporarily stored on the iTOL server & hence should be used for initial data inspection. We provide all associated files (tree and metadata for tree decoration) that can be downloaded for long-term storage. We recommend that users upload these files to iTOL using their own login credentials where they can be permanently stored and interactively modified and visualized.
 
 2.2 Add sample metadata to tree tips
 
-If the user has sample metadata columns by they want to compare samples, Qemistree enables them to visualize feature abundance barcharts at the tips of the tree (abundance or relative abundance) of the feature stratified by the sample metadata column of interest. This can be done as follows:
+If the user has sample metadata columns to compare groups of samples, Qemistree enables them to visualize feature abundance barcharts at the tips of the tree (abundance or relative abundance) of the feature stratified by the sample metadata column of interest. This can be done as follows:
 
 2.2.1 Generate the grouped table file using `feature-table group` module in QIIME2:
 
 ```bash
 qiime feature-table group \
   --i-table feature-table-hashed.qza \
-  --p-axis 'sample'
-  --m-metadata-file /path-to-sample-metadata.tsv/ \
+  --p-axis 'sample' \
+  --m-metadata-file path-to-sample-metadata.tsv \
   --m-metadata-column 'disease_vs_healthy' \
-  --o-grouped-table /path-to-grouped-feature-table.qza/
+  --o-grouped-table path-to-grouped-feature-table.qza
 ```
 With the grouped table in hand, the following module can be run to create an annotated iTOL tree.
 
@@ -225,6 +230,4 @@ qiime qemistree plot \
   --o-visualization /path-to-qemistree-plot.qzv/
 ```
 
-**Note**: The above command colors and labels the tree tips based on the columns specified by `--p-category` ('class' here). By default, the tree tips without a Classyfire classification would be labelled with their parent m/z.
-
-This QZV can also be interactively visualized in [iTOL](https://itol.embl.de/) using [Qiime2 Viewer](https://view.qiime2.org) to facilitate further metabolomic exploration and annotation. 
+This QZV can also be interactively visualized in [iTOL](https://itol.embl.de/) using [Qiime2 Viewer](https://view.qiime2.org) to facilitate further metabolomic exploration and annotation.
