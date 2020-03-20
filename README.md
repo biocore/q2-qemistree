@@ -148,7 +148,7 @@ qiime qemistree make-hierarchy \
 ```
 
 **Note:**
-1. The input to `--i-ms2-matches` can be obtained using [Feature-based molecular networking or FBMN](https://gnps.ucsd.edu/ProteoSAFe/index.jsp?params=%7B%22workflow%22:%22FEATURE-BASED-MOLECULAR-NETWORKING%22,%22library_on_server%22:%22d.speclibs;%22%7D) workflow supported in the web-based mass-spectrometry data analysis platform, [GNPS](https://gnps.ucsd.edu/). To use MS2 matches in Qemistree, please download the results of FBMN workflow and import the tsv file in the folder `DB_result` as a QIIME2 artifact of type `FeatureData[Molecules]` as follows:
+1. The input to `--i-ms2-matches` can be obtained using [Feature-based molecular networking or FBMN](https://gnps.ucsd.edu/ProteoSAFe/index.jsp?params=%7B%22workflow%22:%22FEATURE-BASED-MOLECULAR-NETWORKING%22,%22library_on_server%22:%22d.speclibs;%22%7D) workflow supported in the web-based mass-spectrometry data analysis platform, [GNPS](https://gnps.ucsd.edu/). To use MS2 matches in Qemistree, please download the results of FBMN workflow and import the tsv file in the folder `clusterinfo_summary` as a QIIME2 artifact of type `FeatureData[Molecules]` as follows:
 
 ```bash
 qiime tools import \
@@ -163,60 +163,71 @@ This method generates the following:
 1. A combined feature table by merging all the input feature tables; MS1 features without fingerprints are filtered out of this feature table. This is done because SIRIUS predicts molecular substructures for a subset of features (typically for 70-90% of all MS1 features) in an experiment (based on factors such as sample type, the quality MS2 spectra, and user-defined tolerances such as `--p-ppm-max`, `--p-zodiac-threshold`). This output is of type `FeatureTable[Frequency]`.
 2. A tree relating the MS1 features in these data based on molecular substructures predicted for MS1 features. This is of type `Phylogeny[Rooted]`. By default, we retain all fingerprint positions i.e. 2936 molecular properties). Adding `--p-qc-properties` filters these properties to keep only PubChem fingerprint positions (489 molecular properties) in the contingency table.
 **Note**: The latest release of [SIRIUS](https://www.nature.com/articles/s41592-019-0344-8) uses PubChem version downloaded on 13 August 2017.
-3. A combined feature data file that contains unique identifiers of each feature, their corresponding original feature identifier (row ID from Mzmine2), CSI:FingerID structure predictions (`csi_smiles`), MS2 match structure predictions (`ms2_smiles`; when ms2 match table provided), and the table(s) (`table_number`) that each feature was detected in. This is of type `FeatureData[Molecules]`. (The renaming of features needs to be done to avoid overlapping, non-unique feature identifiers in the original feature table)
+3. A combined feature data file that contains unique identifiers of each feature, their corresponding original feature identifier (row ID from Mzmine2), parent mass (`parent_mass`), retention time (`retention_time`), CSI:FingerID structure predictions (`csi_smiles`), MS2 match structure predictions (`ms2_smiles`), and the table(s) (`table_number`) that each feature was detected in. This is of type `FeatureData[Molecules]`. (The renaming of features helps prevent overlap between non-unique feature identifiers in the original feature tables in case of meta-analyses)
 
 These can be used as inputs to perform chemical phylogeny-based [alpha-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/alpha-phylogenetic/) and [beta-diversity](https://docs.qiime2.org/2019.1/plugins/available/diversity/beta-phylogenetic/) analyses.
 
-Furthermore, Qemistree supports classification of molecules into chemical taxonomy using [Classyfire](https://jcheminf.biomedcentral.com/articles/10.1186/s13321-016-0174-y). We generate a feature data table (also of the type `FeatureData[Molecules]`) which includes classification of molecules into chemical 'kingdom', 'superclass', 'class', 'subclass', and 'direct_parent'. We can run Classyfire using Qemistree as follows:
+Furthermore, Qemistree supports the classification of molecules into [Classyfire](https://jcheminf.biomedcentral.com/articles/10.1186/s13321-016-0174-y) chemical taxonomy. We generate a feature data table (also of the type `FeatureData[Molecules]`) which includes classification of molecules into chemical 'kingdom', 'superclass', 'class', 'subclass', and 'direct_parent'. We can run Classyfire using Qemistree as follows:
 
 ```bash
 qiime qemistree get-classyfire-taxonomy \
   --i-feature-data merged-feature-data.qza \
   --o-classified-feature-data classified-merged-feature-data.qza
 ```
-By default, Qemistree will use `ms2_smiles` to make chemical taxonomy assignments. When MS2 matches are not available, `csi_smiles` will be used. The column `structure_source` in `classified-merged-feature-data.qza` specifies if the taxonomic assignment was done using CSI:FingerID predictions or MS/MS library matches.
-Lastly, Qemistree includes some utility functions that are most useful if users would like to visualize the molecular hierarchy generated above.
+Qemistree will use `ms2_smiles` to make chemical taxonomy assignments, when MS2 matches are available for a feature. Otherwise, `csi_smiles` will be used. The column `structure_source` in `classified-merged-feature-data.qza` records whether taxonomic assignment was done using CSI:FingerID predictions or MS/MS library matches.
+Lastly, Qemistree includes some utility functions that are useful to visualize and explore the molecular hierarchy generated above.
 
 1. Prune molecular hierarchy to keep only the molecules with annotations.
 
 ```bash
 qiime qemistree prune-hierarchy \
   --i-feature-data classified-merged-feature-data.qza \
-  --p-column smiles \
+  --p-column class \
   --i-tree merged-qemistree.qza \
-  --o-pruned-tree merged-qemistree-smiles.qza
+  --o-pruned-tree merged-qemistree-class.qza
 ```
 
-Users can choose any of the data columns (`--p-column`) that are in the `classified-merged-feature-data.qza` file for pruning. For e.g. '#FeatureID','kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny. **Note:** pruning by '#FeatureID' will not remove any of the features as they all should have this form of annotation. The use of this columns becomes useful for representing unclassified features on the tree.
+Users can choose any of the data columns (`--p-column`) that are in the `classified-merged-feature-data.qza` file to prune the hierarchy. For e.g. '#featureID','kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny.
 
-2. Generate an annotated qemistree tree in [iTOL](https://itol.embl.de/).
+2.1 Generate an annotated qemistree tree in [iTOL](https://itol.embl.de/).
 
-If the user has groups and/or conditions by which they want to visually compare the features, a grouped table file can be inputted to the iTOL tree that contains all the summarize information for each feature stratified by the group/condition. This will generate normalized barcharts at the tips of the tree specifying the relative abundance of the feature in each particular group/condition the feature is found in. 
+```bash
+qiime qemistree plot \
+  --i-tree merged-qemistree-class.qza \
+  --i-feature-metadata classified-merged-feature-data.qza \
+  --p-category class \
+  --o-visualization path-to-qemistree-plot.qzv
+```
 
-To generate the grouped table file, the `feature-table-hashed.qza` file can be run through the `feature-table group` module in Qiime2 like so:
+The above command colors and labels the tree tips based on the columns specified by `--p-category` ('class' here). By default, the tree tips without a Classyfire classification would be labelled with their parent m/z.
+
+The output QZV can be visualized in [iTOL](https://itol.embl.de/) using [Qiime2 Viewer](https://view.qiime2.org); iTOL interface can be used to interact and make visual modifications.
+
+**Note:** The QZV file provides a link to the tree uploaded to the iTOL. This view is temporarily stored on the iTOL server & hence should be used for initial data inspection. We provide all associated files (tree and metadata for tree decoration) that can be downloaded for long-term storage. We recommend that users upload these files to iTOL using their own login credentials where they can be permanently stored and interactively modified and visualized.
+
+2.2 Add sample metadata to tree tips
+
+If the user has sample metadata columns to compare groups of samples, Qemistree enables them to visualize feature abundance barcharts at the tips of the tree (abundance or relative abundance) of the feature stratified by the sample metadata column of interest. This can be done as follows:
+
+2.2.1 Generate the grouped table file using `feature-table group` module in QIIME2:
 
 ```bash
 qiime feature-table group \
   --i-table feature-table-hashed.qza \
-  --p-axis 'sample'
-  --m-metadata-file metadata.tsv \
-  --m-metadata-column groups \
-  --o-grouped-table /path-to-grouped-feature-table.qza/
+  --p-axis 'sample' \
+  --m-metadata-file path-to-sample-metadata.tsv \
+  --m-metadata-column 'disease_vs_healthy' \
+  --o-grouped-table path-to-grouped-feature-table.qza
 ```
-With the grouped table in hand, the following module can be run to create an annotated iTOL tree. 
+With the grouped table in hand, the following module can be run to create an annotated iTOL tree.
 
 ```bash
 qiime qemistree plot \
-  --i-grouped-table path-to-grouped-feature-table.qza \
+  --i-grouped-table /path-to-grouped-feature-table.qza/ \
   --i-tree merged-qemistree-smiles.qza \
   --i-feature-metadata classified-merged-feature-data.qza \
-  --p-category direct_parent \
-  --p-color-palette Set3 \
-  --p-no-ms2-label \
-  --p-parent-mz parent_mass \
+  --p-category class \
   --o-visualization /path-to-qemistree-plot.qzv/
 ```
 
-This creates an iTOL tree from the `merged-qemistree-smiles.qza` file that 1) colors the tree clades and 2) labels the tree tips based on the specified Classyfire level they belong to ('direct_parent' here). The color scheme for the tree clades is specified by `--p-color-palette` and tree tips without a Classyfire classification can be labelled with their m/z mass by specifying the column in the feature metadata file with that information (`--p-parent-mz`). For easier interpretativity, using the `--p-no-ms2-label` setting labels all the tree tips based on the CSI:FingerID prediction, and not the MS/MS library matches. This enables the users to visualize the chemical diversity in their samples and better understand the underlying chemistry.
-
-One can upload the `path-to-qemistree-plot.qzv` file generated to the [Qiime2 Viewer](https://view.qiime2.org) which will open up [iTOL](https://itol.embl.de/). Further visual modifications to the tree can be made there. 
+This QZV can also be interactively visualized in [iTOL](https://itol.embl.de/) using [Qiime2 Viewer](https://view.qiime2.org) to facilitate further metabolomic exploration and annotation.
