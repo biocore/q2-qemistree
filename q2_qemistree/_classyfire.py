@@ -10,10 +10,11 @@ import requests
 import pandas as pd
 import numpy as np
 import warnings
+import urllib
 
 
 def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
-    '''This function uses structural predictions of molecules (SMILES)
+    '''This function uses structural annotations of molecules (SMILES)
     to run Classyfire and obtain chemical taxonomy for each mass-spec feature.
     It appends chemical taxonomy of features to feature data table.
 
@@ -28,7 +29,11 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
     ValueError
         If feature data does not contain the column 'csi_smiles' and
         'ms2_smiles'
-        If all SMILES are NaNs
+        If all SMILES are 'missing'
+    UserWarning
+        If SMILES could not be converted to InChIKey
+        If ClassyFire server returns an unexpected response i.e anything except
+        200 or 404
 
     Returns
     -------
@@ -47,39 +52,50 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
     for idx in feature_data.index:
         ms2_smiles = feature_data.loc[idx, 'ms2_smiles']
         csi_smiles = feature_data.loc[idx, 'csi_smiles']
-        if pd.notna(ms2_smiles):
+        if ms2_smiles != 'missing':
             feature_data.loc[idx, 'smiles'] = ms2_smiles
-            feature_data.loc[idx, 'annotation_type'] = 'MS2'
-        elif pd.notna(csi_smiles):
+            feature_data.loc[idx, 'structure_source'] = 'MS2'
+        elif csi_smiles != 'missing':
             feature_data.loc[idx, 'smiles'] = csi_smiles
-            feature_data.loc[idx, 'annotation_type'] = 'CSIFingerID'
+            feature_data.loc[idx, 'structure_source'] = 'CSIFingerID'
         else:
             feature_data.loc[idx, 'smiles'] = np.nan
-            feature_data.loc[idx, 'annotation_type'] = np.nan
+            feature_data.loc[idx, 'structure_source'] = np.nan
     if feature_data['smiles'].notna().sum() == 0:
         raise ValueError("The feature data table should have at least "
                          "one structural annotation to run Classyfire")
+    feature_data = feature_data.fillna('missing')
+
     classyfire = {}
     no_inchikey = []
     unexpected = []
     for idx in feature_data.index:
         smiles = feature_data.loc[idx, 'smiles']
-        if pd.notna(smiles):
-            url_smiles = 'https://gnps-structure.ucsd.edu/inchikey?smiles='
-            response = requests.get(url_smiles+smiles)
+        if smiles != 'missing':
+            to_inchikey = 'https://gnps-structure.ucsd.edu/inchikey?smiles='
+            urlencoded_smiles = urllib.parse.quote(smiles)
+            response = requests.get(to_inchikey+urlencoded_smiles)
             if response.status_code != 200:
                 classyfire[idx] = 'SMILE parse error'
                 no_inchikey.append((idx, smiles))
                 continue
             inchikey = response.text
-            url_inchi = 'https://gnps-classyfire.ucsd.edu/entities/'
-            response = requests.get(url_inchi+str(inchikey)+'.json')
+            to_classyfire = 'https://gnps-classyfire.ucsd.edu/entities/'
+            response = requests.get(to_classyfire+str(inchikey)+'.json')
             if response.status_code == 200:
                 response = response.json()
-                taxonomy = [response[level]['name']
-                            if bool(response) and response[level] is not None
-                            else 'unclassified'
-                            for level in classyfire_levels]
+                sublevels = [level for level in classyfire_levels
+                             if level in response]
+                if len(sublevels) == 0:
+                    classyfire[idx] = 'unclassified'
+                    continue
+                taxonomy = []
+                for level in classyfire_levels:
+                    if (response and level in sublevels and
+                            response[level] is not None):
+                        taxonomy.append(response[level]['name'])
+                    else:
+                        taxonomy.append('unclassified')
                 classyfire[idx] = taxonomy
             elif response.status_code == 404:
                 classyfire[idx] = 'unclassified'

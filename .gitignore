@@ -104,3 +104,11 @@ venv.bak/
 .mypy_cache/
 
 .DS_store
+*.swp
+
+#test data
+q2_qemistree/tests/data/features_formated.biom.qza
+q2_qemistree/tests/data/features2_formated.biom.qza
+q2_qemistree/tests/data/goodcsi2
+q2_qemistree/tests/data/merged*
+q2_qemistree/tests/data/ms2_matches.qza

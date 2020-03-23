@@ -1,0 +1,4 @@
+id	#featureID	csi_smiles	ms2_smiles	ms2_library_match	ms2_adduct	table_number	smiles	structure_source	kingdom	superclass	class	subclass	direct_parent
+57135347ed549fa52376d5cca207d57c	3			Spectral Match to 3.beta.-Hydroxy-5-cholenoic acid from NIST14	M+H-H2O	1			unclassified	unclassified	unclassified	unclassified	unclassified
+a443a84cf2c49a6b758208e113ad1fd3	7	CC(=N)C1=CN(C)C=N1				1	CC(=N)C1=CN(C)C=N1	CSIFingerID	Organic compounds	Organoheterocyclic compounds	Azoles	Imidazoles	N-substituted imidazoles
+6b527eb72120dda52f9b3952d20fc128	2		CC(C)C\1(O)CCC2\C(=C1)C(=O)CC3C2(C)CCCC3(C)C(O)=O	NCGC00380522-01_C20H30O4_1-Phenanthrenecarboxylic acid, 1,2,3,4,4a,4b,5,6,7,9,10,10a-dodecahydro-7-hydroxy-1,4a-dimethyl-7-(1-methylethyl)-9-oxo-	M-H2O+H	1	CC(C)C\1(O)CCC2\C(=C1)C(=O)CC3C2(C)CCCC3(C)C(O)=O	MS2	Organic compounds	Lipids and lipid-like molecules	Prenol lipids	Diterpenoids	Diterpenoids

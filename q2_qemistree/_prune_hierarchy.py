@@ -11,8 +11,8 @@ from skbio import TreeNode
 
 
 def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
-                    column: str) -> TreeNode:
-    '''Prunes the tips of the tree to remove unannotated entries
+                    column: str = None) -> TreeNode:
+    '''Prunes the tips of the tree to keep features of interest
 
     Parameters
     ----------
@@ -23,9 +23,7 @@ def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
         Tree of relatedness of molecules. Output of make_hierarchy()
     column : str
         The column used to prune the phylogeny. All elements with no data in
-        this column will be removed from the phylogeny. The choices are one of:
-        `'kingdom'`, `'superclass'`, `'class'`, `'subclass'`,
-        `'direct_parent'`, `'csi_smiles'` and `'ms2_smiles'`.
+        this column will be removed from the phylogeny.
 
     Raises
     ------
@@ -39,33 +37,21 @@ def prune_hierarchy(feature_data: pd.DataFrame, tree: TreeNode,
         Pruned tree of molecules with annotated tips
     '''
 
-    known = ['kingdom', 'superclass', 'class', 'subclass', 'direct_parent',
-             'csi_smiles', 'ms2_smiles']
-
-    if column not in feature_data.columns:
+    if column and column not in feature_data.columns:
         raise ValueError("The feature data does not contain the column '%s'" %
                          column)
-
-    if column not in known:
-        raise ValueError('Pruning cannot be applied on column "%s". The only '
-                         'options are: %s. If your feature data does not '
-                         'include this information, consider using '
-                         'get_classyfire_taxonomy.' % (column,
-                                                       ', '.join(known)))
-
-    failed_values = {'unclassified', 'unexpected server response',
-                     'SMILE parse error'}
-
-    # remove all NA values or missing values
-    feature_data = feature_data[~(feature_data[column].isin(failed_values) |
-                                  feature_data[column].isna())]
-
+    if column:
+        failed = {'unclassified', 'unexpected server response',
+                  'SMILE parse error', 'missing'}
+        # remove all NA values or missing values
+        feature_data = feature_data[~(feature_data[column].isin(failed) |
+                                    feature_data[column].isna())]
     tips = {tip.name for tip in tree.tips()}
     overlap = feature_data.index.intersection(tips)
 
     if len(overlap) < 2:
         raise ValueError('Tree pruning aborted! There are less than two tree '
-                         'tips with annotations. Please check if the correct '
+                         'tips after pruning. Please check if the correct '
                          'feature data table was provided.')
     pruned_tree = tree.shear(overlap)
     return pruned_tree

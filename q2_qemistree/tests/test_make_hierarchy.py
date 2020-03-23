@@ -27,7 +27,8 @@ class TestHierarchy(TestCase):
         self.features = load_table(goodtable)
         goodtable = os.path.join(THIS_DIR, 'data/features2_formated.biom')
         ms2_match = os.path.join(THIS_DIR, 'data/ms2_match.txt')
-        self.ms2_match = pd.read_csv(ms2_match, sep='\t', index_col=0)
+        self.ms2_match = pd.read_csv(ms2_match, sep='\t',
+                                     index_col='cluster index')
         self.features2 = load_table(goodtable)
         self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                                          'data/csiFolder.qza'))
@@ -56,7 +57,8 @@ class TestHierarchy(TestCase):
         goodcsi2 = self.goodcsi2.view(CSIDirFmt)
         ms2_match1 = pd.DataFrame(index=['2', '4'], columns=[])
         ms2_match2 = pd.DataFrame(index=['10', '12'], columns=['Smiles'])
-        msg = "MS2 match tables must contain the column `Smiles`"
+        msg = ("MS2 match tables must contain the column `Smiles`. Please "
+               "check if you have the correct input file for this command.")
         with self.assertRaisesRegex(ValueError, msg):
             make_hierarchy([goodcsi, goodcsi2],
                            [self.features, self.features2],
@@ -70,14 +72,16 @@ class TestHierarchy(TestCase):
         fdata_featrs = sorted(list(merged_fdata.index))
         self.assertEqual('csi_smiles' in merged_fdata.columns, True)
         self.assertEqual('ms2_smiles' in merged_fdata.columns, True)
+        self.assertEqual(len(
+            merged_fdata[merged_fdata['ms2_smiles'] != 'missing']), 1)
         self.assertEqual(len(featrs) == 3, True)
         self.assertEqual(fdata_featrs, featrs)
 
     def test_mergeFeatureDataMultiple(self):
         goodcsi1 = self.goodcsi.view(CSIDirFmt)
         goodcsi2 = self.goodcsi2.view(CSIDirFmt)
-        treeout, merged_fts, merged_fdata = make_hierarchy(
-            [goodcsi1, goodcsi2], [self.features, self.features2])
+        treeout, merged_fts, merged_fdata = make_hierarchy([goodcsi1,
+            goodcsi2], [self.features, self.features2])
         featrs = sorted(list(merged_fts.ids(axis='observation')))
         fdata_featrs = sorted(list(merged_fdata.index))
         self.assertEqual(len(featrs) == 9, True)

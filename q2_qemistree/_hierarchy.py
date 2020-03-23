@@ -19,13 +19,14 @@ from ._match import get_matched_tables
 from ._semantics import CSIDirFmt
 
 
-def build_tree(relabeled_fingerprints: pd.DataFrame) -> TreeNode:
+def build_tree(relabeled_fingerprints: pd.DataFrame,
+               metric: str = 'euclidean') -> TreeNode:
     '''
     This function makes a tree of relatedness between mass-spectrometry
     features using molecular substructure fingerprints.
     '''
     distmat = pairwise_distances(X=relabeled_fingerprints.values,
-                                 Y=None, metric='euclidean')
+                                 Y=None, metric=metric)
     distsq = squareform(distmat, checks=False)
     linkage_matrix = linkage(distsq, method='average')
     tree = TreeNode.from_linkage_matrix(linkage_matrix,
@@ -58,9 +59,10 @@ def merge_feature_data(fdata: pd.DataFrame) -> pd.DataFrame:
 
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
-                   ms2_matches: pd.DataFrame = None,
-                   qc_properties: bool = False) -> (TreeNode, biom.Table,
-                                                    pd.DataFrame):
+                   library_matches: pd.DataFrame = None,
+                   qc_properties: bool = False,
+                   metric: str = 'euclidean') -> (TreeNode, biom.Table,
+                                                  pd.DataFrame):
     '''
     This function generates a hierarchy of mass-spec features based on
     predicted chemical fingerprints. It filters the feature table to
@@ -73,10 +75,12 @@ def make_hierarchy(csi_results: CSIDirFmt,
         one or more CSI:FingerID output folder
     feature_table : biom.Table
         one or more feature tables with mass-spec feature intensity per sample
-    ms2_matches: pd.DataFrame
+    library_matches: pd.DataFrame
         one or more tables with MS/MS library match for mass-spec features
     qc_properties : bool, default False
         flag to filter molecular properties to keep only PUBCHEM fingerprints
+    metric : str, default `euclidean`
+        metric for hierarchical clustering of fingerprints
 
     Raises
     ------
@@ -100,24 +104,26 @@ def make_hierarchy(csi_results: CSIDirFmt,
     if len(feature_tables) != len(csi_results):
         raise ValueError("The feature tables and CSI results should have a "
                          "one-to-one correspondance.")
-    if ms2_matches and len(ms2_matches) != len(feature_tables):
+    if library_matches and len(library_matches) != len(feature_tables):
         raise ValueError("The MS2 match tables should have a one-to-one "
                          "correspondance with feature tables and CSI results.")
     for n, (feature_table, csi_result) in enumerate(zip(feature_tables,
                                                         csi_results)):
         if feature_table.is_empty():
             raise ValueError("Cannot have empty feature table")
-        if ms2_matches:
-            ms2_match = ms2_matches[n]
-            if 'Smiles' not in ms2_match.columns:
+        if library_matches:
+            library_match = library_matches[n]
+            if 'Smiles' not in library_match.columns:
                 raise ValueError("MS2 match tables must contain the "
-                                 "column `Smiles`")
+                                 "column `Smiles`. Please check if you have "
+                                 "the correct input file for this command.")
             collated_fps, smiles = process_csi_results(csi_result,
+                                                       library_match,
                                                        qc_properties,
-                                                       ms2_match)
+                                                       metric=metric)
         else:
-            collated_fps, smiles = process_csi_results(csi_result,
-                                                       qc_properties)
+            collated_fps, smiles = process_csi_results(csi_result, None,
+                                                       qc_properties, metric)
         relabeled_fp, matched_ft, feature_data = get_matched_tables(
             collated_fps, smiles, feature_table)
         fps.append(relabeled_fp)
@@ -127,5 +133,5 @@ def make_hierarchy(csi_results: CSIDirFmt,
     merged_fps = pd.concat(fps)
     merged_fps = merged_fps[~merged_fps.index.duplicated(keep='first')]
     merged_fts = merge(fts, overlap_method='error_on_overlapping_sample')
-    tree = build_tree(merged_fps)
+    tree = build_tree(merged_fps, metric)
     return tree, merged_fts, merged_fdata

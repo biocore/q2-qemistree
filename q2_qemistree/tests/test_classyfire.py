@@ -9,30 +9,29 @@
 from unittest import TestCase, main
 import os
 import pandas as pd
-import numpy as np
 from q2_qemistree import get_classyfire_taxonomy
 
 
 class TestClassyfire(TestCase):
     def setUp(self):
-        THIS_DIR = os.path.dirname(os.path.abspath(__file__))
-        no_smiles = os.path.join(THIS_DIR, 'data/feature_data_no_smiles.txt')
-        self.no_smiles = pd.read_csv(no_smiles, sep='\t')
-        self.no_smiles.set_index('label')
-        smiles = os.path.join(THIS_DIR, 'data/feature_data_smiles.txt')
-        self.smiles = pd.read_csv(smiles, sep='\t')
-        self.smiles.set_index('label')
+        self.no_smiles = pd.DataFrame(index=['a', 'b', 'c'], data=[1, 2, 3],
+                                      columns=['#featureID'])
+        self.smiles = pd.DataFrame(index=['a', 'b', 'c'], data=[
+            ['missing', 'missing'],
+            [' O=C(O)[C@@H](N)Cc1ccccc1', 'missing'],
+            ['missing', 'CC(=NC(=O)CC(=NC(=O)C)OOC(=O)C)O']],
+            columns=['csi_smiles', 'ms2_smiles'])
         self.nan_smiles = pd.DataFrame(index=['a', 'b', 'c'],
-                                       data=[[np.nan, np.nan],
-                                             [np.nan, np.nan],
-                                             [np.nan, np.nan]],
+                                       data=[['missing', 'missing'],
+                                             ['missing', 'missing'],
+                                             ['missing', 'missing']],
                                        columns=['csi_smiles', 'ms2_smiles'])
         self.mal_smiles = pd.DataFrame(index=['a', 'b'],
-                                       data=[[np.nan, 'foo'],
-                                             ['bar', np.nan]],
+                                       data=[['missing', 'foo'],
+                                             ['bar', 'missing']],
                                        columns=['csi_smiles', 'ms2_smiles'])
         self.levels = set(['kingdom', 'superclass', 'class', 'subclass',
-                          'direct_parent', 'annotation_type'])
+                           'direct_parent', 'structure_source'])
 
     def test_no_smiles(self):
         msg = ('Feature data table must contain the columns `csi_smiles` '
@@ -52,9 +51,12 @@ class TestClassyfire(TestCase):
             get_classyfire_taxonomy(self.mal_smiles)
 
     def test_classyfire_output(self):
-        classified_feature_data = get_classyfire_taxonomy(self.smiles)
-        self.assertTrue((self.levels.issubset(set(
-            classified_feature_data.columns))))
+        classified = get_classyfire_taxonomy(self.smiles)
+        classified_mols = classified[classified['kingdom'] != 'unclassified']
+        self.assertTrue(pd.isna(classified_mols).shape, 0)
+        self.assertTrue(classified_mols.loc['b',
+                        'kingdom'] == 'Organic compounds')
+        self.assertTrue((self.levels.issubset(set(classified.columns))))
 
 
 if __name__ == '__main__':

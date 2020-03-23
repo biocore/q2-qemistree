@@ -1,4 +1,4 @@
-#featureID	csi_smiles	ms2_smiles
-3		
-7	CC(=N)C1=CN(C)C=N1	
-2		
+#featureID	csi_smiles	ms2_smiles	ms2_library_match	parent_mass	retention_time
+3				100.5	1.5
+7	CC(=N)C1=CN(C)C=N1			200.5	2.5
+2				300.5	3.5
