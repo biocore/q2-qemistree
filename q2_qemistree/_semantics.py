@@ -1,5 +1,5 @@
 # ----------------------------------------------------------------------------
-# Copyright (c) 2017-2018, QIIME 2 development team.
+# Copyright (c) 2016-2018, QIIME 2 development team.
 #
 # Distributed under the terms of the Modified BSD License.
 #
@@ -62,9 +62,7 @@ def validate_mgf(iterable):
 
 class MGFFile(model.TextFileFormat):
     def sniff(self):
-        # Something basic that checks for unique MS1s and at least one MS2 per
-        # MS1 should help us weed out a large portion of incorrect MGF file
-        # relatively easily.
+        # checks for unique MS1s and at least one MS2 per MS1
         with open(str(self)) as f:
             return validate_mgf(f)
 
