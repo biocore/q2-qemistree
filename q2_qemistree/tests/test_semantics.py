@@ -26,6 +26,48 @@ class FingerprintTests(TestCase):
                                     'least one MSLEVEL=2 record'):
             validate_mgf(BAD_MGF.split('\n'))
 
+    def test_validate_no_ms1(self):
+        to_replace = ('BEGIN IONS',
+                      'FEATURE_ID=5',
+                      'PEPMASS=182.98443603515625',
+                      'CHARGE=1+',
+                      'RTINSECONDS=464.817',
+                      'SPECTYPE=CORRELATED MS',
+                      'MSLEVEL=1',
+                      'FILENAME=CLA_1-2.mzXML;END_1-10.mzXML;',
+                      'SCANS=-1',
+                      '182.98443603515625 100.0',
+                      'END IONS')
+        to_replace = '\n'.join(to_replace)
+        # remove feature 5 and make it only mslevel2
+        bad = BAD_MGF.replace(to_replace,
+                              to_replace.replace('MSLEVEL=1', 'MSLEVEL=2'))
+
+        with self.assertRaisesRegex(ValueError, 'Feature "5" does not have an'
+                                    ' MSLEVEL=1 record'):
+            validate_mgf(bad.split('\n'))
+
+    def test_validate_no_trailing_ms1(self):
+        bad = ["BEGIN IONS",
+               "FEATURE_ID=6",
+               "PEPMASS=154.98995971679688",
+               "CHARGE=1+",
+               "RTINSECONDS=464.817",
+               "SPECTYPE=CORRELATED MS",
+               "MSLEVEL=2",
+               "FILENAME=CLA_1-2.mzXML;END_1-10.mzXML;LA_1-2.mzXML;",
+               "SCANS=-1",
+               "154.98995971679688 1.63689952E8",
+               "155.99267578125 9081757.0",
+               "END IONS"]
+
+        bad = '\n'.join(bad)
+        bad = GOOD_MGF + '\n\n' + bad
+
+        with self.assertRaisesRegex(ValueError, 'Feature "6" does not have an'
+                                    ' MSLEVEL=1 record'):
+            validate_mgf(bad.split('\n'))
+
     def test_validate_more_than_one_ms1(self):
         doubled = ["BEGIN IONS",
                    "FEATURE_ID=6",

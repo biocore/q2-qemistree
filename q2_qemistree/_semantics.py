@@ -53,10 +53,12 @@ def validate_mgf(iterable):
                 observed_ids.add(read_id)
             elif line.startswith('MSLEVEL=2'):
                 ms2 += 1
-            else:
-                # we ignore all lines that are not feature identifiers
-                # or ms level values
-                pass
+            elif line.startswith('END IONS'):
+                # after reading a whole record, we should have an MS1, this is
+                # assuming that MS1 records always come before any MS2 records
+                if ms1 < 1:
+                    raise ValueError('Feature "%s" does not have an '
+                                     'MSLEVEL=1 record' % read_id)
     return True
 
 
