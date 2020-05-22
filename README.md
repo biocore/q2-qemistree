@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.org/biocore/q2-qemistree.svg?branch=master)](https://travis-ci.org/biocore/q2-qemistree) [![Coverage Status](https://coveralls.io/repos/github/biocore/q2-qemistree/badge.svg?branch=master)](https://coveralls.io/github/biocore/q2-qemistree?branch=master)
 
-A tool to build a tree of mass-spectrometry (LC-MS/MS) features to perform chemically-informed comparison of untargeted metabolomic profiles. Our preprint describing q2-qemistree is available [here](https://www.biorxiv.org/content/10.1101/2020.05.04.077636v1)
+A tool to build a tree of mass-spectrometry (LC-MS/MS) features to perform chemically-informed comparison of untargeted metabolomic profiles. The preprint describing q2-qemistree is available [here](https://www.biorxiv.org/content/10.1101/2020.05.04.077636v1)!
 
 ## Installation
 
