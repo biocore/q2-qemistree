@@ -3,7 +3,7 @@
 all: ;
 
 lint:
-	flake8 --exclude ./versioneer.py, q2_qemistree/_itol_metadata.py
+	flake8 --exclude ./versioneer.py
 
 test: all
 	py.test

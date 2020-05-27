@@ -7,7 +7,6 @@
 # ----------------------------------------------------------------------------
 
 from unittest import TestCase, main
-import os
 import pandas as pd
 from q2_qemistree import get_classyfire_taxonomy
 

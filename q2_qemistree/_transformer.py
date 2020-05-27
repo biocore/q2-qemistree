@@ -10,6 +10,7 @@ def _read_dataframe(fh):
     df = pd.read_csv(fh, sep='\t', header=0, dtype='str')
     return df
 
+
 def _tsvmolecules_to_df(ff):
     with ff.open() as fh:
         df = _read_dataframe(fh)
