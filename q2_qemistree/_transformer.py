@@ -24,6 +24,7 @@ def _tsvmolecules_to_df(ff):
         df.index.name = 'id'
     return df
 
+
 # define a transformer from pd.DataFrame to -> TSVMolecules
 @plugin.register_transformer
 def _1(data: pd.DataFrame) -> TSVMolecules:
@@ -32,10 +33,12 @@ def _1(data: pd.DataFrame) -> TSVMolecules:
         data.to_csv(fh, sep='\t', header=True)
     return ff
 
+
 # define a transformer from TSVMolecules -> pd.DataFrame
 @plugin.register_transformer
 def _2(ff: TSVMolecules) -> pd.DataFrame:
     return _tsvmolecules_to_df(ff)
+
 
 # define a transformer from TSVMolecules -> qiime2.Metadata
 @plugin.register_transformer
