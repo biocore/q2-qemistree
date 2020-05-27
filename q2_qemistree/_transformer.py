@@ -41,6 +41,8 @@ def _2(ff: TSVMolecules) -> pd.DataFrame:
 
 
 # define a transformer from TSVMolecules -> qiime2.Metadata
+# this is useful for visualizing this as "feature metadata," for example
+# in q2-empress
 @plugin.register_transformer
 def _3(ff: TSVMolecules) -> qiime2.Metadata:
     return qiime2.Metadata(_tsvmolecules_to_df(ff))
