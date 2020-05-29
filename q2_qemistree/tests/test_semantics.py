@@ -14,16 +14,10 @@ class FingerprintTests(TestCase):
     def test_validate_mgf(self):
         self.assertTrue(validate_mgf(GOOD_MGF.split('\n')))
 
-    def test_validate_repeated_feature_ids(self):
-        repeated_ids = GOOD_MGF + '\n\n' + GOOD_MGF
-        with self.assertRaisesRegex(ValueError, 'Feature "1" has repeated '
-                                    'records, all records for each feature are'
-                                    ' assumed to be listed contiguously'):
-            validate_mgf(repeated_ids.split('\n'))
-
     def test_validate_not_enough_ms2s(self):
-        with self.assertRaisesRegex(ValueError, 'Feature "5" does not have at '
-                                    'least one MSLEVEL=2 record'):
+        with self.assertWarnsRegex(UserWarning, r'At least one feature '
+                                   '\\(Feature ID = "5"\\) does not have MS2 '
+                                   'information'):
             validate_mgf(BAD_MGF.split('\n'))
 
     def test_validate_no_ms1(self):

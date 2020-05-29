@@ -10,10 +10,10 @@ import qiime2.plugin.model as model
 from qiime2.plugin import SemanticType
 from q2_types.feature_data import FeatureData
 import os
+import warnings
 
 
 def validate_mgf(iterable):
-    observed_ids = set([])
 
     # ms1 and ms2 count the number of records for the MS1 and MS2 spectra
     read_id, new_feature_id, ms1, ms2 = None, None, 0, 0
@@ -28,17 +28,12 @@ def validate_mgf(iterable):
             else:
                 if new_feature_id != read_id:
                     if ms2 < 1:
-                        raise ValueError('Feature "%s" does not have at least '
-                                         'one MSLEVEL=2 record' % read_id)
-                    if new_feature_id in observed_ids:
-                        raise ValueError('Feature "%s" has repeated records, '
-                                         'all records for each feature are '
-                                         'assumed to be listed contiguously.'
-                                         % new_feature_id)
+                        warnings.warn('At least one feature (Feature ID = '
+                                      '"%s") does not have MS2 '
+                                      'information' % read_id, UserWarning)
 
                     # if the previous record is good, then we'll reset
                     # the current state variables and start over
-                    observed_ids.add(new_feature_id)
                     read_id = new_feature_id
 
                     ms1, ms2 = 0, 0
@@ -50,7 +45,6 @@ def validate_mgf(iterable):
                 if ms1 > 1:
                     raise ValueError('Feature "%s" has more than one MSLEVEL=1'
                                      ' record' % read_id)
-                observed_ids.add(read_id)
             elif line.startswith('MSLEVEL=2'):
                 ms2 += 1
             elif line.startswith('END IONS'):
