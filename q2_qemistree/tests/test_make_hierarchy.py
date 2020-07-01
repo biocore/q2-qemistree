@@ -80,8 +80,9 @@ class TestHierarchy(TestCase):
     def test_mergeFeatureDataMultiple(self):
         goodcsi1 = self.goodcsi.view(CSIDirFmt)
         goodcsi2 = self.goodcsi2.view(CSIDirFmt)
-        treeout, merged_fts, merged_fdata = make_hierarchy([goodcsi1,
-            goodcsi2], [self.features, self.features2])
+        treeout, merged_fts, merged_fdata = make_hierarchy(
+            [goodcsi1, goodcsi2], [self.features, self.features2]
+        )
         featrs = sorted(list(merged_fts.ids(axis='observation')))
         fdata_featrs = sorted(list(merged_fdata.index))
         self.assertEqual(len(featrs) == 9, True)

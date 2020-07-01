@@ -69,8 +69,8 @@ def get_matched_tables(collated_fingerprints: pd.DataFrame,
         list_md5.append(md5)
     filtered_fps['label'] = list_md5
     filtered_table['label'] = list_md5
-    feature_data = pd.DataFrame(columns=['label', '#featureID','csi_smiles',
-                                         'ms2_smiles','ms2_library_match',
+    feature_data = pd.DataFrame(columns=['label', '#featureID', 'csi_smiles',
+                                         'ms2_smiles', 'ms2_library_match',
                                          'parent_mass', 'retention_time'])
     feature_data['label'] = list_md5
     feature_data['#featureID'] = overlap

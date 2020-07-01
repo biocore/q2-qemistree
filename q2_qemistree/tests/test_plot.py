@@ -105,6 +105,7 @@ DATA
 a443a84cf2c49a6b758208e113ad1fd3	2.5	5.5
 6b527eb72120dda52f9b3952d20fc128	3.5	6.5"""
 
+
 class TestPlot(TestCase):
     def setUp(self):
         data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)),
