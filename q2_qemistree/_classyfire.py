@@ -81,7 +81,8 @@ def get_classyfire_taxonomy(feature_data: pd.DataFrame) -> pd.DataFrame:
                 continue
             inchikey = response.text
             to_classyfire = 'https://gnps-classyfire.ucsd.edu/entities/'
-            response = requests.get(to_classyfire+str(inchikey)+'.json')
+            response = requests.get(to_classyfire+str(inchikey)
+                                    + '.json?smiles='+str(smiles))
             if response.status_code == 200:
                 response = response.json()
                 sublevels = [level for level in classyfire_levels
