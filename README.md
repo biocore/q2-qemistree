@@ -132,8 +132,8 @@ qiime qemistree make-hierarchy \
 --i-feature-tables feature-table.qza \
 --i-feature-tables feature-table2.biom.qza \
 --o-tree merged-qemistree.qza \
---o-merged-feature-table merged-feature-table-hashed.qza \
---o-merged-feature-data merged-feature-data.qza
+--o-feature-table merged-feature-table-hashed.qza \
+--o-feature-data merged-feature-data.qza
 ```
 Additionally, Qemistree also supports the inclusion of structural annotations made using MS/MS spectral library matches for downstream analysis using the optional input `--i-ms2-matches` as follows:
 
