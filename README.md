@@ -3,7 +3,9 @@
 
 [![Build Status](https://travis-ci.org/biocore/q2-qemistree.svg?branch=master)](https://travis-ci.org/biocore/q2-qemistree) [![Coverage Status](https://coveralls.io/repos/github/biocore/q2-qemistree/badge.svg?branch=master)](https://coveralls.io/github/biocore/q2-qemistree?branch=master)
 
-A tool to build a tree of mass-spectrometry (LC-MS/MS) features to perform chemically-informed comparison of untargeted metabolomic profiles. The preprint describing q2-qemistree is available [here](https://www.biorxiv.org/content/10.1101/2020.05.04.077636v1)!
+A tool to build a tree of mass-spectrometry (LC-MS/MS) features to perform chemically-informed comparison of untargeted metabolomic profiles. The manuscript describing q2-qemistree is available [here](https://www.nature.com/articles/s41589-020-00677-3).
+
+![Qemistree manuscript](q2_qemistree/img/paper-ncb.png)
 
 ## Installation
 
@@ -212,6 +214,5 @@ The output empress QZV can be visualized using [Qiime2 Viewer](https://view.qiim
 Below is an example visualization from EMPress preprint. Here, the user has sample metadata columns (food sources) to compare groups of food samples; Empress enables them to visualize metabolite relative abundance as barcharts at the tips of the tree.
 
 ![Empress plot](q2_qemistree/img/gfop-empress-plot-wlegend.png)
-<!-- .element height="50%" width="50%" -->
 
 Please visit [Empress tutorial](https://github.com/biocore/empress) for all the currently supported tree visualization features that can be leveraged to explore the chemical diversity of your metabolomics dataset.
