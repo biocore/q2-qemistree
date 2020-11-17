@@ -67,6 +67,7 @@ qiime tools import --input-path feature-table.biom --output-path feature-table.q
 qiime tools import --input-path sirius.mgf --output-path sirius.mgf.qza --type MassSpectrometryFeatures
 ```
 
+**Note:** If the MGF file has formatting errors (eg. no MS1 are included in the MGF, or if an MS1 entry does not have a corresponding MS2 entry), then an appropriate error message will help users troubleshoot this step before proceeding forward.
 First, we generate [fragmentation trees](https://www.sciencedirect.com/science/article/pii/S0165993615000916) for molecular peaks detected using MZmine2:
 
 ```bash
@@ -175,7 +176,15 @@ qiime qemistree get-classyfire-taxonomy \
   --o-classified-feature-data classified-merged-feature-data.qza
 ```
 Qemistree will use `ms2_smiles` to make chemical taxonomy assignments, when MS2 matches are available for a feature. Otherwise, `csi_smiles` will be used. The column `structure_source` in `classified-merged-feature-data.qza` records whether taxonomic assignment was done using CSI:FingerID predictions or MS/MS library matches.
+
 Lastly, Qemistree includes some utility functions that are useful to visualize and explore the molecular hierarchy generated above.
+Qemistree trees can be visualized using [q2-empress](https://github.com/biocore/empress) [[preprint](https://www.biorxiv.org/content/10.1101/2020.10.06.327080v1)]. Below are the [installation instructions](https://github.com/biocore/empress#installation) that can be run within your qiime2 environment:
+
+```bash
+pip uninstall --yes emperor
+pip install git+https://github.com/biocore/empress.git
+qiime dev refresh-cache
+```
 
 1. Prune molecular hierarchy to keep only the molecules with annotations.
 
@@ -189,45 +198,16 @@ qiime qemistree prune-hierarchy \
 
 Users can choose any of the data columns (`--p-column`) that are in the `classified-merged-feature-data.qza` file to prune the hierarchy. For e.g. '#featureID','kingdom', 'superclass', 'class', 'subclass', 'direct_parent', and 'smiles'. All features with no data in this column will be removed from the phylogeny.
 
-2.1 Generate an annotated qemistree tree in [iTOL](https://itol.embl.de/).
+2. Generate an annotated qemistree tree in using q2-empress.
 
 ```bash
-qiime qemistree plot \
-  --i-tree merged-qemistree-class.qza \
-  --i-feature-metadata classified-merged-feature-data.qza \
-  --p-category class \
-  --o-visualization path-to-qemistree-plot.qzv
+qiime empress community-plot \
+    --i-tree merged-qemistree-class.qza \
+    --i-feature-table feature-table-hashed.qza \
+    --m-sample-metadata-file path-to-sample-metadata.tsv \
+    --m-feature-metadata-file classified-merged-feature-data.qza \
+    --o-visualization empress-tree.qzv
 ```
 
-The above command colors and labels the tree tips based on the columns specified by `--p-category` ('class' here). By default, the tree tips without a Classyfire classification would be labelled with their parent m/z.
-
-The output QZV can be visualized in [iTOL](https://itol.embl.de/) using [Qiime2 Viewer](https://view.qiime2.org); iTOL interface can be used to interact and make visual modifications.
-
-**Note:** The QZV file provides a link to the tree uploaded to the iTOL. This view is temporarily stored on the iTOL server & hence should be used for initial data inspection. We provide all associated files (tree and metadata for tree decoration) that can be downloaded for long-term storage. We recommend that users upload these files to iTOL using their own login credentials where they can be permanently stored and interactively modified and visualized.
-
-2.2 Add sample metadata to tree tips
-
-If the user has sample metadata columns to compare groups of samples, Qemistree enables them to visualize feature abundance barcharts at the tips of the tree (abundance or relative abundance) of the feature stratified by the sample metadata column of interest. This can be done as follows:
-
-2.2.1 Generate the grouped table file using `feature-table group` module in QIIME2:
-
-```bash
-qiime feature-table group \
-  --i-table feature-table-hashed.qza \
-  --p-axis 'sample' \
-  --m-metadata-file path-to-sample-metadata.tsv \
-  --m-metadata-column 'disease_vs_healthy' \
-  --o-grouped-table path-to-grouped-feature-table.qza
-```
-With the grouped table in hand, the following module can be run to create an annotated iTOL tree.
-
-```bash
-qiime qemistree plot \
-  --i-grouped-table /path-to-grouped-feature-table.qza/ \
-  --i-tree merged-qemistree-smiles.qza \
-  --i-feature-metadata classified-merged-feature-data.qza \
-  --p-category class \
-  --o-visualization /path-to-qemistree-plot.qzv/
-```
-
-This QZV can also be interactively visualized in [iTOL](https://itol.embl.de/) using [Qiime2 Viewer](https://view.qiime2.org) to facilitate further metabolomic exploration and annotation.
+The output empress QZV can be visualized using [Qiime2 Viewer](https://view.qiime2.org); EMPress can be used to interactively modify the tree visualization. 
+For example, if the user has sample metadata columns to compare groups of samples, Empress enables them to visualize feature abundance barcharts at the tips of the tree (abundance or relative abundance) of the feature stratified by the sample metadata column of interest. Please visit [Empress tutorial](https://github.com/biocore/empress) for all the currently supported tree visualization features that can be leveraged to explore the chemical diversity of your metabolomics dataset.
