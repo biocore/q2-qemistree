@@ -216,4 +216,4 @@ Below is an example visualization from Empress' preprint. Here, the user has sam
 
 ![Empress plot](q2_qemistree/img/gfop-empress-plot-wlegend.png)
 
-Please visit [Empress tutorial](https://github.com/biocore/empress) for all the currently supported tree visualization features that can be leveraged to explore the chemical diversity of your metabolomics dataset.
+Please visit the [Empress tutorial](https://github.com/biocore/empress) for all the currently supported tree visualization features that can be leveraged to explore the chemical diversity of your metabolomics dataset.
