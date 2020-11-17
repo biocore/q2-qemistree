@@ -211,6 +211,6 @@ qiime empress community-plot \
 The output empress QZV can be visualized using [Qiime2 Viewer](https://view.qiime2.org); EMPress can be used to interactively modify the tree visualization.
 Below is an example visualization from EMPress preprint. Here, the user has sample metadata columns (food sources) to compare groups of food samples; Empress enables them to visualize metabolite relative abundance as barcharts at the tips of the tree.
 
-![Empress plot](q2_qemistree/img/gfop-empress-plot.png){height=50%}
+![Empress plot](q2_qemistree/img/gfop-empress-plot.png) <!-- .element height="50%" width="50%" -->
 
 Please visit [Empress tutorial](https://github.com/biocore/empress) for all the currently supported tree visualization features that can be leveraged to explore the chemical diversity of your metabolomics dataset.
