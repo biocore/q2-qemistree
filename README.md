@@ -178,7 +178,7 @@ qiime qemistree get-classyfire-taxonomy \
 Qemistree will use `ms2_smiles` to make chemical taxonomy assignments, when MS2 matches are available for a feature. Otherwise, `csi_smiles` will be used. The column `structure_source` in `classified-merged-feature-data.qza` records whether taxonomic assignment was done using CSI:FingerID predictions or MS/MS library matches.
 
 Lastly, Qemistree includes some utility functions that are useful to visualize and explore the molecular hierarchy generated above.
-Qemistree trees can be visualized using [q2-empress](https://github.com/biocore/empress)[[preprint](https://www.biorxiv.org/content/10.1101/2020.10.06.327080v1)]. Below are the [installation instructions](https://github.com/biocore/empress#installation) that can be run within your qiime2 environment:
+Qemistree trees can be visualized using [q2-empress](https://github.com/biocore/empress) [[preprint](https://www.biorxiv.org/content/10.1101/2020.10.06.327080v1)]. Below are the [installation instructions](https://github.com/biocore/empress#installation) that can be run within your qiime2 environment:
 
 ```bash
 pip uninstall --yes emperor
