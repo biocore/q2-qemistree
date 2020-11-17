@@ -36,7 +36,6 @@ qiime qemistree predict-fingerprints
 qiime qemistree make-hierarchy
 qiime qemistree get-classyfire-taxonomy
 qiime qemistree prune-hierarchy
-qiime qemistree plot
 ```
 
 To generate a tree that relates the MS1 features in your experiment, we need to pre-process mass-spectrometry data (.mzXML, .mzML or .mzDATA files) using [MZmine2](http://mzmine.github.io) and produce the following inputs:
