@@ -18,7 +18,6 @@ from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          ZodiacFolder, ZodiacDirFmt,
                          CSIFolder, CSIDirFmt,
                          FeatureData, TSVMoleculesFormat, Molecules)
-from ._plot import plot
 
 from qiime2.plugin import (Plugin, Str, Range, Choices, Float, Int, Bool, List,
                            Citations)
@@ -234,53 +233,5 @@ plugin.methods.register_function(
     output_descriptions={'pruned_tree': 'Pruned tree of molecules with '
                                         'tips that are in feature data'}
 )
-
-plugin.visualizers.register_function(
-    function=plot,
-    name='Generate an annotated qemistree plot in iTOL',
-    description=('Plots the phenetic tree in iTOL with clade colors, '
-                 'feature labels and relative abundance per sample group'),
-    inputs={'grouped_table': FeatureTable[Frequency],
-            'tree': Phylogeny[Rooted],
-            'feature_metadata': FeatureData[Molecules]
-            },
-    parameters={
-        'category': Str,
-        'color_palette': Str % Choices(['Pastel1', 'Pastel2', 'Paired',
-                                        'Accent', 'Dark2', 'Set1', 'Set2',
-                                        'Set3', 'tab10', 'tab20', 'tab20b',
-                                        'tab20c', 'Greys', 'Purples', 'Blues',
-                                        'Greens', 'Oranges', 'Reds', 'YlOrBr',
-                                        'YlOrRd', 'OrRd', 'PuRd', 'RdPu',
-                                        'BuPu', 'GnBu', 'PuBu', 'YlGnBu',
-                                        'PuBuGn', 'BuGn', 'YlGn']),
-        'ms2_label': Bool,
-        'parent_mz': Bool,
-        'normalize_features': Bool
-                },
-    input_descriptions={'grouped_table': 'Feature table of samples '
-                                         'grouped by categories. We recommend '
-                                         'collapsing feature table by a '
-                                         'sample metadata category using '
-                                         '`qiime feature-table group`. '
-                                         'We can then plot the prevalence '
-                                         'of these categories for '
-                                         'each molecule on the tree',
-                        'tree': 'Phenetic tree',
-                        'feature_metadata': 'Feature metadata'
-                        },
-    parameter_descriptions={
-        'category': 'The feature data column used to color and label the tips',
-        'color_palette': 'The color palette to use for coloring tips. '
-                         'For examples, see: https://matplotlib.org/'
-                         'tutorials/colors/colormaps.html',
-        'ms2_label': 'Whether to label the tips with the MS2 value',
-        'parent_mz': 'If the feature is unclassified, label the tips using '
-                     'this parent mass of the molecule',
-        'normalize_features': 'Whether to normalize feature abundance to '
-                              'a constant sum i.e convert to '
-                              'relative abundance'
-    },
-    citations=[citations['letunic2019itol']])
 
 importlib.import_module('q2_qemistree._transformer')

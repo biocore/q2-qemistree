@@ -13,7 +13,6 @@ from ._fingerprint import (compute_fragmentation_trees,
 from ._classyfire import get_classyfire_taxonomy
 from ._hierarchy import make_hierarchy
 from ._prune_hierarchy import prune_hierarchy
-from ._plot import plot
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          CSIFolder, CSIDirFmt, ZodiacFolder, ZodiacDirFmt,
                          SiriusFolder, SiriusDirFmt, OutputDirs)
