@@ -73,7 +73,7 @@ PARAMS = {
     'n_jobs': Int % Range(1, None),
     'num_candidates': Int % Range(5, 100, inclusive_end=True),
     'tree_timeout': Int % Range(600, 3000, inclusive_end=True),
-    'maxmz': Int % Range(100, 850, inclusive_end=True),
+    'maxmz': Int % Range(100, 1200, inclusive_end=True),
     'zodiac_threshold': Float % Range(0, 1, inclusive_end=True),
     'java_flags': Str
 }
