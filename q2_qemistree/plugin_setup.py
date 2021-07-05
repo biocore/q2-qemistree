@@ -64,7 +64,7 @@ plugin.register_semantic_type_to_format(FeatureData[Molecules],
                                         artifact_format=TSVMoleculesFormat)
 
 PARAMS = {
-    'ionization_mode': Str % Choices(['positive', 'negative', 'auto']),
+    'ionization_mode': Str % Choices(['positive', 'negative', 'auto', '[M+H]+', '[M-H]-']),
     'database': Str % Choices(['all', 'pubchem']),
     'sirius_path': Str,
     'profile': Str % Choices(['qtof', 'orbitrap', 'fticr']),
