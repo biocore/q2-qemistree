@@ -41,7 +41,7 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False,
         collated_fps = (collated_fps > 0.5).astype(int)
     if collated_fps.shape == (0, 0):
         raise ValueError('Fingerprint file is empty!')
-    substructrs = pd.read_csv(os.path.join(csi_result, 'fingerprints.csv'),
+    substructrs = pd.read_csv(os.path.join(csi_result, 'csi_fingerid.tsv'),
                               index_col='relativeIndex', dtype=str, sep='\t')
     collated_fps.index.name = '#featureID'
     collated_fps.columns = substructrs.loc[collated_fps.columns,
@@ -63,9 +63,10 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
     '''
     if isinstance(csi_result, CSIDirFmt):
         csi_result = str(csi_result.get_path())
-    csi_summary = os.path.join(csi_result, 'summary_csi_fingerid.csv')
+    csi_summary = os.path.join(csi_result, 'compound_identifications.tsv')
     csi_summary = pd.read_csv(csi_summary, dtype=str,
-                              sep='\t').set_index('experimentName')
+                              sep='\t')
+    csi_summary.index = csi_summary['id'].str.split('_', 2, expand=True)[2]
     smiles = pd.DataFrame(index=collated_fps.index)
     smiles['csi_smiles'] = csi_summary.loc[smiles.index, 'smiles'].str.strip()
     smiles['ms2_smiles'] = np.nan
