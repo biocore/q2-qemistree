@@ -68,7 +68,7 @@ PARAMS = {
     'database': List[Str],
     'sirius_path': Str,
     'profile': Str % Choices(['qtof', 'orbitrap', 'fticr']),
-    'fingerid_db': List[Str],
+    'fingerid_db': Str,
     'ppm_max': Int % Range(0, 30, inclusive_end=True),
     'n_jobs': Int % Range(1, None),
     'num_candidates': Int % Range(5, 100, inclusive_end=True),
@@ -97,8 +97,7 @@ PARAMS_DESC = {
     'n_jobs': 'Number of cpu cores to use',
     'num_candidates': 'number of fragmentation trees to compute per feature',
     'tree_timeout': 'time for computation per fragmentation tree in seconds',
-    'fingerid_db': 'search structure in given database.You can also provide a '
-                   'comma-separated list of databases. Example: ALL,BIO, '
+    'fingerid_db': 'search structure in given database. Example: ALL,BIO, '
                    'PUBCHEM, MESH,HMDB,KNAPSACK,CHEBI,PUBMED,KEGG,HSDB, '
                    'MACONDA, METACYC, GNPS,ZINCBIO,UNDP,YMDB,PLANTCYC,NORMAN, '
                    'ADDITIONAL, PUBCHEMANNOTATIONBIO,PUBCHEMANNOTATIONDRUG, '
@@ -154,6 +153,7 @@ plugin.methods.register_function(
 )
 
 keys = ['sirius_path', 'ppm_max', 'n_jobs', 'fingerid_db', 'java_flags']
+# keys = ['sirius_path', 'ppm_max', 'n_jobs', 'java_flags']
 plugin.methods.register_function(
     function=predict_fingerprints,
     name='Predict fingerprints for molecular formulas',
