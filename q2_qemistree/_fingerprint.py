@@ -10,8 +10,7 @@ import subprocess
 import os
 
 from ._semantics import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, CSIDirFmt
-from qiime2.plugin import (Plugin, Str, Range, Choices, Float, Int, Bool, List,
-                           Citations)
+from qiime2.plugin import Str, List
 
 def run_command(cmd, output_fp, error_fp, verbose=True):
     if verbose:
@@ -156,7 +155,7 @@ def rerank_molecular_formulas(sirius_path: str,
 
 def predict_fingerprints(sirius_path: str, molecular_formulas: ZodiacDirFmt,
                          ppm_max: int, n_jobs: int = 1,
-                         fingerid_db: List[Str] = ['all'],
+                         fingerid_db: str = 'bio',
                          java_flags: str = None) -> CSIDirFmt:
     """Predict molecular fingerprints
 
