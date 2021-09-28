@@ -68,7 +68,7 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
                               sep='\t')
     csi_summary.index = csi_summary['id'].str.split('_', 2, expand=True)[2]
     smiles = pd.DataFrame(index=collated_fps.index)
-    smiles['csi_smiles'] = csi_summary.loc[smiles.index, 'smiles'].str.strip()
+    smiles['csi_smiles'] = csi_summary.reindex(smiles.index)['smiles'].str.strip()
     smiles['ms2_smiles'] = np.nan
     smiles['ms2_library_match'] = np.nan
     smiles['parent_mass'] = np.nan
