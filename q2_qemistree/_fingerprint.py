@@ -97,7 +97,7 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
 
     # qiime2 will check that the only possible modes are positive, negative or
     # auto
-
+    
     params = ['-i', os.path.join(str(features.path), 'features.mgf'),
               '--maxmz', str(maxmz),
               '--processors', str(n_jobs),
@@ -106,7 +106,7 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
               '--profile', str(profile),
               '--database', str(database),
               '--candidates', str(num_candidates),
-              '--ions-considered', str(ions_considered),
+              '--ions-considered', str(', '.join(ions_considered)),
               '--tree-timeout', str(tree_timeout),
               '--ppm-max', str(ppm_max),
               ]
