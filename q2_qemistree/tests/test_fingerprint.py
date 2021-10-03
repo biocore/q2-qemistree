@@ -47,7 +47,8 @@ class FingerprintTests(TestCase):
         ions = self.ions.view(MGFDirFmt)
         result = compute_fragmentation_trees(sirius_path=self.goodsirpath,
                                              features=ions,
-                                             ppm_max=15, profile='orbitrap')
+                                             ppm_max=15, profile='orbitrap',
+                                             ions_considered='[M+H]+')
         contents = os.listdir(result.get_path())
         self.assertTrue(('formula_identifications.tsv' in contents))
 
@@ -60,7 +61,7 @@ class FingerprintTests(TestCase):
         result = compute_fragmentation_trees(sirius_path=self.goodsirpath,
                                              features=ions,
                                              ppm_max=15, profile='orbitrap',
-                                             ions_considered='[M-H]-')
+                                             ions_considered='[M+H]+')
         contents = os.listdir(result.get_path())
         self.assertTrue(('formula_identifications.tsv' in contents))
 
