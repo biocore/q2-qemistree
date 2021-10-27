@@ -178,8 +178,7 @@ plugin.methods.register_function(
     inputs={'csi_results': List[CSIFolder],
             'feature_tables': List[FeatureTable[Frequency]],
             'library_matches': List[FeatureData[Molecules]]},
-    parameters={'qc_properties': Bool,
-                'metric': Str % Choices(['euclidean', 'jaccard'])},
+    parameters={'metric': Str % Choices(['euclidean', 'jaccard'])},
     input_descriptions={'csi_results': 'one or more CSI:FingerID '
                                        'output folders',
                         'feature_tables': 'one or more feature tables with '
@@ -188,9 +187,7 @@ plugin.methods.register_function(
                         'library_matches': 'one or more tables with MS/MS '
                                            'library match for mass-spec '
                                            'features'},
-    parameter_descriptions={'qc_properties': 'filters molecular properties to '
-                                             'retain PUBCHEM fingerprints',
-                            'metric': 'metric for hierarchical clustering of '
+    parameter_descriptions={'metric': 'metric for hierarchical clustering of '
                                       'fingerprints. If the Jaccard metric is '
                                       'selected, molecular fingerprints are '
                                       'first binarized (probabilities above '
