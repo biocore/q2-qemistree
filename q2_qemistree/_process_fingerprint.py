@@ -17,7 +17,7 @@ from ._semantics import CSIDirFmt
 data = pkg_resources.resource_filename('q2_qemistree', 'data')
 
 
-def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False,
+def collate_fingerprint(csi_result: CSIDirFmt,
                         metric: str = 'euclidean'):
     '''
     This function collates predicted chemical fingerprints for mass-spec
@@ -46,13 +46,6 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False,
     collated_fps.index.name = '#featureID'
     collated_fps.columns = substructrs.loc[collated_fps.columns,
                                            'absoluteIndex']
-    if qc_properties:
-        properties = os.path.join(data, 'molecular_properties.csv')
-        properties = pd.read_csv(properties, index_col='absoluteIndex',
-                                 sep='\t')
-        pubchem_indx = list(properties.loc[properties.type == 'PUBCHEM'].index)
-        pubchem_indx = list(map(str, pubchem_indx))
-        collated_fps = collated_fps[pubchem_indx]
     return collated_fps
 
 
@@ -87,13 +80,12 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
 
 def process_csi_results(csi_result: CSIDirFmt,
                         library_match: pd.DataFrame = None,
-                        qc_properties: bool = False,
                         metric: str = 'euclidean') -> (pd.DataFrame,
                                                        pd.DataFrame):
     '''This function parses CSI:FingerID result to generate tables
     of collated molecular fingerprints and SMILES for mass-spec features
     '''
-    collated_fps = collate_fingerprint(csi_result, qc_properties, metric)
+    collated_fps = collate_fingerprint(csi_result, metric)
     feature_smiles = get_feature_smiles(csi_result, collated_fps,
                                         library_match)
     return collated_fps, feature_smiles
