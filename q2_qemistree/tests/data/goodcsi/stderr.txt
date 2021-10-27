@@ -1,0 +1,77 @@
+INFO    17:21:03 - Sirius Workspace Successfull initialized at: /Users/helenarusso/.sirius-4.8
+INFO    17:21:03 - You run SIRIUS 4.8.2
+INFO    17:21:03 - Sirius was compiled with the following ILP solvers: GLPK-v1.7.0 (included), Gurobi-v9.1.1, CPLEX-v12.7.1, COIN-OR-v1.17.3
+INFO    17:21:03 - Treebuilder priorities loaded from 'sirius.properties' are: [GUROBI, CPLEX, CLP, GLPK]
+INFO    17:21:04 - CPU check done. 8 cores that handle 16 threads were found.
+INFO    17:21:04 - Bug reporter initialized.
+INFO    17:21:04 - Web API initialized.
+INFO    17:21:04 - Running with following arguments: [-o, /var/folders/pj/_vwpjzj17kdbmdnz5sksrq0w0000gn/T/q2-CSIDirFmt-7kk6kzn5/csi-output, -i, /var/folders/pj/_vwpjzj17kdbmdnz5sksrq0w0000gn/T/qiime2-archive-hfn_429f/463dc193-d3a5-4be6-a440-c0d8171ee2ed/data/zodiac-output, --processors, 8, fingerid, --db, all]
+INFO    17:21:04 - Job manager successful initialized with 8 CPU thread(s) and 3 IO thread(s).
+FINE    17:21:04 - <0>[InputExpanderJJob] Running post processing
+FINE    17:21:04 - <0>[InputExpanderJJob] Running cleanup
+INFO    17:21:04 - <1>[InputExpanderJJob] Expanding Input Files: '/var/folders/pj/_vwpjzj17kdbmdnz5sksrq0w0000gn/T/qiime2-archive-hfn_429f/463dc193-d3a5-4be6-a440-c0d8171ee2ed/data/zodiac-output'...
+INFO    17:21:04 - <1>[InputExpanderJJob] ...Input Files successfully expanded!
+FINE    17:21:04 - <1>[InputExpanderJJob] Running post processing
+FINE    17:21:04 - <1>[InputExpanderJJob] Running cleanup
+INFO    17:21:04 - Shutting down JobManager
+INFO    17:21:04 - Awaiting termination of JobManager
+INFO    17:21:04 - JobManager is shut down
+WARNING 17:21:13 - <19>[FingerIDJJob | 3@154.98995971679688m/z] Ignore fragmentation tree for C3H8NS3 because it contains less than 3 vertices.
+WARNING 17:21:13 - <20>[FingerIDJJob | 4@144.9820546468099m/z] Ignore fragmentation tree for CH6O4P2 because it contains less than 3 vertices.
+WARNING 17:21:13 - <20>[FingerIDJJob | 4@144.9820546468099m/z] No suitable fragmentation tree left.
+WARNING 17:21:19 - <19>[FingerIDJJob | 3@154.98995971679688m/z] No Confidence computed.
+WARNING 17:21:19 - <18>[FingerIDJJob | 2@182.98443603515625m/z] No Confidence computed.
+INFO    17:21:19 - Workflow has been finished!
+INFO    17:21:19 - Executing Postprocessing...
+INFO    17:21:19 - Writing summary files...
+INFO    17:21:19 - Project-Space summaries successfully written!
+INFO    17:21:19 - CLI shut down hook: SIRIUS is cleaning up threads and shuts down...
+
+
+Please cite the following publications when using our tool:
+
+When using the SIRIUS Software please cite the following paper:
+
+Kai Dührkop, Markus Fleischauer, Marcus Ludwig, Alexander A. Aksenov, Alexey V. Melnik, Marvin Meusel, Pieter C. Dorrestein, Juho Rousu and Sebastian Böcker
+SIRIUS4: a rapid tool for turning tandem mass spectra into metabolite structure information
+Nat Methods, 16, 2019.  https://doi.org/10.1038/s41592-019-0344-8
+
+
+Depending on the tools you have used please also cite:
+
+Kai Dührkop, Louis-Félix Nothias, Markus Fleischauer, Raphael Reher, Marcus Ludwig, Martin A. Hoffmann, Daniel Petras, William H. Gerwick, Juho Rousu, Pieter C. Dorrestein and Sebastian Böcker
+Systematic classification of unknown metabolites using high-resolution fragmentation mass spectra
+Nature Biotechnology, 2020.  https://doi.org/10.1038/s41587-020-0740-8
+(Cite if you are using: CANOPUS)
+
+Yannick Djoumbou Feunang, Roman Eisner, Craig Knox, Leonid Chepelev, Janna Hastings, Gareth Owen, Eoin Fahy, Christoph Steinbeck, Shankar Subramanian, Evan Bolton, Russell Greiner, David S. Wishart
+ClassyFire: automated chemical classification with a comprehensive, computable taxonomy
+J Cheminf, 8, 2016.  https://doi.org/10.1186/s13321-016-0174-y
+(Cite if you are using: CANOPUS)
+
+Kai Dührkop, Huibin Shen, Marvin Meusel, Juho Rousu and Sebastian Böcker
+Searching molecular structure databases with tandem mass spectra using CSI:FingerID
+Proc Natl Acad Sci U S A, 112, 2015.  https://doi.org/10.1073/pnas.1509788112
+(Cite if you are using: CSI:FingerID)
+
+Martin A. Hoffmann and Louis-Félix Nothias and Marcus Ludwig and Markus Fleischauer and Emily C. Gentry and Michael Witting and Pieter C. Dorrestein and Kai Dührkop and Sebastian Böcker
+Assigning confidence to structural annotations from mass spectra with COSMIC
+bioRxiv, 2021.  https://doi.org/10.1101/2021.03.18.435634
+(Cite if you are using: CSI:FingerID, COSMIC)
+
+Sebastian Böcker and Kai Dührkop
+Fragmentation trees reloaded
+J Cheminform, 8, 2016.  https://doi.org/10.1186/s13321-016-0116-8
+(Cite if you are using: Fragmentation Trees)
+
+Sebastian Böcker, Matthias Letzel, Zsuzsanna Lipták and Anton Pervukhin
+SIRIUS: Decomposing isotope patterns for metabolite identification
+Bioinformatics, 25, 2009.  https://doi.org/10.1093/bioinformatics/btn603
+(Cite if you are using: Isotope Pattern analysis)
+
+Marcus Ludwig, Louis-Félix Nothias, Kai Dührkop, Irina Koester, Markus Fleischauer, Martin A. Hoffmann, Daniel Petras, Fernando Vargas, Mustafa Morsy, Lihini Aluwihare, Pieter C. Dorrestein, Sebastian Böcker
+ZODIAC: database-independent molecular formula annotation using Gibbs sampling reveals unknown small molecules
+bioRxiv, 2019.  https://doi.org/10.1101/842740
+(Cite if you are using: ZODIAC)
+
+

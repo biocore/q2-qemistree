@@ -1,0 +1,8 @@
+index	1
+name	features_7
+ionMass	124.08638000488281
+ionType	[M + ?]+
+detectedAdducts	MS1_PREPROCESSOR:{}
+rt	461.931375:NaN,NaN
+confidenceScore	0.07208764746329564
+rankingScoreType	GibbsSampling.ZodiacScore,sirius.scores.SiriusScore
