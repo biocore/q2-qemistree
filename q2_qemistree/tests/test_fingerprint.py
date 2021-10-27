@@ -9,6 +9,7 @@
 from unittest import TestCase, main
 import qiime2
 import os
+import pandas as pd
 from q2_qemistree import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, OutputDirs
 from q2_qemistree import (compute_fragmentation_trees,
                           rerank_molecular_formulas,
@@ -48,7 +49,7 @@ class FingerprintTests(TestCase):
         result = compute_fragmentation_trees(sirius_path=self.goodsirpath,
                                              features=ions,
                                              ppm_max=15, profile='orbitrap',
-                                             ions_considered='[M+H]+')
+                                             ions_considered=['[M+H]+'])
         contents = os.listdir(result.get_path())
         self.assertTrue(('formula_identifications.tsv' in contents))
 
@@ -61,9 +62,10 @@ class FingerprintTests(TestCase):
         result = compute_fragmentation_trees(sirius_path=self.goodsirpath,
                                              features=ions,
                                              ppm_max=15, profile='orbitrap',
-                                             ions_considered='[M+H]+')
-        contents = os.listdir(result.get_path())
-        self.assertTrue(('formula_identifications.tsv' in contents))
+                                             ions_considered=['[M-H]-'])
+        _path = os.path.join(result.get_path(), 'formula_identifications.tsv')
+        identifications = pd.read_csv(_path, sep='\t')
+        self.assertTrue(len(identifications) < 2)
 
         contents = os.listdir(result.path)
         self.assertTrue(('stderr.txt' in contents))
