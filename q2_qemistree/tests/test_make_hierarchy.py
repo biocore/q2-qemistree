@@ -85,7 +85,7 @@ class TestHierarchy(TestCase):
         )
         featrs = sorted(list(merged_fts.ids(axis='observation')))
         fdata_featrs = sorted(list(merged_fdata.index))
-        self.assertEqual(len(featrs) == 9, True)
+        self.assertEqual(len(featrs) == 6, True)
         self.assertEqual(fdata_featrs, featrs)
 
     def test_FeatureDataMultipleRepeated(self):
