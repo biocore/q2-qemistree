@@ -60,7 +60,6 @@ def merge_feature_data(fdata: pd.DataFrame) -> pd.DataFrame:
 def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
                    library_matches: pd.DataFrame = None,
-                   qc_properties: bool = False,
                    metric: str = 'euclidean') -> (TreeNode, biom.Table,
                                                   pd.DataFrame):
     '''
@@ -77,8 +76,6 @@ def make_hierarchy(csi_results: CSIDirFmt,
         one or more feature tables with mass-spec feature intensity per sample
     library_matches: pd.DataFrame
         one or more tables with MS/MS library match for mass-spec features
-    qc_properties : bool, default False
-        flag to filter molecular properties to keep only PUBCHEM fingerprints
     metric : str, default `euclidean`
         metric for hierarchical clustering of fingerprints
 
@@ -119,11 +116,9 @@ def make_hierarchy(csi_results: CSIDirFmt,
                                  "the correct input file for this command.")
             collated_fps, smiles = process_csi_results(csi_result,
                                                        library_match,
-                                                       qc_properties,
                                                        metric=metric)
         else:
-            collated_fps, smiles = process_csi_results(csi_result, None,
-                                                       qc_properties, metric)
+            collated_fps, smiles = process_csi_results(csi_result, None, metric)
         relabeled_fp, matched_ft, feature_data = get_matched_tables(
             collated_fps, smiles, feature_table)
         fps.append(relabeled_fp)

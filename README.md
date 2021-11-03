@@ -23,9 +23,11 @@ q2-qemistree uses [SIRIUS](https://www.nature.com/articles/s41592-019-0344-8), a
 Below, we download SIRIUS for macOS as follows (for linux the only thing that changes is the URL from which the binary is downloaded):
 
 ```bash
-wget https://bio.informatik.uni-jena.de/repository/dist-release-local/de/unijena/bioinf/ms/sirius/4.0.1/sirius-4.0.1-osx64-headless.zip
-unzip sirius-4.0.1-osx64-headless.zip
+wget https://bio.informatik.uni-jena.de/repository/dist-release-local/de/unijena/bioinf/ms/sirius/4.9.3/sirius-4.9.3-osx64-headless.zip
+unzip sirius-4.9.3-osx64-headless.zip
 ```
+
+**Note:** Qemistree was initially developed under Sirius 4.0.1 version. Since Sirius 4.0.1 got to its end of life, Qemistree was recently adapted to work with the new Sirius versions (>4.4.29).
 
 ## Demonstration
 
@@ -72,11 +74,11 @@ qiime tools import --input-path sirius.mgf --output-path sirius.mgf.qza --type M
 First, we generate [fragmentation trees](https://www.sciencedirect.com/science/article/pii/S0165993615000916) for molecular peaks detected using MZmine2:
 
 ```bash
-qiime qemistree compute-fragmentation-trees --p-sirius-path 'sirius-osx64-4.0.1/bin' \
+qiime qemistree compute-fragmentation-trees --p-sirius-path 'sirius.app/Contents/MacOS' \
   --i-features sirius.mgf.qza \
   --p-ppm-max 15 \
   --p-profile orbitrap \
-  --p-ionization-mode positive \
+  --p-ions-considered '[M+H]+' \
   --p-java-flags "-Djava.io.tmpdir=/path-to-some-dir/ -Xms16G -Xmx64G" \
   --o-fragmentation-trees fragmentation_trees.qza
 ```
@@ -84,10 +86,14 @@ qiime qemistree compute-fragmentation-trees --p-sirius-path 'sirius-osx64-4.0.1/
 
 This generates a QIIME 2 artifact of type `SiriusFolder`. This contains fragmentation trees with candidate molecular formulas for each MS1 feature detected in your experiment.
 
+**Note 2**: The new Sirius versions have the parameter `--p-ions-considered`, which refers to the adduct of the MS/MS data to considered. Here are some examples: [M+H]+, [M+K]+, [M+Na]+, [M+H-H2O]+, [M+H-H4O2]+, [M+NH4]+, [M-H]-, [M+Cl]-, [M-H2O-H]-, [M+Br]-. 
+
+You can also provide a comma-separated list. Example: '[M+H]+, [M+Na]+'.
+
 Next, we select top scoring molecular formula as follows:
 
 ```bash
-qiime qemistree rerank-molecular-formulas --p-sirius-path 'sirius-osx64-4.0.1/bin' \
+qiime qemistree rerank-molecular-formulas --p-sirius-path 'sirius.app/Contents/MacOS' \
   --i-features sirius.mgf.qza \
   --i-fragmentation-trees fragmentation_trees.qza \
   --p-zodiac-threshold 0.95 \
@@ -98,7 +104,7 @@ qiime qemistree rerank-molecular-formulas --p-sirius-path 'sirius-osx64-4.0.1/bi
 This produces a QIIME 2 artifact of type `ZodiacFolder` with top-ranked molecular formula for MS1 features. Now, we predict molecular substructures in each feature based on the molecular formulas. We use [CSI:FingerID](https://www.pnas.org/content/112/41/12580) for this purpose as follows:
 
 ```bash
-qiime qemistree predict-fingerprints --p-sirius-path 'sirius-osx64-4.0.1/bin' \
+qiime qemistree predict-fingerprints --p-sirius-path 'sirius.app/Contents/MacOS' \
   --i-molecular-formulas molecular_formulas.qza \
   --p-ppm-max 20 \
   --p-java-flags "-Djava.io.tmpdir=/path-to-some-dir/ -Xms16G -Xmx64G" \

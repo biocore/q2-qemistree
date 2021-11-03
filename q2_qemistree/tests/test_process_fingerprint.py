@@ -29,7 +29,7 @@ class FingerprintTests(TestCase):
                                                   'data/emptycsi'))
         self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                                          'data/csiFolder.qza'))
-        properties_path = os.path.join(data, 'molecular_properties.csv')
+        properties_path = os.path.join(data, 'molecular_properties.tsv')
         self.properties = pd.read_csv(properties_path, dtype=str, sep='\t')
         self.properties.set_index('absoluteIndex', inplace=True)
 
@@ -53,12 +53,6 @@ class FingerprintTests(TestCase):
         fpfeatrs = set(tablefp.index)
         smlfeatrs = set(smiles.index)
         self.assertEqual(fpfeatrs == smlfeatrs, True)
-
-    def test_pubchemTrue(self):
-        goodcsi = self.goodcsi.view(CSIDirFmt)
-        tablefp = collate_fingerprint(goodcsi, qc_properties=True)
-        indx = self.properties.loc[self.properties.type == 'PUBCHEM'].index
-        self.assertEqual(set(tablefp.columns) == set(indx), True)
 
     def test_pubchemFalse(self):
         goodcsi = self.goodcsi.view(CSIDirFmt)

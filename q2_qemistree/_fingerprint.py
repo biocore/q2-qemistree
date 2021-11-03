@@ -10,7 +10,7 @@ import subprocess
 import os
 
 from ._semantics import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, CSIDirFmt
-
+from qiime2.plugin import Str, List
 
 def run_command(cmd, output_fp, error_fp, verbose=True):
     if verbose:
@@ -55,8 +55,8 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
                                 tree_timeout: int = 1600,
                                 maxmz: int = 600, n_jobs: int = 1,
                                 num_candidates: int = 50,
-                                database: str = 'all',
-                                ionization_mode: str = 'auto',
+                                database: List[Str] = ['all'],
+                                ions_considered: List[Str] = ['[M+H]+'],
                                 java_flags: str = None) -> SiriusDirFmt:
     '''Compute fragmentation trees for candidate molecular formulas.
 
@@ -83,9 +83,9 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
         number of fragmentation trees to compute per feature
     database: str, optional
         search formulas in given database
-    ionization_mode : str, optional
-        Ionization mode for mass spectrometry. One of `auto`, `positive` or
-        `negative`.
+    ions_considered : str, optional
+        The ion type/adduct of the MS/MS data. You can also provide a
+        comma separated list of adducts (default: '[M+H]+')
     java_flags : str, optional
         Setup additional flags for the Java virtual machine.
 
@@ -97,24 +97,19 @@ def compute_fragmentation_trees(sirius_path: str, features: MGFDirFmt,
 
     # qiime2 will check that the only possible modes are positive, negative or
     # auto
-    if ionization_mode in {'auto', 'positive'}:
-        ionization_flag = '--auto-charge'
-    elif ionization_mode == 'negative':
-        ionization_flag = '--ion=[M-H]-'
-    else:
-        raise ValueError('The ionization_type "%s" is invalid')
-
-    params = ['--quiet',
+    
+    params = ['-i', os.path.join(str(features.path), 'features.mgf'),
+              '--maxmz', str(maxmz),
+              '--processors', str(n_jobs),
               '--initial-compound-buffer', str(1),
-              '--max-compound-buffer', str(32), '--profile', str(profile),
+              'formula',
+              '--profile', str(profile),
               '--database', str(database),
               '--candidates', str(num_candidates),
-              '--processors', str(n_jobs),
-              '--trust-ion-prediction', ionization_flag,
-              '--maxmz', str(maxmz),
+              '--ions-considered', str(', '.join(ions_considered)),
               '--tree-timeout', str(tree_timeout),
               '--ppm-max', str(ppm_max),
-              os.path.join(str(features.path), 'features.mgf')]
+              ]
 
     return artifactory(sirius_path, params, java_flags, SiriusDirFmt)
 
@@ -150,18 +145,17 @@ def rerank_molecular_formulas(sirius_path: str,
        Directory with reranked molecular formulas
     """
 
-    params = ['--zodiac', '--sirius',
-              str(fragmentation_trees.get_path()),
-              '--thresholdfilter', str(zodiac_threshold),
+    params = ['-i', str(fragmentation_trees.get_path()),
               '--processors', str(n_jobs),
-              '--spectra', os.path.join(str(features.path), 'features.mgf')]
+              'zodiac',
+              '--thresholdFilter', str(zodiac_threshold)]
 
     return artifactory(sirius_path, params, java_flags, ZodiacDirFmt)
 
 
 def predict_fingerprints(sirius_path: str, molecular_formulas: ZodiacDirFmt,
                          ppm_max: int, n_jobs: int = 1,
-                         fingerid_db: str = 'pubchem',
+                         fingerid_db: str = 'bio',
                          java_flags: str = None) -> CSIDirFmt:
     """Predict molecular fingerprints
 
@@ -177,7 +171,8 @@ def predict_fingerprints(sirius_path: str, molecular_formulas: ZodiacDirFmt,
         Number of cpu cores to use. If not specified Sirius uses all available
         cores.
     fingerid_db : str, optional
-        Search structure in given database.
+        Search structure in given database. You can also provide a
+        comma-separated list of databases (default: 'pubchem' )
     java_flags : str, optional
         Setup additional flags for the Java virtual machine.
 
@@ -187,7 +182,8 @@ def predict_fingerprints(sirius_path: str, molecular_formulas: ZodiacDirFmt,
         Directory with predicted fingerprints.
     """
 
-    params = ['--processors', str(n_jobs), '--fingerid',
-              '--fingerid-db', str(fingerid_db), '--ppm-max', str(ppm_max),
-              molecular_formulas.get_path()]
+    params = ['-i', molecular_formulas.get_path(),
+              '--processors', str(n_jobs),
+              'fingerid',
+              '--db', str(fingerid_db)]
     return artifactory(sirius_path, params, java_flags, CSIDirFmt)

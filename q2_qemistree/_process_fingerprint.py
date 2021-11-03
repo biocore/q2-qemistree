@@ -17,7 +17,7 @@ from ._semantics import CSIDirFmt
 data = pkg_resources.resource_filename('q2_qemistree', 'data')
 
 
-def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False,
+def collate_fingerprint(csi_result: CSIDirFmt,
                         metric: str = 'euclidean'):
     '''
     This function collates predicted chemical fingerprints for mass-spec
@@ -41,18 +41,11 @@ def collate_fingerprint(csi_result: CSIDirFmt, qc_properties: bool = False,
         collated_fps = (collated_fps > 0.5).astype(int)
     if collated_fps.shape == (0, 0):
         raise ValueError('Fingerprint file is empty!')
-    substructrs = pd.read_csv(os.path.join(csi_result, 'fingerprints.csv'),
+    substructrs = pd.read_csv(os.path.join(csi_result, 'csi_fingerid.tsv'),
                               index_col='relativeIndex', dtype=str, sep='\t')
     collated_fps.index.name = '#featureID'
     collated_fps.columns = substructrs.loc[collated_fps.columns,
                                            'absoluteIndex']
-    if qc_properties:
-        properties = os.path.join(data, 'molecular_properties.csv')
-        properties = pd.read_csv(properties, index_col='absoluteIndex',
-                                 sep='\t')
-        pubchem_indx = list(properties.loc[properties.type == 'PUBCHEM'].index)
-        pubchem_indx = list(map(str, pubchem_indx))
-        collated_fps = collated_fps[pubchem_indx]
     return collated_fps
 
 
@@ -63,11 +56,12 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
     '''
     if isinstance(csi_result, CSIDirFmt):
         csi_result = str(csi_result.get_path())
-    csi_summary = os.path.join(csi_result, 'summary_csi_fingerid.csv')
+    csi_summary = os.path.join(csi_result, 'compound_identifications.tsv')
     csi_summary = pd.read_csv(csi_summary, dtype=str,
-                              sep='\t').set_index('experimentName')
+                              sep='\t')
+    csi_summary.index = csi_summary['id'].str.split('_', 2, expand=True)[2]
     smiles = pd.DataFrame(index=collated_fps.index)
-    smiles['csi_smiles'] = csi_summary.loc[smiles.index, 'smiles'].str.strip()
+    smiles['csi_smiles'] = csi_summary.reindex(smiles.index)['smiles'].str.strip()
     smiles['ms2_smiles'] = np.nan
     smiles['ms2_library_match'] = np.nan
     smiles['parent_mass'] = np.nan
@@ -86,13 +80,12 @@ def get_feature_smiles(csi_result: CSIDirFmt, collated_fps: pd.DataFrame,
 
 def process_csi_results(csi_result: CSIDirFmt,
                         library_match: pd.DataFrame = None,
-                        qc_properties: bool = False,
                         metric: str = 'euclidean') -> (pd.DataFrame,
                                                        pd.DataFrame):
     '''This function parses CSI:FingerID result to generate tables
     of collated molecular fingerprints and SMILES for mass-spec features
     '''
-    collated_fps = collate_fingerprint(csi_result, qc_properties, metric)
+    collated_fps = collate_fingerprint(csi_result, metric)
     feature_smiles = get_feature_smiles(csi_result, collated_fps,
                                         library_match)
     return collated_fps, feature_smiles

@@ -9,6 +9,7 @@
 from unittest import TestCase, main
 import qiime2
 import os
+import pandas as pd
 from q2_qemistree import MGFDirFmt, SiriusDirFmt, ZodiacDirFmt, OutputDirs
 from q2_qemistree import (compute_fragmentation_trees,
                           rerank_molecular_formulas,
@@ -20,8 +21,7 @@ class FingerprintTests(TestCase):
     def setUp(self):
         THIS_DIR = os.path.dirname(os.path.abspath(__file__))
         self.badsirpath = os.path.join(THIS_DIR, 'data/foo/bin')
-        self.goodsirpath = os.path.join(THIS_DIR, 'data/'
-                                        'sirius-linux64-headless-4.0.1/bin')
+        self.goodsirpath = os.path.join(THIS_DIR, 'sirius.app/Contents/MacOS')
         # MassSpectrometryFeatures
         self.ions = qiime2.Artifact.load(os.path.join(THIS_DIR,
                                                       'data/sirius.mgf.qza'))
@@ -48,9 +48,10 @@ class FingerprintTests(TestCase):
         ions = self.ions.view(MGFDirFmt)
         result = compute_fragmentation_trees(sirius_path=self.goodsirpath,
                                              features=ions,
-                                             ppm_max=15, profile='orbitrap')
+                                             ppm_max=15, profile='orbitrap',
+                                             ions_considered=['[M+H]+'])
         contents = os.listdir(result.get_path())
-        self.assertTrue(('version.txt' in contents))
+        self.assertTrue(('formula_identifications.tsv' in contents))
 
         contents = os.listdir(result.path)
         self.assertTrue(('stderr.txt' in contents))
@@ -61,9 +62,10 @@ class FingerprintTests(TestCase):
         result = compute_fragmentation_trees(sirius_path=self.goodsirpath,
                                              features=ions,
                                              ppm_max=15, profile='orbitrap',
-                                             ionization_mode='negative')
-        contents = os.listdir(result.get_path())
-        self.assertTrue(('version.txt' in contents))
+                                             ions_considered=['[M-H]-'])
+        _path = os.path.join(result.get_path(), 'formula_identifications.tsv')
+        identifications = pd.read_csv(_path, sep='\t')
+        self.assertTrue(len(identifications) < 2)
 
         contents = os.listdir(result.path)
         self.assertTrue(('stderr.txt' in contents))
@@ -71,12 +73,7 @@ class FingerprintTests(TestCase):
 
     def test_fragmentation_trees_exception(self):
         ions = self.ions.view(MGFDirFmt)
-        with self.assertRaises(ValueError):
-            compute_fragmentation_trees(sirius_path=self.goodsirpath,
-                                        features=ions,
-                                        ppm_max=15,
-                                        profile='orbitrap',
-                                        ionization_mode='n3gativ3')
+        pass
 
     def test_reranking(self):
         ions = self.ions.view(MGFDirFmt)
@@ -85,7 +82,7 @@ class FingerprintTests(TestCase):
                                            fragmentation_trees=sirout,
                                            features=ions)
         contents = os.listdir(result.get_path())
-        self.assertTrue(('zodiac_summary.csv' in contents))
+        self.assertTrue(('formula_identifications.tsv' in contents))
 
         contents = os.listdir(result.path)
         self.assertTrue(('stderr.txt' in contents))
@@ -96,7 +93,7 @@ class FingerprintTests(TestCase):
         result = predict_fingerprints(sirius_path=self.goodsirpath,
                                       molecular_formulas=zodout, ppm_max=15)
         contents = os.listdir(result.get_path())
-        self.assertTrue(('summary_csi_fingerid.csv' in contents))
+        self.assertTrue(('compound_identifications.tsv' in contents))
 
         contents = os.listdir(result.path)
         self.assertTrue(('stderr.txt' in contents))
@@ -105,3 +102,4 @@ class FingerprintTests(TestCase):
 
 if __name__ == '__main__':
     main()
+

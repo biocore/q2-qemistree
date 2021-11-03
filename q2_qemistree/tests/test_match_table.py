@@ -10,7 +10,9 @@ from unittest import TestCase, main
 import os
 import pandas as pd
 from biom import load_table
+import qiime2
 
+from q2_qemistree import CSIDirFmt
 from q2_qemistree._process_fingerprint import collate_fingerprint
 from q2_qemistree._match import get_matched_tables
 
@@ -27,7 +29,8 @@ class TestMatch(TestCase):
         goodsmiles = os.path.join(THIS_DIR, 'data/features_smiles.txt')
         self.smiles = pd.read_csv(goodsmiles, dtype=str, sep='\t')
         self.smiles = self.smiles.set_index('#featureID')
-        goodcsi = os.path.join(THIS_DIR, 'data/goodcsi')
+        self.goodcsi = qiime2.Artifact.load(os.path.join(THIS_DIR, 'data/csiFolder.qza'))
+        goodcsi = self.goodcsi.view(CSIDirFmt)
         self.tablefp = collate_fingerprint(goodcsi)
 
     def test_emptyTable(self):

@@ -1,0 +1,6 @@
+index	0
+name	features_4
+ionMass	144.9820546468099
+ionType	[M + ?]+
+rt	461.8315:NaN,NaN
+rankingScoreType	GibbsSampling.ZodiacScore,sirius.scores.SiriusScore

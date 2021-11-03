@@ -1,0 +1,59 @@
+{
+  "molecularFormula" : "CH4O6S",
+  "root" : "CH4O6S",
+  "annotations" : {
+    "precursorIonType" : "[M + H]+",
+    "numberOfUnconsideredCandidates" : 9,
+    "lowestConsideredCandidateScore" : -3.767806637420862,
+    "statistics" : {
+      "explainedIntensity" : 0.0,
+      "explainedIntensityOfExplainablePeaks" : 0.0,
+      "ratioOfExplainedPeaks" : 0.0
+    },
+    "nodeBoost" : 3.0,
+    "recalibration" : {
+      "merged" : "1.0x"
+    }
+  },
+  "fragments" : [ {
+    "id" : 0,
+    "molecularFormula" : "CH4O6S",
+    "massDeviation" : "13.238512339003556 ppm (0.0019193467193758806 m/z)",
+    "recalibratedMassDeviation" : "13.238512339003556 ppm (0.0019193467193758806 m/z)",
+    "molecularFormula" : "CH4O6S",
+    "relativeIntensity" : 0.10559053879677091,
+    "ion" : "[M + H]+",
+    "mz" : 144.9820546468099,
+    "recalibratedMass" : 144.9820546468099,
+    "peaks" : [ {
+      "intensity" : 287621.90234375,
+      "ce" : "none",
+      "spectrum" : 0,
+      "mz" : 144.9824676513672
+    }, {
+      "intensity" : 200895.056640625,
+      "ce" : "none",
+      "spectrum" : 1,
+      "mz" : 144.98260498046875
+    } ],
+    "isotopes" : {
+      "score" : -1.0870208247732922,
+      "mz" : [ 144.9820546468099 ],
+      "relInt" : [ 1.0 ]
+    },
+    "score" : -1.6964587372073927,
+    "scores" : {
+      "Chemical Prior" : 1.0,
+      "MS-Isotopes" : 0.0,
+      "Mass Deviation" : -1.0870208247732922,
+      "CarbohydrogenCompound" : 0.0,
+      "motif-search" : 0.0,
+      "MS2-Isotopes" : 0.0,
+      "PhosphorScorer" : 0.0,
+      "BeautificationScorer" : -0.0,
+      "IntrinsicallyChargedScorer" : 0.0,
+      "StrangeElementRootScorer" : -1.6094379124341003
+    }
+  } ],
+  "losses" : [ ]
+}

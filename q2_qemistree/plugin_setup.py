@@ -64,11 +64,11 @@ plugin.register_semantic_type_to_format(FeatureData[Molecules],
                                         artifact_format=TSVMoleculesFormat)
 
 PARAMS = {
-    'ionization_mode': Str % Choices(['positive', 'negative', 'auto']),
-    'database': Str % Choices(['all', 'pubchem']),
+    'ions_considered': List[Str],
+    'database': List[Str],
     'sirius_path': Str,
     'profile': Str % Choices(['qtof', 'orbitrap', 'fticr']),
-    'fingerid_db': Str % Choices(['all', 'pubchem', 'bio', 'kegg', 'hmdb']),
+    'fingerid_db': Str,
     'ppm_max': Int % Range(0, 30, inclusive_end=True),
     'n_jobs': Int % Range(1, None),
     'num_candidates': Int % Range(5, 100, inclusive_end=True),
@@ -79,15 +79,30 @@ PARAMS = {
 }
 
 PARAMS_DESC = {
-    'ionization_mode': 'Ionization mode for mass spectrometry',
-    'database': 'search formulas in given database',
+    'ions_considered': 'the iontype/adduct of the MS/MS data. You can also '
+                       'provide a comma-separated list of adducts. '
+                       'Example: [M+H]+,[M+K]+,[M+Na]+,[M+H-H2O]+, '
+                       '[M+H-H4O2]+ , [M+NH4]+,[M-H]-, [M+Cl]-, '
+                       '[M-H2O-H]-, [M+Br]-]',
+    'database': 'search formulas in given databases. You can also provide a '
+                'comma-separated list of databases. Example: ALL,BIO,PUBCHEM, '
+                'MESH,HMDB,KNAPSACK,CHEBI,PUBMED,KEGG,HSDB,MACONDA,METACYC, '
+                'GNPS,ZINCBIO,UNDP,YMDB,PLANTCYC,NORMAN,ADDITIONAL, '
+                'PUBCHEMANNOTATIONBIO,PUBCHEMANNOTATIONDRUG, '
+                'PUBCHEMANNOTATIONSAFETYANDTOXIC,PUBCHEMANNOTATIONFOOD, '
+                'KEGGMINE,ECOCYCMINE,YMDBMINE',
     'sirius_path': 'path to Sirius executable',
     'ppm_max': 'allowed parts per million tolerance for decomposing masses',
     'profile': 'configuration profile for mass-spec platform used',
     'n_jobs': 'Number of cpu cores to use',
     'num_candidates': 'number of fragmentation trees to compute per feature',
     'tree_timeout': 'time for computation per fragmentation tree in seconds',
-    'fingerid_db': 'search structure in given database',
+    'fingerid_db': 'search structure in given database. Example: ALL,BIO, '
+                   'PUBCHEM, MESH,HMDB,KNAPSACK,CHEBI,PUBMED,KEGG,HSDB, '
+                   'MACONDA, METACYC, GNPS,ZINCBIO,UNDP,YMDB,PLANTCYC,NORMAN, '
+                   'ADDITIONAL, PUBCHEMANNOTATIONBIO,PUBCHEMANNOTATIONDRUG, '
+                   'PUBCHEMANNOTATIONSAFETYANDTOXIC,PUBCHEMANNOTATIONFOOD, '
+                   'KEGGMINE,ECOCYCMINE,YMDBMINE',
     'maxmz': 'consider compounds with a precursor mz lower or equal to this',
     'zodiac_threshold': 'threshold filter for molecular formula re-ranking',
     'java_flags': 'Setup additional flags for the Java virtual machine. '
@@ -100,7 +115,7 @@ PARAMS_DESC = {
 # method registration
 keys = ['sirius_path', 'features', 'ppm_max', 'tree_timeout', 'maxmz',
         'n_jobs', 'num_candidates', 'database', 'profile', 'java_flags',
-        'ionization_mode']
+        'ions_considered']
 plugin.methods.register_function(
     function=compute_fragmentation_trees,
     name='Compute fragmentation trees for candidate molecular formulas',
@@ -138,6 +153,7 @@ plugin.methods.register_function(
 )
 
 keys = ['sirius_path', 'ppm_max', 'n_jobs', 'fingerid_db', 'java_flags']
+# keys = ['sirius_path', 'ppm_max', 'n_jobs', 'java_flags']
 plugin.methods.register_function(
     function=predict_fingerprints,
     name='Predict fingerprints for molecular formulas',
@@ -162,8 +178,7 @@ plugin.methods.register_function(
     inputs={'csi_results': List[CSIFolder],
             'feature_tables': List[FeatureTable[Frequency]],
             'library_matches': List[FeatureData[Molecules]]},
-    parameters={'qc_properties': Bool,
-                'metric': Str % Choices(['euclidean', 'jaccard'])},
+    parameters={'metric': Str % Choices(['euclidean', 'jaccard'])},
     input_descriptions={'csi_results': 'one or more CSI:FingerID '
                                        'output folders',
                         'feature_tables': 'one or more feature tables with '
@@ -172,9 +187,7 @@ plugin.methods.register_function(
                         'library_matches': 'one or more tables with MS/MS '
                                            'library match for mass-spec '
                                            'features'},
-    parameter_descriptions={'qc_properties': 'filters molecular properties to '
-                                             'retain PUBCHEM fingerprints',
-                            'metric': 'metric for hierarchical clustering of '
+    parameter_descriptions={'metric': 'metric for hierarchical clustering of '
                                       'fingerprints. If the Jaccard metric is '
                                       'selected, molecular fingerprints are '
                                       'first binarized (probabilities above '

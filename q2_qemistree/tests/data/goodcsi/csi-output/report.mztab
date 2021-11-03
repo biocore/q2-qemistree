@@ -1,0 +1,38 @@
+MTD	mzTab-version	2.0.0-M
+MTD	mzTab-ID	SIRIUS-25170d95-62e2-4161-bb19-8e3385214d58
+MTD	title	SIRIUS Analysis Report: 25170d95-62e2-4161-bb19-8e3385214d58
+MTD	software[1]	[, , SIRIUS, 4.6.0]
+MTD	software[2]	[, , CSI:FingerID, 1.6.0]
+MTD	cv[1]-label	MS
+MTD	cv[1]-uri	URL:https://raw.githubusercontent.com/HUPO-PSI/psi-ms-CV/master/psi-ms.obo
+MTD	cv[1]-version	4.1.16
+MTD	cv[1]-full_name	PSI-MS controlled vocabulary
+MTD	small_molecule-identification_reliability	[MS, MS:1002955, hr-ms compound identification confidence level, ]
+MTD	database[1]	[, , no database, null]
+MTD	database[1]-prefix	null
+MTD	database[1]-uri	null
+MTD	database[1]-version	Unknown
+MTD	database[2]	[, , CSI:FingerID PubChem Copy, CID]
+MTD	database[2]-prefix	CID
+MTD	database[2]-uri	https://pubchem.ncbi.nlm.nih.gov/compound/
+MTD	database[2]-version	2020-06-11
+MTD	id_confidence_measure[1]	[, , CSI:FingerID Confidence Score (PP), ]
+
+SMH	SML_ID	SMF_ID_REFS	database_identifier	chemical_formula	smiles	inchi	chemical_name	uri	theoretical_neutral_mass	adduct_ions	reliability	best_id_confidence_measure	best_id_confidence_value
+SML	1	1	CID:68039|CID:135830874	C6H9N3	CC1=CC(=NC(=N1)C)N	InChI=1S/C6H9N3/c1-4-3-6(7)9-5(2)8-4/h3H,1-2H3,(H2,7,8,9)	Kyanmethin	https://pubchem.ncbi.nlm.nih.gov/compound/68039|https://pubchem.ncbi.nlm.nih.gov/compound/135830874	123.07964728799999	[M + H]+	2	[, , CSI:FingerID Confidence Score (PP), ]	0.07208764746329564
+SML	2	2	null	CH6O4P2	null	null	null	null	143.97413193199998	[M + H]+	4	null	null
+SML	3	3	null	C3H6NO4P2	null	null	null	null	181.977205932	[M + H]+	4	null	null
+SML	4	4	null	C2H6NO3P2	null	null	null	null	153.982291312	[M + H]+	4	null	null
+
+SFH	SMF_ID	SME_ID_REFS	SME_ID_REF_ambiguity_code	adduct_ion	isotopomer	exp_mass_to_charge	charge	retention_time_in_seconds	retention_time_in_seconds_start	retention_time_in_seconds_end
+SMF	1	1|2	2	[M + H]+	null	124.08638000488281	1	461.931375	null	null
+SMF	2	3	2	[M + H]+	null	144.9820546468099	1	461.8315	null	null
+SMF	3	4	2	[M + H]+	null	182.98443603515625	1	465.88575000000003	null	null
+SMF	4	5	2	[M + H]+	null	154.98995971679688	1	465.44112109375	null	null
+
+SEH	SME_ID	evidence_input_id	database_identifier	chemical_formula	smiles	inchi	chemical_name	uri	derivatized_form	adduct_ion	exp_mass_to_charge	charge	theoretical_mass_to_charge	spectra_ref	identification_method	ms_level	id_confidence_measure[1]	rank	opt_global_SIRIUS:sirius_score	opt_global_SIRIUS:isotope_score	opt_global_SIRIUS:tree_score	opt_global_SIRIUS:zodiac_score	opt_global_SIRIUS:explained_intensity_ratio	opt_global_SIRIUS:explained_intensity_of_explainable_peaks_ratio	opt_global_SIRIUS:explained_peaks_ratio	opt_global_SIRIUS:annotated_spectra_location	opt_global_SIRIUS:tree_location	opt_global_SIRIUS:candidate_location	opt_global_CSI:FingerID:score	opt_global_CSI:FingerID:confidence	opt_global_CSI:FingerID:fingerprint_location	opt_global_CSI:FingerID:candidate_location
+SME	1	1_features_7:124.08638000488281:M+H+	null	C6H9N3	null	null	null	null	null	[M + H]+	124.08638000488281	1	124.08692374009053	null	[, , SIRIUS, 4.6.0]	[MS, MS:1000511, ms_level, 2]		1	52.469932270878196	1.874660085692994	50.5952721851852	0.9999999999999999	0.6954292031580482	1.0000000000000002	0.7	spectra/C6H9N3_[M+H]+.tsv	trees/C6H9N3_[M+H]+.json	1_features_7/formula_candidates.tsv				
+SME	2	1_features_7:C6H9N3:M+H+	null	C6H9N3	CC1=CC(=NC(=N1)C)N	InChI=1S/C6H9N3/c1-4-3-6(7)9-5(2)8-4/h3H,1-2H3,(H2,7,8,9)	Kyanmethin	null	null	[M + H]+	124.08638000488281	1	124.08692374009053	null	[, , CSI:FingerID, 1.6.0]	[MS, MS:1000511, ms_level, 2]	0.07208764746329564	1											-39.168944029833774	0.07208764746329564	fingerprints/C6H9N3_[M+H]+.fpt	fingerid/C6H9N3_[M+H]+.tsv
+SME	3	0_features_4:144.9820546468099:M+H+	null	CH6O4P2	null	null	null	null	null	[M + H]+	144.9820546468099	1	144.9814083840905	null	[, , SIRIUS, 4.6.0]	[MS, MS:1000511, ms_level, 2]		1	-0.9016693020144353	0.0	-0.9016693020144353	0.3849246231155779	0.0	0.0	0.0	spectra/CH6O4P2_[M+H]+.tsv	trees/CH6O4P2_[M+H]+.json	0_features_4/formula_candidates.tsv				
+SME	4	2_features_2:182.98443603515625:M+H+	null	C3H6NO4P2	null	null	null	null	null	[M + H]+	182.98443603515625	1	182.98448238409054	null	[, , SIRIUS, 4.6.0]	[MS, MS:1000511, ms_level, 2]		1	21.594504476831133	0.0	21.594504476831133	0.8718592964824121	0.7752277688562482	0.9787095751834248	0.23076923076923078	spectra/C3H6NO4P2_[M+H]+.tsv	trees/C3H6NO4P2_[M+H]+.json	2_features_2/formula_candidates.tsv				
+SME	5	3_features_3:154.98995971679688:M+H+	null	C2H6NO3P2	null	null	null	null	null	[M + H]+	154.98995971679688	1	154.98956776409054	null	[, , SIRIUS, 4.6.0]	[MS, MS:1000511, ms_level, 2]		1	9.585990849706903	0.9967353339977523	8.589255515709151	0.7386934673366833	0.4994590300561634	1.0	0.1875	spectra/C2H6NO3P2_[M+H]+.tsv	trees/C2H6NO3P2_[M+H]+.json	3_features_3/formula_candidates.tsv				

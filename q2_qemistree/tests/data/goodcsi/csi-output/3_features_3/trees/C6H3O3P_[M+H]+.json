@@ -1,0 +1,89 @@
+{
+  "molecularFormula" : "C6H3O3P",
+  "root" : "C6H3O3P",
+  "annotations" : {
+    "precursorIonType" : "[M + H]+",
+    "numberOfUnconsideredCandidates" : 13,
+    "lowestConsideredCandidateScore" : 1.0935095145431877,
+    "statistics" : {
+      "explainedIntensity" : 0.0,
+      "explainedIntensityOfExplainablePeaks" : 0.0,
+      "ratioOfExplainedPeaks" : 0.0
+    },
+    "nodeBoost" : 3.0,
+    "recalibration" : {
+      "merged" : "1.0x"
+    }
+  },
+  "fragments" : [ {
+    "id" : 0,
+    "molecularFormula" : "C6H3O3P",
+    "massDeviation" : "4.533704684036432 ppm (7.0267870634666E-4 m/z)",
+    "recalibratedMassDeviation" : "4.533704684036432 ppm (7.0267870634666E-4 m/z)",
+    "molecularFormula" : "C6H3O3P",
+    "relativeIntensity" : 0.04809769082404947,
+    "ion" : "[M + H]+",
+    "mz" : 154.98995971679688,
+    "recalibratedMass" : 154.98995971679688,
+    "peaks" : [ {
+      "intensity" : 566675.1884765625,
+      "ce" : "none",
+      "spectrum" : 4,
+      "mz" : 154.98997497558594
+    }, {
+      "intensity" : 691736.2729492188,
+      "ce" : "none",
+      "spectrum" : 0,
+      "mz" : 154.99002075195312
+    }, {
+      "intensity" : 713492.4833984375,
+      "ce" : "none",
+      "spectrum" : 6,
+      "mz" : 154.99002075195312
+    }, {
+      "intensity" : 639414.9912109375,
+      "ce" : "none",
+      "spectrum" : 3,
+      "mz" : 154.9900360107422
+    }, {
+      "intensity" : 635414.1171875,
+      "ce" : "none",
+      "spectrum" : 5,
+      "mz" : 154.9900360107422
+    }, {
+      "intensity" : 566203.5234375,
+      "ce" : "none",
+      "spectrum" : 2,
+      "mz" : 154.99005126953125
+    }, {
+      "intensity" : 432361.8430175781,
+      "ce" : "none",
+      "spectrum" : 7,
+      "mz" : 154.9902801513672
+    }, {
+      "intensity" : 473202.8759765625,
+      "ce" : "none",
+      "spectrum" : 1,
+      "mz" : 154.9903564453125
+    } ],
+    "isotopes" : {
+      "score" : 2.399556768329471,
+      "mz" : [ 154.98995971679688, 155.99267578125 ],
+      "relInt" : [ 1.0, 0.06534655064036002 ]
+    },
+    "score" : 1.468995504873567,
+    "scores" : {
+      "Chemical Prior" : 1.0,
+      "MS-Isotopes" : 2.399556768329471,
+      "Mass Deviation" : -0.32112335102180384,
+      "CarbohydrogenCompound" : 0.0,
+      "motif-search" : 0.0,
+      "MS2-Isotopes" : 0.0,
+      "PhosphorScorer" : 0.0,
+      "BeautificationScorer" : -0.0,
+      "IntrinsicallyChargedScorer" : 0.0,
+      "StrangeElementRootScorer" : -1.6094379124341003
+    }
+  } ],
+  "losses" : [ ]
+}
