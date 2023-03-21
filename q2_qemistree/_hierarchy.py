@@ -16,7 +16,7 @@ from q2_feature_table import merge
 
 from ._process_fingerprint import process_csi_results
 from ._match import get_matched_tables
-from ._semantics import SiriusDirFmt
+from ._semantics import CSIDirFmt
 
 
 def build_tree(relabeled_fingerprints: pd.DataFrame,
@@ -57,7 +57,7 @@ def merge_feature_data(fdata: pd.DataFrame) -> pd.DataFrame:
         return merged_fdata
 
 
-def make_hierarchy(csi_results: SiriusDirFmt,
+def make_hierarchy(csi_results: CSIDirFmt,
                    feature_tables: biom.Table,
                    library_matches: pd.DataFrame = None,
                    metric: str = 'euclidean') -> (TreeNode, biom.Table,
@@ -67,24 +67,21 @@ def make_hierarchy(csi_results: SiriusDirFmt,
     predicted chemical fingerprints. It filters the feature table to
     retain only the features with fingerprints and relables each feature with
     a hash (MD5) of its binary fingerprint vector.
-
     Parameters
     ----------
-    csi_results : SiriusDirFmt
-        one or more CSI:FingerID results from the sirius-output folder
-    feature_tables : biom.Table
+    csi_results : CSIDirFmt
+        one or more CSI:FingerID output folder
+    feature_table : biom.Table
         one or more feature tables with mass-spec feature intensity per sample
     library_matches: pd.DataFrame
         one or more tables with MS/MS library match for mass-spec features
     metric : str, default `euclidean`
         metric for hierarchical clustering of fingerprints
-
     Raises
     ------
     ValueError
         If ``feature_table`` in empty
         If collated fingerprint table is empty
-
     Returns
     -------
     skbio.TreeNode
@@ -120,7 +117,7 @@ def make_hierarchy(csi_results: SiriusDirFmt,
         else:
             collated_fps, smiles = process_csi_results(csi_result, None, metric)
         relabeled_fp, matched_ft, feature_data = get_matched_tables(
-            collated_fps, smiles, feature_table, csi_result)
+            collated_fps, smiles, feature_table)
         fps.append(relabeled_fp)
         fts.append(matched_ft)
         fdata.append(feature_data)
