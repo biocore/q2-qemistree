@@ -7,23 +7,18 @@
 # ----------------------------------------------------------------------------
 import q2_qemistree
 import importlib
-from ._fingerprint import (compute_fragmentation_trees,
-                           rerank_molecular_formulas,
-                           predict_fingerprints)
+from ._fingerprint import (compute_fingerprint_classes)
 from ._hierarchy import make_hierarchy
 from ._prune_hierarchy import prune_hierarchy
 from ._classyfire import get_classyfire_taxonomy
 from ._semantics import (MassSpectrometryFeatures, MGFDirFmt,
                          SiriusFolder, SiriusDirFmt,
-                         ZodiacFolder, ZodiacDirFmt,
-                         CSIFolder, CSIDirFmt,
                          FeatureData, TSVMoleculesFormat, Molecules)
 
 from qiime2.plugin import (Plugin, Str, Range, Choices, Float, Int, Bool, List,
                            Citations)
 from q2_types.feature_table import FeatureTable, Frequency
 from q2_types.tree import Phylogeny, Rooted
-
 
 citations = Citations.load('citations.bib', package='q2_qemistree')
 
@@ -47,16 +42,6 @@ plugin.register_views(SiriusDirFmt)
 plugin.register_semantic_types(SiriusFolder)
 plugin.register_semantic_type_to_format(SiriusFolder,
                                         artifact_format=SiriusDirFmt)
-
-plugin.register_views(ZodiacDirFmt)
-plugin.register_semantic_types(ZodiacFolder)
-plugin.register_semantic_type_to_format(ZodiacFolder,
-                                        artifact_format=ZodiacDirFmt)
-
-plugin.register_views(CSIDirFmt)
-plugin.register_semantic_types(CSIFolder)
-plugin.register_semantic_type_to_format(CSIFolder,
-                                        artifact_format=CSIDirFmt)
 
 plugin.register_views(TSVMoleculesFormat)
 plugin.register_semantic_types(Molecules)
@@ -84,8 +69,9 @@ PARAMS_DESC = {
                        'Example: [M+H]+,[M+K]+,[M+Na]+,[M+H-H2O]+, '
                        '[M+H-H4O2]+ , [M+NH4]+,[M-H]-, [M+Cl]-, '
                        '[M-H2O-H]-, [M+Br]-]',
-    'database': 'search formulas in given databases. You can also provide a '
-                'comma-separated list of databases. Example: ALL,BIO,PUBCHEM, '
+    'database': 'Search formulas in the Union of the given database(s). If no database is given, '
+                'all possible molecular formulas will be respected (no database is used).'
+                'Example: ALL,BIO,PUBCHEM, '
                 'MESH,HMDB,KNAPSACK,CHEBI,PUBMED,KEGG,HSDB,MACONDA,METACYC, '
                 'GNPS,ZINCBIO,UNDP,YMDB,PLANTCYC,NORMAN,ADDITIONAL, '
                 'PUBCHEMANNOTATIONBIO,PUBCHEMANNOTATIONDRUG, '
@@ -115,9 +101,9 @@ PARAMS_DESC = {
 # method registration
 keys = ['sirius_path', 'features', 'ppm_max', 'tree_timeout', 'maxmz',
         'n_jobs', 'num_candidates', 'database', 'profile', 'java_flags',
-        'ions_considered']
+        'ions_considered', 'zodiac_threshold', 'fingerid_db']
 plugin.methods.register_function(
-    function=compute_fragmentation_trees,
+    function=compute_fingerprint_classes,
     name='Compute fragmentation trees for candidate molecular formulas',
     description='Use Sirius to compute fragmentation trees',
     inputs={'features': MassSpectrometryFeatures},
@@ -133,54 +119,18 @@ plugin.methods.register_function(
     citations=[citations['duhrkop2015sirius']]
 )
 
-keys = ['sirius_path', 'zodiac_threshold', 'n_jobs', 'java_flags']
-plugin.methods.register_function(
-    function=rerank_molecular_formulas,
-    name='Reranks candidate molecular formulas',
-    description='Use Zodiac to rerank candidate molecular formulas',
-    inputs={'features': MassSpectrometryFeatures,
-            'fragmentation_trees': SiriusFolder},
-    parameters={k: v for k, v in PARAMS.items() if k in keys},
-    input_descriptions={'features': 'List of MS1 ions and corresponding '
-                                    'MS2 ions for each MS1.'},
-    parameter_descriptions={k: v
-                            for k, v in PARAMS_DESC.items() if k in keys},
-    outputs=[('molecular_formulas', ZodiacFolder)],
-    output_descriptions={'molecular_formulas': 'Top scored molecular formula '
-                                               'per feature after reranking'
-                                               'using Zodiac'},
-    citations=[citations['duhrkop2015sirius']]
-)
-
-keys = ['sirius_path', 'ppm_max', 'n_jobs', 'fingerid_db', 'java_flags']
-# keys = ['sirius_path', 'ppm_max', 'n_jobs', 'java_flags']
-plugin.methods.register_function(
-    function=predict_fingerprints,
-    name='Predict fingerprints for molecular formulas',
-    description='Use CSI:FingerID to predict molecular formulas',
-    inputs={'molecular_formulas': ZodiacFolder},
-    parameters={k: v for k, v in PARAMS.items() if k in keys},
-    input_descriptions={
-        'molecular_formulas': 'The output from running Zodiac'},
-    parameter_descriptions={k: v
-                            for k, v in PARAMS_DESC.items() if k in keys},
-    outputs=[('predicted_fingerprints', CSIFolder)],
-    output_descriptions={'predicted_fingerprints': 'Predicted substructures '
-                                                   'per feature using '
-                                                   'CSI:FingerID'},
-    citations=[citations['duhrkop2015sirius']]
-)
 
 plugin.methods.register_function(
     function=make_hierarchy,
     name='Create a molecular tree',
     description='Build a phylogeny based on molecular substructures',
-    inputs={'csi_results': List[CSIFolder],
+    inputs={'csi_results': List[SiriusFolder],
             'feature_tables': List[FeatureTable[Frequency]],
             'library_matches': List[FeatureData[Molecules]]},
     parameters={'metric': Str % Choices(['euclidean', 'jaccard'])},
     input_descriptions={'csi_results': 'one or more CSI:FingerID '
-                                       'output folders',
+                                       'results from the sirius-output'
+                                       'folder',
                         'feature_tables': 'one or more feature tables with '
                                           'mass-spec feature intensity '
                                           'per sample',
