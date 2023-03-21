@@ -91,25 +91,9 @@ class OutputDirs(model.DirectoryFormat):
         return True  # :D
 
 
-class CSIDirFmt(OutputDirs):
-    def get_folder_name(self):
-        return 'csi-output'
-
-
-CSIFolder = SemanticType('CSIFolder')
-
-
 class SiriusDirFmt(OutputDirs):
     def get_folder_name(self):
         return 'sirius-output'
 
 
 SiriusFolder = SemanticType('SiriusFolder')
-
-
-class ZodiacDirFmt(OutputDirs):
-    def get_folder_name(self):
-        return 'zodiac-output'
-
-
-ZodiacFolder = SemanticType('ZodiacFolder')
