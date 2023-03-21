@@ -16,7 +16,7 @@ from q2_feature_table import merge
 
 from ._process_fingerprint import process_csi_results
 from ._match import get_matched_tables
-from ._semantics import CSIDirFmt
+from ._semantics import SiriusDirFmt
 
 
 def build_tree(relabeled_fingerprints: pd.DataFrame,
@@ -57,7 +57,7 @@ def merge_feature_data(fdata: pd.DataFrame) -> pd.DataFrame:
         return merged_fdata
 
 
-def make_hierarchy(csi_results: CSIDirFmt,
+def make_hierarchy(csi_results: SiriusDirFmt,
                    feature_tables: biom.Table,
                    library_matches: pd.DataFrame = None,
                    metric: str = 'euclidean') -> (TreeNode, biom.Table,
@@ -70,9 +70,9 @@ def make_hierarchy(csi_results: CSIDirFmt,
 
     Parameters
     ----------
-    csi_results : CSIDirFmt
-        one or more CSI:FingerID output folder
-    feature_table : biom.Table
+    csi_results : SiriusDirFmt
+        one or more CSI:FingerID results from the sirius-output folder
+    feature_tables : biom.Table
         one or more feature tables with mass-spec feature intensity per sample
     library_matches: pd.DataFrame
         one or more tables with MS/MS library match for mass-spec features
@@ -120,7 +120,7 @@ def make_hierarchy(csi_results: CSIDirFmt,
         else:
             collated_fps, smiles = process_csi_results(csi_result, None, metric)
         relabeled_fp, matched_ft, feature_data = get_matched_tables(
-            collated_fps, smiles, feature_table)
+            collated_fps, smiles, feature_table, csi_result)
         fps.append(relabeled_fp)
         fts.append(matched_ft)
         fdata.append(feature_data)
