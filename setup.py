@@ -22,6 +22,5 @@ setup(
         'qiime2.plugins': ['q2-qemistree=q2_qemistree.plugin_setup:plugin']
     },
     package_data={'q2_qemistree': ['data/molecular_properties.csv',
-                                   'assets/index.html', 'citations.bib']},
-    install_requires=['itolapi']
+                                   'assets/index.html', 'citations.bib']}
 )
