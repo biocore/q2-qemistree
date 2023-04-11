@@ -26,20 +26,33 @@ def collate_fingerprint(csi_result: SiriusDirFmt,
     '''
     if isinstance(csi_result, SiriusDirFmt):
         csi_result = str(csi_result.get_path())
-    df_csi_result = pd.read_csv(os.path.join(csi_result, 'canopus_compound_summary.tsv'), sep='\t')
+    df_csi_result = pd.read_csv(os.path.join(csi_result, 'compound_identifications.tsv'), sep='\t')
     df_csi_result.set_index(df_csi_result['id'], inplace=True)
+    if len(df_csi_result.query('adduct.str.endswith("-")')) < len(df_csi_result)/2:
+        df_csi_result = df_csi_result[df_csi_result['adduct'].str.contains(']-') == False]
+    else:
+        df_csi_result = df_csi_result[df_csi_result['adduct'].str.contains(']-') == True]
     fpfoldrs = list(df_csi_result.index)
     molfp = dict()
 
     for foldr in fpfoldrs:
         if os.path.isdir(os.path.join(csi_result, foldr)):
             fid = foldr.split('_')[-1]
-            fidpath = os.path.join(csi_result, foldr)
-            if 'fingerprints' in os.listdir(fidpath):
+            fidpath = os.path.join(csi_result, foldr) 
+            if 'fingerprints' in os.listdir(fidpath): 
                 with zipfile.ZipFile(os.path.join(fidpath, 'fingerprints'), 'r') as zip_ref:
                     zip_ref.extractall(os.path.join(fidpath, 'fingerprints_extracted'))
-                fname = df_csi_result.loc[foldr]['molecularFormula'] + '_' \
-                        + df_csi_result.loc[foldr]['adduct'].replace(' ', '') + '.fpt' 
+                adduct = df_csi_result.loc[foldr]['adduct'].split(' ')
+                if len(adduct) == 3:
+                    fname = df_csi_result.loc[foldr]['molecularFormula'] + '_' \
+                            + df_csi_result.loc[foldr]['adduct'].replace(' ', '') + '.fpt'
+                else:
+                    fingerprint_list = os.listdir(os.path.join(fidpath, 'fingerprints_extracted'))
+                    for fingerprint in fingerprint_list:
+                        if df_csi_result.loc[foldr]['adduct'].replace(' ', '') in fingerprint:
+                            fname = fingerprint
+
+                print(fname) # debug
                 with open(os.path.join(fidpath, 'fingerprints_extracted', fname)) as f:
                     fp = f.read().strip().split('\n')
                 molfp[fid] = [float(val) for val in fp]
